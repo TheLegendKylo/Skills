@@ -66,12 +66,13 @@ public class EmpSkillClient
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = employeeID;
-System.out.println(outMessage);
+		System.out.println(outMessage);
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = password;
 		pw.println(outMessage);
 		pw.flush();
+		
 		try
 		{
 			employee = (Employee)ois.readObject();

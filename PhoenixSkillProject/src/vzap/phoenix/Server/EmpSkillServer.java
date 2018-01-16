@@ -41,7 +41,7 @@ public class EmpSkillServer
 		{
 			try
 			{
-System.out.println("Waiting for connection");
+				System.out.println("Waiting for connection");
 				clientSocket = serverSocket.accept();
 			} catch (IOException e)
 			{
@@ -176,7 +176,7 @@ System.out.println("Waiting for connection");
 			}
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
-System.out.println(employee.getSurname());
+			System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(employee);
@@ -189,7 +189,7 @@ System.out.println(employee.getSurname());
 		public void getSkillList()
 		{
 			skillList = EmployeeController.getSkillList();
-System.out.println("Number of Skills: "+skillList.size());
+			System.out.println("Number of Skills: "+skillList.size());
 			try
 			{
 				oos.writeObject(skillList);
@@ -202,7 +202,7 @@ System.out.println("Number of Skills: "+skillList.size());
 		public void getSkillStageList()
 		{
 			skillStageList = EmployeeController.getSkillStageList();
-System.out.println("Number of Skill Stages: "+skillStageList.size());
+			System.out.println("Number of Skill Stages: "+skillStageList.size());
 			try
 			{
 				oos.writeObject(skillStageList);
@@ -228,7 +228,7 @@ System.out.println("Number of Skill Stages: "+skillStageList.size());
 		public void getSkillDimensionList()
 		{
 			skillDimensionList = EmployeeController.getSkillDimensionList();
-System.out.println("Number of Skill Dimensions: "+skillDimensionList.size());
+			System.out.println("Number of Skill Dimensions: "+skillDimensionList.size());
 			try
 			{
 				oos.writeObject(skillDimensionList);
@@ -241,7 +241,7 @@ System.out.println("Number of Skill Dimensions: "+skillDimensionList.size());
 		public void getSkillDimensionLevelList()
 		{
 			skillDimensionLevelList = EmployeeController.getSkillDimensionLevelList();
-System.out.println("Number of Skill Dimension Levels: "+skillDimensionLevelList.size());
+			System.out.println("Number of Skill Dimension Levels: "+skillDimensionLevelList.size());
 			try
 			{
 				oos.writeObject(skillDimensionLevelList);

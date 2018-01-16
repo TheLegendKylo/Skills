@@ -34,6 +34,7 @@ public class EmployeeLogin extends JPanel
 
 		screenName = new JLabel("Main Menu");
 		screenName.setFont(new Font("Tahoma", Font.BOLD, 16));
+		headerPanel = new JPanel();
 		headerPanel.add(screenName);
 		
 		contentPanel = new JPanel();
@@ -81,7 +82,6 @@ public class EmployeeLogin extends JPanel
 
 		submitButton.addActionListener(controller);
 		
-		
 	}
 	public JButton getSubmitButton()
 	{
@@ -95,5 +95,5 @@ public class EmployeeLogin extends JPanel
 	{
 		return this.passwordField.getText();
 	}
-
+	
 }
