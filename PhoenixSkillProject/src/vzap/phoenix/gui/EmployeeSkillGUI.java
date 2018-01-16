@@ -31,8 +31,8 @@ public class EmployeeSkillGUI extends JFrame implements ActionListener
 	
 	public EmployeeSkillGUI()
 	{
-		this.setTitle("Employee Skills Management");
-		this.setSize(800, 600);
+		this.setTitle("Phoenix Skills Management");
+		this.setSize(950, 600);
 		this.setLocation(150, 150);
 
 		loginPanel = new EmployeeLogin(this);
