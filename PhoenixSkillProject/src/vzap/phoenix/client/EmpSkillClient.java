@@ -80,11 +80,7 @@ public class EmpSkillClient
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = employeeID;
-<<<<<<< HEAD
 System.out.println("OutMessage: "+outMessage);
-=======
-		System.out.println(outMessage);
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = password;
