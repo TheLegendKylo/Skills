@@ -279,6 +279,36 @@ System.out.println("OutMessage: "+outMessage);
 		}
 		return updateSuccessfull;
 	}
+	/*
+	 * Searches the database for Employees that meet the criteria of parameter passed
+	 * Will return ArrayList of all Employees that meet the criteria of parameter passed
+	 * The ArrayList will contain objects of the class Employee
+	 */
+	public ArrayList<Employee> searchEmployee(String searchCriteria)
+	{
+		if(searchCriteria==null)
+		{
+			return null;
+		}
+		
+		outMessage = "searchEmployee";
+		pw.println(outMessage);
+		pw.flush();
+		outMessage = searchCriteria;
+		pw.println(outMessage);
+		pw.flush();
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		try
+		{
+			employeeList = (ArrayList<Employee>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
+		return employeeList;
+	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
 		outMessage = "nominateRater";
