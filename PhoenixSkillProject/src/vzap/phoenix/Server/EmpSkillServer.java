@@ -41,7 +41,7 @@ public class EmpSkillServer
 		{
 			try
 			{
-System.out.println("Waiting for connection");
+				System.out.println("Waiting for connection");
 				clientSocket = serverSocket.accept();
 			} catch (IOException e)
 			{
@@ -182,6 +182,7 @@ System.out.println("Waiting for connection");
 			}
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
+<<<<<<< HEAD
 			if(employee==null)
 			{
 				outMessage = empControl.getErrorMsg();
@@ -196,6 +197,9 @@ System.out.println(employee.getSurname());
 		}
 		public void getLogonEmployee()
 		{
+=======
+			System.out.println(employee.getSurname());
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 			try
 			{
 				oos.writeObject(employee);
@@ -208,7 +212,7 @@ System.out.println(employee.getSurname());
 		public void getSkillList()
 		{
 			skillList = EmployeeController.getSkillList();
-System.out.println("Number of Skills: "+skillList.size());
+			System.out.println("Number of Skills: "+skillList.size());
 			try
 			{
 				oos.writeObject(skillList);
@@ -220,8 +224,13 @@ System.out.println("Number of Skills: "+skillList.size());
 		}
 		public void getLevelList()
 		{
+<<<<<<< HEAD
 			levelList = EmployeeController.getLevelList();
 System.out.println("Number of Levels: "+levelList.size());
+=======
+			skillStageList = EmployeeController.getSkillStageList();
+			System.out.println("Number of Skill Stages: "+skillStageList.size());
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 			try
 			{
 				oos.writeObject(levelList);
@@ -246,8 +255,13 @@ System.out.println("Number of Employee SkillS: "+empSkillList.size());
 		}
 		public void getCapabilityList()
 		{
+<<<<<<< HEAD
 			capabilityList = EmployeeController.getCapabilityList();
 System.out.println("Number of Capabilities: "+capabilityList.size());
+=======
+			skillDimensionList = EmployeeController.getSkillDimensionList();
+			System.out.println("Number of Skill Dimensions: "+skillDimensionList.size());
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 			try
 			{
 				oos.writeObject(capabilityList);
@@ -259,8 +273,13 @@ System.out.println("Number of Capabilities: "+capabilityList.size());
 		}
 		public void getCapabilityRatingList()
 		{
+<<<<<<< HEAD
 			capabilityRatingList = EmployeeController.getCapabilityRatingList();
 System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
+=======
+			skillDimensionLevelList = EmployeeController.getSkillDimensionLevelList();
+			System.out.println("Number of Skill Dimension Levels: "+skillDimensionLevelList.size());
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 			try
 			{
 				oos.writeObject(capabilityRatingList);
