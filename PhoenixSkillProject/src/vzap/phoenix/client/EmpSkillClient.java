@@ -21,6 +21,7 @@ import vzap.phoenix.Server.Employee.Level;
 /*
  * EmpSkillClient used to create connection with server and facilitate all communication with EmpSkillServer class
  */
+//*
 public class EmpSkillClient
 {
 	private Socket socket;
