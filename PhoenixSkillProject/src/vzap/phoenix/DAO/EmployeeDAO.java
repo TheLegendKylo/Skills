@@ -86,7 +86,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return true;
 	}
-	public void updateEmployee(Employee employee)
+	public boolean updateEmployee(Employee employee)
 	{
 		try 
 		{
@@ -105,9 +105,11 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
-	public void deleteEmployee(Employee employee)
+	public boolean deleteEmployee(Employee employee)
 	{
 		try 
 		{
@@ -121,10 +123,11 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		
+		return true;
 	}
-	public void searchEmployee(Employee employee)
+	public boolean searchEmployee(Employee employee)
 	{
 		try 
 		{
@@ -142,7 +145,8 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-		
+		return true;
 	}
 }
