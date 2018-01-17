@@ -31,7 +31,6 @@ public class GuiControl extends JFrame
 		this.setContentPane(basePanel);
 
 	}
-	
 	public static void main(String[] args)
 	{
 		GuiControl gc = new GuiControl();
