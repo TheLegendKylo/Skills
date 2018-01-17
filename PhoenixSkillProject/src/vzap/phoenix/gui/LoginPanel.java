@@ -32,7 +32,12 @@ public class LoginPanel extends JPanel implements ActionListener
 	private JPanel basePanel;
 	private JLabel lblMediaApplicationLibrary;
 	private JLabel label;
-
+	private JLabel lblRepeatPassword;
+	private JPasswordField passwordFieldRepeat;
+	private JButton btnSignUp;
+	private String password = null,passRepeat=null;
+	private JButton btnConfirmRegistration;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -61,12 +66,12 @@ public class LoginPanel extends JPanel implements ActionListener
 		passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		btnLogin = new JButton("Login");
-		btnLogin.setBounds(350, 452, 128, 33);
+		btnLogin.setBounds(350, 502, 128, 33);
 		btnLogin.addActionListener(this);
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		btnExit = new JButton("Exit");
-		btnExit.setBounds(575, 452, 128, 33);
+		btnExit.setBounds(350, 594, 128, 33);
 		btnExit.addActionListener(this);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
@@ -83,6 +88,37 @@ public class LoginPanel extends JPanel implements ActionListener
 		add(lblPassword);
 		add(passwordField);
 		add(tf_UserID);
+		
+		lblRepeatPassword = new JLabel("Repeat Password :");
+		lblRepeatPassword.setForeground(Color.MAGENTA);
+		lblRepeatPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblRepeatPassword.setBounds(350, 435, 197, 54);
+		add(lblRepeatPassword);
+		
+		
+		passwordFieldRepeat = new JPasswordField();
+		passwordFieldRepeat.setFont(new Font("Tahoma", Font.BOLD, 20));
+		passwordFieldRepeat.setBounds(559, 447, 144, 31);
+		add(passwordFieldRepeat);
+		passwordFieldRepeat.setVisible(false);
+		lblRepeatPassword.setVisible(false);
+		
+		btnSignUp = new JButton("Sign Up");
+		btnSignUp.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnSignUp.setBounds(575, 502, 128, 33);
+		btnSignUp.addActionListener(this);
+		add(btnSignUp);
+		
+		btnConfirmRegistration = new JButton("Confirm Registration");
+		btnConfirmRegistration.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnConfirmRegistration.setBounds(350, 548, 353, 33);
+		btnConfirmRegistration.addActionListener(this);
+		add(btnConfirmRegistration);
+		
+		btnConfirmRegistration.setVisible(false);
+		passwordFieldRepeat.setVisible(false);
+		lblRepeatPassword.setVisible(false);
+		
 		//image code
 		label = new JLabel("");
 		label.setBounds(0,0, 1105, 970);
@@ -110,11 +146,26 @@ public class LoginPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
+		password = new String(passwordField.getPassword());
+		passRepeat = new String(passwordFieldRepeat.getPassword());
+		
 		if(source == btnLogin)
 		{
-			String pass = new String(passwordField.getPassword());
-			JOptionPane.showMessageDialog(this, "Hello Login in");
-
+			
+			if(tf_UserID.getText().equals("") || tf_UserID.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
+				tf_UserID.setFocusable(true);
+				return;
+			}
+			if(password.equals("") || password == null)
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				return;
+			}
+			//we will check if all details are correct here and move forward.
+			
+			
 //	
 //					 this.basePanel.removeAll();
 //					 this.basePanel.validate();
@@ -134,7 +185,44 @@ public class LoginPanel extends JPanel implements ActionListener
 				 System.exit(0);
 			 }
 		}
+		if(source == btnSignUp)
+		{
+			
+			btnConfirmRegistration.setVisible(true);
+			passwordFieldRepeat.setVisible(true);
+			lblRepeatPassword.setVisible(true);
+			
+		}
+		
+		if(source == btnConfirmRegistration)
+		{
+			 
+			if(tf_UserID.getText().equals("") || tf_UserID.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
+				tf_UserID.setFocusable(true);
+				return;
+			}
+			if(password.equals("") || password == null)
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				return;
+			}
+			if(passRepeat.equals("") || passRepeat == null)
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Repeat Password ?");
+				return;
+			}
+			if(!(passRepeat.equals(password)))
+			{
+				JOptionPane.showMessageDialog(this, "Your Password and Repeat Password must Match ?");
+				return;
+			}
+			//check if user name exists and go to the next screen where they will capture their full profile
+			//send new user command to screen.
+			
+			
+		}
 		
 	}
-
 }
