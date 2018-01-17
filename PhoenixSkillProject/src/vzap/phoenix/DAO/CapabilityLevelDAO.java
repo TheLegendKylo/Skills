@@ -8,29 +8,29 @@ import java.util.ArrayList;
 
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.Server.Employee.Capability;
-import vzap.phoenix.Server.Employee.CapabilityLevel;
+import vzap.phoenix.Server.Employee.CapabilityRating;
 
 
 public class CapabilityLevelDAO
 {
 	private MyDBCon myDBCon;
 	private Connection dbCon;
-	static ArrayList<CapabilityLevel> capabilityLevelList = null;
+	static ArrayList<CapabilityRating> capabilityLevelList = null;
 	
 	public CapabilityLevelDAO()
 	{
-		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
+		capabilityLevelList = new ArrayList<CapabilityRating>();
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from SkillsDimension");
+			ResultSet rs = stat.executeQuery("select * from capabilityrating");
 			while(rs.next())
 			{
-				short capabilityId = rs.getShort("dimensionId");
-				short skillLevel = rs.getShort("skillLevel");
+				short capabilityId = rs.getShort("capabilityId");
+				short rating = rs.getShort("rating");
 				String description = rs.getString("description");
-				capabilityLevelList.add(new CapabilityLevel(capabilityId, skillLevel, description));					
+				capabilityLevelList.add(new CapabilityRating(capabilityId, rating, description));					
 			}
 		} catch (SQLException e)
 		{
@@ -38,7 +38,7 @@ public class CapabilityLevelDAO
 			e.printStackTrace();
 		}
 	}
-	public static ArrayList<CapabilityLevel> getCapabilityLevelList()
+	public static ArrayList<CapabilityRating> getCapabilityLevelList()
 	{
 		return capabilityLevelList;
 	}

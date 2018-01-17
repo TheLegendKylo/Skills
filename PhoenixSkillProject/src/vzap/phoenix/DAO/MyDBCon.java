@@ -13,7 +13,7 @@ public class MyDBCon
 {
 	private File inputFile = null;
 	private Properties dbProperties;
-	private Connection dbCon;
+	static Connection dbCon;
 	
 	String driver, url, user, passwd;
 	
@@ -21,25 +21,26 @@ public class MyDBCon
 	{
 		if(dbCon==null)
 		{
-//			dbProperties = new Properties();
-//			InputStream is = null;
-//			
-//			try
-//			{
-//				inputFile = new File("Resources/Properties");
-//				is = new FileInputStream(inputFile);
-//				dbProperties.load(is);
-//				is.close();
-//	
-//			}
-//			catch (IOException e)
-//			{
-//				e.printStackTrace();
-//			}
-			driver = "com.mysql.jdbc.Driver";
-			url = "jdbc:mysql://localhost:10001/EmployeeSkills";
-			user = "root";
-			passwd = "ger011";		
+			dbProperties = new Properties();
+			InputStream is = null;
+			
+			try
+			{
+				inputFile = new File("Resources/Properties");
+				is = new FileInputStream(inputFile);
+				dbProperties.load(is);
+				is.close();
+	
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			driver = dbProperties.getProperty("DB_Driver");
+			url = dbProperties.getProperty("url");
+            user = dbProperties.getProperty("user");
+            passwd = dbProperties.getProperty("password");
+            
 			this.addConnection();
 		}
 	}
@@ -56,7 +57,7 @@ public class MyDBCon
 		}
 	
 	}
-	public Connection getDBCon()
+	static Connection getDBCon()
 	{
 		return dbCon;
 	}

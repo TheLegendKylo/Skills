@@ -32,14 +32,6 @@ public class EmployeeLogin extends JPanel
 	{
 		this.controller = controller;
 
-		screenName = new JLabel("Main Menu");
-		screenName.setFont(new Font("Tahoma", Font.BOLD, 16));
-		headerPanel = new JPanel();
-		headerPanel.add(screenName);
-		
-		contentPanel = new JPanel();
-		screenName.setText("Login");
-		
 		employeeIDLabel = new JLabel("Enter EmployeeID: ");
 		employeeIDLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		passwordLabel = new JLabel("Enter Password: ");
@@ -50,7 +42,7 @@ public class EmployeeLogin extends JPanel
 		passwordField.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		GroupLayout gl_contentPanel = new GroupLayout(this);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
@@ -77,15 +69,8 @@ public class EmployeeLogin extends JPanel
 						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(421, Short.MAX_VALUE))
 		);
-		contentPanel.setLayout(gl_contentPanel);
+		this.setLayout(gl_contentPanel);
 		
-
-		submitButton.addActionListener(controller);
-		
-	}
-	public JButton getSubmitButton()
-	{
-		return this.submitButton;
 	}
 	public String getEmployeeID()
 	{
@@ -95,5 +80,5 @@ public class EmployeeLogin extends JPanel
 	{
 		return this.passwordField.getText();
 	}
-	
+
 }

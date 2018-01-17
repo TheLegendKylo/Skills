@@ -71,10 +71,10 @@ public class EmpSkillServer
 		private Thread thread = null;
 		
 		private ArrayList<Skill> skillList = null;
-		private ArrayList<SkillStage> skillStageList = null;
+		private ArrayList<Level> levelList = null;
 		private ArrayList<EmployeeSkill> empSkillList = null;
-		private ArrayList<Capability> skillDimensionList = null;
-		private ArrayList<CapabilityLevel> skillDimensionLevelList = null;
+		private ArrayList<Capability> capabilityList = null;
+		private ArrayList<CapabilityRating> capabilityRatingList = null;
 
 		public EmpSkillServerThread(Socket clientSocket, ServerSocket serverSocket)
 		{
@@ -104,7 +104,7 @@ public class EmpSkillServer
 				{
 					System.out.println("Try to read new message");
 					inMessage=br.readLine();
-					System.out.println(inMessage);
+					System.out.println("Server: In Thread-inMessage: "+inMessage);
 					switch (inMessage)
 					{
 						case "Quit":
@@ -117,14 +117,19 @@ public class EmpSkillServer
 							this.loginEmployee();
 							break;
 						}
+						case "getLogonEmployee":
+						{
+							this.getLogonEmployee();
+							break;
+						}
 						case "getSkillList":
 						{
 							this.getSkillList();
 							break;
 						}
-						case "getSkillStageList":
+						case "getLevelList":
 						{
-							this.getSkillStageList();
+							this.getLevelList();
 							break;
 						}
 						case "getEmpSkillList":
@@ -132,14 +137,14 @@ public class EmpSkillServer
 							this.getEmpSkillList();
 							break;
 						}
-						case "getSkillDimensionList":
+						case "getCapabilityList":
 						{
-							this.getSkillDimensionList();
+							this.getCapabilityList();
 							break;
 						}
-						case "getSkillDimensionLevelList":
+						case "getCapabilityRatingList":
 						{
-							this.getSkillDimensionLevelList();
+							this.getCapabilityRatingList();
 							break;
 						}
 						case "registerEmployee":
@@ -156,6 +161,7 @@ public class EmpSkillServer
 				} catch (IOException e)
 				{
 					e.printStackTrace();
+					break;
 				}
 			}
 		}
@@ -176,7 +182,20 @@ public class EmpSkillServer
 			}
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
-			System.out.println(employee.getSurname());
+			if(employee==null)
+			{
+				outMessage = empControl.getErrorMsg();
+			} else {
+				outMessage = "Login Successful";
+			}
+			System.out.println("EmpSkillServer.outMessage: "+outMessage);
+			pw.println(outMessage);
+			pw.flush();
+
+System.out.println(employee.getSurname());
+		}
+		public void getLogonEmployee()
+		{
 			try
 			{
 				oos.writeObject(employee);
@@ -199,13 +218,13 @@ public class EmpSkillServer
 				e.printStackTrace();
 			}
 		}
-		public void getSkillStageList()
+		public void getLevelList()
 		{
-			skillStageList = EmployeeController.getSkillStageList();
-			System.out.println("Number of Skill Stages: "+skillStageList.size());
+			levelList = EmployeeController.getLevelList();
+System.out.println("Number of Levels: "+levelList.size());
 			try
 			{
-				oos.writeObject(skillStageList);
+				oos.writeObject(levelList);
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -215,7 +234,7 @@ public class EmpSkillServer
 		public void getEmpSkillList()
 		{
 			empSkillList = empControl.getEmpSkillList();
-System.out.println("Number of Skill Stages: "+skillStageList.size());
+System.out.println("Number of Employee SkillS: "+empSkillList.size());
 			try
 			{
 				oos.writeObject(empSkillList);
@@ -225,26 +244,26 @@ System.out.println("Number of Skill Stages: "+skillStageList.size());
 				e.printStackTrace();
 			}
 		}
-		public void getSkillDimensionList()
+		public void getCapabilityList()
 		{
-			skillDimensionList = EmployeeController.getSkillDimensionList();
-			System.out.println("Number of Skill Dimensions: "+skillDimensionList.size());
+			capabilityList = EmployeeController.getCapabilityList();
+System.out.println("Number of Capabilities: "+capabilityList.size());
 			try
 			{
-				oos.writeObject(skillDimensionList);
+				oos.writeObject(capabilityList);
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		public void getSkillDimensionLevelList()
+		public void getCapabilityRatingList()
 		{
-			skillDimensionLevelList = EmployeeController.getSkillDimensionLevelList();
-			System.out.println("Number of Skill Dimension Levels: "+skillDimensionLevelList.size());
+			capabilityRatingList = EmployeeController.getCapabilityRatingList();
+System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			try
 			{
-				oos.writeObject(skillDimensionLevelList);
+				oos.writeObject(capabilityRatingList);
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block

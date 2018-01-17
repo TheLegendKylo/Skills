@@ -1,23 +1,26 @@
 package vzap.phoenix.Server.Employee;
 
-public class Skill
+import java.io.Serializable;
+
+public class Skill implements Serializable
 {
-	private String name = null, description = null;
+	private int skillId = 0;
+	private String skillDescription = null;
 	
-	public Skill(String name, String description)
+	public Skill(int skillId, String skillDescription)
 	{
-		this.name = name;
-		this.description = description;
+		this.skillId = skillId;
+		this.skillDescription = skillDescription;
 	}
 
-	public String getName()
+	public int getSkillId()
 	{
-		return name;
+		return skillId;
 	}
 
-	public String getDescription()
+	public String getSkillDescription()
 	{
-		return description;
+		return skillDescription;
 	}
 	
 }
