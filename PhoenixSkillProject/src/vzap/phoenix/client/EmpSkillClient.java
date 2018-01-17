@@ -11,9 +11,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
+import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
@@ -37,6 +39,7 @@ public class EmpSkillClient
 	
 	private Employee employee = null;
 	private ArrayList<Skill> skillList = null;
+	private Vector<Hobby> hobbyList = null;
 	private ArrayList<Level> levelList = null;
 	private ArrayList<EmployeeSkill> empSkillList = null;
 	private ArrayList<Capability> capabilityList = null;
@@ -142,6 +145,26 @@ System.out.println("OutMessage: "+outMessage);
 		}
 		System.out.println("Client: Number of Skills: "+skillList.size());
 		return skillList;
+	}
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return Vector of all Hobbies on the system
+	 */
+	public Vector<Hobby> getHobbyList()
+	{
+		outMessage = "getHobbyList";
+		pw.println(outMessage);
+		pw.flush();
+		try
+		{
+			hobbyList = (Vector<Hobby>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of Skills: "+hobbyList.size());
+		return hobbyList;
 	}
 	/*
 	 * Should be called as soon as login is successful
