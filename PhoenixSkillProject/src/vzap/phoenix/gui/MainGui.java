@@ -44,6 +44,9 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JList list;
 	private String loggedInUser = null;
 	private Vector<String> vectHobby = null;
+	private String deleteHobbyValue = null;
+	private JButton btnLogoff;
+	private JButton btnUpdateEmployee;
 	/**
 	 * Create the panel.
 	 */
@@ -55,6 +58,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		this.loggedInUser = loggedInUser;
 		
 		vectHobby = new Vector<String>();
+		//add info from database below
 		vectHobby.add("Running");
 		vectHobby.add("Smoking");
 		vectHobby.add("Drinking");
@@ -65,7 +69,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 1141, 780);
+		tabbedPane.setBounds(0, 0, 1107, 700);
 		add(tabbedPane);
 		
 		panelProfile = new JPanel();
@@ -92,7 +96,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		lblEmail.setBounds(65, 235, 76, 16);
 		panelProfile.add(lblEmail);
 		
-		tfUserID = new JTextField();
+		tfUserID = new JTextField(loggedInUser);
+		tfUserID.setEditable(false);
 		tfUserID.setBounds(164, 99, 116, 22);
 		panelProfile.add(tfUserID);
 		tfUserID.setColumns(10);
@@ -128,11 +133,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		btnAddHobby = new JButton("Add Hobby");
 		btnAddHobby.setBounds(297, 264, 97, 25);
+		btnAddHobby.addActionListener(this);
 		panelProfile.add(btnAddHobby);
 		
 		btnDeleteHobby = new JButton("Delete Hobby");
-		btnDeleteHobby.setToolTipText("Select a Hobby from the llist above before clicking");
+		btnDeleteHobby.setToolTipText("Select a Hobby from the list above before clicking");
 		btnDeleteHobby.setBounds(566, 264, 116, 25);
+		btnDeleteHobby.addActionListener(this);
 		panelProfile.add(btnDeleteHobby);
 		
 		
@@ -146,6 +153,10 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		scrollPane.setBounds(566, 102, 135, 149);
 		panelProfile.add(scrollPane);
 		
+		btnUpdateEmployee = new JButton("Update Employee");
+		btnUpdateEmployee.setBounds(65, 393, 157, 25);
+		panelProfile.add(btnUpdateEmployee);
+		
 		panelSkills = new JPanel();
 		tabbedPane.addTab("SKILLS", null, panelSkills, null);
 		panelSkills.setLayout(null);
@@ -155,26 +166,54 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		panelSkills.add(lblNewLabel_1);
 		
 		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(12, 866, 209, 25);
+		btnMainExit.setBounds(10, 711, 209, 25);
+		btnMainExit.addActionListener(this);
 		add(btnMainExit);
+		
+		btnLogoff = new JButton("Log Off");
+		btnLogoff.setBounds(859, 713, 209, 25);
+		btnLogoff.addActionListener(this);
+		add(btnLogoff);
 
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(this,	"Test2: " + list.getSelectedValue().toString());
+		Object source = e.getSource();	
+		if(source == btnMainExit)
+		{
+			 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Exit ?",
+					 				"Exit",JOptionPane.OK_CANCEL_OPTION);
+			 if(JOptionPane.OK_OPTION == choice)
+			 {
+				 System.exit(0);
+			 }
+		}
 		
+		if(source == btnLogoff)
+		{
+			 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Log Off ?",
+					 				"Log Off ",JOptionPane.OK_CANCEL_OPTION);
+			 if(JOptionPane.OK_OPTION == choice)
+			 {
+				LoginPanel logP = new LoginPanel(basePanel);
+				this.basePanel.removeAll();
+				this.basePanel.validate();
+				this.basePanel.repaint();
+				this.basePanel.add(logP);
+				this.basePanel.validate();
+				this.basePanel.repaint();
+				this.basePanel.setVisible(true);
+			 }
+		}
 	}
 	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
 		Object source = e.getSource();
-		
 		if(list == source && (!(e.getValueIsAdjusting()))) // isValueAdjusting does'nt check other events only when mouse released will get through 
 		{
-			JOptionPane.showMessageDialog(this,	"Test: " + list.getSelectedValue().toString());
+			deleteHobbyValue = list.getSelectedValue().toString();
 		}
-		
 	}
 }
