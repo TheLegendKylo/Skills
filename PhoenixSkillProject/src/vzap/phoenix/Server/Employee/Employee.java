@@ -9,6 +9,8 @@ public class Employee implements Serializable
 	private String firstName = null;
 	private String cellNumber = null;
 	private String email = null;
+	private String alias = null;
+	
 	public Employee(String employeeID, String surname, String firstName)
 	{
 		this.employeeID = employeeID;
@@ -54,6 +56,14 @@ public class Employee implements Serializable
 	public void setEmail(String email)
 	{
 		this.email = email;
+	}
+	public String getAlias()
+	{
+		return alias;
+	}
+	public void setAlias(String alias)
+	{
+		this.alias = alias;
 	}
 
 }
