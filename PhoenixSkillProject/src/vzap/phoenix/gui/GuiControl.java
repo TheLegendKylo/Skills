@@ -16,7 +16,7 @@ public class GuiControl extends JFrame
 	{
 		this.setTitle("Skills Application");
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setSize(1200,970);
+		this.setSize(1200,770);
 		//this.setResizable(false);
 		this.addWindowListener(new java.awt.event.WindowAdapter() 
 		{
