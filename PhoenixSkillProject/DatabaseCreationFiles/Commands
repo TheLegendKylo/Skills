@@ -78,7 +78,7 @@ create table Level (levelNumber tinyInt(4) not null primary key,
 		SBSATitle varchar(50) not null,
 		DreyfusTitle varchar(200) not null,
 		detailedDescription varchar(500) );
-
+ 
 insert into Level values (1,
 		'School leaver / novice',
 		'Novice',
@@ -106,7 +106,7 @@ insert into Level values (1,
 
 create table CapabilityRating(capabilityId tinyInt not null,
 		rating tinyint not null,
-		descirption varchar(500));
+		description varchar(500));
 
 insert into CapabilityRating values 
 		(1,1,'Minimal, or "textbook"knowledge without connecting it to practice'),
@@ -114,21 +114,21 @@ insert into CapabilityRating values
 		(1,3,'Good working and background knowledge of area of practice'),
 		(1,4,'Depth of understanding of discipline and area of practice'),
 		(1,5,'Authoritative knowledge of discipline and deep tacit understanding across area of practice'),
-		(2,1,'Unlikey to be satisfactory unless closely supervised'),
+		(2,1,'Unlikely to be satisfactory unless closely supervised'),
 		(2,2,'Straightforward tasks likely to be completed to an acceptable standard'),
 		(2,3,'Fit for purpose though may lack refinement'),
 		(2,4,'Fully acceptable standard achieved routinely'),
-		(2,5,Excellence achieved with relative ease'),
+		(2,5,'Excellence achieved with relative ease'),
 		(3,1,'Needs close supervision or instruction'),
 		(3,2,'Able to achieve some steps using own judgement but supervision need for overall task'),
 		(3,3,'Able to achieve most of tasks using own judgement'),
 		(3,4,'Able to take full responsibility for own work and that of others where applicable'),
-		(3,5,'Able to take responsibility for going beyond existing standrads and creating own interpretations'), 
+		(3,5,'Able to take responsibility for going beyond existing standards and creating own interpretations'), 
 		(4,1,'Little or no conception of dealing with complexity'),
 		(4,2,'Appreciates complex situations but only able to achieve partial resolution'),
 		(4,3,'Copes with complex situations through deliberate analysis and planning'),
 		(4,4,'Deals with complex situations holistically, decision making more confident'),
-		'(4,5,Holistic grasp of complex situation, moves between intuitive and analytical approaches with ease'),
+		(4,5,'Holistic grasp of complex situation, moves between intuitive and analytical approaches with ease'),
 		(5,1,'Tends to see actions in isolation'),
 		(5,2,'Sees actions as a series of steps'),
 		(5,3,'Sees actions at least partly in terms of longer-term goals'),
@@ -139,11 +139,11 @@ insert into CapabilityRating values
 		(6,3,'Builds capability within team using various avenues'),
 		(6,4,'Deliberately grows and builds capability with a view of the future'),
 		(6,5,'Sought after to grow and build capability using networks, influence and innovative approaches'),
-		(7,1,'Is consultative in approach - engages stakholders according to a prescribed engagement model',
+		(7,1,'Is consultative in approach - engages stakeholders according to a prescribed engagement model'),
 		(7,2,'Identifies functions to be engaged - Effectively connects stakeholders'),
 		(7,3,'Actively engages other functions driving new ideas, plans and ensuring alignment'),
 		(7,4,'Drives decisions, leads across structures and ensures cross functional alignment'),
-		(7,5,'Drives organisational collaboration and has the ability to redirect/re-prioritise focus fro the group');
+		(7,5,'Drives organisational collaboration and has the ability to redirect/re-prioritise focus from the group');
 	
 
 
