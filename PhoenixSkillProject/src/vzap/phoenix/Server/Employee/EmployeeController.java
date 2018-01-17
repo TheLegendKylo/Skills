@@ -7,17 +7,18 @@ import vzap.phoenix.DAO.EmployeeSkillDAO;
 import vzap.phoenix.DAO.SkillDAO;
 import vzap.phoenix.DAO.CapabilityDAO;
 import vzap.phoenix.DAO.CapabilityLevelDAO;
-import vzap.phoenix.DAO.SkillStageDAO;
+import vzap.phoenix.DAO.LevelDAO;
 
 public class EmployeeController
 {
 	private Employee logonEmployee;
 	private EmployeeDAO employeeDAO;
 	private EmployeeSkillDAO empSkillDAO;
+	private String errorMsg;
 	static ArrayList <Skill> skillList;
-	static ArrayList <SkillStage> skillStageList;
-	static ArrayList <Capability> skillDimensionList;
-	static ArrayList <CapabilityLevel> skillDimensionLevelList;
+	static ArrayList <Level> levelList;
+	static ArrayList <Capability> capabilityList;
+	static ArrayList <CapabilityRating> capabilityRatingList;
 	private ArrayList <EmployeeSkill> empSkillList;
 
 	public EmployeeController(String employeeID, String password)
@@ -27,16 +28,18 @@ public class EmployeeController
 		if(!(logonEmployee==null))
 		{
 			new SkillDAO();
-			SkillDAO.getSkillList();
-			new SkillStageDAO();
-			SkillStageDAO.getSkillStageList();
+			skillList = SkillDAO.getSkillList();
+			new LevelDAO();
+			levelList = LevelDAO.getLevelList();
 			new CapabilityDAO();
-			CapabilityDAO.getCapabilityList();
+			capabilityList = CapabilityDAO.getCapabilityList();
 			new CapabilityLevelDAO();
-			CapabilityLevelDAO.getCapabilityLevelList();
+			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
 
-			empSkillDAO = new EmployeeSkillDAO();
-			empSkillList = empSkillDAO.getEmpSkillList();
+//			empSkillDAO = new EmployeeSkillDAO();
+//			empSkillList = empSkillDAO.getEmpSkillList();
+		} else {
+			errorMsg = employeeDAO.getErrorMsg();
 		}
 	}
 	public boolean registerEmployee(Employee newEmployee)
@@ -68,25 +71,34 @@ public class EmployeeController
 	{
 		return this.logonEmployee;
 	}
+	public String getErrorMsg()
+	{
+		return this.errorMsg;
+	}
 	public static ArrayList<Skill> getSkillList()
 	{
+		if(skillList==null)
+		{
+			new SkillDAO();
+			SkillDAO.getSkillList();
+		}
 		return skillList;
 	}
-	public static ArrayList<SkillStage> getSkillStageList()
+	public static ArrayList<Level> getLevelList()
 	{
-		return skillStageList;
+		return levelList;
 	}
 	public ArrayList<EmployeeSkill> getEmpSkillList()
 	{
 		return empSkillList;
 	}
-	public static ArrayList<Capability> getSkillDimensionList()
+	public static ArrayList<Capability> getCapabilityList()
 	{
-		return skillDimensionList;
+		return capabilityList;
 	}
-	public static ArrayList<CapabilityLevel> getSkillDimensionLevelList()
+	public static ArrayList<CapabilityRating> getCapabilityRatingList()
 	{
-		return skillDimensionLevelList;
+		return capabilityRatingList;
 	}
 
 }

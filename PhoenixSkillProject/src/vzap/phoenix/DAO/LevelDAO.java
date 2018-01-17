@@ -5,29 +5,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import vzap.phoenix.Server.Employee.SkillStage;
+import vzap.phoenix.Server.Employee.Level;
 
 
-public class SkillStageDAO
+public class LevelDAO
 {
 	private MyDBCon myDBCon;
 	private Connection dbCon;
-	static ArrayList<SkillStage> skillStageList = null;
+	static ArrayList<Level> levelList = null;
 	
-	public SkillStageDAO()
+	public LevelDAO()
 	{
-		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
+		levelList = new ArrayList<Level>();
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from Skills");
+			ResultSet rs = stat.executeQuery("select * from level");
 			while(rs.next())
 			{
-				short rate = rs.getShort("rate");
-				String name = rs.getString("name");
-				String description = rs.getString("description");
-				skillStageList.add(new SkillStage(rate, name, description));					
+				short rate = rs.getShort("levelNumber");
+				String name = rs.getString("DreyfusTitle");
+				String description = rs.getString("detailedDescription");
+				levelList.add(new Level(rate, name, description));					
 			}
 		} catch (SQLException e)
 		{
@@ -35,8 +35,8 @@ public class SkillStageDAO
 			e.printStackTrace();
 		}
 	}
-	public static ArrayList<SkillStage> getSkillStageList()
+	public static ArrayList<Level> getLevelList()
 	{
-		return skillStageList;
+		return levelList;
 	}
 }

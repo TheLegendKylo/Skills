@@ -13,6 +13,7 @@ public class EmployeeDAO
 	private MyDBCon myDBCon;
 	private Connection dbCon;
 	private Employee employee;
+	private String errorMsg = null;
 	
 	public EmployeeDAO()
 	{
@@ -41,14 +42,22 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 					String email = rs.getString("email");
 					employee.setContactNo(contactNo);
 					employee.setEmail(email);
+				} else {
+					errorMsg = "Invalid password entered";
 				}
 			}
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			errorMsg = "Employee "+employeeID+" not found";
+
 		}
 		return employee;
+	}
+	public String getErrorMsg()
+	{
+		return this.errorMsg;
 	}
 	public boolean registerEmployee(Employee employee)
 	{

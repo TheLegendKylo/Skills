@@ -1,6 +1,8 @@
 package vzap.phoenix.Server.Employee;
 
-public class Capability
+import java.io.Serializable;
+
+public class Capability implements Serializable
 {
 	private short id;
 	private String name = null, description = null;

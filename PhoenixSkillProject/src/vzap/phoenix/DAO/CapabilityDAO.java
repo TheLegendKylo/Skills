@@ -18,17 +18,17 @@ public class CapabilityDAO
 	
 	public CapabilityDAO()
 	{
-		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
+		capabilityList = new ArrayList<Capability>();
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from SkillsDimension");
+			ResultSet rs = stat.executeQuery("select * from capability");
 			while(rs.next())
 			{
-				short id = rs.getShort("skillDimensionID");
-				String name = rs.getString("dimensionName");
-				String description = rs.getString("dimensionDescription");
+				short id = rs.getShort("capabilityId");
+				String name = rs.getString("capabilityName");
+				String description = rs.getString("capabilityDescription");
 				capabilityList.add(new Capability(id, name, description));					
 			}
 		} catch (SQLException e)

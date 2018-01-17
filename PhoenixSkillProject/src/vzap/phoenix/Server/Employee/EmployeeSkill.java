@@ -1,8 +1,9 @@
 package vzap.phoenix.Server.Employee;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class EmployeeSkill
+public class EmployeeSkill implements Serializable
 {
 	private String employeeID = null, skill = null, rateeID = null;
 	private short capabilityID = 0, status = 0, rating = 0;

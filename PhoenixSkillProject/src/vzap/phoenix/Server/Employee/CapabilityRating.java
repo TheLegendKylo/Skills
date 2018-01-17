@@ -1,24 +1,26 @@
 package vzap.phoenix.Server.Employee;
 
-public class CapabilityLevel
+import java.io.Serializable;
+
+public class CapabilityRating implements Serializable
 {
-	private short capabilityID = 0, skillLevel = 0;
+	private short capabilityID = 0, rating = 0;
 	private String description = null;
 	
-	public CapabilityLevel(short dimensionID, short level, String description)
+	public CapabilityRating(short dimensionID, short rating, String description)
 	{
 		this.capabilityID = dimensionID;
-		this.skillLevel = skillLevel;
+		this.rating = rating;
 		this.description = description;
 	}
 
-	public short getDimensionID()
+	public short getCapabilityID()
 	{
 		return capabilityID;
 	}
-	public short getSkillLevel()
+	public short getRating()
 	{
-		return skillLevel;
+		return rating;
 	}
 	
 	public String getDescription()

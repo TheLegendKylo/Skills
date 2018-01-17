@@ -18,12 +18,15 @@ import vzap.phoenix.client.EmpSkillClientController;
 public class EmployeeSkillGUI extends JFrame implements ActionListener
 {
 	private JPanel contentPanel, headerPanel, buttonPanel;
-	private Employee logonEmp;
+	private Employee logonEmployee;
 	private EmpSkillClient empClient;
 	private EmpSkillClientController empClientController;
+	private EmpSkillClient loginSession;
 	private ArrayList<Skill> skillList;
-	private ArrayList<SkillStage> skillStageList;
+	private ArrayList<Level> levelList;
 	private ArrayList<EmployeeSkill> empSkillList;
+	
+	private TestingStaticData staticDataPanel;
 
 	private EmployeeLogin loginPanel;
 	private JButton baseButton, submitButton;
@@ -31,63 +34,80 @@ public class EmployeeSkillGUI extends JFrame implements ActionListener
 	
 	public EmployeeSkillGUI()
 	{
-		this.setTitle("Employee Skills Management");
+		this.setTitle("Phoenix Skills Management");
 		this.setSize(800, 600);
-		this.setLocation(150, 150);
+		this.setLocation(150, 50);
 
+		contentPanel = new JPanel();
+		headerPanel = new JPanel();
+		buttonPanel = new JPanel();
+		
 		loginPanel = new EmployeeLogin(this);
 		contentPanel.add(loginPanel);
-
+		
+		submitButton = new JButton("Submit");
+		submitButton.addActionListener(this);
+		buttonPanel.add(submitButton);
+		
 		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
 		this.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		this.validate();
+		this.repaint();
 		this.setVisible(true);		
 
 		MyWindowAdapter mwl = new MyWindowAdapter();
 		this.addWindowListener(mwl);
 		
 	}
+	public void loadStaticDataPanel()
+	{
+		staticDataPanel = new TestingStaticData(loginSession);
+		this.validate();
+		this.repaint();
+		contentPanel.removeAll();
+		contentPanel.setLayout(new BorderLayout());
+		contentPanel.add(staticDataPanel);
+		
+		this.validate();
+		this.repaint();
+		this.setVisible(true);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		// Trap LoginUser
+System.out.println("Into actionPerformed");
 		Object source = e.getSource();
-		String selectedMenuItem = e.getActionCommand();
-		baseButton = new JButton();
-		if(source.getClass()==baseButton.getClass())
+		if((e.getSource()==submitButton))
 		{
-			baseButton = (JButton)source;
-		}
-		if((e.getSource()==submitButton)
-				|| (baseButton.getText()=="Submit"))
-		{
+			System.out.println("Submit button pressed");
 			String employeeID = loginPanel.getEmployeeID();
-			String passwordInput = loginPanel.getPassword();
+			String password = loginPanel.getPassword();
 			String checkPassword = "";
 			if(employeeID.equals(""))
 			{
 				errorMsg = "Invalid EmployeeID entered.  Please reenter: ";
 			} else {
-				if (passwordInput.equals(""))
+				if (password.equals(""))
 				{
 					errorMsg = "Invalid Password entered.  Please reenter: ";
 //					this.failedMessage(passwordField, errorMsg);
 					return;
 				} 
-				empClientController = new EmpSkillClientController(employeeID, passwordInput);
-				logonEmp = empClientController.getEmployee();
-		
-				if(logonEmp == null)
+				loginSession = new EmpSkillClient();
+				String returnMessage = loginSession.loginEmployee(employeeID, password);
+				System.out.println("returnMessage: "+returnMessage);
+				
+				if(returnMessage.equals("Login Successful"))
 				{
-					errorMsg = "Invalid EmployeeID entered.  Please reenter: ";
-//					this.failedMessage(userIDField, errorMsg);
-					return;
+					logonEmployee = loginSession.getLogonEmployee();
+					System.out.println("logon Surname: "+logonEmployee.getSurname());
+					this.loadStaticDataPanel();
+				} else {
+					System.out.println("Failure Message"+returnMessage);
+					System.exit(0);
 				}
-
-				// Render profile screeen
-				this.validate();
-				this.repaint();	
-				this.setVisible(true);	
 			}
 		}
 	}

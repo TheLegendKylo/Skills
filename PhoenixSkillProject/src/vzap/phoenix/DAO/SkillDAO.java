@@ -17,17 +17,19 @@ public class SkillDAO
 	
 	public SkillDAO()
 	{
-		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
 		try
 		{
+			skillList = new ArrayList<Skill>();
 			Statement stat=dbCon.createStatement();
 			ResultSet rs = stat.executeQuery("select * from Skills");
+			System.out.println("ResultSet Size: "+rs.getFetchSize());
 			while(rs.next())
 			{
-				String name = rs.getString("name");
-				String description = rs.getString("description");
-				skillList.add(new Skill(name, description));					
+				int skillId = rs.getInt("skillId");
+				String skillDescription = rs.getString("skillDescription");
+				System.out.println("SkillID: "+skillId+" - "+skillDescription);
+				skillList.add(new Skill(skillId, skillDescription));					
 			}
 		} catch (SQLException e)
 		{

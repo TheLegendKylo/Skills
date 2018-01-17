@@ -16,9 +16,11 @@ import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.Server.Employee.Capability;
-import vzap.phoenix.Server.Employee.CapabilityLevel;
-import vzap.phoenix.Server.Employee.SkillStage;
-
+import vzap.phoenix.Server.Employee.CapabilityRating;
+import vzap.phoenix.Server.Employee.Level;
+/*
+ * EmpSkillClient used to create connection with server and facilitate all communication with EmpSkillServer class
+ */
 public class EmpSkillClient
 {
 	private Socket socket;
@@ -34,11 +36,15 @@ public class EmpSkillClient
 	
 	private Employee employee = null;
 	private ArrayList<Skill> skillList = null;
-	private ArrayList<SkillStage> skillStageList = null;
+	private ArrayList<Level> levelList = null;
 	private ArrayList<EmployeeSkill> empSkillList = null;
-	private ArrayList<Capability> skillDimensionList = null;
-	private ArrayList<CapabilityLevel> skillDimensionLevelList = null;
-	
+	private ArrayList<Capability> capabilityList = null;
+	private ArrayList<CapabilityRating> capabilityRatingList = null;
+
+	/*
+	 * Constructor will setup socket connection to the EmpSkillServer
+	 * and initiate Writer/Reader/Stream classes
+	 */
 	public EmpSkillClient()
 	{
 		try
@@ -60,16 +66,45 @@ public class EmpSkillClient
 		}
 		
 	}
-	public Employee loginEmployee(String employeeID, String password)
+	/*
+	 * loginEmployee method will accept String employeeId and String password
+	 * if login is successful, String message == "Login Successful" will be returned by server.  call method getLoginEmployee to get employee object
+	 * if login is unsuccessful, String message with detail of error message will be returned
+	 * 
+	 * Once login is successfull the following methods must immediately be called to obtain static system information:
+	 * 
+	 */
+	public String loginEmployee(String employeeID, String password)
 	{
 		outMessage = "loginEmployee";
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = employeeID;
-System.out.println(outMessage);
+System.out.println("OutMessage: "+outMessage);
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = password;
+		pw.println(outMessage);
+		pw.flush();
+		
+		try
+		{
+			inMessage = br.readLine();
+			System.out.println("EmpSkillClient.inMessage: "+inMessage);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return inMessage;
+		
+	}
+	/*
+	 * returns object of the logged-in employee (Class Employee)
+	 */
+	public Employee getLogonEmployee()
+	{
+		outMessage = "getLogonEmployee";
 		pw.println(outMessage);
 		pw.flush();
 		try
@@ -86,6 +121,10 @@ System.out.println(outMessage);
 		}
 		return employee;
 	}
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return ArrayList of all Skills on the system
+	 */
 	public ArrayList<Skill> getSkillList()
 	{
 		outMessage = "getSkillList";
@@ -102,22 +141,31 @@ System.out.println(outMessage);
 		System.out.println("Client: Number of Skills: "+skillList.size());
 		return skillList;
 	}
-	public ArrayList<SkillStage> getSkillStageList()
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return ArrayList of all Skill Levels on the system
+	 */
+	public ArrayList<Level> getLevelList()
 	{
-		outMessage = "getSkillStageList";
+		outMessage = "getLevelList";
 		pw.println(outMessage);
 		pw.flush();
 		try
 		{
-			skillStageList = (ArrayList<SkillStage>)ois.readObject();
+			levelList = (ArrayList<Level>)ois.readObject();
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of SkillStages: "+skillStageList.size());
-		return skillStageList;
+		System.out.println("Client: Number of Skill Levels: "+levelList.size());
+		return levelList;
 	}
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return ArrayList of all Skills for the Logged-In Employee on the system
+	 * The ArrayList will contain objects of the class EmployeeSkill
+	 */
 	public ArrayList<EmployeeSkill> getEmpSkillList()
 	{
 		outMessage = "getEmpSkillList";
@@ -134,38 +182,52 @@ System.out.println(outMessage);
 		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
 		return empSkillList;
 	}
-	public ArrayList<Capability> getSkillDimensionList()
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return ArrayList of all static Capabilities (eg Knowledge, Autonomy etc) on the system
+	 * The ArrayList will contain objects of the class Capability
+	 */
+	public ArrayList<Capability> getCapabilityList()
 	{
-		outMessage = "getSkillDimensionList";
+		outMessage = "getCapabilityList";
 		pw.println(outMessage);
 		pw.flush();
 		try
 		{
-			skillDimensionList = (ArrayList<Capability>)ois.readObject();
+			capabilityList = (ArrayList<Capability>)ois.readObject();
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of SkillDimensions: "+skillDimensionList.size());
-		return skillDimensionList;
+		System.out.println("Client: Number of Capabilities: "+capabilityList.size());
+		return capabilityList;
 	}
-	public ArrayList<CapabilityLevel> getSkillDimensionLevelList()
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return ArrayList of all static CapabilityRatings (eg Novice, Expert etc per Capability) on the system
+	 * The ArrayList will contain objects of the class CapabilityRating
+	 */
+	public ArrayList<CapabilityRating> getCapabilityRatingList()
 	{
-		outMessage = "getSkillDimensionLevelList";
+		outMessage = "getCapabilityRatingList";
 		pw.println(outMessage);
 		pw.flush();
 		try
 		{
-			skillDimensionLevelList = (ArrayList<CapabilityLevel>)ois.readObject();
+			capabilityRatingList = (ArrayList<CapabilityRating>)ois.readObject();
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of SkillDimensionLevels: "+skillDimensionLevelList.size());
-		return skillDimensionLevelList;
+		System.out.println("Client: Number of capabilityRatings: "+capabilityRatingList.size());
+		return capabilityRatingList;
 	}
+	/*
+	 * This method will register a new employee on the system add add the employee to the database
+	 * Will return a boolean message of "true" if the registration was successful
+	 */
 	public boolean registerEmployee(Employee newEmployee)
 	{
 		outMessage = "registerEmployee";
@@ -215,6 +277,56 @@ System.out.println(outMessage);
 			e.printStackTrace();
 		}
 		return updateSuccessfull;
+	}
+	public boolean nominateRater(EmployeeSkill nominateRater)
+	{
+		outMessage = "nominateRater";
+		pw.println(outMessage);
+		pw.flush();
+		try
+		{
+			oos.writeObject(nominateRater);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean nominateSuccessfull = false;
+		try
+		{
+			nominateSuccessfull = ois.readBoolean();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nominateSuccessfull;
+	}
+	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
+	{
+		outMessage = "rateEmployeeSkill";
+		pw.println(outMessage);
+		pw.flush();
+		try
+		{
+			oos.writeObject(rateEmployeeSkill);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean ratingSuccessfull = false;
+		try
+		{
+			ratingSuccessfull = ois.readBoolean();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ratingSuccessfull;
 	}
 	public void closeConnections()
 	{

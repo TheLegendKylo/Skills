@@ -1,11 +1,13 @@
 package vzap.phoenix.Server.Employee;
 
-public class SkillStage
+import java.io.Serializable;
+
+public class Level implements Serializable
 {
 	private short rate = 0;
 	private String name = null, description = null;
 	
-	public SkillStage(short rate, String name, String description)
+	public Level(short rate, String name, String description)
 	{
 		this.rate = rate;
 		this.name = name;
