@@ -2,6 +2,7 @@ package vzap.phoenix.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.Popup;
 
 import vzap.phoenix.Server.Employee.Skill;
 
@@ -142,33 +144,61 @@ public class SearchCriteria extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent ae)
 	{
 		Object source = ae.getSource();
+		
 		if (source == empSearchBut)
 		{
-			if(! (searchByEmployeeJTF.getText().isEmpty() )) 
+			if ( (searchByEmployeeJTF.getText().isEmpty()) && (searchBySkillJTF.getText().isEmpty()))
 			{
-				tablePanel.removeAll();
-				tablePanel.validate();
-				tablePanel.repaint();
-				table = new JTable(empData,empColumnNames);
-				scrollPane = new JScrollPane();
-				scrollPane.setViewportView(table);
-				tablePanel.add(scrollPane);
-				tablePanel.validate();
-				tablePanel.repaint();
+				JOptionPane.showMessageDialog(this,  "Please enter either NAME or SKILL before clicking GO button");
+				
 			}
-			else
+			else 
 			{
-				if(! (searchBySkillJTF.getText().isEmpty()))
+				if ( (!searchByEmployeeJTF.getText().isEmpty()) && (!searchBySkillJTF.getText().isEmpty()))
 				{
+					JOptionPane.showMessageDialog(this,  "Cannot search on both NAME and SKILL - choose one");
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
-					table = new JTable(skillData,skillColumnNames);
+					table = new JTable();
 					scrollPane = new JScrollPane();
 					scrollPane.setViewportView(table);
 					tablePanel.add(scrollPane);
 					tablePanel.validate();
-					tablePanel.repaint();	
+					tablePanel.repaint();
+
+					searchByEmployeeJTF.setText("");
+					searchBySkillJTF.setText("");
+				}
+				else
+				{
+					if(! (searchByEmployeeJTF.getText().isEmpty() )) 
+					{
+						tablePanel.removeAll();
+						tablePanel.validate();
+						tablePanel.repaint();
+						table = new JTable(empData,empColumnNames);
+						scrollPane = new JScrollPane();
+						scrollPane.setViewportView(table);
+						tablePanel.add(scrollPane);
+						tablePanel.validate();
+						tablePanel.repaint();
+					}
+					else
+					{
+						if(! (searchBySkillJTF.getText().isEmpty()))
+						{
+							tablePanel.removeAll();
+							tablePanel.validate();
+							tablePanel.repaint();
+							table = new JTable(skillData,skillColumnNames);
+							scrollPane = new JScrollPane();
+							scrollPane.setViewportView(table);
+							tablePanel.add(scrollPane);
+							tablePanel.validate();
+							tablePanel.repaint();	
+						}
+					}
 				}
 			}
 		}
