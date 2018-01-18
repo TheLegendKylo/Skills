@@ -78,6 +78,7 @@ public class EmployeeSkillDAO
 		{
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+		this.errorMsg = "Employee Skill: Select statement failed for EmpSkillID: "+empSkillID;
 		}
 	}
 	public ArrayList<EmployeeSkill> getEmpSkillList()
@@ -101,6 +102,7 @@ public class EmployeeSkillDAO
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.errorMsg = "Employee Skill: Rating failed for Employee SkillID: "+rateEmployeeSkill.getEmpSkillID();
 		}
 		return updateCount;
 	}
@@ -180,6 +182,7 @@ public class EmployeeSkillDAO
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.errorMsg = "Employee Skill: Insert statement failed for EmployeeID: "+addEmployeeSkill.getEmployeeID();
 		}
 		return insertCount;
 	}
@@ -206,7 +209,7 @@ public class EmployeeSkillDAO
 		}
 		return recordCount;
 	}
-	public int deleteEmployeeSkill(EmployeeSkill foundEmployeeSkill)
+	public int deleteEmployeeSkill(EmployeeSkill deleteEmployeeSkill)
 	{
 		int deleteCount=0;
 		PreparedStatement ps = null;
@@ -214,12 +217,13 @@ public class EmployeeSkillDAO
 		{
 			ps = dbCon.prepareStatement
 					("delete from EmployeeSkill where empSkillID = ?");
-			ps.setShort(1, foundEmployeeSkill.getEmpSkillID());
+			ps.setShort(1, deleteEmployeeSkill.getEmpSkillID());
 			deleteCount = ps.executeUpdate();
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.errorMsg = "Employee Skill: Delete statement failed for EmpSkillID: "+deleteEmployeeSkill.getEmpSkillID();
 		}
 		return deleteCount;
 	}

@@ -77,15 +77,31 @@ public class EmployeeController
 		ArrayList<Employee> empSearchResultList = employeeDAO.searchEmployee(searchCriteria);
 		return empSearchResultList;
 	}
-	public int addEmployeeSkill(EmployeeSkill addEmployeeSkill)
+	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
 		int responseCode = empSkillDAO.insertEmployeeSkill(addEmployeeSkill);
 		if(responseCode==0)// employeeSkill record not added successfully
 		{
 			this.errorMsg = empSkillDAO.getErrorMsg();
+			return false;
 		}
-		return responseCode;
+		return true;
 	}
+	public boolean addNominee(EmployeeSkill addEmployeeSkill)
+	{
+		return this.addEmployeeSkill(addEmployeeSkill);
+	}
+	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
+	{
+		int responseCode = empSkillDAO.rateEmployeeSkill(rateEmployeeSkill);
+		if(responseCode==0)// employeeSkill record not rated successfully
+		{
+			this.errorMsg = empSkillDAO.getErrorMsg();
+			return false;
+		}
+		return true;
+	}
+
 	public Employee getLogonEmployee()
 	{
 		return this.logonEmployee;

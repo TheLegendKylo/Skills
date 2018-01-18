@@ -154,6 +154,11 @@ public class EmpSkillServer
 							this.getCapabilityRatingList();
 							break;
 						}
+						case "searchEmployee":
+						{
+							this.searchEmployee();
+							break;
+						}
 						case "registerEmployee":
 						{
 							this.registerEmployee();
@@ -164,6 +169,22 @@ public class EmpSkillServer
 							this.updateEmployee();
 							break;
 						}
+						case "addEmployeeSkill":
+						{
+							this.addEmployeeSkill();
+							break;
+						}
+						case "nominateRater":
+						{
+							this.nominateRater();
+							break;
+						}
+						case "rateEmployeeSkill":
+						{
+							this.rateEmployeeSkill();
+							break;
+						}
+							
 					}
 				} catch (IOException e)
 				{
@@ -341,6 +362,111 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 				e.printStackTrace();
 			}
 
+		}
+		public void searchEmployee()
+		{
+			String searchCriteria = null;
+			try
+			{
+				searchCriteria = br.readLine();
+				System.out.println(employee);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+System.out.println("calling Controller: "+searchCriteria);			
+			ArrayList <Employee> employeeSearchResults = empControl.searchEmployee(searchCriteria);
+			try
+			{
+System.out.println("Number of employee records returned: "+employeeSearchResults.size());
+				oos.writeObject(employeeSearchResults);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public boolean addEmployeeSkill()
+		{
+			EmployeeSkill addEmployeeSkill = null;
+			try
+			{
+				addEmployeeSkill = (EmployeeSkill)ois.readObject();
+			} catch (ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			boolean success = empControl.addEmployeeSkill(addEmployeeSkill);
+			try
+			{
+				oos.writeBoolean(success);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return success;
+		}
+		public boolean nominateRater()
+		{
+			EmployeeSkill addNominee = null;
+			try
+			{
+				addNominee = (EmployeeSkill)ois.readObject();
+			} catch (ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			boolean success = empControl.addNominee(addNominee);
+			try
+			{
+				oos.writeBoolean(success);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return success;
+		}
+		public boolean rateEmployeeSkill()
+		{
+			EmployeeSkill rateEmployeeSkill = null;
+			try
+			{
+				rateEmployeeSkill = (EmployeeSkill)ois.readObject();
+			} catch (ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			boolean success = empControl.rateEmployeeSkill(rateEmployeeSkill);
+			try
+			{
+				oos.writeBoolean(success);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return success;
 		}
 		
 		public void closeConnections()
