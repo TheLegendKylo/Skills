@@ -127,7 +127,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return true;
 	}
-	public ArrayList<Employee> searchEmployee(Employee employee)
+	public ArrayList<Employee> searchEmployee(String employee)
 	{
 		try 
 		{
