@@ -58,15 +58,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	/**
 	 * Create the panel.
 	 */
-	public MainGui(JPanel basePanel, boolean newUser,String loggedInUser,Employee emp)
+	public MainGui(JPanel basePanel, boolean newUser,Employee emp)
 	{
 		//My added code
 		this.basePanel = basePanel;
 		this.newUser = newUser;
-		this.loggedInUser = loggedInUser;
 		this.emp = emp;
-		//esc = new EmpSkillClient();
-		// = new Employee();
+		loggedInUser = emp.getEmployeeID();
 		
 		System.out.println("MainGui emp check = " + emp.getAlias());
 		System.out.println("MainGui emp check = " + emp.getFirstName());

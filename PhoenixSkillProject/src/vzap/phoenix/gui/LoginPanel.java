@@ -180,10 +180,9 @@ public class LoginPanel extends JPanel implements ActionListener
 			//success
 			
 			emp = esc.getLogonEmployee();
-			System.out.println("Logon emp check = " + emp.toString());
 			// once successful bring up the screen
 			
-			mainGui = new MainGui(basePanel,newUser,loggedInUser,emp);
+			mainGui = new MainGui(basePanel,newUser,emp);
 			this.basePanel.removeAll();
 			this.basePanel.validate();
 			this.basePanel.repaint();
@@ -242,7 +241,7 @@ public class LoginPanel extends JPanel implements ActionListener
 			
 			//once successful
 			newUser=true;
-			mainGui = new MainGui(basePanel,newUser,loggedInUser,emp);
+			mainGui = new MainGui(basePanel,newUser,emp);
 			this.basePanel.removeAll();
 			this.basePanel.validate();
 			this.basePanel.repaint();
