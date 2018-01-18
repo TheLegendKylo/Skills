@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import vzap.phoenix.Server.Employee.Employee;
 
@@ -12,9 +13,8 @@ public class EmployeeDAO
 	private MyDBCon myDBCon;
 	private Connection dbCon;
 	private Employee employee;
-
+	private ArrayList<Employee> empList;
 	private PreparedStatement ps;
-
 	private String errorMsg = null;
 	
 	public EmployeeDAO()
@@ -127,14 +127,14 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return true;
 	}
-	public boolean searchEmployee(Employee employee)
+	public ArrayList<Employee> searchEmployee(Employee employee)
 	{
 		try 
 		{
 			String enteredQuery = "";
 			String input = "%" + enteredQuery + "%";
 						
-			ps = dbCon.prepareStatement("select * from Employee where firstName like ? or surname like ? or alias like ?");
+			ps = dbCon.prepareStatement("select * from Employee where employeeID like ? or firstName like ? or surname like ? or alias like ?");
 
 			ps.setString(1, input);
 			ps.setString(2, input);
@@ -143,10 +143,9 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return empList;
 	}
+	
 }
