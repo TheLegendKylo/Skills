@@ -18,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.Popup;
 
 import vzap.phoenix.Server.Employee.Capability;
+import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.*;
 
@@ -50,19 +51,18 @@ public class SearchCriteria extends JPanel implements ActionListener
 	private JLabel searchByHobbyLab;
 	private JTextField searchByHobbyJTF;
 	
-	public ArrayList<Capability> capabilityList;	
+	private ArrayList<Capability> capabilityList;
+	private ArrayList<Employee> employeeList; 
 	
 	public SearchCriteria()
 	{
 		
 		tablePanel = new JPanel();
-		EmpSkillClient esc = new EmpSkillClient();
-		capabilityList = esc.getCapabilityList();
 		
-		empColumnNames = new String[]{"UserId","First Name","Surname","Alias"};
-		empData = new String[][]{ {"a043410","patsy","de kock","pat"},{"a01189","elizabeth","maiden","libby"},
-			{"c40989","gerald","hammond","gess"} };
-
+		EmpSkillClient empSkillClient = new EmpSkillClient();
+		empSkillClient.loginEmployee("A043410", "1234");
+		capabilityList = empSkillClient.getCapabilityList();
+		
 			
 		skillColumnNames = new String[]{"Skill","UserId","First Name","Surname","Average"};
 		skillData = new String[][]{ {"java","a043410","patsy","de kock","3.4"} ,
@@ -175,11 +175,27 @@ public class SearchCriteria extends JPanel implements ActionListener
 				{
 					if(! (searchByEmployeeJTF.getText().isEmpty() )) 
 					{
+						System.err.println("searchcriteria - employee " + searchByEmployeeJTF.getText());
+						EmpSkillClient empSkillClient = new EmpSkillClient();
+						employeeList = empSkillClient.searchEmployee(searchByEmployeeJTF.getText());
+						System.err.println("searchcriteria - employee size" + employeeList.size());						
+						
+						Object[][] empRow = new Object[employeeList.size()][4];
+				        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+				        for (int i=0; i<employeeList.size(); i++)
+				        {				            
+				    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
+				    	   	empRow[i][1]=employeeList.get(i).getFirstName();
+				    	   	empRow[i][1]=employeeList.get(i).getSurname();
+				    	   	empRow[i][1]=employeeList.get(i).getAlias();
+				    	   	
+				        }
+						
 						
 						tablePanel.removeAll();
 						tablePanel.validate();
 						tablePanel.repaint();
-						table = new JTable(empData,empColumnNames);
+						table = new JTable(empRow,empHeader);
 						scrollPane = new JScrollPane();
 						scrollPane.setViewportView(table);
 						tablePanel.add(scrollPane);
@@ -214,6 +230,8 @@ public class SearchCriteria extends JPanel implements ActionListener
 		frame.setSize(800, 600);
 		frame.getContentPane().add(new SearchCriteria());
 		frame.setVisible(true);
+		
+		
 	}
 	
 }

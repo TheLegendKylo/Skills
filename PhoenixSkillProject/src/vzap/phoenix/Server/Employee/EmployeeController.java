@@ -30,19 +30,19 @@ public class EmployeeController
 		this.logonEmployee = employeeDAO.loginEmployee(employeeID, password);
 		if(!(logonEmployee==null))
 		{
-			new SkillDAO();
-			skillList = SkillDAO.getSkillList();
-			new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			new LevelDAO();
-			levelList = LevelDAO.getLevelList();
+//			new SkillDAO();
+//			skillList = SkillDAO.getSkillList();
+//			new HobbyDAO();
+//			hobbyList = HobbyDAO.getHobbyList();
+//			new LevelDAO();
+//			levelList = LevelDAO.getLevelList();
 			new CapabilityDAO();
 			capabilityList = CapabilityDAO.getCapabilityList();
-			new CapabilityLevelDAO();
-			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
+//			new CapabilityLevelDAO();
+//			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
 
-			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-			empSkillList = empSkillDAO.getEmpSkillList();
+//			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+//			empSkillList = empSkillDAO.getEmpSkillList();
 		} else {
 			errorMsg = employeeDAO.getErrorMsg();
 		}
