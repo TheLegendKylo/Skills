@@ -37,12 +37,15 @@ public class LoginPanel extends JPanel implements ActionListener
 	private JButton btnSignUp;
 	private String password = null,passRepeat=null;
 	private JButton btnConfirmRegistration;
-	
+	private MainGui mainGui = null;
+	private boolean newUser = false;
+	private String loggedInUser = null;
 	/**
 	 * Create the panel.
 	 */
 	public LoginPanel(JPanel basePanel) 
 	{
+		
 		this.basePanel = basePanel;
 		
 		lblUserId = new JLabel("User ID : ");
@@ -148,11 +151,11 @@ public class LoginPanel extends JPanel implements ActionListener
 		Object source = e.getSource();
 		password = new String(passwordField.getPassword());
 		passRepeat = new String(passwordFieldRepeat.getPassword());
+		loggedInUser = tf_UserID.getText();
 		
 		if(source == btnLogin)
-		{
-			
-			if(tf_UserID.getText().equals("") || tf_UserID.getText() == null )
+		{	
+			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
 				tf_UserID.setFocusable(true);
@@ -163,18 +166,18 @@ public class LoginPanel extends JPanel implements ActionListener
 				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
 				return;
 			}
-			//we will check if all details are correct here and move forward.
+			//we will check if all details are correct here and move forward.	
 			
-			
-//	
-//					 this.basePanel.removeAll();
-//					 this.basePanel.validate();
-//					 this.basePanel.repaint();
-//					 this.basePanel.add(guestHome);
-//					 this.basePanel.validate();
-//					 this.basePanel.repaint();
-//					 this.basePanel.setVisible(true);
-			
+			 // once successful bring up the screen
+			 mainGui = new MainGui(basePanel,newUser,loggedInUser);
+			 this.basePanel.removeAll();
+			 this.basePanel.validate();
+			 this.basePanel.repaint();
+			 this.basePanel.add(mainGui);
+			 this.basePanel.validate();
+			 this.basePanel.repaint();
+			 this.basePanel.setVisible(true);
+			 
 		}
 		if(source == btnExit)
 		{
@@ -187,7 +190,6 @@ public class LoginPanel extends JPanel implements ActionListener
 		}
 		if(source == btnSignUp)
 		{
-			
 			btnConfirmRegistration.setVisible(true);
 			passwordFieldRepeat.setVisible(true);
 			lblRepeatPassword.setVisible(true);
@@ -197,7 +199,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		if(source == btnConfirmRegistration)
 		{
 			 
-			if(tf_UserID.getText().equals("") || tf_UserID.getText() == null )
+			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
 				tf_UserID.setFocusable(true);
@@ -221,6 +223,16 @@ public class LoginPanel extends JPanel implements ActionListener
 			//check if user name exists and go to the next screen where they will capture their full profile
 			//send new user command to screen.
 			
+			//once successful
+			newUser=true;
+			mainGui = new MainGui(basePanel,newUser,loggedInUser);
+			this.basePanel.removeAll();
+			this.basePanel.validate();
+			this.basePanel.repaint();
+			this.basePanel.add(mainGui);
+			this.basePanel.validate();
+			this.basePanel.repaint();
+			this.basePanel.setVisible(true);
 			
 		}
 		
