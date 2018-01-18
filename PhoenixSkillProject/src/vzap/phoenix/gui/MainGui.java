@@ -161,7 +161,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tabbedPane.addTab("SKILLS", null, panelSkills, null);
 		panelSkills.setLayout(null);
 		
-		lblNewLabel_1 = new JLabel("Skillls");
+		lblNewLabel_1 = new JLabel("Skills");
 		lblNewLabel_1.setBounds(70, 161, 393, 169);
 		panelSkills.add(lblNewLabel_1);
 		

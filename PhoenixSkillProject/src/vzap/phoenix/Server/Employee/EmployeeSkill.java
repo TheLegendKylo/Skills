@@ -5,22 +5,27 @@ import java.util.Date;
 
 public class EmployeeSkill implements Serializable
 {
-	private String employeeID = null, skill = null, rateeID = null;
-	private short capabilityID = 0, status = 0, rating = 0;
-	private Date ratingDate;
+	private String employeeID = null, skill = null, raterID = null;
+	private short empSkillID=0, status = 0;
+	private Date ratedDate, createdDate;
+	private String coachingAvailability;
+	private String comment;
+	private short[] capabilityID, rating;	
 	
-	public EmployeeSkill(String employeeID, String skill, short capabilityID,
-			String rateeID, short rating)
+	public EmployeeSkill(String employeeID, String skill, 
+			String raterID, Date createdDate)
 	{
 		this.employeeID = employeeID;
 		this.skill = skill;
-		this.capabilityID = capabilityID;
-		this.skill = skill;
-		this.rateeID = rateeID;
-		this.rating = rating;
+		this.raterID = raterID;
+		this.createdDate = createdDate;
 	}
 
-	public String getemployeeID()
+	public short getEmpSkillID()
+	{
+		return this.empSkillID;
+	}
+	public String getEmployeeID()
 	{
 		return this.employeeID;
 	}
@@ -28,32 +33,45 @@ public class EmployeeSkill implements Serializable
 	{
 		return skill;
 	}
-	public short getCapabilityID()
+	public String getRaterID()
+	{
+		return this.raterID;
+	}
+	public short[] getCapabilityID()
 	{
 		return capabilityID;
 	}
-	public String getRateeID()
-	{
-		return this.rateeID;
-	}
-	public short getRating()
+	public short[] getRating()
 	{
 		return rating;
 	}
 
-	public String getEmployeeID()
+	public Date getRatedDate()
 	{
-		return employeeID;
-	}
-	public Date getRatingDate()
-	{
-		return this.ratingDate;
+		return this.ratedDate;
 	}
 	public short getStatus()
 	{
 		return this.status;
 	}
 
+	public Date getCreatedDate()
+	{
+		return this.createdDate;
+	}
+	public String getComment()
+	{
+		return this.comment;
+	}
+	public String getCoachingAvailability()
+	{
+		return this.coachingAvailability;
+	}
+
+	public void setEmpSkillID(short empSkillID)
+	{
+		this.empSkillID = empSkillID;
+	}
 	public void setEmployeeID(String employeeID)
 	{
 		this.employeeID = employeeID;
@@ -66,21 +84,33 @@ public class EmployeeSkill implements Serializable
 
 	public void setRater(String rateeID)
 	{
-		this.rateeID = rateeID;
+		this.raterID = rateeID;
 	}
-	public void setRatingDate(Date ratingDate)
+	public void setRatedDate(Date ratingDate)
 	{
-		this.ratingDate = ratingDate;
+		this.ratedDate = ratingDate;
 	}
 	public void setStatus(short status)
 	{
 		this.status = status;
 	}
-	public void setCapabilityID(short capabilityID)
+	public void setCreatedDate(Date createdDate)
+	{
+		this.createdDate = createdDate;
+	}
+	public void setComment(String comment)
+	{
+		this.comment = comment;
+	}
+	public void setCoachingAvailability(String coachingAvailability)
+	{
+		this.coachingAvailability = coachingAvailability;
+	}
+	public void setCapability(short[] capabilityID)
 	{
 		this.capabilityID = capabilityID;
 	}
-	public void setRating(short rating)
+	public void setRating(short[] rating)
 	{
 		this.rating = rating;
 	}

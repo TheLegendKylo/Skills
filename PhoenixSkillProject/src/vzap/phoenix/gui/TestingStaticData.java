@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -18,6 +19,7 @@ import javax.swing.table.TableModel;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
+import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Level;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClient;
@@ -40,6 +42,7 @@ public class TestingStaticData extends JPanel implements ActionListener
 	private JButton btnCaplevel;
 
 	private ArrayList<Skill> skillList;
+	private Vector<Hobby> hobbyList;
 	private ArrayList<Level> levelList;
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<CapabilityRating> capabilityLevelList;
@@ -123,6 +126,29 @@ public class TestingStaticData extends JPanel implements ActionListener
 	            
 	    	   	tableRow[i][0]=skillList.get(i).getSkillId();
 	    	   	tableRow[i][1]=skillList.get(i).getSkillDescription();
+	        }
+		    staticModel = new DefaultTableModel(tableRow,tableHeader);
+	       	staticDataTable = new JTable(staticModel);
+//	       	staticDataTable.repaint();
+			scrollPane = new JScrollPane(staticDataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setMaximumSize(new Dimension(32767, 10000));
+			
+			scrollPane.setViewportView(staticDataTable);
+			centrePanel.add(scrollPane);
+		}
+		if(source.equals(btnHobbyList))
+		{
+			
+			lblTableName.setText("Hobby List");
+	        hobbyList = staticData.getHobbyList();
+			Object[][] tableRow = new Object[hobbyList.size()][2];
+	        String[] tableHeader = new String[]{"HobbyID","Description"};       	
+	        for (int i=0; i<hobbyList.size(); i++)
+	        {
+	            
+	    	   	tableRow[i][0]=hobbyList.get(i).getHobbyID();
+	    	   	tableRow[i][1]=hobbyList.get(i).getHobbyDescription();
 	        }
 		    staticModel = new DefaultTableModel(tableRow,tableHeader);
 	       	staticDataTable = new JTable(staticModel);

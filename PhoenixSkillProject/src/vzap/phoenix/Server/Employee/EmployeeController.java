@@ -41,8 +41,8 @@ public class EmployeeController
 			new CapabilityLevelDAO();
 			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
 
-//			empSkillDAO = new EmployeeSkillDAO();
-//			empSkillList = empSkillDAO.getEmpSkillList();
+			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+			empSkillList = empSkillDAO.getEmpSkillList();
 		} else {
 			errorMsg = employeeDAO.getErrorMsg();
 		}
@@ -71,6 +71,20 @@ public class EmployeeController
 		}
 		System.out.println("Employee Update Failed");
 		return false;
+	}
+	public ArrayList<Employee> searchEmployee(String searchCriteria)
+	{
+		ArrayList<Employee> empSearchResultList = employeeDAO.searchEmployee(searchCriteria);
+		return empSearchResultList;
+	}
+	public int addEmployeeSkill(EmployeeSkill addEmployeeSkill)
+	{
+		int responseCode = empSkillDAO.insertEmployeeSkill(addEmployeeSkill);
+		if(responseCode==0)// employeeSkill record not added successfully
+		{
+			this.errorMsg = empSkillDAO.getErrorMsg();
+		}
+		return responseCode;
 	}
 	public Employee getLogonEmployee()
 	{
