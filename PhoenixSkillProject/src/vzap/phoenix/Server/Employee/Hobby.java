@@ -1,6 +1,8 @@
 package vzap.phoenix.Server.Employee;
 
-public class Hobby
+import java.io.Serializable;
+
+public class Hobby implements Serializable
 {
 	private short hobbyID=0;
 	private String hobbyDescription;
