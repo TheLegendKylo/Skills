@@ -333,6 +333,31 @@ System.out.println("OutMessage: "+outMessage);
 		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
 		return employeeList;
 	}
+	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
+	{
+		outMessage = "addEmployeeSkill";
+		pw.println(outMessage);
+		pw.flush();
+		try
+		{
+			oos.writeObject(addEmployeeSkill);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean addSuccessfull = false;
+		try
+		{
+			addSuccessfull = ois.readBoolean();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return addSuccessfull;
+	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
 		outMessage = "nominateRater";

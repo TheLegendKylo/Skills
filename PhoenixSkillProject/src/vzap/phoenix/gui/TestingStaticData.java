@@ -70,20 +70,6 @@ public class TestingStaticData extends JPanel implements ActionListener
 		btnSkillList.addActionListener(this);
 		southPanel.add(btnSkillList);
 
-//		lblTableName.setText("Skill List");
-//        skillList = staticData.getSkillList();
-//		Object[][] tableRow = new Object[skillList.size()][2];
-//        String[] tableHeader = new String[]{"SkillID","Description"};       	
-//        for (int i=0; i<skillList.size(); i++)
-//        {
-//            
-//    	   	tableRow[i][0]=skillList.get(i).getSkillId();
-//    	   	tableRow[i][1]=skillList.get(i).getSkillDescription();
-//        }
-//	    staticModel = new DefaultTableModel(tableRow,tableHeader);
-//       	staticDataTable = new JTable(staticModel);
-//       	staticDataTable.repaint();
-		
 		btnHobbyList = new JButton("Hobby List");
 		btnHobbyList.addActionListener(this);
 		southPanel.add(btnHobbyList);
@@ -113,6 +99,12 @@ public class TestingStaticData extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		// TODO Auto-generated method stub
+		if(centrePanel.getComponentCount()>0)
+		{
+			centrePanel.removeAll();
+			this.validate();
+			this.repaint();
+		}
 		Object source = e.getSource();
 		if(source.equals(btnSkillList))
 		{
@@ -152,7 +144,6 @@ public class TestingStaticData extends JPanel implements ActionListener
 	        }
 		    staticModel = new DefaultTableModel(tableRow,tableHeader);
 	       	staticDataTable = new JTable(staticModel);
-//	       	staticDataTable.repaint();
 			scrollPane = new JScrollPane(staticDataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scrollPane.setMaximumSize(new Dimension(32767, 10000));
@@ -176,7 +167,6 @@ public class TestingStaticData extends JPanel implements ActionListener
 	        }
 		    staticModel = new DefaultTableModel(tableRow,tableHeader);
 	       	staticDataTable = new JTable(staticModel);
-//	       	staticDataTable.repaint();
 			scrollPane = new JScrollPane(staticDataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scrollPane.setMaximumSize(new Dimension(32767, 10000));
@@ -200,7 +190,6 @@ public class TestingStaticData extends JPanel implements ActionListener
 	        }
 		    staticModel = new DefaultTableModel(tableRow,tableHeader);
 	       	staticDataTable = new JTable(staticModel);
-//	       	staticDataTable.repaint();
 			scrollPane = new JScrollPane(staticDataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scrollPane.setMaximumSize(new Dimension(32767, 10000));
@@ -224,7 +213,6 @@ public class TestingStaticData extends JPanel implements ActionListener
 	        }
 		    staticModel = new DefaultTableModel(tableRow,tableHeader);
 	       	staticDataTable = new JTable(staticModel);
-//	       	staticDataTable.repaint();
 			scrollPane = new JScrollPane(staticDataTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			scrollPane.setMaximumSize(new Dimension(32767, 10000));
