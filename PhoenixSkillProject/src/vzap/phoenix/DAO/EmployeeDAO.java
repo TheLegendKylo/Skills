@@ -40,7 +40,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 					String surname = rs.getString("surname");
 					String firstName = rs.getString("firstName");
 					employee = new Employee(employeeID, surname, firstName);
-					String contactNo = rs.getString("cellNumber");
+					String contactNo = rs.getString("contact");
 					String email = rs.getString("email");
 					employee.setContactNo(contactNo);
 					employee.setEmail(email);

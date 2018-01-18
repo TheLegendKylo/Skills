@@ -17,7 +17,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.Popup;
 
+import vzap.phoenix.Server.Employee.Capability;
+import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.Skill;
+import vzap.phoenix.client.*;
 
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -45,35 +48,25 @@ public class SearchCriteria extends JPanel implements ActionListener
 	private JLabel searchbybemployeeLab;
 	private JTextField searchByEmployeeJTF;
 	private JButton empSearchBut;
+	private JLabel searchByHobbyLab;
+	private JTextField searchByHobbyJTF;
 	
+	private ArrayList<Capability> capabilityList;
+	private ArrayList<Employee> employeeList; 
 	
 	public SearchCriteria()
 	{
 		
 		tablePanel = new JPanel();
 		
-		capability = new String []{"Knowledge",
-				                   "Standard of Work",
-				                   "Autonomy",
-				                   "Coping with Complexity", 
-				                   "Perception of Context",
-				                   "Growing capability",
-				                   "Purposeful collaboration"};
+		EmpSkillClient empSkillClient = new EmpSkillClient();
+		empSkillClient.loginEmployee("A043410", "1234");
+		capabilityList = empSkillClient.getCapabilityList();
 		
-		empColumnNames = new String[]{"UserId","First Name","Surname","Alias"};
-		empData = new String[][]{ {"a043410","patsy","de kock","pat"},{"a01189","elizabeth","maiden","libby"},
-			{"c40989","gerald","hammond","gess"} };
-
 			
-		skillColumnNames = new String[]{"Skill","UserId","First Name","Surname","","","","","","",""};
-		int tabPos = 3; 
-	    for(int pos = 0; pos < capability.length; pos++)
-	    {
-	       tabPos++;
-	       skillColumnNames[tabPos] = capability[pos];
-	    }
-		skillData = new String[][]{ {"java","a043410","patsy","de kock","1","2","3","4","5","6","7"} ,
-		                        	{"java","c40989","gerald","hammond","1","2","3","4","5","6","7"} };
+		skillColumnNames = new String[]{"Skill","UserId","First Name","Surname","Average"};
+		skillData = new String[][]{ {"java","a043410","patsy","de kock","3.4"} ,
+		                        	{"java","c40989","gerald","hammond","2.6"} };
 
 		                        	
 		searchbybemployeeLab = new JLabel("Search by employee");
@@ -88,6 +81,11 @@ public class SearchCriteria extends JPanel implements ActionListener
 		
 		searchBySkillJTF = new JTextField();
 		searchBySkillJTF.setColumns(10);
+		
+		searchByHobbyLab = new JLabel("Search by hobby ");
+		
+		searchByHobbyJTF = new JTextField();
+		searchByHobbyJTF.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -97,13 +95,17 @@ public class SearchCriteria extends JPanel implements ActionListener
 							.addGap(54)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(searchbybemployeeLab)
-								.addComponent(searchBySkillLab))
+								.addComponent(searchBySkillLab)
+								.addComponent(searchByHobbyLab))
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(35)
-							.addComponent(empSearchBut))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(38)
+										.addComponent(empSearchBut))
+									.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(searchByHobbyJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(93)
 							.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 479, GroupLayout.PREFERRED_SIZE)))
@@ -113,19 +115,19 @@ public class SearchCriteria extends JPanel implements ActionListener
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(24)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(searchbybemployeeLab)
-								.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(searchBySkillLab)
-								.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(empSearchBut)
-							.addGap(26)))
-					.addGap(183)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchbybemployeeLab)
+						.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchBySkillLab)
+						.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(empSearchBut))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchByHobbyLab)
+						.addComponent(searchByHobbyJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(158)
 					.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 					.addGap(26))
 		);
@@ -150,7 +152,6 @@ public class SearchCriteria extends JPanel implements ActionListener
 			if ( (searchByEmployeeJTF.getText().isEmpty()) && (searchBySkillJTF.getText().isEmpty()))
 			{
 				JOptionPane.showMessageDialog(this,  "Please enter either NAME or SKILL before clicking GO button");
-				
 			}
 			else 
 			{
@@ -174,10 +175,27 @@ public class SearchCriteria extends JPanel implements ActionListener
 				{
 					if(! (searchByEmployeeJTF.getText().isEmpty() )) 
 					{
+						System.err.println("searchcriteria - employee " + searchByEmployeeJTF.getText());
+						EmpSkillClient empSkillClient = new EmpSkillClient();
+						employeeList = empSkillClient.searchEmployee(searchByEmployeeJTF.getText());
+						System.err.println("searchcriteria - employee size" + employeeList.size());						
+						
+						Object[][] empRow = new Object[employeeList.size()][4];
+				        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+				        for (int i=0; i<employeeList.size(); i++)
+				        {				            
+				    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
+				    	   	empRow[i][1]=employeeList.get(i).getFirstName();
+				    	   	empRow[i][1]=employeeList.get(i).getSurname();
+				    	   	empRow[i][1]=employeeList.get(i).getAlias();
+				    	   	
+				        }
+						
+						
 						tablePanel.removeAll();
 						tablePanel.validate();
 						tablePanel.repaint();
-						table = new JTable(empData,empColumnNames);
+						table = new JTable(empRow,empHeader);
 						scrollPane = new JScrollPane();
 						scrollPane.setViewportView(table);
 						tablePanel.add(scrollPane);
@@ -202,16 +220,14 @@ public class SearchCriteria extends JPanel implements ActionListener
 				}
 			}
 		}
-		
-		
+	}//end of action performed
+	public static void main(String[] args)
+	{
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(800, 600);
+		frame.getContentPane().add(new SearchCriteria());
+		frame.setVisible(true);
+
 	}
-//	public static void main(String[] args)
-//	{
-//		JFrame frame = new JFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setSize(800, 600);
-//		frame.getContentPane().add(new SearchCriteria());
-//		frame.setVisible(true);
-//	}
-	
 }
