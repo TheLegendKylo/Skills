@@ -66,9 +66,15 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		this.loggedInUser = loggedInUser;
 		this.emp = emp;
 		//esc = new EmpSkillClient();
-		 // = new Employee();
+		// = new Employee();
 		
-		System.out.println("MainGui emp check = " + emp.toString());
+		System.out.println("MainGui emp check = " + emp.getAlias());
+		System.out.println("MainGui emp check = " + emp.getFirstName());
+		System.out.println("MainGui emp check = " + emp.getSurname());
+		System.out.println("MainGui emp check = " + emp.getContactNo());
+		System.out.println("MainGui emp check = " + emp.getEmail());
+		System.out.println("MainGui emp check = " + emp.getEmployeeID());
+		
 		
 		vectHobby = new Vector<String>();
 		//add info from database below
