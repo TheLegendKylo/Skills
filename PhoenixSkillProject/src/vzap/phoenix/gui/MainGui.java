@@ -27,7 +27,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JPanel panelSkills;
 	private JLabel lblNewLabel;
 	private JLabel lblFirstName;
-	private JLabel lblNewLabel_1;
 	private JLabel lblSurname;
 	private JLabel lblContact;
 	private JLabel lblEmail;
@@ -44,9 +43,10 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JList list;
 	private String loggedInUser = null;
 	private Vector<String> vectHobby = null;
-	private String deleteHobbyValue = null;
 	private JButton btnLogoff;
 	private JButton btnUpdateEmployee;
+	private String deleteHobbyValue = null;
+	private String addHobbyValue = null;
 	/**
 	 * Create the panel.
 	 */
@@ -161,10 +161,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tabbedPane.addTab("SKILLS", null, panelSkills, null);
 		panelSkills.setLayout(null);
 		
-		lblNewLabel_1 = new JLabel("Skills");
-		lblNewLabel_1.setBounds(70, 161, 393, 169);
-		panelSkills.add(lblNewLabel_1);
-		
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(10, 711, 209, 25);
 		btnMainExit.addActionListener(this);
@@ -180,6 +176,48 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();	
+		
+		if(source == btnAddHobby)
+		{
+			tfAddHobby.grabFocus();
+			addHobbyValue = tfAddHobby.getText();
+			if(addHobbyValue.equals("") || addHobbyValue == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Hobby ?");
+				tfAddHobby.grabFocus();
+				return;
+			}
+			//if hobby populated
+			if(vectHobby.contains(addHobbyValue))
+			{
+				JOptionPane.showMessageDialog(this, "Oops That Hobby already exists, please try another");
+				tfAddHobby.grabFocus();
+				tfAddHobby.selectAll();
+				return; 
+			}
+			if(vectHobby.size() >= 5)
+			{
+				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
+				return;
+			}
+			//call database to insert new hobby if successful add it to the list.
+			//datatbase must happen here
+			vectHobby.addElement(addHobbyValue);
+						
+		}
+		if(source == btnDeleteHobby)
+		{
+			if(deleteHobbyValue.equals("") || deleteHobbyValue == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please select Your Hobby from the list to remove ?");
+				return;
+			}
+			//if hobby populated
+			//call database to delete existing hobby if successful remove it to the list.
+			//database must happen here
+			vectHobby.removeElement(deleteHobbyValue);
+			
+		}
 		if(source == btnMainExit)
 		{
 			 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Exit ?",
@@ -189,7 +227,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				 System.exit(0);
 			 }
 		}
-		
 		if(source == btnLogoff)
 		{
 			 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Log Off ?",
@@ -206,6 +243,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				this.basePanel.setVisible(true);
 			 }
 		}
+		list.updateUI();
 	}
 	@Override
 	public void valueChanged(ListSelectionEvent e)

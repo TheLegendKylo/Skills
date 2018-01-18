@@ -158,12 +158,13 @@ public class LoginPanel extends JPanel implements ActionListener
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
-				tf_UserID.setFocusable(true);
+				tf_UserID.grabFocus();
 				return;
 			}
 			if(password.equals("") || password == null)
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				passwordField.grabFocus();
 				return;
 			}
 			//we will check if all details are correct here and move forward.	
@@ -202,22 +203,25 @@ public class LoginPanel extends JPanel implements ActionListener
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
-				tf_UserID.setFocusable(true);
+				tf_UserID.grabFocus();
 				return;
 			}
 			if(password.equals("") || password == null)
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				passwordField.grabFocus();
 				return;
 			}
 			if(passRepeat.equals("") || passRepeat == null)
 			{
-				JOptionPane.showMessageDialog(this, "Please capture Your Repeat Password ?");
+				JOptionPane.showMessageDialog(this, "Please capture Your confirm Password ?");
+				passwordFieldRepeat.grabFocus();
 				return;
 			}
 			if(!(passRepeat.equals(password)))
 			{
 				JOptionPane.showMessageDialog(this, "Your Password and Repeat Password must Match ?");
+				passwordField.grabFocus();
 				return;
 			}
 			//check if user name exists and go to the next screen where they will capture their full profile
