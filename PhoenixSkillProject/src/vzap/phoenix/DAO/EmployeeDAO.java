@@ -40,10 +40,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 					String surname = rs.getString("surname");
 					String firstName = rs.getString("firstName");
 					employee = new Employee(employeeID, surname, firstName);
-<<<<<<< HEAD
 					String alias = rs.getString("alias");
-=======
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 					String contactNo = rs.getString("contact");
 					String email = rs.getString("email");
 					employee.setContactNo(contactNo);
