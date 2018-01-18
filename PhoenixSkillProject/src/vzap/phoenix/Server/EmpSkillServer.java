@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vzap.phoenix.Server.Employee.*;
 
@@ -71,6 +72,7 @@ public class EmpSkillServer
 		private Thread thread = null;
 		
 		private ArrayList<Skill> skillList = null;
+		private Vector<Hobby> hobbyList = null;
 		private ArrayList<Level> levelList = null;
 		private ArrayList<EmployeeSkill> empSkillList = null;
 		private ArrayList<Capability> capabilityList = null;
@@ -125,6 +127,11 @@ public class EmpSkillServer
 						case "getSkillList":
 						{
 							this.getSkillList();
+							break;
+						}
+						case "getHobbyList":
+						{
+							this.getHobbyList();
 							break;
 						}
 						case "getLevelList":
@@ -212,6 +219,19 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(skillList);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void getHobbyList()
+		{
+			hobbyList = EmployeeController.getHobbyList();
+			System.out.println("Number of Hobbies: "+hobbyList.size());
+			try
+			{
+				oos.writeObject(hobbyList);
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block

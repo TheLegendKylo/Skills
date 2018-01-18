@@ -15,9 +15,25 @@ public class GuiControl extends JFrame
 	public GuiControl()
 	{
 		this.setTitle("Skills Application");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(1105,970);
-		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setSize(1200,770);
+		//this.setResizable(false);
+		this.addWindowListener(new java.awt.event.WindowAdapter() 
+		{
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) 
+		    {
+		        if (JOptionPane.showConfirmDialog
+		        	(null, 
+		            "Do you really want to exit the program ?", "Skills", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+		        {
+		        	System.exit(0);
+		        }
+		    }
+		});
+		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);

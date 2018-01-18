@@ -11,9 +11,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
+import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
@@ -21,6 +23,7 @@ import vzap.phoenix.Server.Employee.Level;
 /*
  * EmpSkillClient used to create connection with server and facilitate all communication with EmpSkillServer class
  */
+//*
 public class EmpSkillClient
 {
 	private Socket socket;
@@ -36,6 +39,7 @@ public class EmpSkillClient
 	
 	private Employee employee = null;
 	private ArrayList<Skill> skillList = null;
+	private Vector<Hobby> hobbyList = null;
 	private ArrayList<Level> levelList = null;
 	private ArrayList<EmployeeSkill> empSkillList = null;
 	private ArrayList<Capability> capabilityList = null;
@@ -141,6 +145,26 @@ System.out.println("OutMessage: "+outMessage);
 		}
 		System.out.println("Client: Number of Skills: "+skillList.size());
 		return skillList;
+	}
+	/*
+	 * Should be called as soon as login is successful
+	 * Will return Vector of all Hobbies on the system
+	 */
+	public Vector<Hobby> getHobbyList()
+	{
+		outMessage = "getHobbyList";
+		pw.println(outMessage);
+		pw.flush();
+		try
+		{
+			hobbyList = (Vector<Hobby>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of Skills: "+hobbyList.size());
+		return hobbyList;
 	}
 	/*
 	 * Should be called as soon as login is successful
@@ -278,6 +302,36 @@ System.out.println("OutMessage: "+outMessage);
 			e.printStackTrace();
 		}
 		return updateSuccessfull;
+	}
+	/*
+	 * Searches the database for Employees that meet the criteria of parameter passed
+	 * Will return ArrayList of all Employees that meet the criteria of parameter passed
+	 * The ArrayList will contain objects of the class Employee
+	 */
+	public ArrayList<Employee> searchEmployee(String searchCriteria)
+	{
+		if(searchCriteria==null)
+		{
+			return null;
+		}
+		
+		outMessage = "searchEmployee";
+		pw.println(outMessage);
+		pw.flush();
+		outMessage = searchCriteria;
+		pw.println(outMessage);
+		pw.flush();
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		try
+		{
+			employeeList = (ArrayList<Employee>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
+		return employeeList;
 	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{

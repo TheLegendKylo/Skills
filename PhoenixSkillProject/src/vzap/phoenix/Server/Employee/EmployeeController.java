@@ -1,13 +1,15 @@
 package vzap.phoenix.Server.Employee;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vzap.phoenix.DAO.EmployeeDAO;
 import vzap.phoenix.DAO.EmployeeSkillDAO;
-import vzap.phoenix.DAO.SkillDAO;
+import vzap.phoenix.DAO.HobbyDAO;
 import vzap.phoenix.DAO.CapabilityDAO;
 import vzap.phoenix.DAO.CapabilityLevelDAO;
 import vzap.phoenix.DAO.LevelDAO;
+import vzap.phoenix.DAO.SkillDAO;
 
 public class EmployeeController
 {
@@ -15,6 +17,7 @@ public class EmployeeController
 	private EmployeeDAO employeeDAO;
 	private EmployeeSkillDAO empSkillDAO;
 	private String errorMsg;
+	static Vector<Hobby> hobbyList;
 	static ArrayList <Skill> skillList;
 	static ArrayList <Level> levelList;
 	static ArrayList <Capability> capabilityList;
@@ -29,6 +32,8 @@ public class EmployeeController
 		{
 			new SkillDAO();
 			skillList = SkillDAO.getSkillList();
+			new HobbyDAO();
+			hobbyList = HobbyDAO.getHobbyList();
 			new LevelDAO();
 			levelList = LevelDAO.getLevelList();
 			new CapabilityDAO();
@@ -77,12 +82,11 @@ public class EmployeeController
 	}
 	public static ArrayList<Skill> getSkillList()
 	{
-		if(skillList==null)
-		{
-			new SkillDAO();
-			SkillDAO.getSkillList();
-		}
 		return skillList;
+	}
+	public static Vector<Hobby> getHobbyList()
+	{
+		return hobbyList;
 	}
 	public static ArrayList<Level> getLevelList()
 	{
