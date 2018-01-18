@@ -11,6 +11,10 @@ import java.awt.Image;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.client.EmpSkillClient;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -40,11 +44,14 @@ public class LoginPanel extends JPanel implements ActionListener
 	private MainGui mainGui = null;
 	private boolean newUser = false;
 	private String loggedInUser = null;
+	private EmpSkillClient esc = null;
+	private Employee emp = null;
 	/**
 	 * Create the panel.
 	 */
 	public LoginPanel(JPanel basePanel) 
 	{
+		esc = new EmpSkillClient();
 		
 		this.basePanel = basePanel;
 		
@@ -158,25 +165,32 @@ public class LoginPanel extends JPanel implements ActionListener
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
-				tf_UserID.setFocusable(true);
+				tf_UserID.grabFocus();
 				return;
 			}
 			if(password.equals("") || password == null)
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				passwordField.grabFocus();
 				return;
 			}
 			//we will check if all details are correct here and move forward.	
 			
-			 // once successful bring up the screen
-			 mainGui = new MainGui(basePanel,newUser,loggedInUser);
-			 this.basePanel.removeAll();
-			 this.basePanel.validate();
-			 this.basePanel.repaint();
-			 this.basePanel.add(mainGui);
-			 this.basePanel.validate();
-			 this.basePanel.repaint();
-			 this.basePanel.setVisible(true);
+			esc.loginEmployee(loggedInUser,password);
+			//success
+			
+			emp = esc.getLogonEmployee();
+			System.out.println("Logon emp check = " + emp.toString());
+			// once successful bring up the screen
+			
+			mainGui = new MainGui(basePanel,newUser,loggedInUser,emp);
+			this.basePanel.removeAll();
+			this.basePanel.validate();
+			this.basePanel.repaint();
+			this.basePanel.add(mainGui);
+			this.basePanel.validate();
+			this.basePanel.repaint();
+			this.basePanel.setVisible(true);
 			 
 		}
 		if(source == btnExit)
@@ -202,22 +216,25 @@ public class LoginPanel extends JPanel implements ActionListener
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
-				tf_UserID.setFocusable(true);
+				tf_UserID.grabFocus();
 				return;
 			}
 			if(password.equals("") || password == null)
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your Password ?");
+				passwordField.grabFocus();
 				return;
 			}
 			if(passRepeat.equals("") || passRepeat == null)
 			{
-				JOptionPane.showMessageDialog(this, "Please capture Your Repeat Password ?");
+				JOptionPane.showMessageDialog(this, "Please capture Your confirm Password ?");
+				passwordFieldRepeat.grabFocus();
 				return;
 			}
 			if(!(passRepeat.equals(password)))
 			{
 				JOptionPane.showMessageDialog(this, "Your Password and Repeat Password must Match ?");
+				passwordField.grabFocus();
 				return;
 			}
 			//check if user name exists and go to the next screen where they will capture their full profile
@@ -225,7 +242,7 @@ public class LoginPanel extends JPanel implements ActionListener
 			
 			//once successful
 			newUser=true;
-			mainGui = new MainGui(basePanel,newUser,loggedInUser);
+			mainGui = new MainGui(basePanel,newUser,loggedInUser,emp);
 			this.basePanel.removeAll();
 			this.basePanel.validate();
 			this.basePanel.repaint();

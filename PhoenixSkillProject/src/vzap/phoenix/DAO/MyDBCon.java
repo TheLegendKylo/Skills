@@ -48,6 +48,7 @@ public class MyDBCon
 	{
 		try
 		{
+			System.out.println(">>> " + driver);
 			Class.forName(driver);
 			dbCon = DriverManager.getConnection(url, user, passwd);
 			System.out.println("Connected to DB");
