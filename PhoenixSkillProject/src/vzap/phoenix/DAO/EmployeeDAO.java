@@ -40,10 +40,12 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 					String surname = rs.getString("surname");
 					String firstName = rs.getString("firstName");
 					employee = new Employee(employeeID, surname, firstName);
-					String contactNo = rs.getString("cellNumber");
+					String alias = rs.getString("alias");
+					String contactNo = rs.getString("contact");
 					String email = rs.getString("email");
 					employee.setContactNo(contactNo);
 					employee.setEmail(email);
+					employee.setAlias(alias);
 				} else {
 					errorMsg = "Invalid password entered";
 				}
@@ -57,6 +59,32 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return employee;
 	}
+//	public void getEmpHobby(short empSkillID, int idx)
+//	{
+//		PreparedStatement ps = null;
+//		try
+//		{
+//			ps = dbCon.prepareStatement("select * employeeSkillsRating where empSkillID=? order by capabilityId");
+//			ps.setShort(1, empSkillID);
+//			ResultSet rs = ps.executeQuery();
+//			short capabilityID[] = new short[rs.getFetchSize()];
+//			short rating[] = new short[rs.getFetchSize()];
+//			while(rs.next())
+//			{
+//				int j=0;
+//				capabilityID[j] = rs.getShort("capabilityId");
+//				rating[j] = rs.getShort("rating");
+//				j++;
+//			}
+//			empSkillList.get(idx).setCapability(capabilityID);
+//			empSkillList.get(idx).setCapability(rating);
+//		} catch (SQLException e)
+//		{
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//		this.errorMsg = "Employee Skill: Select statement failed for EmpSkillID: "+empSkillID;
+//		}
+//	}
 
 
 	public String getErrorMsg()
@@ -90,7 +118,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		try 
 		{
-			ps = dbCon.prepareStatement("update users set firstName = ?,Surname = ?,alias = ?,email = ?,cellNumber = ?"
+			ps = dbCon.prepareStatement("update users set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
 						+ "where employeeID = ?");
 			
 			ps.setString(1, employee.getFirstName());
