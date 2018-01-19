@@ -10,6 +10,7 @@ public class Employee implements Serializable
 	private String cellNumber = null;
 	private String email = null;
 	private String alias = null;
+	private short hobbyID[];
 	
 	public Employee(String employeeID, String surname, String firstName)
 	{
@@ -65,5 +66,12 @@ public class Employee implements Serializable
 	{
 		this.alias = alias;
 	}
-
+	public short[] getEmpHobbies()
+	{
+		return this.hobbyID;
+	}
+	public void setEmpHobbies(short[] hobbyID)
+	{
+		this.hobbyID = hobbyID;
+	}
 }

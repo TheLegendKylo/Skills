@@ -12,14 +12,14 @@ public class EmpSkillClientController
 		loginSession = new EmpSkillClient();
 		employeeID = "a159842";
 		password = "123";
-		String returnMessage = loginSession.loginEmployee(employeeID, password);
+		short returnCode = loginSession.loginEmployee(employeeID, password);
 		
-		if(returnMessage.equals("Login Successfull"))
+		if(returnCode==0)//.equals("Login Successfull"))
 		{
 			employee = loginSession.getLogonEmployee();
 			System.out.println(employee.getSurname());
 		} else {
-			System.out.println(returnMessage);
+			System.out.println(loginSession.getErrorMsg());
 		}
 	}
 	public Employee getEmployee()
