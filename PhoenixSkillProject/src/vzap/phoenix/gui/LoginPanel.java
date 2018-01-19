@@ -14,6 +14,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.client.EmpSkillClient;
+import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -44,14 +45,14 @@ public class LoginPanel extends JPanel implements ActionListener
 	private MainGui mainGui = null;
 	private boolean newUser = false;
 	private String loggedInUser = null;
-	private EmpSkillClient esc = null;
-	private Employee emp = null;
+	private EmpSkillClientController clientControl = null;
+	private Employee emp = null, newEmp = null;
 	/**
 	 * Create the panel.
 	 */
-	public LoginPanel(JPanel basePanel) 
+	public LoginPanel(JPanel basePanel, EmpSkillClientController clientControl) 
 	{
-		//esc = new EmpSkillClient();
+		this.clientControl = clientControl;
 		
 		this.basePanel = basePanel;
 		
@@ -99,7 +100,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		add(passwordField);
 		add(tf_UserID);
 		
-		lblRepeatPassword = new JLabel("Repeat Password :");
+		lblRepeatPassword = new JLabel("Confrim Password :");
 		lblRepeatPassword.setForeground(Color.MAGENTA);
 		lblRepeatPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblRepeatPassword.setBounds(350, 435, 197, 54);
@@ -175,31 +176,54 @@ public class LoginPanel extends JPanel implements ActionListener
 			}
 			//we will check if all details are correct here and move forward.	
 			
-			//esc.loginEmployee(loggedInUser,password);
-			//success
+			short loginCode = clientControl.loginEmployee(loggedInUser,password);  
+			if(loginCode == 0)
+			{
+				emp = clientControl.getLogonEmployee();
+				System.out.println("Hel get logon emp");
+				if(emp!=null)
+				{
+					mainGui = new MainGui(basePanel,newUser,emp,clientControl);
+					this.basePanel.removeAll();
+					this.basePanel.validate();
+					this.basePanel.repaint();
+					this.basePanel.add(mainGui);
+					this.basePanel.validate();
+					this.basePanel.repaint();
+					this.basePanel.setVisible(true);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this, "No Employee found!");
+					return;
+				}
+			}
+			if(loginCode == 1)
+			{
+				JOptionPane.showMessageDialog(this, "User Name not found you might want to register?");
+				btnSignUp.doClick();
+				return;
+			}
+			if(loginCode == 2)
+			{
+				JOptionPane.showMessageDialog(this, "Password Invalid!");
+				passwordField.grabFocus();
+				return;
+			}
 			
-			emp = null;//esc.getLogonEmployee();
-			// once successful bring up the screen
-			
-			mainGui = new MainGui(basePanel,newUser,emp);
-			this.basePanel.removeAll();
-			this.basePanel.validate();
-			this.basePanel.repaint();
-			this.basePanel.add(mainGui);
-			this.basePanel.validate();
-			this.basePanel.repaint();
-			this.basePanel.setVisible(true);
-			 
 		}
+		
 		if(source == btnExit)
 		{
 			 int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Exit ?",
 					 				"Login Exit",JOptionPane.OK_CANCEL_OPTION);
 			 if(JOptionPane.OK_OPTION == choice)
 			 {
+				 clientControl.closeConnections();
 				 System.exit(0);
 			 }
 		}
+		
 		if(source == btnSignUp)
 		{
 			btnConfirmRegistration.setVisible(true);
@@ -225,22 +249,25 @@ public class LoginPanel extends JPanel implements ActionListener
 			}
 			if(passRepeat.equals("") || passRepeat == null)
 			{
-				JOptionPane.showMessageDialog(this, "Please capture Your confirm Password ?");
+				JOptionPane.showMessageDialog(this, "Please capture confirm Password ?");
 				passwordFieldRepeat.grabFocus();
 				return;
 			}
 			if(!(passRepeat.equals(password)))
 			{
-				JOptionPane.showMessageDialog(this, "Your Password and Repeat Password must Match ?");
+				JOptionPane.showMessageDialog(this, "Your Passwords must Match!");
 				passwordField.grabFocus();
 				return;
 			}
 			//check if user name exists and go to the next screen where they will capture their full profile
 			//send new user command to screen.
-			
+			newEmp = new Employee();
+			newEmp.setEmployeeID(loggedInUser);
+			newEmp.setPassword(password);
+		
 			//once successful
 			newUser=true;
-			mainGui = new MainGui(basePanel,newUser,emp);
+			mainGui = new MainGui(basePanel,newUser,newEmp,clientControl);
 			this.basePanel.removeAll();
 			this.basePanel.validate();
 			this.basePanel.repaint();

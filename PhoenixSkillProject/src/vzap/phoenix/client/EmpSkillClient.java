@@ -1,6 +1,8 @@
 package vzap.phoenix.client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,9 +32,11 @@ public class EmpSkillClient
 	private BufferedReader br;
 	private FileOutputStream fos;
 	private ObjectOutputStream oos;
+	private DataOutputStream dos;
 	private PrintWriter pw;
 	private FileInputStream fis;
 	private ObjectInputStream ois;
+	private DataInputStream dis;
 	
 	private String outMessage = null;
 	private String inMessage = null;
@@ -60,6 +64,8 @@ public class EmpSkillClient
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
+				dos = new DataOutputStream(socket.getOutputStream());
+				dis = new DataInputStream(socket.getInputStream());
 	
 			} catch (UnknownHostException e)
 			{
@@ -71,7 +77,6 @@ public class EmpSkillClient
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	/*
 	 * loginEmployee method will accept String employeeId and String password
@@ -87,24 +92,35 @@ public class EmpSkillClient
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = employeeID;
-System.out.println("OutMessage: "+outMessage);
+System.out.println("Login: OutMessage: "+outMessage);
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = password;
 		pw.println(outMessage);
 		pw.flush();
-		short errorCode=0;
+System.out.println("Login: Waiting to read");
 		try
 		{
-			errorCode = ois.readShort();
-			System.out.println("EmpSkillClient.inMessage: "+inMessage);
-		} catch (IOException e)
+			inMessage = br.readLine();
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		short errorCode=0;
+System.out.println("Login Read errorMsg: "+inMessage);
+		try
+		{
+			System.out.println("Login Read above readErrorCode: "+inMessage);
+			errorCode = (Short)ois.readObject();
+//			errorCode = dis.readShort();
+			System.out.println("Login Read errorCode: "+errorCode);
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return errorCode;
-		
 	}
 	/*
 	 * returns object of the logged-in employee (Class Employee)

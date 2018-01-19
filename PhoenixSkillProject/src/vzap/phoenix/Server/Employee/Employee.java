@@ -10,6 +10,7 @@ public class Employee implements Serializable
 	private String cellNumber = null;
 	private String email = null;
 	private String alias = null;
+	private String password = null;
 	private short hobbyID[];
 	
 	public Employee(String employeeID, String surname, String firstName)
@@ -17,6 +18,14 @@ public class Employee implements Serializable
 		this.employeeID = employeeID;
 		this.surname = surname;
 		this.firstName = firstName;
+	}
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+	public Employee() //for creating a new employee at Login
+	{
+		
 	}
 	public String getEmployeeID()
 	{

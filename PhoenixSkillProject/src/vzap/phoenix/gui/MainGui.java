@@ -5,6 +5,7 @@ import javax.swing.JTabbedPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -15,7 +16,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.client.EmpSkillClient;
+import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -53,34 +56,27 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private String addHobbyValue = null;
 	private JLabel lblAlias;
 	private JTextField tfAlias;
-	private EmpSkillClient esc = null;
+	private EmpSkillClientController clientControl = null;
 	private Employee emp = null;
 	/**
 	 * Create the panel.
 	 */
-	public MainGui(JPanel basePanel, boolean newUser,Employee emp)
+	public MainGui(JPanel basePanel, boolean newUser,Employee emp,EmpSkillClientController clientControl)
 	{
 		//My added code
 		this.basePanel = basePanel;
 		this.newUser = newUser;
 		this.emp = emp;
-	//	loggedInUser = emp.getEmployeeID();
-//		
-//		System.out.println("MainGui emp check = " + emp.getAlias());
-//		System.out.println("MainGui emp check = " + emp.getFirstName());
-//		System.out.println("MainGui emp check = " + emp.getSurname());
-//		System.out.println("MainGui emp check = " + emp.getContactNo());
-//		System.out.println("MainGui emp check = " + emp.getEmail());
-//		System.out.println("MainGui emp check = " + emp.getEmployeeID());
+		loggedInUser = emp.getEmployeeID();
+		this.clientControl = clientControl;
 		
-		
+		//adding the existing hobbies for a user
+		System.out.println("Size " + clientControl.getHobbyList().size() );
 		vectHobby = new Vector<String>();
-		//add info from database below
-		vectHobby.add("Running");
-		vectHobby.add("Smoking");
-		vectHobby.add("Drinking");
-		vectHobby.add("Pool");
-		vectHobby.add("Killing");
+		for (int i = 0; i < clientControl.getHobbyList().size(); i++)
+		{
+			vectHobby.addElement(clientControl.getHobbyList().get(i).getHobbyDescription());
+		}
 		//end my added code
 		
 		setLayout(null);
@@ -196,6 +192,12 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		btnLogoff.setBounds(859, 713, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
+		//add info on employee here;
+		tfAlias.setText(emp.getAlias());
+		tfName.setText(emp.getFirstName());
+		tfSurname.setText(emp.getSurname());
+		tfContact.setText(emp.getContactNo());
+		tfEmail.setText(emp.getEmail());		
 
 	}
 	@Override
@@ -257,6 +259,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					 				"Exit",JOptionPane.OK_CANCEL_OPTION);
 			 if(JOptionPane.OK_OPTION == choice)
 			 {
+				 clientControl.closeConnections();
 				 System.exit(0);
 			 }
 		}
@@ -266,7 +269,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					 				"Log Off ",JOptionPane.OK_CANCEL_OPTION);
 			 if(JOptionPane.OK_OPTION == choice)
 			 {
-				LoginPanel logP = new LoginPanel(basePanel);
+				LoginPanel logP = new LoginPanel(basePanel,clientControl);
 				this.basePanel.removeAll();
 				this.basePanel.validate();
 				this.basePanel.repaint();

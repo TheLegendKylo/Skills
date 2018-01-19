@@ -1,6 +1,8 @@
 package vzap.phoenix.Server;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,9 +62,11 @@ public class EmpSkillServer
 		private BufferedReader br;
 		private FileOutputStream fos;
 		private ObjectOutputStream oos;
+		private DataOutputStream dos;
 		private PrintWriter pw;
 		private FileInputStream fis;
 		private ObjectInputStream ois;
+		private DataInputStream dis;
 		
 		private String outMessage = null;
 		private String inMessage = null;
@@ -88,6 +92,9 @@ public class EmpSkillServer
 				br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				oos = new ObjectOutputStream(clientSocket.getOutputStream());
 				ois = new ObjectInputStream(clientSocket.getInputStream());
+				dos = new DataOutputStream(clientSocket.getOutputStream());
+				dis = new DataInputStream(clientSocket.getInputStream());
+				
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -208,9 +215,9 @@ public class EmpSkillServer
 			try
 			{
 				employeeID = br.readLine();
-				System.out.println(employee);
+				System.out.println("Server: read EmployeeID: "+employeeID);
 				password = br.readLine();
-				System.out.println(password);
+				System.out.println("Server: read password: "+password);
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -219,9 +226,19 @@ public class EmpSkillServer
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
 			System.out.println("Employee login errorCode: "+empControl.getErrorCode());
+			outMessage = empControl.getErrorMsg();
+			System.out.println("Employee login writing errorMsg: "+outMessage);
+			pw.println(outMessage);
+			pw.flush();
 			try
 			{
-				oos.writeShort(empControl.getErrorCode());
+				short errorCode = empControl.getErrorCode();
+				System.out.println("Employee login writing errorCode: "+errorCode);
+				oos.writeObject(new Short(errorCode));
+//				dos.writeShort(1234);//errorCode);
+				System.out.println("Employee login AFTER writing errorCode: "+errorCode);
+				
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
