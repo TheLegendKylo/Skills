@@ -9,6 +9,8 @@ import java.util.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,7 +31,7 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-public class SearchCriteria extends JPanel implements ActionListener
+public class SearchCriteria extends JPanel implements ActionListener, KeyListener
 {
 	private JPanel tablePanel;
 
@@ -53,14 +55,16 @@ public class SearchCriteria extends JPanel implements ActionListener
 	
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
+	EmpSkillClient empSkillClient;
+	private JButton clearBut;
 	
 	public SearchCriteria()
 	{
 		
 		tablePanel = new JPanel();
 		
-		EmpSkillClient empSkillClient = new EmpSkillClient();
-		empSkillClient.loginEmployee("A043410", "1234");
+		empSkillClient = new EmpSkillClient();
+		empSkillClient.loginEmployee("A043410","1234");
 		capabilityList = empSkillClient.getCapabilityList();
 		
 			
@@ -70,22 +74,26 @@ public class SearchCriteria extends JPanel implements ActionListener
 
 		                        	
 		searchbybemployeeLab = new JLabel("Search by employee");
-		
 		searchByEmployeeJTF = new JTextField();
 		searchByEmployeeJTF.setColumns(10);
+		searchByEmployeeJTF.addKeyListener(this);
 		
 		empSearchBut = new JButton("GO");
 		empSearchBut.addActionListener(this);
 		
 		searchBySkillLab = new JLabel("Search by skill");
-		
 		searchBySkillJTF = new JTextField();
 		searchBySkillJTF.setColumns(10);
+		searchBySkillJTF.addKeyListener(this);
 		
 		searchByHobbyLab = new JLabel("Search by hobby ");
-		
 		searchByHobbyJTF = new JTextField();
 		searchByHobbyJTF.setColumns(10);
+		searchByHobbyJTF.addKeyListener(this);
+		
+		clearBut = new JButton("CLEAR");
+		clearBut.addActionListener(this);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -99,12 +107,13 @@ public class SearchCriteria extends JPanel implements ActionListener
 								.addComponent(searchByHobbyLab))
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(38)
-										.addComponent(empSearchBut))
-									.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(38)
+									.addComponent(empSearchBut)
+									.addGap(38)
+									.addComponent(clearBut))
+								.addComponent(searchByEmployeeJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(searchByHobbyJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(93)
@@ -122,7 +131,8 @@ public class SearchCriteria extends JPanel implements ActionListener
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(searchBySkillLab)
 						.addComponent(searchBySkillJTF, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(empSearchBut))
+						.addComponent(empSearchBut)
+						.addComponent(clearBut))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(searchByHobbyLab)
@@ -147,76 +157,85 @@ public class SearchCriteria extends JPanel implements ActionListener
 	{
 		Object source = ae.getSource();
 		
+		if(source == clearBut)
+		{
+			searchBySkillJTF.setEditable(true);
+			searchByHobbyJTF.setEditable(true);
+			searchByEmployeeJTF.setEditable(true);
+			
+			searchByEmployeeJTF.setText("");
+			searchBySkillJTF.setText("");
+			searchByHobbyJTF.setText("");
+
+			tablePanel.removeAll();
+			tablePanel.validate();
+			tablePanel.repaint();
+			table = new JTable();
+			scrollPane = new JScrollPane();
+			scrollPane.setViewportView(table);
+			tablePanel.add(scrollPane);
+			tablePanel.validate();
+			tablePanel.repaint();
+		}
+		
 		if (source == empSearchBut)
 		{
-			if ( (searchByEmployeeJTF.getText().isEmpty()) && (searchBySkillJTF.getText().isEmpty()))
+			if(! (searchByEmployeeJTF.getText().isEmpty() )) 
 			{
-				JOptionPane.showMessageDialog(this,  "Please enter either NAME or SKILL before clicking GO button");
+				System.out.println("searchcriteria - employee " + searchByEmployeeJTF.getText());
+				employeeList = empSkillClient.searchEmployee(searchByEmployeeJTF.getText());
+				System.out.println("searchcriteria - employee size"); // + employeeList.size());						
+				
+				Object[][] empRow = new Object[employeeList.size()][4];
+		        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+		        for (int i=0; i<employeeList.size(); i++)
+		        {				            
+		    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
+		    	   	empRow[i][1]=employeeList.get(i).getFirstName();
+		    	   	empRow[i][2]=employeeList.get(i).getSurname();
+		    	   	empRow[i][3]=employeeList.get(i).getAlias();
+		    	   	
+		        }
+				
+				
+				tablePanel.removeAll();
+				tablePanel.validate();
+				tablePanel.repaint();
+				table = new JTable(empRow,empHeader);
+				scrollPane = new JScrollPane();
+				scrollPane.setViewportView(table);
+				tablePanel.add(scrollPane);
+				tablePanel.validate();
+				tablePanel.repaint();
 			}
-			else 
+			else
 			{
-				if ( (!searchByEmployeeJTF.getText().isEmpty()) && (!searchBySkillJTF.getText().isEmpty()))
+				if(! (searchByHobbyJTF.getText().isEmpty()))
 				{
-					JOptionPane.showMessageDialog(this,  "Cannot search on both NAME and SKILL - choose one");
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
-					table = new JTable();
+//					table = new JTable(hobbyData,hobbyColumnNames);
 					scrollPane = new JScrollPane();
 					scrollPane.setViewportView(table);
 					tablePanel.add(scrollPane);
 					tablePanel.validate();
-					tablePanel.repaint();
-
-					searchByEmployeeJTF.setText("");
-					searchBySkillJTF.setText("");
+					tablePanel.repaint();	
 				}
 				else
 				{
-					if(! (searchByEmployeeJTF.getText().isEmpty() )) 
-					{
-						System.err.println("searchcriteria - employee " + searchByEmployeeJTF.getText());
-						EmpSkillClient empSkillClient = new EmpSkillClient();
-						employeeList = empSkillClient.searchEmployee(searchByEmployeeJTF.getText());
-						System.err.println("searchcriteria - employee size" + employeeList.size());						
-						
-						Object[][] empRow = new Object[employeeList.size()][4];
-				        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
-				        for (int i=0; i<employeeList.size(); i++)
-				        {				            
-				    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
-				    	   	empRow[i][1]=employeeList.get(i).getFirstName();
-				    	   	empRow[i][1]=employeeList.get(i).getSurname();
-				    	   	empRow[i][1]=employeeList.get(i).getAlias();
-				    	   	
-				        }
-						
-						
-						tablePanel.removeAll();
-						tablePanel.validate();
-						tablePanel.repaint();
-						table = new JTable(empRow,empHeader);
-						scrollPane = new JScrollPane();
-						scrollPane.setViewportView(table);
-						tablePanel.add(scrollPane);
-						tablePanel.validate();
-						tablePanel.repaint();
-					}
-					else
-					{
-						if(! (searchBySkillJTF.getText().isEmpty()))
-						{
-							tablePanel.removeAll();
-							tablePanel.validate();
-							tablePanel.repaint();
-							table = new JTable(skillData,skillColumnNames);
-							scrollPane = new JScrollPane();
-							scrollPane.setViewportView(table);
-							tablePanel.add(scrollPane);
-							tablePanel.validate();
-							tablePanel.repaint();	
-						}
-					}
+				if(! (searchBySkillJTF.getText().isEmpty()))
+				{
+					tablePanel.removeAll();
+					tablePanel.validate();
+					tablePanel.repaint();
+					table = new JTable(skillData,skillColumnNames);
+					scrollPane = new JScrollPane();
+					scrollPane.setViewportView(table);
+					tablePanel.add(scrollPane);
+					tablePanel.validate();
+					tablePanel.repaint();	
+				}
 				}
 			}
 		}
@@ -230,4 +249,44 @@ public class SearchCriteria extends JPanel implements ActionListener
 		frame.setVisible(true);
 
 	}
+
+	@Override
+	public void keyPressed(KeyEvent ae)
+	{
+		Object source = ae.getSource();
+		
+		if( source == searchByEmployeeJTF)
+		{
+			searchBySkillJTF.setEditable(false);
+			searchByHobbyJTF.setEditable(false);
+		}
+		
+		if( source == searchBySkillJTF)
+		{
+			searchByEmployeeJTF.setEditable(false);
+			searchByHobbyJTF.setEditable(false);
+		}
+		
+		if( source == searchByHobbyJTF)
+		{
+			searchByEmployeeJTF.setEditable(false);
+			searchBySkillJTF.setEditable(false);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
+
