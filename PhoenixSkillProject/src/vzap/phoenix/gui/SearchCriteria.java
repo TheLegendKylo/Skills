@@ -40,8 +40,8 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 	
 	String [] [] empData;
 	String [] empColumnNames;
-	String [] skillColumnNames;
-	String [] [] skillData;
+	String [] skillHeader;
+	String [] [] skillRows;
 	
 	String [] capability; 
 	
@@ -55,6 +55,7 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 	
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
+//	private ArrayList<Employee> employeeList; 
 	EmpSkillClient empSkillClient;
 	private JButton clearBut;
 	
@@ -65,12 +66,24 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 		
 		empSkillClient = new EmpSkillClient();
 		empSkillClient.loginEmployee("A043410","1234");
+		System.out.println("searchcriteria - back from loginEmployee ");
 		capabilityList = empSkillClient.getCapabilityList();
 		
-			
-		skillColumnNames = new String[]{"Skill","UserId","First Name","Surname","Average"};
-		skillData = new String[][]{ {"java","a043410","patsy","de kock","3.4"} ,
-		                        	{"java","c40989","gerald","hammond","2.6"} };
+        System.out.println("capability = " + capability[0]);
+		
+		
+        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+		String [] skillHeader = new String[]{"Skill","UserId","First Name","Surname","","","Average"};
+//		for(int pos = 0; pos<7; pos++)
+//		{
+//			skillHeader[pos] = capabilityList.get
+//		}
+//			
+
+		skillRows = new String[][]{ {"java","a043410","patsy","de kock","1","2"},
+									{"java","a043410","patsy","de Kock","2","1"} };
+//		                        	{"java","c40989","gerald","hammond","2.6"} };
+		                        	
 
 		                        	
 		searchbybemployeeLab = new JLabel("Search by employee");
@@ -202,6 +215,7 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 				tablePanel.validate();
 				tablePanel.repaint();
 				table = new JTable(empRow,empHeader);
+				table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
 				scrollPane = new JScrollPane();
 				scrollPane.setViewportView(table);
 				tablePanel.add(scrollPane);
@@ -212,6 +226,20 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 			{
 				if(! (searchByHobbyJTF.getText().isEmpty()))
 				{
+//					System.out.println("searchcriteria - hobbies " + searchByHobbyJTF.getText());
+//					employeeList = empSkillClient.searchEmpHobby(searchByHobbyJTF.getText());
+//					System.out.println("searchcriteria - hobbiesemployee size"); // + employeeList.size());						
+//					
+//					Object[][] empRow = new Object[employeeList.size()][4];
+//			        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+//			        for (int i=0; i<employeeList.size(); i++)
+//			        {				            
+//			    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
+//			    	   	empRow[i][1]=employeeList.get(i).getFirstName();
+//			    	   	empRow[i][2]=employeeList.get(i).getSurname();
+//			    	   	empRow[i][3]=employeeList.get(i).getAlias();
+//			    	   	
+//			        }
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
@@ -226,10 +254,24 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 				{
 				if(! (searchBySkillJTF.getText().isEmpty()))
 				{
+//					System.out.println("searchcriteria - skills .. emp " + searchBySkillJTF.getText());
+//					employeeList = empSkillClient.searchEmpHobby(searchByHobbyJTF.getText());
+//					System.out.println("searchcriteria - hobbiesemployee size"); // + employeeList.size());						
+//					
+//					Object[][] empRow = new Object[employeeList.size()][4];
+//			        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+//			        for (int i=0; i<employeeList.size(); i++)
+//			        {				            
+//			    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
+//			    	   	empRow[i][1]=employeeList.get(i).getFirstName();
+//			    	   	empRow[i][2]=employeeList.get(i).getSurname();
+//			    	   	empRow[i][3]=employeeList.get(i).getAlias();
+//			    	   	
+//			        }
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
-					table = new JTable(skillData,skillColumnNames);
+					table = new JTable(skillRows,skillHeader);
 					scrollPane = new JScrollPane();
 					scrollPane.setViewportView(table);
 					tablePanel.add(scrollPane);
