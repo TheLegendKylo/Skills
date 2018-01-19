@@ -16,6 +16,7 @@ public class EmployeeDAO
 	private ArrayList<Employee> empList;
 	private PreparedStatement ps;
 	private String errorMsg = null;
+	private short errorCode = 0;
 	
 	public EmployeeDAO()
 	{
@@ -24,9 +25,10 @@ public class EmployeeDAO
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
+		this.errorCode = 1; //Employee does not exist
 		try
 		{
-			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
+			ps = dbCon.prepareStatement("select password from Employee where employeeID = ?");
 System.out.println("What is the EmployeeID: "+employeeID);
 			ps.setString(1,employeeID);
 			ResultSet rs = ps.executeQuery();
@@ -37,18 +39,15 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				if(password.equals(rsPassword))
 				{
 					System.out.println("Validation passed, create OBJECT");
-					String surname = rs.getString("surname");
-					String firstName = rs.getString("firstName");
-					employee = new Employee(employeeID, surname, firstName);
-					String alias = rs.getString("alias");
-					String contactNo = rs.getString("contact");
-					String email = rs.getString("email");
-					employee.setContactNo(contactNo);
-					employee.setEmail(email);
-					employee.setAlias(alias);
+					employee = this.getEmployee(employeeID);
 				} else {
+					errorCode = 2; // Invalid password 
 					errorMsg = "Invalid password entered";
+					break;
 				}
+				this.getEmpHobby(employeeID);
+				this.errorCode = 0; //Employee found and password matched
+				
 			}
 		} catch (SQLException e)
 		{
@@ -59,34 +58,41 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return employee;
 	}
-//	public void getEmpHobby(short empSkillID, int idx)
-//	{
-//		PreparedStatement ps = null;
-//		try
-//		{
-//			ps = dbCon.prepareStatement("select * employeeSkillsRating where empSkillID=? order by capabilityId");
-//			ps.setShort(1, empSkillID);
-//			ResultSet rs = ps.executeQuery();
-//			short capabilityID[] = new short[rs.getFetchSize()];
-//			short rating[] = new short[rs.getFetchSize()];
-//			while(rs.next())
-//			{
-//				int j=0;
-//				capabilityID[j] = rs.getShort("capabilityId");
-//				rating[j] = rs.getShort("rating");
-//				j++;
-//			}
-//			empSkillList.get(idx).setCapability(capabilityID);
-//			empSkillList.get(idx).setCapability(rating);
-//		} catch (SQLException e)
-//		{
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//		this.errorMsg = "Employee Skill: Select statement failed for EmpSkillID: "+empSkillID;
-//		}
-//	}
-
-
+	public void getEmpHobby(String employeeID)
+	{
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("select * from employeeHobby where employeeId=?");
+			ps.setString(1, employeeID);
+			ResultSet rs = ps.executeQuery();
+			int resultCount = 0;
+			if (rs.last()) 
+			{
+				resultCount = rs.getRow();
+				  rs.beforeFirst(); 
+			}
+			System.out.println("Hobby result count: "+resultCount);
+			short hobbyID[] = new short[resultCount];
+			
+			while(rs.next())
+			{
+				int j=0;
+				hobbyID[j] = rs.getShort("hobbyId");
+				j++;
+			}
+			employee.setEmpHobbies(hobbyID);
+		} catch (SQLException e)
+		{
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		this.errorMsg = "Employee Hobby: Select statement failed for EmployeeHobby: "+employeeID;
+		}
+	}
+	public short getErrorCode()
+	{
+		return this.errorCode;
+	}
 	public String getErrorMsg()
 	{
 		return this.errorMsg;
@@ -110,6 +116,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			// TODO Auto-generated catch block
 			
 			e.printStackTrace();
+			this.errorMsg = "Employee : Insert statement failed for Employee: "+employee.getEmployeeID();
 			return false;
 		}
 		return true;
@@ -155,25 +162,64 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return true;
 	}
-	public ArrayList<Employee> searchEmployee(String employee)
+	public ArrayList<Employee> searchEmployee(String enteredQuery)
 	{
+		String employeeID = null;
 		try 
 		{
-			String enteredQuery = "";
 			String input = "%" + enteredQuery + "%";
 						
-			ps = dbCon.prepareStatement("select * from Employee where employeeID like ? or firstName like ? or surname like ? or alias like ?");
+			ps = dbCon.prepareStatement("select employeeID from Employee where employeeID like ? "
+					+ "or firstName like ? or surname like ? or alias like ?");
 
 			ps.setString(1, input);
 			ps.setString(2, input);
 			ps.setString(3, input);
-						
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				employeeID = rs.getString("employeeId");
+				empList.add(this.getEmployee(employeeID));
+			}
 		}
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
 		return empList;
+	}
+	public Employee getEmployee(String employeeID)
+	{
+		empList = new ArrayList<Employee>();
+		try
+		{
+			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
+System.out.println("Search: What is the EmployeeID: "+employeeID);
+			ps.setString(1,employeeID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				String surname = rs.getString("surname");
+				String firstName = rs.getString("firstName");
+				employee = new Employee(employeeID, surname, firstName);
+				String alias = rs.getString("alias");
+				String contactNo = rs.getString("contact");
+				String email = rs.getString("email");
+				employee.setContactNo(contactNo);
+				employee.setEmail(email);
+				employee.setAlias(alias);
+			}
+			this.getEmpHobby(employeeID);
+			this.errorCode = 0; //Employee found and password matched
+				
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			errorMsg = "Employee Get "+employeeID+" not found";
+
+		}
+		return employee;
 	}
 	
 }

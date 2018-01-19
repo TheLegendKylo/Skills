@@ -64,14 +64,14 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		this.basePanel = basePanel;
 		this.newUser = newUser;
 		this.emp = emp;
-		loggedInUser = emp.getEmployeeID();
-		
-		System.out.println("MainGui emp check = " + emp.getAlias());
-		System.out.println("MainGui emp check = " + emp.getFirstName());
-		System.out.println("MainGui emp check = " + emp.getSurname());
-		System.out.println("MainGui emp check = " + emp.getContactNo());
-		System.out.println("MainGui emp check = " + emp.getEmail());
-		System.out.println("MainGui emp check = " + emp.getEmployeeID());
+	//	loggedInUser = emp.getEmployeeID();
+//		
+//		System.out.println("MainGui emp check = " + emp.getAlias());
+//		System.out.println("MainGui emp check = " + emp.getFirstName());
+//		System.out.println("MainGui emp check = " + emp.getSurname());
+//		System.out.println("MainGui emp check = " + emp.getContactNo());
+//		System.out.println("MainGui emp check = " + emp.getEmail());
+//		System.out.println("MainGui emp check = " + emp.getEmployeeID());
 		
 		
 		vectHobby = new Vector<String>();
@@ -184,9 +184,9 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		panelProfile.add(tfAlias);
 		
 		panelSkills = new JPanel();
+		
 		tabbedPane.addTab("SKILLS", null, panelSkills, null);
 		panelSkills.setLayout(null);
-		
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(10, 711, 209, 25);
 		btnMainExit.addActionListener(this);

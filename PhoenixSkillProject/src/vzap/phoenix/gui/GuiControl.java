@@ -11,6 +11,8 @@ public class GuiControl extends JFrame
 	private LoginPanel logP;
 	private JPanel basePanel = null;
 	
+	
+	
 
 	public GuiControl()
 	{

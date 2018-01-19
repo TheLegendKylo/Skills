@@ -27,6 +27,7 @@ public class EmployeeSkillGUI extends JFrame implements ActionListener
 	private ArrayList<EmployeeSkill> empSkillList;
 	
 	private TestingStaticData staticDataPanel;
+	private TestingEmployeeSkill skillsPanel;
 
 	private EmployeeLogin loginPanel;
 	private JButton baseButton, submitButton;
@@ -60,14 +61,13 @@ public class EmployeeSkillGUI extends JFrame implements ActionListener
 		this.addWindowListener(mwl);
 		
 	}
-	public void loadStaticDataPanel()
+	public void loadPanel(JPanel loadPanel)
 	{
-		staticDataPanel = new TestingStaticData(loginSession);
 		this.validate();
 		this.repaint();
 		contentPanel.removeAll();
 		contentPanel.setLayout(new BorderLayout());
-		contentPanel.add(staticDataPanel);
+		contentPanel.add(loadPanel);
 		
 		this.validate();
 		this.repaint();
@@ -96,16 +96,20 @@ System.out.println("Into actionPerformed");
 					return;
 				} 
 				loginSession = new EmpSkillClient();
-				String returnMessage = loginSession.loginEmployee(employeeID, password);
-				System.out.println("returnMessage: "+returnMessage);
+				Short returnCode = loginSession.loginEmployee(employeeID, password);
+				System.out.println("returnMessage: "+returnCode);
 				
-				if(returnMessage.equals("Login Successful"))
+				if(returnCode==0)//Login Successful
 				{
 					logonEmployee = loginSession.getLogonEmployee();
 					System.out.println("logon Surname: "+logonEmployee.getSurname());
-					this.loadStaticDataPanel();
+
+//					staticDataPanel = new TestingStaticData(loginSession);
+					
+					skillsPanel = new TestingEmployeeSkill(loginSession, logonEmployee);
+					this.loadPanel(skillsPanel);
 				} else {
-					System.out.println("Failure Message"+returnMessage);
+					System.out.println("Failure Message"+loginSession.getErrorMsg());
 					System.exit(0);
 				}
 			}
