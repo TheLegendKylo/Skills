@@ -21,14 +21,14 @@ public class EmployeeDAO
 	public EmployeeDAO()
 	{
 		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
 		this.errorCode = 1; //Employee does not exist
 		try
 		{
-			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
+			ps = dbCon.prepareStatement("select password from Employee where employeeID = ?");
 System.out.println("What is the EmployeeID: "+employeeID);
 			ps.setString(1,employeeID);
 			ResultSet rs = ps.executeQuery();
@@ -39,15 +39,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				if(password.equals(rsPassword))
 				{
 					System.out.println("Validation passed, create OBJECT");
-					String surname = rs.getString("surname");
-					String firstName = rs.getString("firstName");
-					employee = new Employee(employeeID, surname, firstName);
-					String alias = rs.getString("alias");
-					String contactNo = rs.getString("contact");
-					String email = rs.getString("email");
-					employee.setContactNo(contactNo);
-					employee.setEmail(email);
-					employee.setAlias(alias);
+					employee = this.getEmployee(employeeID);
 				} else {
 					errorCode = 2; // Invalid password 
 					errorMsg = "Invalid password entered";
@@ -55,7 +47,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				}
 				this.getEmpHobby(employeeID);
 				this.errorCode = 0; //Employee found and password matched
-				
+				this.errorMsg = "Login successful";
 			}
 		} catch (SQLException e)
 		{
@@ -170,25 +162,64 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return true;
 	}
-	public ArrayList<Employee> searchEmployee(String employee)
+	public ArrayList<Employee> searchEmployee(String enteredQuery)
 	{
+		String employeeID = null;
 		try 
 		{
-			String enteredQuery = "";
 			String input = "%" + enteredQuery + "%";
 						
-			ps = dbCon.prepareStatement("select * from Employee where employeeID like ? or firstName like ? or surname like ? or alias like ?");
+			ps = dbCon.prepareStatement("select employeeID from Employee where employeeID like ? "
+					+ "or firstName like ? or surname like ? or alias like ?");
 
 			ps.setString(1, input);
 			ps.setString(2, input);
 			ps.setString(3, input);
-						
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				employeeID = rs.getString("employeeId");
+				empList.add(this.getEmployee(employeeID));
+			}
 		}
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
 		return empList;
+	}
+	public Employee getEmployee(String employeeID)
+	{
+		empList = new ArrayList<Employee>();
+		try
+		{
+			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
+System.out.println("Search: What is the EmployeeID: "+employeeID);
+			ps.setString(1,employeeID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				String surname = rs.getString("surname");
+				String firstName = rs.getString("firstName");
+				employee = new Employee(employeeID, surname, firstName);
+				String alias = rs.getString("alias");
+				String contactNo = rs.getString("contact");
+				String email = rs.getString("email");
+				employee.setContactNo(contactNo);
+				employee.setEmail(email);
+				employee.setAlias(alias);
+			}
+			this.getEmpHobby(employeeID);
+			this.errorCode = 0; //Employee found and password matched
+				
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			errorMsg = "Employee Get "+employeeID+" not found";
+
+		}
+		return employee;
 	}
 	
 }

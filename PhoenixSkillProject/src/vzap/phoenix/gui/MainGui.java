@@ -183,8 +183,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		tabbedPane.addTab("SKILLS", null, panelSkills, null);
 		panelSkills.setLayout(null);
-		
-		
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(10, 711, 209, 25);
 		btnMainExit.addActionListener(this);

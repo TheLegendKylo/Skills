@@ -96,7 +96,7 @@ System.out.println("Into actionPerformed");
 					return;
 				} 
 				loginSession = new EmpSkillClient();
-				Short returnCode = loginSession.loginEmployee(employeeID, password);
+				short returnCode = loginSession.loginEmployee(employeeID, password);
 				System.out.println("returnMessage: "+returnCode);
 				
 				if(returnCode==0)//Login Successful
