@@ -76,6 +76,7 @@ public class EmployeeController
 	public ArrayList<Employee> searchEmployee(String searchCriteria)
 	{
 		ArrayList<Employee> empSearchResultList = employeeDAO.searchEmployee(searchCriteria);
+		System.out.println("empcontroller - " + empSearchResultList.size());
 		return empSearchResultList;
 	}
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)

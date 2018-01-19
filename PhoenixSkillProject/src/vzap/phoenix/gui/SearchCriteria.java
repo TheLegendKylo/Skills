@@ -69,8 +69,7 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 		System.out.println("searchcriteria - back from loginEmployee ");
 		capabilityList = empSkillClient.getCapabilityList();
 		
-        System.out.println("capability = " + capability[0]);
-		
+	
 		
         String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
 		String [] skillHeader = new String[]{"Skill","UserId","First Name","Surname","","","Average"};
@@ -243,7 +242,8 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
-//					table = new JTable(hobbyData,hobbyColumnNames);
+//					table = new JTable(hobbyRows,hobbyHeader);
+					table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
 					scrollPane = new JScrollPane();
 					scrollPane.setViewportView(table);
 					tablePanel.add(scrollPane);
@@ -272,6 +272,7 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 					tablePanel.validate();
 					tablePanel.repaint();
 					table = new JTable(skillRows,skillHeader);
+					table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
 					scrollPane = new JScrollPane();
 					scrollPane.setViewportView(table);
 					tablePanel.add(scrollPane);
