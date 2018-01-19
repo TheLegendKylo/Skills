@@ -3,6 +3,9 @@ package vzap.phoenix.gui;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import vzap.phoenix.client.EmpSkillClientController;
+
 import java.awt.color.*;
 
 
@@ -10,10 +13,11 @@ public class GuiControl extends JFrame
 {
 	private LoginPanel logP;
 	private JPanel basePanel = null;
-	
+	private EmpSkillClientController clientControl =null;
 
 	public GuiControl()
 	{
+		clientControl = new EmpSkillClientController();
 		this.setTitle("Skills Application");
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setSize(1200,770);
@@ -29,6 +33,7 @@ public class GuiControl extends JFrame
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
 		        {
+		        	clientControl.closeConnections();
 		        	System.exit(0);
 		        }
 		    }
@@ -42,7 +47,7 @@ public class GuiControl extends JFrame
 		basePanel.setBackground(new Color(220,220,220));
 		basePanel.setBorder(new EmptyBorder(15,15,15,15));
 		basePanel.setLayout(new GridLayout(1, 1));
-		logP = new LoginPanel(basePanel);
+		logP = new LoginPanel(basePanel,clientControl);
 		basePanel.add(logP);
 		this.setContentPane(basePanel);
 

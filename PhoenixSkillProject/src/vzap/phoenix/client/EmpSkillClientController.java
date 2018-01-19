@@ -1,35 +1,87 @@
 package vzap.phoenix.client;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
+
+import vzap.phoenix.Server.Employee.CapabilityRating;
 import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.EmployeeSkill;
+import vzap.phoenix.Server.Employee.Hobby;
+import vzap.phoenix.Server.Employee.Level;
 
 public class EmpSkillClientController
 {
 	private Employee employee;
-	private EmpSkillClient loginSession;
+	private EmpSkillClient client;
 	
-	public EmpSkillClientController(String employeeID, String password)
+	public EmpSkillClientController()
 	{
-		loginSession = new EmpSkillClient();
-		employeeID = "a159842";
-		password = "123";
-		short returnCode = loginSession.loginEmployee(employeeID, password);
-		
-		if(returnCode==0)//.equals("Login Successfull"))
-		{
-			employee = loginSession.getLogonEmployee();
-			System.out.println(employee.getSurname());
-		} else {
-			System.out.println(loginSession.getErrorMsg());
-		}
+		client = new EmpSkillClient();
 	}
-	public Employee getEmployee()
+	public short loginEmployee(String employeeID, String password)
 	{
-		return employee;
+		//0 success
+		//1 emp not found/invalid userName
+		//2 password
+		return client.loginEmployee(employeeID, password);	
 	}
-//	public static void main(String[] args)
-//	{
-//		// TODO Auto-generated method stub
-//		new EmpSkillClientController();
-//	}
-
+	public Employee getLogonEmployee()
+	{
+		//if null no employee found.
+		return client.getLogonEmployee();
+	}
+	public Vector<Hobby> getHobbyList()
+	{
+		return client.getHobbyList();
+	}
+	public ArrayList<Level> getLevelList()
+	{
+			return client.getLevelList();
+	}
+	public ArrayList<CapabilityRating> getCapabilityRatingList()
+	{
+		return client.getCapabilityRatingList();
+	}
+	public boolean registerEmployee(Employee newEmployee)
+	{
+		return client.registerEmployee(newEmployee);
+	}
+	public boolean updateEmployee(Employee updateEmployee)
+	{
+		return client.updateEmployee(updateEmployee);
+	}
+	public ArrayList<Employee> searchEmployee(String searchCriteria)
+	{
+		return client.searchEmployee(searchCriteria);
+	}
+	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
+	{
+		return client.addEmployeeSkill(addEmployeeSkill);
+	}
+	public boolean nominateRater(EmployeeSkill nominateRater)
+	{
+		return client.nominateRater(nominateRater);
+	}
+	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
+	{
+		return client.rateEmployeeSkill(rateEmployeeSkill);
+	}
+	public short getErrorCode()
+	{
+		return client.getErrorCode();
+	}
+	public String getErrorMsg()
+	{
+		return client.getErrorMsg();
+	}
+	public void closeConnections()
+	{
+		client.closeConnections();
+	}
+	
+	
+	
+	
+	
 }

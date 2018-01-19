@@ -87,22 +87,22 @@ public class EmpSkillClient
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = employeeID;
-System.out.println("OutMessage: "+outMessage);
+		System.out.println("OutMessage: "+outMessage);
 		pw.println(outMessage);
 		pw.flush();
 		outMessage = password;
 		pw.println(outMessage);
 		pw.flush();
 		short errorCode=0;
-		try
-		{
-			errorCode = ois.readShort();
-			System.out.println("EmpSkillClient.inMessage: "+inMessage);
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			errorCode = ois.readShort();
+//			System.out.println("EmpSkillClient.inMessage: "+inMessage);
+//		} catch (IOException e)
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return errorCode;
 		
 	}

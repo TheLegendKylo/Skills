@@ -219,14 +219,14 @@ public class EmpSkillServer
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
 			System.out.println("Employee login errorCode: "+empControl.getErrorCode());
-			try
-			{
-				oos.writeShort(empControl.getErrorCode());
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try
+//			{
+//				oos.writeShort(empControl.getErrorCode());
+//			} catch (IOException e)
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 System.out.println(employee.getSurname());
 		}
