@@ -49,7 +49,7 @@ public class EmpSkillServer
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			essThread = new EmpSkillServerThread(clientSocket, serverSocket);
+			essThread = new EmpSkillServerThread(clientSocket);
 		}
 		
 	}
@@ -78,10 +78,9 @@ public class EmpSkillServer
 		private ArrayList<Capability> capabilityList = null;
 		private ArrayList<CapabilityRating> capabilityRatingList = null;
 
-		public EmpSkillServerThread(Socket clientSocket, ServerSocket serverSocket)
+		public EmpSkillServerThread(Socket clientSocket)
 		{
 			this.clientSocket = clientSocket;
-			this.serverSocket = serverSocket;
 			
 			try
 			{
@@ -184,7 +183,16 @@ public class EmpSkillServer
 							this.rateEmployeeSkill();
 							break;
 						}
-							
+						case "getErrorCode":
+						{
+							this.getErrorCode();
+							break;
+						}
+						case "getErrorMsg":
+						{
+							this.getErrorMsg();
+							break;
+						}
 					}
 				} catch (IOException e)
 				{
@@ -210,15 +218,15 @@ public class EmpSkillServer
 			}
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
-			if(employee==null)
+			System.out.println("Employee login errorCode: "+empControl.getErrorCode());
+			try
 			{
-				outMessage = empControl.getErrorMsg();
-			} else {
-				outMessage = "Login Successful";
+				oos.writeShort(empControl.getErrorCode());
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println("EmpSkillServer.outMessage: "+outMessage);
-			pw.println(outMessage);
-			pw.flush();
 
 System.out.println(employee.getSurname());
 		}
@@ -468,7 +476,22 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			}
 			return success;
 		}
-		
+		public void getErrorCode()
+		{
+			try
+			{
+				oos.writeShort(empControl.getErrorCode());
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void getErrorMsg()
+		{
+			pw.println(empControl.getErrorMsg());
+			pw.flush();
+		}
 		public void closeConnections()
 		{
 			try

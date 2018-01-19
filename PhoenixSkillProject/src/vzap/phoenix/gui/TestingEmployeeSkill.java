@@ -2,16 +2,38 @@ package vzap.phoenix.gui;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
+import javax.swing.JCheckBox;
 import javax.swing.GroupLayout.Alignment;
+
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
-public class TestingEmployeeSkill extends JPanel
+import vzap.phoenix.Server.Employee.Capability;
+import vzap.phoenix.Server.Employee.CapabilityRating;
+import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.Hobby;
+import vzap.phoenix.Server.Employee.Skill;
+import vzap.phoenix.client.EmpSkillClient;
+
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+public class TestingEmployeeSkill extends JPanel implements KeyListener
 {
 	private JTabbedPane tabbedPane;
 	private JPanel profilePanel;
@@ -27,27 +49,20 @@ public class TestingEmployeeSkill extends JPanel
 	private JLabel outContactNo;
 	private JLabel outEmail;
 	private JPanel addSkillPanel;
-	private JLabel lblSkill;
 	private JComboBox comboBox;
-	private JLabel lblCap1;
-	private JLabel lblCap2;
-	private JLabel lblCap3;
-	private JLabel lblCap4;
-	private JLabel lblCap5;
-	private JLabel lblCap6;
-	private JLabel lblCap7;
-	private JTextField txtJtfrate;
-	private JTextField jtfRate2;
-	private JTextField jtfRate3;
-	private JTextField jtfRate4;
-	private JTextField jtfRate5;
-	private JTextField jtfRate6;
-	private JTextField jtfRate7;
+	private JLabel lblAlias;
+	private JLabel outAlias;
+	private JPanel skillSelPanel;
+	private JPanel ratingPanel;
+	private JScrollPane scrollPane;
 
+	private JTable ratingTable;
+	private TableModel ratingModel;
+	private JTextArea textArea;
 	/**
 	 * Create the panel.
 	 */
-	public TestingEmployeeSkill()
+	public TestingEmployeeSkill(EmpSkillClient empClient, Employee logonEmployee) 
 	{
 		setLayout(new GridLayout(1, 1, 0, 0));
 		
@@ -55,7 +70,7 @@ public class TestingEmployeeSkill extends JPanel
 		add(tabbedPane);
 		
 		profilePanel = new JPanel();
-		tabbedPane.addTab("New tab", null, profilePanel, null);
+		tabbedPane.addTab("Profile", null, profilePanel, null);
 		
 		lblEmployeeid = new JLabel("EmployeeID");
 		
@@ -66,27 +81,46 @@ public class TestingEmployeeSkill extends JPanel
 		lblContactNo = new JLabel("Contact No");
 		
 		lblEmail = new JLabel("Email");
+		 
+		lblAlias = new JLabel("Alias");
 		
-		outEmployeeID = new JLabel("New label");
+		outEmployeeID = new JLabel(logonEmployee.getEmployeeID());
 		outEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		outFName = new JLabel("New label");
+		outFName = new JLabel(logonEmployee.getFirstName());
 		outFName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		outSurname = new JLabel("New label");
+		outSurname = new JLabel(logonEmployee.getSurname());
 		outSurname.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		outContactNo = new JLabel("New label");
+		outContactNo = new JLabel(logonEmployee.getContactNo());
 		outContactNo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		outEmail = new JLabel("New label");
+		outEmail = new JLabel(logonEmployee.getEmail());
 		outEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		outAlias = new JLabel(logonEmployee.getAlias());
+		outAlias.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		textArea = new JTextArea();
+		Vector<Hobby> hobbyList = empClient.getHobbyList();
+		int hobbyCount = logonEmployee.getEmpHobbies().length;
+		for (int i = 0; i < hobbyCount; i++)
+		{
+			for (int j = 0; j < empClient.getHobbyList().size(); j++)
+			{
+				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies()[i])
+				textArea.setText(textArea.getText()+"\\"+hobbyList.get(j).getHobbyDescription());
+			}
+		}
+		
 		GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 		gl_profilePanel.setHorizontalGroup(
 			gl_profilePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_profilePanel.createSequentialGroup()
 					.addGap(28)
 					.addGroup(gl_profilePanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblAlias)
 						.addComponent(lblEmail)
 						.addComponent(lblContactNo)
 						.addComponent(lblSurname)
@@ -94,13 +128,17 @@ public class TestingEmployeeSkill extends JPanel
 						.addComponent(lblEmployeeid))
 					.addGap(62)
 					.addGroup(gl_profilePanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_profilePanel.createSequentialGroup()
+							.addGap(10)
+							.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_profilePanel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(outAlias, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(outEmail, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(outContactNo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(outSurname, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(outFName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(outEmployeeID, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
-						.addComponent(outSurname, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-						.addComponent(outContactNo, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-						.addComponent(outEmail, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(92, Short.MAX_VALUE))
+							.addComponent(outEmployeeID, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
+					.addContainerGap(158, Short.MAX_VALUE))
 		);
 		gl_profilePanel.setVerticalGroup(
 			gl_profilePanel.createParallelGroup(Alignment.LEADING)
@@ -125,120 +163,92 @@ public class TestingEmployeeSkill extends JPanel
 					.addGroup(gl_profilePanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEmail)
 						.addComponent(outEmail, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(106, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(gl_profilePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblAlias)
+						.addComponent(outAlias, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		profilePanel.setLayout(gl_profilePanel);
 		
 		skillPanel = new JPanel();
-		tabbedPane.addTab("New tab", null, skillPanel, null);
+		tabbedPane.addTab("Skills", null, skillPanel, null);
 		skillPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		addSkillPanel = new JPanel();
-		tabbedPane.addTab("New tab", null, addSkillPanel, null);
+		tabbedPane.addTab("Add Skill", null, addSkillPanel, null);
+		ArrayList<Skill> skillList = empClient.getSkillList();
+		comboBox = new JComboBox<String>();
+		for (int i = 0; i < skillList.size(); i++)
+		{
+			comboBox.addItem(skillList.get(i).getSkillDescription());
+		}
+		comboBox.setMaximumRowCount(10);
 		
-		lblSkill = new JLabel("Skill");
+		addSkillPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		comboBox = new JComboBox();
+		skillSelPanel = new JPanel();
+		skillSelPanel.add(comboBox);
+		addSkillPanel.add(skillSelPanel);
 		
-		lblCap1 = new JLabel("New label");
 		
-		lblCap2 = new JLabel("New label");
+		ratingPanel = new JPanel();
+		ArrayList<Capability> capList = empClient.getCapabilityList();
+		ArrayList<CapabilityRating> capRatingList = empClient.getCapabilityRatingList();
+		Object[][] tableRow = new Object[capList.size()][3];
+        String[] tableHeader = new String[]{"Capability","Rating","Description"};       	
+        for (int i=0; i<capList.size(); i++)
+        {
+            
+    	   	tableRow[i][0]=capList.get(i).getID();
+//    		JComboBox ratingBox = new JComboBox<Integer>();
+//    		for (int j = 0; j < 5; j++)
+//			{
+//    			ratingBox.addItem(j);		
+//			}
+//    		tableRow[i][1]=ratingBox;
+    		tableRow[i][1]=0;
+    	   	tableRow[i][2]="";
+        }
+	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
+       	ratingTable = new JTable(ratingModel);
+       	ratingTable.addKeyListener(this);;
+//		ratingTable.getColumn("Rating").setCellEditor(new JComboBox());
+		scrollPane = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setMaximumSize(new Dimension(32767, 10000));
 		
-		lblCap3 = new JLabel("New label");
-		
-		lblCap4 = new JLabel("New label");
-		
-		lblCap5 = new JLabel("New label");
-		
-		lblCap6 = new JLabel("New label");
-		
-		lblCap7 = new JLabel("New label");
-		
-		txtJtfrate = new JTextField();
-		txtJtfrate.setText("jtfRate1");
-		txtJtfrate.setColumns(10);
-		
-		jtfRate2 = new JTextField();
-		jtfRate2.setColumns(10);
-		
-		jtfRate3 = new JTextField();
-		jtfRate3.setColumns(10);
-		
-		jtfRate4 = new JTextField();
-		jtfRate4.setColumns(10);
-		
-		jtfRate5 = new JTextField();
-		jtfRate5.setColumns(10);
-		
-		jtfRate6 = new JTextField();
-		jtfRate6.setColumns(10);
-		
-		jtfRate7 = new JTextField();
-		jtfRate7.setColumns(10);
-		GroupLayout gl_addSkillPanel = new GroupLayout(addSkillPanel);
-		gl_addSkillPanel.setHorizontalGroup(
-			gl_addSkillPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_addSkillPanel.createSequentialGroup()
-					.addGap(51)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblCap2)
-						.addComponent(lblSkill)
-						.addComponent(lblCap1)
-						.addComponent(lblCap7)
-						.addComponent(lblCap6)
-						.addComponent(lblCap5)
-						.addComponent(lblCap4)
-						.addComponent(lblCap3))
-					.addGap(41)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(jtfRate7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtJtfrate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 186, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jtfRate2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jtfRate3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jtfRate4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jtfRate5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jtfRate6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(121, Short.MAX_VALUE))
-		);
-		gl_addSkillPanel.setVerticalGroup(
-			gl_addSkillPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_addSkillPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblSkill))
-					.addGap(18)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCap1)
-						.addComponent(txtJtfrate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCap2)
-						.addComponent(jtfRate2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jtfRate3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCap3))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jtfRate4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCap4))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jtfRate5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCap5))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jtfRate6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCap6))
-					.addGap(12)
-					.addGroup(gl_addSkillPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jtfRate7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCap7))
-					.addContainerGap(17, Short.MAX_VALUE))
-		);
-		addSkillPanel.setLayout(gl_addSkillPanel);
+		scrollPane.setViewportView(ratingTable);
 
+		ratingPanel.add(scrollPane);
+		
+		addSkillPanel.add(ratingPanel);
+		ratingPanel.setLayout(new GridLayout(1, 1, 0, 0));
+		
+
+	}
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		// TODO Auto-generated method stub
+		int rating = e.getKeyCode();
+		int tableIdx = ratingTable.getSelectedRow();
+//	   	tableRow[tableIdx][2]="";
+		
+		
 	}
 }
