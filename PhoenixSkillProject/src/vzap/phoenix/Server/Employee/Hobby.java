@@ -12,7 +12,6 @@ public class Hobby implements Serializable
 		this.hobbyID = hobbyID;
 		this.hobbyDescription = hobbyDescription;
 	}
-
 	public short getHobbyID()
 	{
 		return hobbyID;
