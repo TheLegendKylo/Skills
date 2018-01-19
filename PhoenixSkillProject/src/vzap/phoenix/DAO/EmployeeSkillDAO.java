@@ -27,7 +27,7 @@ public class EmployeeSkillDAO
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("select * employeeskills where employeeId=?");
+			ps = dbCon.prepareStatement("select * from employeeskills where employeeId=?");
 			ps.setString(1, employeeID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
@@ -60,11 +60,17 @@ public class EmployeeSkillDAO
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("select * employeeSkillsRating where empSkillID=? order by capabilityId");
+			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? order by capabilityId");
 			ps.setShort(1, empSkillID);
 			ResultSet rs = ps.executeQuery();
-			short capabilityID[] = new short[rs.getFetchSize()];
-			short rating[] = new short[rs.getFetchSize()];
+			int resultCount = 0;
+			if (rs.last()) 
+			{
+				resultCount = rs.getRow();
+				  rs.beforeFirst(); 
+			}
+			short capabilityID[] = new short[resultCount];
+			short rating[] = new short[resultCount];
 			while(rs.next())
 			{
 				int j=0;

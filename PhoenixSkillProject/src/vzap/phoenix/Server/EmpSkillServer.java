@@ -49,7 +49,7 @@ public class EmpSkillServer
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			essThread = new EmpSkillServerThread(clientSocket, serverSocket);
+			essThread = new EmpSkillServerThread(clientSocket);
 		}
 		
 	}
@@ -78,10 +78,9 @@ public class EmpSkillServer
 		private ArrayList<Capability> capabilityList = null;
 		private ArrayList<CapabilityRating> capabilityRatingList = null;
 
-		public EmpSkillServerThread(Socket clientSocket, ServerSocket serverSocket)
+		public EmpSkillServerThread(Socket clientSocket)
 		{
 			this.clientSocket = clientSocket;
-			this.serverSocket = serverSocket;
 			
 			try
 			{

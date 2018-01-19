@@ -16,6 +16,7 @@ public class EmployeeController
 	private Employee logonEmployee;
 	private EmployeeDAO employeeDAO;
 	private EmployeeSkillDAO empSkillDAO;
+	private short errorCode;
 	private String errorMsg;
 	static Vector<Hobby> hobbyList;
 	static ArrayList <Skill> skillList;
@@ -30,21 +31,21 @@ public class EmployeeController
 		this.logonEmployee = employeeDAO.loginEmployee(employeeID, password);
 		if(!(logonEmployee==null))
 		{
-//			new SkillDAO();
-//			skillList = SkillDAO.getSkillList();
-//			new HobbyDAO();
-//			hobbyList = HobbyDAO.getHobbyList();
-//			new LevelDAO();
-//			levelList = LevelDAO.getLevelList();
+			new SkillDAO();
+			skillList = SkillDAO.getSkillList();
+			new HobbyDAO();
+			hobbyList = HobbyDAO.getHobbyList();
+			new LevelDAO();
+			levelList = LevelDAO.getLevelList();
 			new CapabilityDAO();
 			capabilityList = CapabilityDAO.getCapabilityList();
-//			new CapabilityLevelDAO();
-//			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
-
-//			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-//			empSkillList = empSkillDAO.getEmpSkillList();
+			new CapabilityLevelDAO();
+			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
+			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+			empSkillList = empSkillDAO.getEmpSkillList();
 		} else {
-			errorMsg = employeeDAO.getErrorMsg();
+			this.errorCode = employeeDAO.getErrorCode();
+			this.errorMsg = employeeDAO.getErrorMsg();
 		}
 	}
 	public boolean registerEmployee(Employee newEmployee)
@@ -105,6 +106,10 @@ public class EmployeeController
 	public Employee getLogonEmployee()
 	{
 		return this.logonEmployee;
+	}
+	public short getErrorCode()
+	{
+		return this.errorCode;
 	}
 	public String getErrorMsg()
 	{

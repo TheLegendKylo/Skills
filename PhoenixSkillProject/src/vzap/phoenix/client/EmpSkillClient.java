@@ -26,7 +26,7 @@ import vzap.phoenix.Server.Employee.Level;
 //*
 public class EmpSkillClient
 {
-	private Socket socket;
+	static Socket socket;
 	private BufferedReader br;
 	private FileOutputStream fos;
 	private ObjectOutputStream oos;
@@ -51,22 +51,25 @@ public class EmpSkillClient
 	 */
 	public EmpSkillClient()
 	{
-		try
+		if(socket==null) //ensure that only one instance of socket is created
 		{
-			socket = new Socket("localhost", 10002);
-			pw = new PrintWriter(socket.getOutputStream(),true);
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			ois = new ObjectInputStream(socket.getInputStream());
-
-		} catch (UnknownHostException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try
+			{
+				socket = new Socket("localhost", 10002);
+				pw = new PrintWriter(socket.getOutputStream(),true);
+				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				oos = new ObjectOutputStream(socket.getOutputStream());
+				ois = new ObjectInputStream(socket.getInputStream());
+	
+			} catch (UnknownHostException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -75,7 +78,7 @@ public class EmpSkillClient
 	 * if login is successful, String message == "Login Successful" will be returned by server.  call method getLoginEmployee to get employee object
 	 * if login is unsuccessful, String message with detail of error message will be returned
 	 * 
-	 * Once login is successfull the following methods must immediately be called to obtain static system information:
+	 * Once login is successful the following methods must immediately be called to obtain static system information:
 	 * 
 	 */
 	public String loginEmployee(String employeeID, String password)
@@ -143,7 +146,7 @@ System.out.println("OutMessage: "+outMessage);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Skills: "+skillList.size());
+		System.out.println("Client-: Number of Skills: "+skillList.size());
 		return skillList;
 	}
 	/*
