@@ -21,7 +21,7 @@ public class EmployeeDAO
 	public EmployeeDAO()
 	{
 		myDBCon = new MyDBCon();
-		dbCon = myDBCon.getDBCon();
+		dbCon = MyDBCon.getDBCon();
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
@@ -47,7 +47,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				}
 				this.getEmpHobby(employeeID);
 				this.errorCode = 0; //Employee found and password matched
-				
+				this.errorMsg = "Login successful";
 			}
 		} catch (SQLException e)
 		{
