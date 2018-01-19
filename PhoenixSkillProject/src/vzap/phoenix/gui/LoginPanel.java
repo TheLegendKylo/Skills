@@ -51,7 +51,7 @@ public class LoginPanel extends JPanel implements ActionListener
 	 */
 	public LoginPanel(JPanel basePanel) 
 	{
-		esc = new EmpSkillClient();
+		//esc = new EmpSkillClient();
 		
 		this.basePanel = basePanel;
 		
@@ -84,7 +84,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		btnExit.setBounds(350, 594, 128, 33);
 		btnExit.addActionListener(this);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
+		 
 		lblMediaApplicationLibrary = new JLabel("Skillz ");
 		lblMediaApplicationLibrary.setForeground(new Color(0, 0, 255));
 		lblMediaApplicationLibrary.setBounds(350, 218, 353, 86);
@@ -104,8 +104,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		lblRepeatPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblRepeatPassword.setBounds(350, 435, 197, 54);
 		add(lblRepeatPassword);
-		
-		
+			
 		passwordFieldRepeat = new JPasswordField();
 		passwordFieldRepeat.setFont(new Font("Tahoma", Font.BOLD, 20));
 		passwordFieldRepeat.setBounds(559, 447, 144, 31);
@@ -176,10 +175,10 @@ public class LoginPanel extends JPanel implements ActionListener
 			}
 			//we will check if all details are correct here and move forward.	
 			
-			esc.loginEmployee(loggedInUser,password);
+			//esc.loginEmployee(loggedInUser,password);
 			//success
 			
-			emp = esc.getLogonEmployee();
+			emp = null;//esc.getLogonEmployee();
 			// once successful bring up the screen
 			
 			mainGui = new MainGui(basePanel,newUser,emp);
