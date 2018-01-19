@@ -96,10 +96,10 @@ System.out.println("Into actionPerformed");
 					return;
 				} 
 				loginSession = new EmpSkillClient();
-				String returnMessage = loginSession.loginEmployee(employeeID, password);
-				System.out.println("returnMessage: "+returnMessage);
+				Short returnCode = loginSession.loginEmployee(employeeID, password);
+				System.out.println("returnMessage: "+returnCode);
 				
-				if(returnMessage.equals("Login Successful"))
+				if(returnCode==0)//Login Successful
 				{
 					logonEmployee = loginSession.getLogonEmployee();
 					System.out.println("logon Surname: "+logonEmployee.getSurname());
@@ -109,7 +109,7 @@ System.out.println("Into actionPerformed");
 					skillsPanel = new TestingEmployeeSkill(loginSession, logonEmployee);
 					this.loadPanel(skillsPanel);
 				} else {
-					System.out.println("Failure Message"+returnMessage);
+					System.out.println("Failure Message"+loginSession.getErrorMsg());
 					System.exit(0);
 				}
 			}

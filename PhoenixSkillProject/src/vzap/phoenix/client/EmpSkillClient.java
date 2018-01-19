@@ -81,7 +81,7 @@ public class EmpSkillClient
 	 * Once login is successful the following methods must immediately be called to obtain static system information:
 	 * 
 	 */
-	public String loginEmployee(String employeeID, String password)
+	public short loginEmployee(String employeeID, String password)
 	{
 		outMessage = "loginEmployee";
 		pw.println(outMessage);
@@ -93,17 +93,17 @@ System.out.println("OutMessage: "+outMessage);
 		outMessage = password;
 		pw.println(outMessage);
 		pw.flush();
-		
+		short errorCode=0;
 		try
 		{
-			inMessage = br.readLine();
+			errorCode = ois.readShort();
 			System.out.println("EmpSkillClient.inMessage: "+inMessage);
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return inMessage;
+		return errorCode;
 		
 	}
 	/*
@@ -410,6 +410,40 @@ System.out.println("OutMessage: "+outMessage);
 			e.printStackTrace();
 		}
 		return ratingSuccessfull;
+	}
+	public short getErrorCode()
+	{
+		outMessage = "getErrorCode";
+		pw.println(outMessage);
+		pw.flush();
+		
+		short errorCode =0;
+		try
+		{
+			errorCode = ois.readShort();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return errorCode;
+	}
+	public String getErrorMsg()
+	{
+		outMessage = "getErrorMsg";
+		pw.println(outMessage);
+		pw.flush();
+		
+		String errorMsg = null;
+		try
+		{
+			errorMsg = br.readLine();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return errorMsg;
 	}
 	public void closeConnections()
 	{
