@@ -237,6 +237,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 			//call database to insert new hobby if successful add it to the list.
 			//datatbase must happen here
+			
 			vectHobby.addElement(addHobbyValue);
 						
 		}
