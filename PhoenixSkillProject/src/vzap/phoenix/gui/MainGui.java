@@ -197,7 +197,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfName.setText(emp.getFirstName());
 		tfSurname.setText(emp.getSurname());
 		tfContact.setText(emp.getContactNo());
-		tfEmail.setText(emp.getEmail());		
+		tfEmail.setText(emp.getEmail());	
+		System.out.println("checking = " + emp.toString());
 
 	}
 	@Override
@@ -210,8 +211,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			
 		}
 				
-		
-		
 		if(source == btnAddHobby)
 		{
 			tfAddHobby.grabFocus();
