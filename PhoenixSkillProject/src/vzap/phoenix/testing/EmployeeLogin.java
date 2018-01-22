@@ -1,4 +1,4 @@
-package vzap.phoenix.gui;
+package vzap.phoenix.testing;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
