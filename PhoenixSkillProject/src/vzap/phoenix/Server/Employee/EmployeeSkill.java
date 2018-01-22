@@ -1,6 +1,7 @@
 package vzap.phoenix.Server.Employee;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 public class EmployeeSkill implements Serializable
@@ -119,5 +120,12 @@ public class EmployeeSkill implements Serializable
 	{
 		this.rating = rating;
 	}
-	
+	@Override
+	public String toString()
+	{
+		return "EmployeeSkill [employeeID=" + employeeID + ", raterID=" + raterID + ", skillID=" + skillID
+				+ ", empSkillID=" + empSkillID + ", status=" + status + ", ratedDate=" + ratedDate + ", createdDate="
+				+ createdDate + ", coachingAvailability=" + coachingAvailability + ", comment=" + comment
+				+ ", capabilityID=" + Arrays.toString(capabilityID) + ", rating=" + Arrays.toString(rating) + "]";
+	}
 }

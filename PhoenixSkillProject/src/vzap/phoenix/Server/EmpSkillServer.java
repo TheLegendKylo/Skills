@@ -474,7 +474,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public boolean addEmployeeSkill()
 		{
-			EmployeeSkill addEmployeeSkill = null;
+			EmployeeSkill addEmployeeSkill = new EmployeeSkill();
 			try
 			{
 				addEmployeeSkill = (EmployeeSkill)ois.readObject();
@@ -501,7 +501,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public boolean nominateRater()
 		{
-			EmployeeSkill addNominee = null;
+			EmployeeSkill addNominee = new EmployeeSkill();
 			try
 			{
 				addNominee = (EmployeeSkill)ois.readObject();
@@ -528,7 +528,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public boolean rateEmployeeSkill()
 		{
-			EmployeeSkill rateEmployeeSkill = null;
+			EmployeeSkill rateEmployeeSkill = new EmployeeSkill();
 			try
 			{
 				rateEmployeeSkill = (EmployeeSkill)ois.readObject();

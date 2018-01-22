@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Employee implements Serializable
 {
-	
+	private static final long serialVersionUID = 1L;
 	private String employeeID = null;
 	private String surname = null;
 	private String firstName = null;

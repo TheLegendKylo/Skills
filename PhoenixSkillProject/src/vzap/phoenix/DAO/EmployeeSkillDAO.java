@@ -16,12 +16,15 @@ public class EmployeeSkillDAO
 	private MyDBCon myDBCon;
 	private Connection dbCon;
 	private ArrayList<EmployeeSkill> empSkillList = null;
-	private ArrayList<EmployeeSkillRating> empSkillRatingList = null;
 
 	private short errorCode;	
 	private String errorMsg;
 	
 	public EmployeeSkillDAO(String employeeID)
+	{
+		empSkillList = getEmployeeSkill(employeeID);
+	}
+	public ArrayList<EmployeeSkill> getEmployeeSkill(String employeeID)
 	{
 		dbCon = MyDBCon.getDBCon();
 		empSkillList = new ArrayList<EmployeeSkill>();
@@ -55,7 +58,9 @@ public class EmployeeSkillDAO
 			e.printStackTrace();
 			this.errorMsg = "Employee Skill: Search failed for EmployeeID: "+employeeID;
 		}
+		return empSkillList;
 	}
+
 	public void getEmpSkillRating(short empSkillID, int idx)
 	{
 		PreparedStatement ps = null;
@@ -94,16 +99,19 @@ public class EmployeeSkillDAO
 	}
 	public short rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
+System.out.println("Into rateEmployeeSkill");
 		int updateCount=0, ratingsCount=0;
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("update employeeSkills set ratedDate=?,status=?"
+			ps = dbCon.prepareStatement("update employeeSkills set ratedDate=?,status=? "
 					+"where empSkillID=?");
-			ps.setDate(1, (java.sql.Date) rateEmployeeSkill.getRatedDate());
+			java.sql.Date ratedDate = new java.sql.Date(rateEmployeeSkill.getRatedDate().getTime());
+			ps.setDate(1,  ratedDate);
 			ps.setShort(2, rateEmployeeSkill.getStatus());
 			ps.setShort(3, rateEmployeeSkill.getEmpSkillID());
 			updateCount = ps.executeUpdate();
+			System.out.println("calling this.addEmployeeSkillRating");
 			ratingsCount = this.addEmployeeSkillRating(rateEmployeeSkill);
 		} catch (SQLException e)
 		{
@@ -116,22 +124,26 @@ public class EmployeeSkillDAO
 	}
 	public int addEmployeeSkillRating(EmployeeSkill rateEmployeeSkill)
 	{
+		System.out.println("Into addEmployeeSkillRating");
 		this.errorCode = 0;
 		int insertCount=0;
 		try
 		{
 			dbCon.setAutoCommit(false);
-			PreparedStatement ps = dbCon.prepareStatement("insert into EmployeeSkillsRating values(?,?,?)");
+			PreparedStatement ps = dbCon.prepareStatement("insert into EmployeeSkillsRating values(null,?,?,?)");
 			  
 			for(int i=0; i<= 6;i++){
+System.out.println("Line:"+i+" "+rateEmployeeSkill.getEmpSkillID()+" "+rateEmployeeSkill.getCapabilityID()[i]+" "+rateEmployeeSkill.getRating()[i]);
+				ps.setShort(1, rateEmployeeSkill.getEmpSkillID());
 				ps.setShort(2, rateEmployeeSkill.getCapabilityID()[i]);
 				ps.setShort(3, rateEmployeeSkill.getRating()[i]);
 				ps.executeUpdate();
 				insertCount++; 
 			}
-			System.out.println("The number of rows inserted: "+ insertCount);
+			System.out.println("The number of rows inserted: "+ insertCount+" vs object lines"+rateEmployeeSkill.getCapabilityID().length);
 			if(insertCount==rateEmployeeSkill.getCapabilityID().length)
 			{
+				System.out.println("Committing");
 			    dbCon.commit();
 			    dbCon.setAutoCommit(true);
 			}
@@ -140,6 +152,7 @@ public class EmployeeSkillDAO
 			e.printStackTrace();
 			try
 			{
+System.out.println("Rolling Back");
 				dbCon.rollback();
 				dbCon.setAutoCommit(true);
 			} catch (SQLException r)
@@ -166,7 +179,7 @@ public class EmployeeSkillDAO
 			return this.errorCode; //record already exists
 		}
 		
-		PreparedStatement ps = null, ps_select=null;
+		PreparedStatement ps = null;
 		try
 		{
 			ps = dbCon.prepareStatement("insert into EmployeeSkills values(?,?,?,?,?,?,?,?,?)");
@@ -177,7 +190,7 @@ public class EmployeeSkillDAO
 			ps.setString(5, addEmployeeSkill.getCoachingAvailability());
 			ps.setShort(6, addEmployeeSkill.getStatus());
 			ps.setString(7, addEmployeeSkill.getComment());
-			java.sql.Date ratedDate = new java.sql.Date(addEmployeeSkill.getCreatedDate().getTime());
+			java.sql.Date ratedDate = new java.sql.Date(addEmployeeSkill.getRatedDate().getTime());
 			ps.setDate(8,  ratedDate);
 			java.sql.Date createdDate = new java.sql.Date(addEmployeeSkill.getCreatedDate().getTime());
 			ps.setDate(9,  createdDate );
