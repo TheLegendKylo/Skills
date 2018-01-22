@@ -90,7 +90,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		{
 			for(int j = 0;j < allHobby.size();j++)
 			{
-				System.out.println("empHobby  = " + empHobby.get(i) + " allHobby = " + allHobby.get(j).getHobbyID() );
 				if (empHobby.get(i) == allHobby.get(j).getHobbyID())
 				{
 					
@@ -302,18 +301,41 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				tfAddHobby.selectAll();
 				return; 
 			}
-			if(vectHobby.size() >= 5)
-			{
-				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
-				return;
-			}
+//			if(vectHobby.size() >= 5)
+//			{
+//				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
+//				return;
+//			}
 			//call database to insert new hobby if successful add it to the list.
 			//datatbase must happen here
-			clientControl.addHobby(addHobbyValue);
+			boolean existingHobby = false;
+			for(int j = 0;j < allHobby.size();j++)
+			{
+				
+				if (addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				{
+					System.out.println("existing hobby");
+					
+					existingHobby = true;
+					vectHobby.add(addHobbyValue);
+					empHobby.add(allHobby.get(j).getHobbyID());
+					emp.setEmpHobbies(empHobby);
+					clientControl.updateEmployee(emp);	
+					break;
+				}
+			}
+			if(!existingHobby)
+			{
+				System.out.println("Not existing hobby");
+				//adding a hobby that does'nt exist in the current users profile.
+				empHobby.add(clientControl.addHobby(addHobbyValue));
+				emp.setEmpHobbies(empHobby);
+				clientControl.updateEmployee(emp);
+			}
 			
 			
 			//if adding hobby is successful add the hobby to the Jlist;
-			vectHobby.addElement(addHobbyValue);
+			//vectHobby.addElement(addHobbyValue);
 						
 		}
 		if(source == btnDeleteHobby)
