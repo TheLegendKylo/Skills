@@ -91,6 +91,6 @@ public class Employee implements Serializable
 	{
 		return "Employee kyle [employeeID=" + employeeID + ", surname=" + surname + ", firstName=" + firstName
 				+ ", cellNumber=" + cellNumber + ", email=" + email + ", alias=" + alias + ", password=" + password
-				+ ", hobbyID=" + empHobbyList.toString() + "]";
+				+ ", hobbyID=" + empHobbyList ;
 	}
 }

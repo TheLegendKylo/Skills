@@ -184,7 +184,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Hobby Created: "+skillID);
+		System.out.println("Client: Skill Created: "+skillID);
 		return skillID;
 	}
 	/*
@@ -336,8 +336,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		boolean registerSuccessfull = false;
 		try
 		{
-			registerSuccessfull = ois.readBoolean();
-		} catch (IOException e)
+			registerSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -362,8 +362,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		boolean updateSuccessfull = false;
 		try
 		{
-			updateSuccessfull = ois.readBoolean();
-		} catch (IOException e)
+			updateSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -444,8 +444,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		boolean addSuccessfull = false;
 		try
 		{
-			addSuccessfull = ois.readBoolean();
-		} catch (IOException e)
+			addSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -470,8 +470,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		boolean nominateSuccessfull = false;
 		try
 		{
-			nominateSuccessfull = ois.readBoolean();
-		} catch (IOException e)
+			nominateSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -496,18 +496,19 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		boolean ratingSuccessfull = false;
 		try
 		{
-			ratingSuccessfull = ois.readBoolean();
-		} catch (IOException e)
+			ratingSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ratingSuccessfull;
 	}
-	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		outMessage = "searchEmployeeSkill";
 		pw.println(outMessage);
+		pw.println(employeeID);
 		pw.println(raterID);
 		pw.flush();
 		try
@@ -519,16 +520,40 @@ System.out.println("Login Read errorMsg: "+inMessage);
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		short empSkillID =0;
+		EmployeeSkill empSkill = new EmployeeSkill();
 		try
 		{
-			empSkillID = ois.readShort();
-		} catch (IOException e)
+			empSkill = (EmployeeSkill)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return empSkillID;
+		return empSkill;
+	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(int skillID)
+	{
+		outMessage = "searchEmployeeSkillbyID";
+		pw.println(outMessage);
+		try
+		{
+			oos.writeObject(new Integer(skillID));
+			oos.flush();
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ArrayList<EmployeeSkill> empSkillList = new ArrayList<EmployeeSkill>();
+		try
+		{
+			empSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillList;
 	}
 	public short getErrorCode()
 	{
@@ -539,8 +564,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		short errorCode =0;
 		try
 		{
-			errorCode = ois.readShort();
-		} catch (IOException e)
+			errorCode = (short)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();

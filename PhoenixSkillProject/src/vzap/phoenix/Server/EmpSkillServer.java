@@ -107,6 +107,7 @@ public class EmpSkillServer
 			boolean exitSession = false;
 			while(!exitSession)
 			{
+				empControl.resetErrorMsg();;
 				try
 				{
 					System.out.println("Try to read new message");
@@ -201,6 +202,11 @@ public class EmpSkillServer
 							break;
 						}
 						case "searchEmployeeSkill":
+						{
+							this.searchEmployeeSkill();
+							break;
+						}
+						case "searchEmployeeSkillBySkillID":
 						{
 							this.searchEmployeeSkill();
 							break;
@@ -426,7 +432,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			boolean registerSuccess = empControl.registerEmployee(employee);
 			try
 			{
-				oos.writeBoolean(registerSuccess);
+				oos.writeObject(new Boolean(registerSuccess));
 				oos.flush();
 			} catch (IOException e)
 			{
@@ -454,7 +460,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			boolean updateSuccess = empControl.updateEmployee(employee);
 			try
 			{
-				oos.writeBoolean(updateSuccess);
+				oos.writeObject(new Boolean(updateSuccess));
 				oos.flush();
 			} catch (IOException e)
 			{
@@ -487,7 +493,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				e.printStackTrace();
 			}
 		}
-		public boolean addEmployeeSkill()
+		public void addEmployeeSkill()
 		{
 			EmployeeSkill addEmployeeSkill = new EmployeeSkill();
 			try
@@ -506,16 +512,15 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			boolean success = empControl.addEmployeeSkill(addEmployeeSkill);
 			try
 			{
-				oos.writeBoolean(success);
+				oos.writeObject(new Boolean(success));
 				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return success;
 		}
-		public boolean nominateRater()
+		public void nominateRater()
 		{
 			EmployeeSkill addNominee = new EmployeeSkill();
 			try
@@ -534,16 +539,15 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			boolean success = empControl.addNominee(addNominee);
 			try
 			{
-				oos.writeBoolean(success);
+				oos.writeObject(new Boolean(success));
 				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return success;
 		}
-		public boolean rateEmployeeSkill()
+		public void rateEmployeeSkill()
 		{
 			EmployeeSkill rateEmployeeSkill = new EmployeeSkill();
 			try
@@ -562,16 +566,15 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			boolean success = empControl.rateEmployeeSkill(rateEmployeeSkill);
 			try
 			{
-				oos.writeBoolean(success);
+				oos.writeObject(new Boolean(success));
 				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return success;
 		}
-		public short searchEmployeeSkill()
+		public void searchEmployeeSkill()
 		{
 			String employeeID = null;
 			int skillID = 0;
@@ -580,20 +583,50 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			{
 				employeeID = br.readLine();
 				raterID = br.readLine();
-				skillID = (Integer)ois.readInt();
-			} catch (IOException e)
+				skillID = (Integer)ois.readObject();
+			} catch (IOException | ClassNotFoundException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println("Server: read searchEmployeeSkills: "+employeeID+" "+raterID+" "+skillID);
-			return empControl.searchEmployeeSkill(employeeID, skillID, raterID);
+			try
+			{
+				oos.writeObject(empControl.searchEmployeeSkill(employeeID, skillID, raterID));
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void searchEmployeeSkillByID()
+		{
+			int skillID = 0;
+			try
+			{
+				skillID = (Integer)ois.readObject();
+			} catch (IOException | ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Server: read searchEmployeeSkills: "+skillID);
+			try
+			{
+				oos.writeObject(empControl.searchEmployeeSkill(skillID));
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		public void getErrorCode()
 		{
 			try
 			{
-				oos.writeShort(empControl.getErrorCode());
+				oos.writeObject(new Short(empControl.getErrorCode()));
 				oos.flush();
 			} catch (IOException e)
 			{

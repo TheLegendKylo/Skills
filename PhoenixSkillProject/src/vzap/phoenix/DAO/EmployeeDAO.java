@@ -141,7 +141,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			ArrayList<Short> empHobbyList = employee.getEmpHobbies();
 			if(!(empHobbyList==null))
 			{
-				updSuccess = this.updateEmpHobbies(empHobbyList);
+				updSuccess = this.addEmpHobby(empHobbyList);
 			}
 		}
 		catch (SQLException e) 
@@ -151,8 +151,30 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		}
 		return updSuccess;
 	}
-	public boolean updateEmpHobbies(ArrayList<Short> empHobbyList)
+	public boolean addEmpHobby(ArrayList<Short> empHobbyList)
 	{
+		for (int i = 0; i < empHobbyList.size(); i++)
+		{
+			boolean hobbyExists = this.searchEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
+			if(hobbyExists)
+			{
+				continue;
+			}
+			PreparedStatement ps = null;
+			try
+			{
+				ps = dbCon.prepareStatement("insert into employeeHobby values (null, ?,?)");
+				ps.setString(1, employee.getEmployeeID());
+				ps.setShort(2, empHobbyList.get(i));
+				int resultCount = ps.executeUpdate();
+			} catch (SQLException e)
+			{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.errorMsg = "Employee Hobby: Select statement failed for EmployeeHobby: "+employee.getEmployeeID();
+			return false;
+			}
+		}
 		return true;
 	}
 	public boolean deleteEmployee(Employee employee)
@@ -201,6 +223,32 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			e.printStackTrace();
 		}
 		return empList;
+	}
+	public boolean searchEmpHobby(String employeeID, short hobbyID)
+	{
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("select id from employeeHobby where employeeId=? and hobbyId=?");
+			ps.setString(1, employeeID);
+			ps.setShort(2, hobbyID);
+			ResultSet rs = ps.executeQuery();
+			int resultCount = 0;
+			if (rs.last()) 
+			{
+				resultCount = rs.getRow();
+			}
+			if(resultCount>0)
+			{
+				return true;
+			}
+		} catch (SQLException e)
+		{
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		this.errorMsg = "Employee Hobby: Search statement failed for EmployeeHobby: "+employeeID;
+		}
+		return false;
 	}
 	public Employee getEmployee(String employeeID)
 	{

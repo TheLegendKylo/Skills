@@ -1,6 +1,7 @@
 package vzap.phoenix.Server.Employee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class EmployeeSkill implements Serializable
 	private Date ratedDate, createdDate;
 	private String coachingAvailability;
 	private String comment;
-	private short[] capabilityID, rating;	
+	private ArrayList<Short>capabilityIDList=null, ratingList=null;	
 	
 	public EmployeeSkill(String employeeID, int skillID, 
 			String raterID, Date createdDate)
@@ -43,13 +44,13 @@ public class EmployeeSkill implements Serializable
 	{
 		return this.raterID;
 	}
-	public short[] getCapabilityID()
+	public ArrayList<Short> getCapabilityList()
 	{
-		return capabilityID;
+		return capabilityIDList;
 	}
-	public short[] getRating()
+	public ArrayList<Short> getRatingList()
 	{
-		return rating;
+		return ratingList;
 	}
 
 	public Date getRatedDate()
@@ -112,13 +113,13 @@ public class EmployeeSkill implements Serializable
 	{
 		this.coachingAvailability = coachingAvailability;
 	}
-	public void setCapability(short[] capabilityID)
+	public void setCapabilityList(ArrayList<Short> capabilityIDList)
 	{
-		this.capabilityID = capabilityID;
+		this.capabilityIDList = capabilityIDList;
 	}
-	public void setRating(short[] rating)
+	public void setRatingList(ArrayList<Short> ratingList)
 	{
-		this.rating = rating;
+		this.ratingList = ratingList;
 	}
 	@Override
 	public String toString()
@@ -126,6 +127,6 @@ public class EmployeeSkill implements Serializable
 		return "EmployeeSkill [employeeID=" + employeeID + ", raterID=" + raterID + ", skillID=" + skillID
 				+ ", empSkillID=" + empSkillID + ", status=" + status + ", ratedDate=" + ratedDate + ", createdDate="
 				+ createdDate + ", coachingAvailability=" + coachingAvailability + ", comment=" + comment
-				+ ", capabilityID=" + Arrays.toString(capabilityID) + ", rating=" + Arrays.toString(rating) + "]";
+				+ ", capabilityIDList=" + capabilityIDList + ", ratingList=" + ratingList+ "]";
 	}
 }

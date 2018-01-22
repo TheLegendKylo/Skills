@@ -58,6 +58,8 @@ public class EmployeeController
 			this.logonEmployee = newEmployee;
 			return true;
 		}
+		this.errorCode = employeeDAO.getErrorCode();
+		this.errorMsg = employeeDAO.getErrorMsg();
 		System.out.println("Registration Failed");
 		return false;
 	}
@@ -70,6 +72,8 @@ public class EmployeeController
 		if(employeeDAO.updateEmployee(updateEmployee))
 		{
 			this.logonEmployee = updateEmployee;
+			this.errorCode = employeeDAO.getErrorCode();
+			this.errorMsg = employeeDAO.getErrorMsg();
 			return true;
 		}
 		System.out.println("Employee Update Failed");
@@ -111,9 +115,13 @@ public class EmployeeController
 		}
 		return true;
 	}
-	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		return empSkillDAO.searchEmployeeSkill(employeeID, skillID, raterID);
+	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(int skillID)
+	{
+		return empSkillDAO.searchEmployeeSkillByID(skillID);
 	}
 	public Employee getLogonEmployee()
 	{
@@ -126,6 +134,11 @@ public class EmployeeController
 	public String getErrorMsg()
 	{
 		return this.errorMsg;
+	}
+	public void resetErrorMsg()
+	{
+		this.errorCode=0;
+		this.errorMsg="";
 	}
 	public static ArrayList<Skill> getSkillList()
 	{

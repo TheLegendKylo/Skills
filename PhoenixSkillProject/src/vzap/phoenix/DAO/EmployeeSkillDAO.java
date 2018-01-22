@@ -34,24 +34,7 @@ public class EmployeeSkillDAO
 			ps = dbCon.prepareStatement("select * from employeeskills where employeeId=?");
 			ps.setString(1, employeeID);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next())
-			{
-				short empSkillID = rs.getShort("empSkillId");
-				int skillID = rs.getInt("skillId");
-				String raterID = rs.getString("raterID");
-				String coachingAvailability = rs.getString("coachingAvailability");
-				String comment = rs.getString("comment");
-				Date ratedDate = rs.getDate("ratedDate");
-				Date createDate = rs.getDate("createdDate");
-				empSkillList.add(new EmployeeSkill(employeeID, skillID, 
-						raterID, createDate));
-				int idx = empSkillList.size()-1;
-				empSkillList.get(idx).setEmpSkillID(empSkillID);
-				empSkillList.get(idx).setCoachingAvailability(coachingAvailability);
-				empSkillList.get(idx).setComment(comment);
-				empSkillList.get(idx).setRatedDate(ratedDate);
-				this.getEmpSkillRating(empSkillID, idx);
-			}
+			empSkillList = this.populateEmpSkillList(rs);
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
@@ -75,17 +58,17 @@ public class EmployeeSkillDAO
 				resultCount = rs.getRow();
 				  rs.beforeFirst(); 
 			}
-			short capabilityID[] = new short[resultCount];
-			short rating[] = new short[resultCount];
+			ArrayList<Short> capabilityIDList = new ArrayList<Short>();
+			ArrayList<Short> ratingList = new ArrayList<Short>();
 			while(rs.next())
 			{
 				int j=0;
-				capabilityID[j] = rs.getShort("capabilityId");
-				rating[j] = rs.getShort("rating");
+				capabilityIDList.add(rs.getShort("capabilityId"));
+				ratingList.add(rs.getShort("rating"));
 				j++;
 			}
-			empSkillList.get(idx).setCapability(capabilityID);
-			empSkillList.get(idx).setCapability(rating);
+			empSkillList.get(idx).setCapabilityList(capabilityIDList);
+			empSkillList.get(idx).setRatingList(ratingList);
 		} catch (SQLException e)
 		{
 		// TODO Auto-generated catch block
@@ -101,10 +84,11 @@ public class EmployeeSkillDAO
 	{
 System.out.println("Into rateEmployeeSkill");
 		int updateCount=0, ratingsCount=0;
-		if(!(rateEmployeeSkill.getCapabilityID()==null))
+		if(!(rateEmployeeSkill.getCapabilityList()==null))
 		{
 			this.errorCode = 1; //No rating data provided
 			this.errorMsg = "Rate Employee: Rating information is required for: "+rateEmployeeSkill.getEmpSkillID();
+			return this.errorCode;
 		}
 		PreparedStatement ps = null;	
 		try
@@ -138,15 +122,18 @@ System.out.println("Into rateEmployeeSkill");
 			PreparedStatement ps = dbCon.prepareStatement("insert into EmployeeSkillsRating values(null,?,?,?)");
 			  
 			for(int i=0; i<= 6;i++){
-System.out.println("Line:"+i+" "+rateEmployeeSkill.getEmpSkillID()+" "+rateEmployeeSkill.getCapabilityID()[i]+" "+rateEmployeeSkill.getRating()[i]);
+System.out.println("Line:"+i+" "+rateEmployeeSkill.getEmpSkillID()+" "
+			+rateEmployeeSkill.getCapabilityList().get(i)+" "+rateEmployeeSkill.getRatingList().get(i));
+
 				ps.setShort(1, rateEmployeeSkill.getEmpSkillID());
-				ps.setShort(2, rateEmployeeSkill.getCapabilityID()[i]);
-				ps.setShort(3, rateEmployeeSkill.getRating()[i]);
+				ps.setShort(2, rateEmployeeSkill.getCapabilityList().get(i));
+				ps.setShort(3, rateEmployeeSkill.getRatingList().get(i));
 				ps.executeUpdate();
 				insertCount++; 
 			}
-			System.out.println("The number of rows inserted: "+ insertCount+" vs object lines"+rateEmployeeSkill.getCapabilityID().length);
-			if(insertCount==rateEmployeeSkill.getCapabilityID().length)
+			System.out.println("The number of rows inserted: "+ insertCount+" vs object lines"
+					+rateEmployeeSkill.getCapabilityList().size());
+			if(insertCount==rateEmployeeSkill.getCapabilityList().size())
 			{
 				System.out.println("Committing");
 			    dbCon.commit();
@@ -203,7 +190,7 @@ System.out.println("Rolling Back");
 			empSkillID = this.searchEmployeeSkill(addEmployeeSkill);
 			addEmployeeSkill.setEmpSkillID(empSkillID);
 
-			if(!(addEmployeeSkill.getCapabilityID()==null))
+			if(!(addEmployeeSkill.getCapabilityList()==null))
 			{
 				ratingsCount = this.addEmployeeSkillRating(addEmployeeSkill);				
 			}
@@ -274,49 +261,68 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		}
 		return empSkillID;
 	}
-	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
+		empSkillList = new ArrayList<EmployeeSkill>();
 		short empSkillID = 0;
 		PreparedStatement ps_select=null;
 		try
 		{
-			ps_select = dbCon.prepareStatement("select empSkillId from EmployeeSkills where employeeId=? and skillId=? and raterId=?");
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=? and skillId=? and raterId=?"
+					+ "and status=1 or status=2");
 			ps_select.setString(1, employeeID);
 			ps_select.setInt(2, skillID);
 			ps_select.setString(3, raterID);
 			ResultSet rs = ps_select.executeQuery();
-			while(rs.next())
-			{
-				empSkillID = rs.getShort("empSkillId");
-			}
-			
+			empSkillList = this.populateEmpSkillList(rs);
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return empSkillID;
+		return empSkillList.get(0);
 	}
-	public ArrayList<EmployeeSkill> searchEmployeeSkillByID(String enteredQuery)
+	public ArrayList<EmployeeSkill> populateEmpSkillList (ResultSet rs) throws SQLException
+	{
+		while(rs.next())
+		{
+			String employeeID = rs.getString("employeeId");
+			short empSkillID = rs.getShort("empSkillId");
+			int skillID = rs.getInt("skillId");
+			String raterID = rs.getString("raterID");
+			String coachingAvailability = rs.getString("coachingAvailability");
+			String comment = rs.getString("comment");
+			Date ratedDate = rs.getDate("ratedDate");
+			Date createDate = rs.getDate("createdDate");
+			empSkillList.add(new EmployeeSkill(employeeID, skillID, 
+					raterID, createDate));
+			int idx = empSkillList.size()-1;
+			empSkillList.get(idx).setEmpSkillID(empSkillID);
+			empSkillList.get(idx).setCoachingAvailability(coachingAvailability);
+			empSkillList.get(idx).setComment(comment);
+			empSkillList.get(idx).setRatedDate(ratedDate);
+			this.getEmpSkillRating(empSkillID, idx);
+		}
+		return empSkillList;
+	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByID(int skillID)
 	{
 		String employeeID;
 		PreparedStatement ps_select;
 		
 		try
 		{
-			String input = "%" + enteredQuery + "%";
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId = ? and status = 1 or status =2");
 			
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId like ? ");
-			
-			ps_select.setString(1, input);
+			ps_select.setInt(1, skillID);
 			
 			ResultSet rs = ps_select.executeQuery();
-			
+			ArrayList<EmployeeSkill> empSkill = new ArrayList<EmployeeSkill>();
 			while(rs.next())
 			{
 				
 				employeeID = rs.getString("employeeID");
-				empSkillList.addAll(this.getEmployeeSkill(employeeID));
+				empSkillList = this.populateEmpSkillList(rs);
 			}
 			
 		} catch (SQLException e)
