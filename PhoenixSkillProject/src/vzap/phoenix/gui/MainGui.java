@@ -5,6 +5,7 @@ import javax.swing.JTabbedPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Color;
@@ -51,6 +52,9 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JList list;
 	private String loggedInUser = null;
 	private Vector<String> vectHobby = null;
+	private Vector<Hobby> allHobby = null;
+//	private Vector<String> vectDisplayHobbyForEmp = null;
+	//private Vector<String> vectHobby = null;
 	private JButton btnLogoff;
 	private JButton btnUpdateEmployee;
 	private String deleteHobbyValue = null;
@@ -60,6 +64,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private EmpSkillClientController clientControl = null;
 	private Employee emp = null;
 	private JComboBox comboBox;
+	private ArrayList<Short> empHobby;
 	/**
 	 * Create the panel.
 	 */
@@ -74,13 +79,29 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		//adding the existing hobbies for a user
 //		System.out.println("Size " + clientControl.getHobbyList().size() );
-//		vectHobby = new Vector<String>();
-//		for (int i = 0; i < clientControl.getHobbyList().size(); i++)
-//		{
-//			vectHobby.addElement(clientControl.getHobbyList().get(i).getHobbyDescription());
-//		}
+		allHobby = clientControl.getHobbyList();
+		vectHobby = new Vector<String>();
+		
+		//will setup the array
+				
+		empHobby = emp.getEmpHobbies();
+		
+		for(int i = 0 ; i < empHobby.size() ; i ++)
+		{
+			for(int j = 0;j < allHobby.size();j++)
+			{
+				if (empHobby.get(i) == allHobby.get(j).getHobbyID())
+				{
+					
+					vectHobby.add(allHobby.get(j).getHobbyDescription());
+				}
+			}
+		}
+			
 //		//end my added code
 //		
+		
+		//vectHobby.add("Test");
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -280,15 +301,41 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				tfAddHobby.selectAll();
 				return; 
 			}
-			if(vectHobby.size() >= 5)
-			{
-				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
-				return;
-			}
+//			if(vectHobby.size() >= 5)
+//			{
+//				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
+//				return;
+//			}
 			//call database to insert new hobby if successful add it to the list.
 			//datatbase must happen here
+			boolean existingHobby = false;
+			for(int j = 0;j < allHobby.size();j++)
+			{
+				
+				if (addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				{
+					System.out.println("existing hobby");
+					
+					existingHobby = true;
+					vectHobby.add(addHobbyValue);
+					empHobby.add(allHobby.get(j).getHobbyID());
+					emp.setEmpHobbies(empHobby);
+					clientControl.updateEmployee(emp);	
+					break;
+				}
+			}
+			if(!existingHobby)
+			{
+				System.out.println("Not existing hobby");
+				//adding a hobby that does'nt exist in the current users profile.
+				empHobby.add(clientControl.addHobby(addHobbyValue));
+				emp.setEmpHobbies(empHobby);
+				clientControl.updateEmployee(emp);
+			}
 			
-			vectHobby.addElement(addHobbyValue);
+			
+			//if adding hobby is successful add the hobby to the Jlist;
+			//vectHobby.addElement(addHobbyValue);
 						
 		}
 		if(source == btnDeleteHobby)
