@@ -254,7 +254,6 @@ public class EmpSkillServer
 				e.printStackTrace();
 			}
 
-System.out.println(employee.getSurname());
 		}
 		public void getLogonEmployee()
 		{
@@ -433,6 +432,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 		}
 		public void updateEmployee()
 		{
+			employee = new Employee();
 			try
 			{
 				employee = (Employee)ois.readObject();
