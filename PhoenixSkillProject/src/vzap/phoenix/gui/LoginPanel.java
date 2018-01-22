@@ -156,12 +156,16 @@ public class LoginPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
-		password = new String(passwordField.getPassword());
-		passRepeat = new String(passwordFieldRepeat.getPassword());
-		loggedInUser = tf_UserID.getText();
+//		password = new String(passwordField.getPassword());
+//		
+//		loggedInUser = tf_UserID.getText();
 		
 		if(source == btnLogin)
 		{	
+			System.out.println("login pressed");
+			password = new String(passwordField.getPassword());
+			//passRepeat = new String(passwordFieldRepeat.getPassword());
+			loggedInUser = tf_UserID.getText();
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please capture Your User ID ?");
@@ -175,12 +179,13 @@ public class LoginPanel extends JPanel implements ActionListener
 				return;
 			}
 			//we will check if all details are correct here and move forward.	
-			
-			short loginCode = clientControl.loginEmployee(loggedInUser,password);  
+			System.out.println("before loginEmployee");
+			short loginCode = clientControl.loginEmployee(loggedInUser,password);
+			System.out.println("we made it after the login");
 			if(loginCode == 0)
 			{
 				emp = clientControl.getLogonEmployee();
-				System.out.println("Hel get logon emp");
+				System.out.println("we made it after getting the employee");
 				if(emp!=null)
 				{
 					mainGui = new MainGui(basePanel,newUser,emp,clientControl);
@@ -194,14 +199,14 @@ public class LoginPanel extends JPanel implements ActionListener
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(this, "No Employee found!");
+					JOptionPane.showMessageDialog(this, "No Employee found!!!");
 					return;
 				}
 			}
 			if(loginCode == 1)
 			{
-				JOptionPane.showMessageDialog(this, "User Name not found you might want to register?");
-				btnSignUp.doClick();
+				JOptionPane.showMessageDialog(this, "User Name not found you might want to SignUp?");
+				//btnSignUp.doClick();
 				return;
 			}
 			if(loginCode == 2)
@@ -226,6 +231,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		
 		if(source == btnSignUp)
 		{
+			
 			btnConfirmRegistration.setVisible(true);
 			passwordFieldRepeat.setVisible(true);
 			lblRepeatPassword.setVisible(true);
@@ -234,6 +240,10 @@ public class LoginPanel extends JPanel implements ActionListener
 		
 		if(source == btnConfirmRegistration)
 		{
+			password = new String(passwordField.getPassword());
+			passRepeat = new String(passwordFieldRepeat.getPassword());
+			loggedInUser = tf_UserID.getText();
+			
 			 
 			if(loggedInUser.equals("") || loggedInUser == null )
 			{

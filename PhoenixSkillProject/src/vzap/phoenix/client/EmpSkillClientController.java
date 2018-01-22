@@ -79,7 +79,11 @@ public class EmpSkillClientController
 	{
 		client.closeConnections();
 	}
-	
+
+	public short addHobby(String description)
+	{
+		return client.addHobby(description);
+	}
 	
 	
 	
