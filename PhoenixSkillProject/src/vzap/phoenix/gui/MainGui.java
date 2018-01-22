@@ -73,14 +73,14 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		this.clientControl = clientControl;
 		
 		//adding the existing hobbies for a user
-		System.out.println("Size " + clientControl.getHobbyList().size() );
-		vectHobby = new Vector<String>();
-		for (int i = 0; i < clientControl.getHobbyList().size(); i++)
-		{
-			vectHobby.addElement(clientControl.getHobbyList().get(i).getHobbyDescription());
-		}
-		//end my added code
-		
+//		System.out.println("Size " + clientControl.getHobbyList().size() );
+//		vectHobby = new Vector<String>();
+//		for (int i = 0; i < clientControl.getHobbyList().size(); i++)
+//		{
+//			vectHobby.addElement(clientControl.getHobbyList().get(i).getHobbyDescription());
+//		}
+//		//end my added code
+//		
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
