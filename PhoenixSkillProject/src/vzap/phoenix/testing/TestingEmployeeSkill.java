@@ -1,4 +1,4 @@
-package vzap.phoenix.gui;
+package vzap.phoenix.testing;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
