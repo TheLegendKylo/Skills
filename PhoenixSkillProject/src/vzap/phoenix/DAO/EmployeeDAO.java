@@ -126,7 +126,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		try 
 		{
-			ps = dbCon.prepareStatement("update users set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
+			ps = dbCon.prepareStatement("update Employee set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
 						+ "where employeeID = ?");
 			
 			ps.setString(1, employee.getFirstName());

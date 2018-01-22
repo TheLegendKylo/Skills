@@ -261,7 +261,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 			
 		}
-				
+		
 		if(source == btnAddHobby)
 		{
 			tfAddHobby.grabFocus();
