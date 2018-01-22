@@ -134,6 +134,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			ps.setString(3, employee.getAlias());
 			ps.setString(4, employee.getEmail());
 			ps.setString(5, employee.getContactNo());
+			ps.setString(6, employee.getEmployeeID());
 						
 			ps.executeUpdate();
 			

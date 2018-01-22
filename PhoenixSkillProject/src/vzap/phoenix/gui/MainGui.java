@@ -23,6 +23,7 @@ import vzap.phoenix.client.EmpSkillClientController;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
 
 public class MainGui extends JPanel implements ActionListener,ListSelectionListener
 {
@@ -58,6 +59,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JTextField tfAlias;
 	private EmpSkillClientController clientControl = null;
 	private Employee emp = null;
+	private JComboBox comboBox;
 	/**
 	 * Create the panel.
 	 */
@@ -168,6 +170,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		btnUpdateEmployee = new JButton("Update Employee");
 		btnUpdateEmployee.setBounds(65, 393, 157, 25);
+		btnUpdateEmployee.addActionListener(this);
 		panelProfile.add(btnUpdateEmployee);
 		
 		lblAlias = new JLabel("Alias");
@@ -198,7 +201,15 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfSurname.setText(emp.getSurname());
 		tfContact.setText(emp.getContactNo());
 		tfEmail.setText(emp.getEmail());	
-		System.out.println("checking = " + emp.toString());
+		
+		//	comboBox = new JComboBox(vectHobby);
+		//AutoCompleteDe
+		//AutoCompletion ac = new AutoCompletion(comboBox);
+		//AutoCompletion.enable(comboBox);
+		//comboBox.setEditable(true);
+		//comboBox.setBounds(164, 331, 231, 22);
+		//panelProfile.add(comboBox);
+		
 
 	}
 	@Override
@@ -208,6 +219,46 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		if(source == btnUpdateEmployee)
 		{
+			
+			if(tfName.getText().equals("") || tfName.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Hobby ?");
+				tfName.grabFocus();
+				return;
+			}
+			if(tfSurname.getText().equals("") || tfSurname.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Surname ?");
+				tfSurname.grabFocus();
+				return;
+			}
+			if(tfContact.getText().equals("") || tfName.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Contact Number ?");
+				tfContact.grabFocus();
+				return;
+			}
+			if(tfEmail.getText().equals("") || tfEmail.getText() == null )
+			{
+				JOptionPane.showMessageDialog(this, "Please capture Your Email Address ?");
+				tfContact.grabFocus();
+				return;
+			}
+			
+			emp.setAlias(tfAlias.getText());
+			emp.setFirstName(tfName.getText());
+			emp.setSurname(tfSurname.getText());
+			emp.setContactNo(tfContact.getText());
+			emp.setEmail(tfEmail.getText());
+			
+			if(clientControl.updateEmployee(emp))
+			{
+				JOptionPane.showMessageDialog(this, "Successfully Updated employee details?");
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "Error Updating Employee?");
+			}
 			
 		}
 				
