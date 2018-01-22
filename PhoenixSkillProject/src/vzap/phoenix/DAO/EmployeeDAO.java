@@ -21,7 +21,7 @@ public class EmployeeDAO
 	public EmployeeDAO()
 	{
 		myDBCon = new MyDBCon();
-		dbCon = MyDBCon.getDBCon();
+		dbCon = myDBCon.getDBCon();
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
