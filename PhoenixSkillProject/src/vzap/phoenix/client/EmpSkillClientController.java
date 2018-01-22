@@ -1,63 +1,87 @@
 package vzap.phoenix.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Vector;
 
+import vzap.phoenix.Server.Employee.CapabilityRating;
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
-import vzap.phoenix.Server.Employee.Skill;
+import vzap.phoenix.Server.Employee.Hobby;
+import vzap.phoenix.Server.Employee.Level;
 
 public class EmpSkillClientController
 {
 	private Employee employee;
-	private EmpSkillClient loginSession;
-	private EmployeeSkill empSkill;
-	private ArrayList<Skill> skillList;
+	private EmpSkillClient client;
 	
 	public EmpSkillClientController()
 	{
-		loginSession = new EmpSkillClient();
-		String employeeID = "a159842";
-		String password = "123";
-		short returnCode = loginSession.loginEmployee(employeeID, password);
-		
-		if(returnCode==0)//.equals("Login Successfull"))
-		{
-			employee = loginSession.getLogonEmployee();
-			System.out.println(employee.getSurname());
-		} else {
-			System.out.println(loginSession.getErrorMsg());
-		}
-		boolean b = addEmpSkill();
-		System.out.println("Write Message:" +loginSession.getErrorMsg());
-//		System.out.println("HobbyID= "+loginSession.addHobby("AppDev"));
-//		System.out.println("SkillID= "+loginSession.addSkill("Natural Adabas"));
-		
+		client = new EmpSkillClient();
 	}
-	public boolean addEmpSkill()
+	public short loginEmployee(String employeeID, String password)
 	{
-		empSkill = new EmployeeSkill();
-		empSkill.setEmployeeID(employee.getEmployeeID());
-		skillList = loginSession.getSkillList();
-		int skillID = skillList.get(20).getSkillId();
-		empSkill.setSkillID(skillID);
-		Date d = new Date();
-		empSkill.setCreatedDate(d);
-		empSkill.setRaterID(employee.getEmployeeID());
-		short i=1;
-		empSkill.setStatus(i);
-		empSkill.setCoachingAvailability("N");
-		boolean saveSuccess = loginSession.addEmployeeSkill(empSkill);
-		return saveSuccess;
+		//0 success
+		//1 emp not found/invalid userName
+		//2 password
+		return client.loginEmployee(employeeID, password);	
 	}
-	public Employee getEmployee()
+	public Employee getLogonEmployee()
 	{
-		return employee;
+		//if null no employee found.
+		return client.getLogonEmployee();
 	}
-	public static void main(String[] args)
+	public Vector<Hobby> getHobbyList()
 	{
-		// TODO Auto-generated method stub
-		new EmpSkillClientController();
+		return client.getHobbyList();
 	}
-
+	public ArrayList<Level> getLevelList()
+	{
+			return client.getLevelList();
+	}
+	public ArrayList<CapabilityRating> getCapabilityRatingList()
+	{
+		return client.getCapabilityRatingList();
+	}
+	public boolean registerEmployee(Employee newEmployee)
+	{
+		return client.registerEmployee(newEmployee);
+	}
+	public boolean updateEmployee(Employee updateEmployee)
+	{
+		return client.updateEmployee(updateEmployee);
+	}
+	public ArrayList<Employee> searchEmployee(String searchCriteria)
+	{
+		return client.searchEmployee(searchCriteria);
+	}
+	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
+	{
+		return client.addEmployeeSkill(addEmployeeSkill);
+	}
+	public boolean nominateRater(EmployeeSkill nominateRater)
+	{
+		return client.nominateRater(nominateRater);
+	}
+	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
+	{
+		return client.rateEmployeeSkill(rateEmployeeSkill);
+	}
+	public short getErrorCode()
+	{
+		return client.getErrorCode();
+	}
+	public String getErrorMsg()
+	{
+		return client.getErrorMsg();
+	}
+	public void closeConnections()
+	{
+		client.closeConnections();
+	}
+	
+	
+	
+	
+	
 }

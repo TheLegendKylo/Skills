@@ -395,7 +395,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
+		System.out.println("Client: Number of Employees: "+employeeList.size());
 		return employeeList;
 	}
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
