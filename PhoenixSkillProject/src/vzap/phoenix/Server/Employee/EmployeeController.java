@@ -111,7 +111,10 @@ public class EmployeeController
 		}
 		return true;
 	}
-
+	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	{
+		return empSkillDAO.searchEmployeeSkill(employeeID, skillID, raterID);
+	}
 	public Employee getLogonEmployee()
 	{
 		return this.logonEmployee;

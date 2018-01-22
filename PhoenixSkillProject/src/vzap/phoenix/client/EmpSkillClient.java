@@ -478,6 +478,32 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		}
 		return ratingSuccessfull;
 	}
+	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	{
+		outMessage = "searchEmployeeSkill";
+		pw.println(outMessage);
+		pw.println(raterID);
+		pw.flush();
+		try
+		{
+			oos.writeObject(new Integer(skillID));
+			oos.flush();
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		short empSkillID =0;
+		try
+		{
+			empSkillID = ois.readShort();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillID;
+	}
 	public short getErrorCode()
 	{
 		outMessage = "getErrorCode";

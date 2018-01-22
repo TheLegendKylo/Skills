@@ -104,15 +104,15 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 		
 		textArea = new JTextArea();
 		Vector<Hobby> hobbyList = empClient.getHobbyList();
-		int hobbyCount = logonEmployee.getEmpHobbies().length;
-		for (int i = 0; i < hobbyCount; i++)
-		{
-			for (int j = 0; j < empClient.getHobbyList().size(); j++)
-			{
-				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies()[i])
-				textArea.setText(textArea.getText()+"\n"+hobbyList.get(j).getHobbyDescription());
-			}
-		}
+//		int hobbyCount = logonEmployee.getEmpHobbies().length;
+//		for (int i = 0; i < hobbyCount; i++)
+//		{
+//			for (int j = 0; j < empClient.getHobbyList().size(); j++)
+//			{
+////				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies()[i])
+//				textArea.setText(textArea.getText()+"\n"+hobbyList.get(j).getHobbyDescription());
+//			}
+//		}
 		
 		GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 		gl_profilePanel.setHorizontalGroup(

@@ -74,15 +74,15 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				  rs.beforeFirst(); 
 			}
 			System.out.println("Hobby result count: "+resultCount);
-			short hobbyID[] = new short[resultCount];
+			ArrayList<Short> empHobbyList= new ArrayList<Short>();
 			
 			while(rs.next())
 			{
 				int j=0;
-				hobbyID[j] = rs.getShort("hobbyId");
+				empHobbyList.add(new Short(rs.getShort("hobbyId")));
 				j++;
 			}
-			employee.setEmpHobbies(hobbyID);
+			employee.setEmpHobbies(empHobbyList);
 		} catch (SQLException e)
 		{
 		// TODO Auto-generated catch block
@@ -144,6 +144,10 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			e.printStackTrace();
 			return false;
 		}
+		return true;
+	}
+	public boolean updateEmpHobbies(ArrayList<Short> empHobbyList)
+	{
 		return true;
 	}
 	public boolean deleteEmployee(Employee employee)

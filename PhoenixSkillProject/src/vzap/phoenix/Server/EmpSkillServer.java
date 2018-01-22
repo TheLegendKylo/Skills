@@ -200,6 +200,11 @@ public class EmpSkillServer
 							this.rateEmployeeSkill();
 							break;
 						}
+						case "searchEmployeeSkill":
+						{
+							this.searchEmployeeSkill();
+							break;
+						}
 						case "getErrorCode":
 						{
 							this.getErrorCode();
@@ -565,6 +570,24 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				e.printStackTrace();
 			}
 			return success;
+		}
+		public short searchEmployeeSkill()
+		{
+			String employeeID = null;
+			int skillID = 0;
+			String raterID = null;
+			try
+			{
+				employeeID = br.readLine();
+				raterID = br.readLine();
+				skillID = (Integer)ois.readInt();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Server: read searchEmployeeSkills: "+employeeID+" "+raterID+" "+skillID);
+			return empControl.searchEmployeeSkill(employeeID, skillID, raterID);
 		}
 		public void getErrorCode()
 		{

@@ -1,6 +1,7 @@
 package vzap.phoenix.Server.Employee;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Employee implements Serializable
@@ -13,7 +14,7 @@ public class Employee implements Serializable
 	private String email = null;
 	private String alias = null;
 	private String password = null;
-	private short hobbyID[];
+	private ArrayList<Short> empHobbyList;
 	
 	public Employee(String employeeID, String surname, String firstName)
 	{
@@ -77,19 +78,19 @@ public class Employee implements Serializable
 	{
 		this.alias = alias;
 	}
-	public short[] getEmpHobbies()
+	public ArrayList<Short> getEmpHobbies()
 	{
-		return this.hobbyID;
+		return this.empHobbyList;
 	}
-	public void setEmpHobbies(short[] hobbyID)
+	public void setEmpHobbies(ArrayList<Short> empHobbyList)
 	{
-		this.hobbyID = hobbyID;
+		this.empHobbyList = empHobbyList;
 	}
 	@Override
 	public String toString()
 	{
 		return "Employee kyle [employeeID=" + employeeID + ", surname=" + surname + ", firstName=" + firstName
 				+ ", cellNumber=" + cellNumber + ", email=" + email + ", alias=" + alias + ", password=" + password
-				+ ", hobbyID=" + Arrays.toString(hobbyID) + "]";
+				+ ", hobbyID=" + empHobbyList.toString() + "]";
 	}
 }

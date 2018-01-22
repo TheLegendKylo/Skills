@@ -42,12 +42,14 @@ public class TestingPhoenix
 		capList = loginSession.getCapabilityList();
 		levelList = loginSession.getLevelList();
 		this.getEmpSkills();
+		this.searchEmployeeSkill();
 //		this.rateSkill();
 //		boolean b = this.addEmpSkill();
+//		boolean b = this.nominateRater();
 //		this.addHobby();
 //		this.addSkill();
 //		System.out.println("Write Message:" +loginSession.getErrorMsg());
-//		loginSession.closeConnections();
+		loginSession.closeConnections();
 	}
 	public void addHobby()
 	{
@@ -76,7 +78,7 @@ public class TestingPhoenix
 		System.out.println(empSkill.toString());
 		return saveSuccess;
 	}
-	public boolean NominateRater()
+	public boolean nominateRater()
 	{
 		empSkill = new EmployeeSkill();
 		empSkill.setEmployeeID(employee.getEmployeeID());
@@ -140,6 +142,11 @@ public class TestingPhoenix
 				}
 			}
 		}
+	}
+	public void searchEmployeeSkill()
+	{
+		short empSkillID = loginSession.searchEmployeeSkill("a159842", 1, "a159842");
+		System.out.println("searchEmp"+empSkillID+" "+loginSession.getErrorMsg());
 	}
 	public Employee getEmployee()
 	{

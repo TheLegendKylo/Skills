@@ -101,9 +101,15 @@ public class EmployeeSkillDAO
 	{
 System.out.println("Into rateEmployeeSkill");
 		int updateCount=0, ratingsCount=0;
-		PreparedStatement ps = null;
+		if(!(rateEmployeeSkill.getCapabilityID()==null))
+		{
+			this.errorCode = 1; //No rating data provided
+			this.errorMsg = "Rate Employee: Rating information is required for: "+rateEmployeeSkill.getEmpSkillID();
+		}
+		PreparedStatement ps = null;	
 		try
 		{
+			dbCon.setAutoCommit(false);
 			ps = dbCon.prepareStatement("update employeeSkills set ratedDate=?,status=? "
 					+"where empSkillID=?");
 			java.sql.Date ratedDate = new java.sql.Date(rateEmployeeSkill.getRatedDate().getTime());
@@ -119,8 +125,8 @@ System.out.println("Into rateEmployeeSkill");
 			e.printStackTrace();
 			this.errorMsg = "Employee Skill: Rating failed for Employee SkillID: "+rateEmployeeSkill.getEmpSkillID();
 		}
-		errorCode = 0;
-		return errorCode;
+		this.errorCode = 0;
+		return this.errorCode;
 	}
 	public int addEmployeeSkillRating(EmployeeSkill rateEmployeeSkill)
 	{
@@ -129,7 +135,6 @@ System.out.println("Into rateEmployeeSkill");
 		int insertCount=0;
 		try
 		{
-			dbCon.setAutoCommit(false);
 			PreparedStatement ps = dbCon.prepareStatement("insert into EmployeeSkillsRating values(null,?,?,?)");
 			  
 			for(int i=0; i<= 6;i++){
@@ -174,7 +179,7 @@ System.out.println("Rolling Back");
 		if(empSkillID!=0)
 		{
 			this.errorCode = 1;
-			this.errorMsg = "Record already exists";
+			this.errorMsg = "Employee Skill Record already exists";
 			System.out.println(this.errorMsg);
 			return this.errorCode; //record already exists
 		}
@@ -190,8 +195,7 @@ System.out.println("Rolling Back");
 			ps.setString(5, addEmployeeSkill.getCoachingAvailability());
 			ps.setShort(6, addEmployeeSkill.getStatus());
 			ps.setString(7, addEmployeeSkill.getComment());
-			java.sql.Date ratedDate = new java.sql.Date(addEmployeeSkill.getRatedDate().getTime());
-			ps.setDate(8,  ratedDate);
+			ps.setDate(8,  (java.sql.Date)addEmployeeSkill.getRatedDate());
 			java.sql.Date createdDate = new java.sql.Date(addEmployeeSkill.getCreatedDate().getTime());
 			ps.setDate(9,  createdDate );
 			insertCount = ps.executeUpdate();
@@ -213,6 +217,40 @@ System.out.println("Rolling Back");
 		}
 		return this.errorCode;
 	}
+	public int updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
+	{
+		// first check whether a duplicate record already exists
+		this.errorCode = 0;
+		int updateCount = 0, ratingsCount=0;
+System.out.println(updEmployeeSkill.getEmployeeID());
+		short empSkillID = this.searchEmployeeSkill(updEmployeeSkill);
+		if(empSkillID==0)
+		{
+			this.errorCode = 1;
+			this.errorMsg = "Employee Skill Record not found";
+			System.out.println(this.errorMsg);
+			return this.errorCode; 
+		}
+		
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("update EmployeeSkills set status=?,coachingAvailability=?,comment=? where empSkillId=?)");
+			ps.setString(1, updEmployeeSkill.getCoachingAvailability());
+			ps.setShort(2, updEmployeeSkill.getStatus());
+			ps.setString(3, updEmployeeSkill.getComment());
+			ps.setShort(4, updEmployeeSkill.getEmpSkillID());
+			updateCount = ps.executeUpdate();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.errorMsg = "Employee Skill: Update statement failed for: "+updEmployeeSkill.getEmpSkillID();
+			this.errorCode = 9;
+			return this.errorCode; //SQL Error
+		}
+		return this.errorCode;
+	}
 	public short searchEmployeeSkill(EmployeeSkill searchEmployeeSkill)
 	{
 		short empSkillID = 0;
@@ -223,6 +261,29 @@ System.out.println("Rolling Back");
 			ps_select.setString(1, searchEmployeeSkill.getEmployeeID());
 			ps_select.setInt(2, searchEmployeeSkill.getSkillID());
 			ps_select.setString(3, searchEmployeeSkill.getRaterID());
+			ResultSet rs = ps_select.executeQuery();
+			while(rs.next())
+			{
+				empSkillID = rs.getShort("empSkillId");
+			}
+			
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillID;
+	}
+	public short searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	{
+		short empSkillID = 0;
+		PreparedStatement ps_select=null;
+		try
+		{
+			ps_select = dbCon.prepareStatement("select empSkillId from EmployeeSkills where employeeId=? and skillId=? and raterId=?");
+			ps_select.setString(1, employeeID);
+			ps_select.setInt(2, skillID);
+			ps_select.setString(3, raterID);
 			ResultSet rs = ps_select.executeQuery();
 			while(rs.next())
 			{
