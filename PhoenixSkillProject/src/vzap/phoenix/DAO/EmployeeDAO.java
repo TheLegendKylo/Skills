@@ -21,7 +21,12 @@ public class EmployeeDAO
 	public EmployeeDAO()
 	{
 		myDBCon = new MyDBCon();
+<<<<<<< HEAD
 		dbCon = myDBCon.getDBCon();
+=======
+		dbCon = MyDBCon.getDBCon();
+		empList = new ArrayList<Employee>();
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
@@ -101,7 +106,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		try
 		{
-			ps = dbCon.prepareStatement("insert into user values(?,?,?,?,?,?)");
+			ps = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?)");
 			ps.setString(1, employee.getEmployeeID());
 			ps.setString(2, employee.getFirstName());
 			ps.setString(3, employee.getSurname());
@@ -175,12 +180,15 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			ps.setString(1, input);
 			ps.setString(2, input);
 			ps.setString(3, input);
+			ps.setString(4, input);
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next())
 			{
 				employeeID = rs.getString("employeeId");
 				empList.add(this.getEmployee(employeeID));
 			}
+			
 		}
 		catch (SQLException e) 
 		{
@@ -190,13 +198,14 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	}
 	public Employee getEmployee(String employeeID)
 	{
-		empList = new ArrayList<Employee>();
+		
 		try
 		{
 			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
 System.out.println("Search: What is the EmployeeID: "+employeeID);
 			ps.setString(1,employeeID);
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next())
 			{
 				String surname = rs.getString("surname");
@@ -208,8 +217,9 @@ System.out.println("Search: What is the EmployeeID: "+employeeID);
 				employee.setContactNo(contactNo);
 				employee.setEmail(email);
 				employee.setAlias(alias);
+				System.out.println("in result set emp object = " + employee.toString());
 			}
-			this.getEmpHobby(employeeID);
+     		this.getEmpHobby(employeeID);
 			this.errorCode = 0; //Employee found and password matched
 				
 		} catch (SQLException e)
@@ -219,6 +229,7 @@ System.out.println("Search: What is the EmployeeID: "+employeeID);
 			errorMsg = "Employee Get "+employeeID+" not found";
 
 		}
+		System.out.println("out of result set emp object = " + employee.toString());
 		return employee;
 	}
 	
