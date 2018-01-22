@@ -21,6 +21,7 @@ import javax.swing.Popup;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.*;
 
@@ -56,6 +57,7 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
 //	private ArrayList<Employee> employeeList; 
+	private ArrayList<EmployeeSkill> skillList;
 	EmpSkillClient empSkillClient;
 	private JButton clearBut;
 	
@@ -198,14 +200,15 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 				employeeList = empSkillClient.searchEmployee(searchByEmployeeJTF.getText());
 				System.out.println("searchcriteria - employee size"); // + employeeList.size());						
 				
-				Object[][] empRow = new Object[employeeList.size()][4];
-		        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+				Object[][] empRow = new Object[employeeList.size()][5];
+		        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias","Email Address"};
 		        for (int i=0; i<employeeList.size(); i++)
 		        {				            
 		    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
 		    	   	empRow[i][1]=employeeList.get(i).getFirstName();
 		    	   	empRow[i][2]=employeeList.get(i).getSurname();
 		    	   	empRow[i][3]=employeeList.get(i).getAlias();
+		    	   	empRow[i][4]=employeeList.get(i).getEmail();
 		    	   	
 		        }
 				
@@ -214,15 +217,15 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 				tablePanel.validate();
 				tablePanel.repaint();
 				table = new JTable(empRow,empHeader);
-				table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
+				table.setAutoResizeMode(table.AUTO_RESIZE_LAST_COLUMN);
 				scrollPane = new JScrollPane();
 				scrollPane.setViewportView(table);
 				tablePanel.add(scrollPane);
 				tablePanel.validate();
 				tablePanel.repaint();
 			}
-			else
-			{
+	//		else
+		//	{
 				if(! (searchByHobbyJTF.getText().isEmpty()))
 				{
 //					System.out.println("searchcriteria - hobbies " + searchByHobbyJTF.getText());
@@ -250,24 +253,24 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 					tablePanel.validate();
 					tablePanel.repaint();	
 				}
-				else
-				{
+			//	else
+				//{
 				if(! (searchBySkillJTF.getText().isEmpty()))
 				{
-//					System.out.println("searchcriteria - skills .. emp " + searchBySkillJTF.getText());
-//					employeeList = empSkillClient.searchEmpHobby(searchByHobbyJTF.getText());
-//					System.out.println("searchcriteria - hobbiesemployee size"); // + employeeList.size());						
-//					
-//					Object[][] empRow = new Object[employeeList.size()][4];
-//			        String[] empHeader = new String[]{"UserId","First Name","Surname","Alias"};
-//			        for (int i=0; i<employeeList.size(); i++)
-//			        {				            
-//			    	   	empRow[i][0]=employeeList.get(i).getEmployeeID();
-//			    	   	empRow[i][1]=employeeList.get(i).getFirstName();
-//			    	   	empRow[i][2]=employeeList.get(i).getSurname();
-//			    	   	empRow[i][3]=employeeList.get(i).getAlias();
-//			    	   	
-//			        }
+					System.out.println("searchcriteria - skills .. value: " + searchBySkillJTF.getText());
+					skillList = empSkillClient.searchEmployeeSkill(searchBySkillJTF.getText());
+					System.out.println("searchcriteria - employee skill size" + skillList.size());						
+					
+					Object[][] empRow = new Object[skillList.size()][2];
+			        String[] empHeader = new String[]{"EmployeeId","Skill ID"/*,"Surname","Alias"**/};
+			        for (int i=0; i<skillList.size(); i++)
+			        {				            
+			    	   	empRow[i][0]=skillList.get(i).getEmployeeID();
+			    	   	empRow[i][1]=skillList.get(i).getEmpSkillID();
+//			    	   	empRow[i][2]=skillList.get(i).getSurname();
+//			    	   	empRow[i][3]=skillList.get(i).getAlias();
+			    	   	
+			        }
 					tablePanel.removeAll();
 					tablePanel.validate();
 					tablePanel.repaint();
@@ -279,8 +282,8 @@ public class SearchCriteria extends JPanel implements ActionListener, KeyListene
 					tablePanel.validate();
 					tablePanel.repaint();	
 				}
-				}
-			}
+			//	}
+		//	}
 		}
 	}//end of action performed
 	public static void main(String[] args)

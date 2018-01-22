@@ -400,6 +400,32 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		System.out.println("Client: Number of Employees: "+employeeList.size());
 		return employeeList;
 	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(String searchCriteria)
+	{
+		if(searchCriteria==null)
+		{
+			return null;
+		}
+		
+		outMessage = "searchEmployeeSkill";
+		pw.println(outMessage);
+		pw.flush();
+		outMessage = searchCriteria;
+		pw.println(outMessage);
+		pw.flush();
+		ArrayList<EmployeeSkill> employeeSkillList = new ArrayList<EmployeeSkill>();
+		try
+		{
+			employeeSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
+		return employeeSkillList;
+	}	
+
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
 		outMessage = "addEmployeeSkill";

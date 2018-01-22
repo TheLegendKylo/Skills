@@ -236,6 +236,35 @@ System.out.println("Rolling Back");
 		}
 		return empSkillID;
 	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByID(String enteredQuery)
+	{
+		String employeeID;
+		PreparedStatement ps_select;
+		
+		try
+		{
+			String input = "%" + enteredQuery + "%";
+			
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId like ? ");
+			
+			ps_select.setString(1, input);
+			
+			ResultSet rs = ps_select.executeQuery();
+			
+			while(rs.next())
+			{
+				
+				employeeID = rs.getString("employeeID");
+				empSkillList.addAll(this.getEmployeeSkill(employeeID));
+			}
+			
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillList;
+	}
 	public short deleteEmployeeSkill(EmployeeSkill deleteEmployeeSkill)
 	{
 		this.errorCode = 0;
