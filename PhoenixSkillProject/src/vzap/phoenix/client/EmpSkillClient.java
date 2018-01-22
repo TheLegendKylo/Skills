@@ -326,6 +326,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			oos.writeObject(newEmployee);
+			oos.flush();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -351,6 +352,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			oos.writeObject(updateEmployee);
+			oos.flush();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -406,6 +408,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			oos.writeObject(addEmployeeSkill);
+			oos.flush();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -431,6 +434,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			oos.writeObject(nominateRater);
+			oos.flush();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -456,6 +460,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			oos.writeObject(rateEmployeeSkill);
+			oos.flush();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block

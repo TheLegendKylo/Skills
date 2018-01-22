@@ -247,7 +247,6 @@ public class EmpSkillServer
 				oos.writeObject(new Short(errorCode));
 //				dos.writeShort(1234);//errorCode);
 				System.out.println("Employee login AFTER writing errorCode: "+errorCode);
-				
 				oos.flush();
 			} catch (IOException e)
 			{
@@ -262,6 +261,7 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(employee);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -275,6 +275,7 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(skillList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -299,6 +300,7 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(new Short(skillID));
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -313,6 +315,7 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(hobbyList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -337,6 +340,7 @@ System.out.println(employee.getSurname());
 			try
 			{
 				oos.writeObject(new Short(hobbyID));
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -351,6 +355,7 @@ System.out.println("Number of Levels: "+levelList.size());
 			try
 			{
 				oos.writeObject(levelList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -364,6 +369,7 @@ System.out.println("Number of Employee SkillS: "+empSkillList.size());
 			try
 			{
 				oos.writeObject(empSkillList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -377,6 +383,7 @@ System.out.println("Number of Capabilities: "+capabilityList.size());
 			try
 			{
 				oos.writeObject(capabilityList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -390,6 +397,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			try
 			{
 				oos.writeObject(capabilityRatingList);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -415,6 +423,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			try
 			{
 				oos.writeBoolean(registerSuccess);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -441,6 +450,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			try
 			{
 				oos.writeBoolean(updateSuccess);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -492,6 +502,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			try
 			{
 				oos.writeBoolean(success);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -519,6 +530,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			try
 			{
 				oos.writeBoolean(success);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -546,6 +558,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			try
 			{
 				oos.writeBoolean(success);
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
@@ -558,6 +571,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			try
 			{
 				oos.writeShort(empControl.getErrorCode());
+				oos.flush();
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
