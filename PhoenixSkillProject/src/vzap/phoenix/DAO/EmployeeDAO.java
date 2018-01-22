@@ -124,6 +124,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	}
 	public boolean updateEmployee(Employee employee)
 	{
+		boolean updSuccess = true;
 		try 
 		{
 			ps = dbCon.prepareStatement("update Employee set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
@@ -137,14 +138,18 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			ps.setString(6, employee.getEmployeeID());
 						
 			ps.executeUpdate();
-			
+			ArrayList<Short> empHobbyList = employee.getEmpHobbies();
+			if(!(empHobbyList==null))
+			{
+				updSuccess = this.updateEmpHobbies(empHobbyList);
+			}
 		}
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+		return updSuccess;
 	}
 	public boolean updateEmpHobbies(ArrayList<Short> empHobbyList)
 	{
