@@ -125,6 +125,7 @@ System.out.println("Into actionPerformed");
 	{
 		public void windowClosing(WindowEvent e)
 		{
+			loginSession.closeConnections();
 			setVisible(false);	
 			System.exit(0);
 		}

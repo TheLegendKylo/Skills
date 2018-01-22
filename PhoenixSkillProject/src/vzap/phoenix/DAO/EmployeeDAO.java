@@ -101,7 +101,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		try
 		{
-			ps = dbCon.prepareStatement("insert into user values(?,?,?,?,?,?)");
+			ps = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?)");
 			ps.setString(1, employee.getEmployeeID());
 			ps.setString(2, employee.getFirstName());
 			ps.setString(3, employee.getSurname());

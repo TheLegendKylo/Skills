@@ -110,7 +110,7 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 			for (int j = 0; j < empClient.getHobbyList().size(); j++)
 			{
 				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies()[i])
-				textArea.setText(textArea.getText()+"\\"+hobbyList.get(j).getHobbyDescription());
+				textArea.setText(textArea.getText()+"\n"+hobbyList.get(j).getHobbyDescription());
 			}
 		}
 		
