@@ -92,8 +92,6 @@ public class EmpSkillServer
 				br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				oos = new ObjectOutputStream(clientSocket.getOutputStream());
 				ois = new ObjectInputStream(clientSocket.getInputStream());
-				dos = new DataOutputStream(clientSocket.getOutputStream());
-				dis = new DataInputStream(clientSocket.getInputStream());
 				
 			} catch (IOException e)
 			{
@@ -106,7 +104,8 @@ public class EmpSkillServer
 		}
 		public void run()
 		{
-			while(true)
+			boolean exitSession = false;
+			while(!exitSession)
 			{
 				try
 				{
@@ -118,6 +117,7 @@ public class EmpSkillServer
 						case "Quit":
 						{
 							this.closeConnections();
+							exitSession = true;
 							break;
 						}
 						case "loginEmployee":
@@ -135,9 +135,19 @@ public class EmpSkillServer
 							this.getSkillList();
 							break;
 						}
+						case "addSkill":
+						{
+							this.addSkill();
+							break;
+						}
 						case "getHobbyList":
 						{
 							this.getHobbyList();
+							break;
+						}
+						case "addHobby":
+						{
+							this.addHobby();
 							break;
 						}
 						case "getLevelList":
@@ -271,6 +281,31 @@ System.out.println(employee.getSurname());
 				e.printStackTrace();
 			}
 		}
+		public void addSkill()
+		{
+			short skillID = 0;
+			String description = null;
+			try
+			{
+				description = br.readLine();
+				System.out.println("Server: read Skill Description: "+description);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			skillID = empControl.addSkill(description);
+			System.out.println("Hobby Added: "+skillID);
+			try
+			{
+				oos.writeObject(new Short(skillID));
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		public void getHobbyList()
 		{
 			hobbyList = EmployeeController.getHobbyList();
@@ -283,6 +318,31 @@ System.out.println(employee.getSurname());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		public void addHobby()
+		{
+			short hobbyID = 0;
+			String description = null;
+			try
+			{
+				description = br.readLine();
+				System.out.println("Server: read Hobby Description: "+description);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			hobbyID = empControl.addHobby(description);
+			System.out.println("Hobby Added: "+hobbyID);
+			try
+			{
+				oos.writeObject(new Short(hobbyID));
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		public void getLevelList()
 		{
@@ -513,6 +573,8 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		{
 			try
 			{
+				pw.println("Closing Server Connections");
+				pw.flush();
 				clientSocket.close();
 				br.close();
 				oos.close();

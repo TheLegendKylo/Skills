@@ -5,22 +5,27 @@ import java.util.Date;
 
 public class EmployeeSkill implements Serializable
 {
-	private String employeeID = null, skill = null, raterID = null;
+	private String employeeID = null, raterID = null;
+	private int skillID = 0;
 	private short empSkillID=0, status = 0;
 	private Date ratedDate, createdDate;
 	private String coachingAvailability;
 	private String comment;
 	private short[] capabilityID, rating;	
 	
-	public EmployeeSkill(String employeeID, String skill, 
+	public EmployeeSkill(String employeeID, int skillID, 
 			String raterID, Date createdDate)
 	{
 		this.employeeID = employeeID;
-		this.skill = skill;
+		this.skillID = skillID;
 		this.raterID = raterID;
 		this.createdDate = createdDate;
 	}
 
+	public EmployeeSkill()
+	{
+		
+	}
 	public short getEmpSkillID()
 	{
 		return this.empSkillID;
@@ -29,9 +34,9 @@ public class EmployeeSkill implements Serializable
 	{
 		return this.employeeID;
 	}
-	public String getSkill()
+	public int getSkillID()
 	{
-		return skill;
+		return skillID;
 	}
 	public String getRaterID()
 	{
@@ -77,14 +82,14 @@ public class EmployeeSkill implements Serializable
 		this.employeeID = employeeID;
 	}
 
-	public void setSkill(String skill)
+	public void setSkillID(int skillID)
 	{
-		this.skill = skill;
+		this.skillID = skillID;
 	}
 
-	public void setRater(String rateeID)
+	public void setRaterID(String raterID)
 	{
-		this.raterID = rateeID;
+		this.raterID = raterID;
 	}
 	public void setRatedDate(Date ratingDate)
 	{

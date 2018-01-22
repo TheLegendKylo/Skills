@@ -1,9 +1,11 @@
 package vzap.phoenix.Server.Employee;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Employee implements Serializable
 {
+	
 	private String employeeID = null;
 	private String surname = null;
 	private String firstName = null;
@@ -82,5 +84,12 @@ public class Employee implements Serializable
 	public void setEmpHobbies(short[] hobbyID)
 	{
 		this.hobbyID = hobbyID;
+	}
+	@Override
+	public String toString()
+	{
+		return "Employee kyle [employeeID=" + employeeID + ", surname=" + surname + ", firstName=" + firstName
+				+ ", cellNumber=" + cellNumber + ", email=" + email + ", alias=" + alias + ", password=" + password
+				+ ", hobbyID=" + Arrays.toString(hobbyID) + "]";
 	}
 }

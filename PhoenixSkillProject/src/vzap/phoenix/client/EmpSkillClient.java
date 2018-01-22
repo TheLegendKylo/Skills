@@ -64,8 +64,6 @@ public class EmpSkillClient
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
-				dos = new DataOutputStream(socket.getOutputStream());
-				dis = new DataInputStream(socket.getInputStream());
 	
 			} catch (UnknownHostException e)
 			{
@@ -166,6 +164,30 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		return skillList;
 	}
 	/*
+	 * Will Add a new Skill to the SkillTable
+	 * Will return the skillID generated
+	 */
+	public short addSkill(String description)
+	{
+		outMessage = "addSkill";
+		pw.println(outMessage);
+		pw.flush();
+		outMessage = description;
+		pw.println(outMessage);
+		pw.flush();
+		short skillID=0;
+		try
+		{
+			skillID = (Short)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Hobby Created: "+skillID);
+		return skillID;
+	}
+	/*
 	 * Should be called as soon as login is successful
 	 * Will return Vector of all Hobbies on the system
 	 */
@@ -184,6 +206,30 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		}
 		System.out.println("Client: Number of Skills: "+hobbyList.size());
 		return hobbyList;
+	}
+	/*
+	 * Will Add a new Hobby to the HobbyTable
+	 * Will return the hobbyID generated
+	 */
+	public short addHobby(String description)
+	{
+		outMessage = "addHobby";
+		pw.println(outMessage);
+		pw.flush();
+		outMessage = description;
+		pw.println(outMessage);
+		pw.flush();
+		short hobbyID=0;
+		try
+		{
+			hobbyID = (Short)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Hobby Created: "+hobbyID);
+		return hobbyID;
 	}
 	/*
 	 * Should be called as soon as login is successful
@@ -349,7 +395,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
+		System.out.println("Client: Number of Employees: "+employeeList.size());
 		return employeeList;
 	}
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
@@ -468,6 +514,9 @@ System.out.println("Login Read errorMsg: "+inMessage);
 			outMessage = "Quit";
 			pw.println(outMessage);
 			pw.flush();
+			inMessage = br.readLine();
+			System.out.println(inMessage);
+			System.out.println("Now Closing Client Connections");
 			socket.close();
 			br.close();
 			oos.close();

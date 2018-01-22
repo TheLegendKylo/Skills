@@ -21,12 +21,8 @@ public class EmployeeDAO
 	public EmployeeDAO()
 	{
 		myDBCon = new MyDBCon();
-<<<<<<< HEAD
-		dbCon = myDBCon.getDBCon();
-=======
 		dbCon = MyDBCon.getDBCon();
 		empList = new ArrayList<Employee>();
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 	}
 	public Employee loginEmployee(String employeeID, String password)
 	{
