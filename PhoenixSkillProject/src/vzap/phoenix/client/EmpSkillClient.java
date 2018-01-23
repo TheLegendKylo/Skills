@@ -392,6 +392,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
 			employeeList = (ArrayList<Employee>)ois.readObject();
+			
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
