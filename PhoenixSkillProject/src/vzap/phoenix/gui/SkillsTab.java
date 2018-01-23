@@ -3,7 +3,8 @@ package vzap.phoenix.gui;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import vzap.phoenix.DAO.SkillDAO;
+import vzap.phoenix.DAO.EmployeeSkillDAO;
+import vzap.phoenix.DAO.SkillDAO;import vzap.phoenix.Server.Employee.Employee;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -193,6 +194,10 @@ public class SkillsTab extends JPanel implements ActionListener
 				JOptionPane.showMessageDialog(this, "You need to list a skill");
 				jtfAddSkill.grabFocus();
 			}
+			
+//			EmployeeSkillDAO esd = new EmployeeSkillDAO(employeeID);
+//			employeeSkillList = esd.getEmpSkillList();
+					
 		}
 		
 	}

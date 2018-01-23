@@ -323,7 +323,6 @@ System.out.println("Search: What is the EmployeeID: "+employeeID);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			errorMsg = "Employee Get "+employeeID+" not found";
-
 		}
 		System.out.println("out of result set emp object = " + employee.toString());
 		return employee;

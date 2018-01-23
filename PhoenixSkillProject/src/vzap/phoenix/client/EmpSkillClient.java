@@ -394,6 +394,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		try
 		{
 			employeeList = (ArrayList<Employee>)ois.readObject();
+			
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
