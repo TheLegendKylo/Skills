@@ -86,6 +86,10 @@ public class Employee implements Serializable
 	{
 		this.empHobbyList = empHobbyList;
 	}
+	public String getPassword()
+	{
+		return this.password;
+	}
 	@Override
 	public String toString()
 	{

@@ -1,15 +1,8 @@
 package vzap.phoenix.client;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -29,14 +22,8 @@ import vzap.phoenix.Server.Employee.Level;
 public class EmpSkillClient
 {
 	static Socket socket;
-	private BufferedReader br;
-	private FileOutputStream fos;
 	private ObjectOutputStream oos;
-	private DataOutputStream dos;
-	private PrintWriter pw;
-	private FileInputStream fis;
 	private ObjectInputStream ois;
-	private DataInputStream dis;
 	
 	private String outMessage = null;
 	private String inMessage = null;
@@ -60,8 +47,6 @@ public class EmpSkillClient
 			try
 			{
 				socket = new Socket("localhost", 10002);
-				pw = new PrintWriter(socket.getOutputStream(),true);
-				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				ois = new ObjectInputStream(socket.getInputStream());
 	
@@ -86,21 +71,14 @@ public class EmpSkillClient
 	 */
 	public short loginEmployee(String employeeID, String password)
 	{
-		outMessage = "loginEmployee";
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = employeeID;
-System.out.println("Login: OutMessage: "+outMessage);
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = password;
-		pw.println(outMessage);
-		pw.flush();
-System.out.println("Login: Waiting to read");
+		this.writeOutMessage("loginEmployee");
+		this.writeOutMessage(employeeID);
+		this.writeOutMessage(password);
+		System.out.println("Login: Waiting to read");
 		try
 		{
-			inMessage = br.readLine();
-		} catch (IOException e1)
+			inMessage = (String)ois.readObject();
+		} catch (IOException | ClassNotFoundException e1)
 		{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -125,10 +103,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public Employee getLogonEmployee()
 	{
-		outMessage = "getLogonEmployee";
-		pw.println(outMessage);
-		pw.flush();
-		
+		this.writeOutMessage("getLogonEmployee");
 		try
 		{
 			employee = (Employee)ois.readObject();
@@ -149,9 +124,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public ArrayList<Skill> getSkillList()
 	{
-		outMessage = "getSkillList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getSkillList");
 		try
 		{
 			skillList = (ArrayList<Skill>)ois.readObject();
@@ -169,12 +142,8 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public short addSkill(String description)
 	{
-		outMessage = "addSkill";
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = description;
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("addSkill");
+		this.writeOutMessage(description);
 		short skillID=0;
 		try
 		{
@@ -191,11 +160,10 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 * Should be called as soon as login is successful
 	 * Will return Vector of all Hobbies on the system
 	 */
+	@SuppressWarnings("unchecked")
 	public Vector<Hobby> getHobbyList()
 	{
-		outMessage = "getHobbyList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getHobbyList");
 		try
 		{
 			hobbyList = (Vector<Hobby>)ois.readObject();
@@ -213,12 +181,9 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public short addHobby(String description)
 	{
-		outMessage = "addHobby";
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = description;
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("addHobby");
+		this.writeOutMessage(description);
+
 		short hobbyID=0;
 		try
 		{
@@ -237,9 +202,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public ArrayList<Level> getLevelList()
 	{
-		outMessage = "getLevelList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getLevelList");
 		try
 		{
 			levelList = (ArrayList<Level>)ois.readObject();
@@ -258,9 +221,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public ArrayList<EmployeeSkill> getEmpSkillList()
 	{
-		outMessage = "getEmpSkillList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getEmpSkillList");
 		try
 		{
 			empSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
@@ -279,9 +240,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public ArrayList<Capability> getCapabilityList()
 	{
-		outMessage = "getCapabilityList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getCapabilityList");
 		try
 		{
 			capabilityList = (ArrayList<Capability>)ois.readObject();
@@ -300,9 +259,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public ArrayList<CapabilityRating> getCapabilityRatingList()
 	{
-		outMessage = "getCapabilityRatingList";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getCapabilityRatingList");
 		try
 		{
 			capabilityRatingList = (ArrayList<CapabilityRating>)ois.readObject();
@@ -320,9 +277,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	 */
 	public boolean registerEmployee(Employee newEmployee)
 	{
-		outMessage = "registerEmployee";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("registerEmployee");
 		try
 		{
 			oos.writeObject(newEmployee);
@@ -346,9 +301,7 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	}
 	public boolean updateEmployee(Employee updateEmployee)
 	{
-		outMessage = "updateEmployee";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("updateEmployee");
 		try
 		{
 			oos.writeObject(updateEmployee);
@@ -384,12 +337,8 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			return null;
 		}
 		
-		outMessage = "searchEmployee";
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = searchCriteria;
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("searchEmployee");
+		this.writeOutMessage(searchCriteria);
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 		try
 		{
@@ -410,12 +359,8 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			return null;
 		}
 		
-		outMessage = "searchEmployeeSkill";
-		pw.println(outMessage);
-		pw.flush();
-		outMessage = searchCriteria;
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("searchEmployeeSkill");
+		this.writeOutMessage(searchCriteria);
 		ArrayList<EmployeeSkill> employeeSkillList = new ArrayList<EmployeeSkill>();
 		try
 		{
@@ -431,9 +376,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
-		outMessage = "addEmployeeSkill";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("addEmployeeSkill");
 		try
 		{
 			oos.writeObject(addEmployeeSkill);
@@ -457,9 +400,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
-		outMessage = "nominateRater";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("nominateRater");
 		try
 		{
 			oos.writeObject(nominateRater);
@@ -483,9 +424,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
-		outMessage = "rateEmployeeSkill";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("rateEmployeeSkill");
 		try
 		{
 			oos.writeObject(rateEmployeeSkill);
@@ -509,11 +448,9 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
-		outMessage = "searchEmployeeSkill";
-		pw.println(outMessage);
-		pw.println(employeeID);
-		pw.println(raterID);
-		pw.flush();
+		this.writeOutMessage("searchEmployeeSkill");
+		this.writeOutMessage(employeeID);
+		this.writeOutMessage(raterID);
 		try
 		{
 			oos.writeObject(new Integer(skillID));
@@ -536,8 +473,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(int skillID)
 	{
-		outMessage = "searchEmployeeSkillbyID";
-		pw.println(outMessage);
+		this.writeOutMessage("searchEmployeeSkillbyID");
 		try
 		{
 			oos.writeObject(new Integer(skillID));
@@ -558,11 +494,38 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		}
 		return empSkillList;
 	}
+	public ArrayList<Employee> searchEmployeeHobby(short hobbyID)
+	{
+		if(hobbyID==0)
+		{
+			return null;
+		}
+		
+		this.writeOutMessage("searchEmployeeHobby");
+		try
+		{
+			oos.writeObject(new Short(hobbyID));
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		try
+		{
+			employeeList = (ArrayList<Employee>)ois.readObject();
+			
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of Employees: "+employeeList.size());
+		return employeeList;
+	}
 	public short getErrorCode()
 	{
-		outMessage = "getErrorCode";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getErrorCode");
 		
 		short errorCode =0;
 		try
@@ -577,33 +540,42 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public String getErrorMsg()
 	{
-		outMessage = "getErrorMsg";
-		pw.println(outMessage);
-		pw.flush();
+		this.writeOutMessage("getErrorMsg");
 		
-		String errorMsg = null;
+		String errorMsg = this.readObject();
+		return errorMsg;
+	}
+	public void writeOutMessage(String outMessage)
+	{
+System.out.println("XXXXClient: sending message:"+outMessage);
 		try
 		{
-			errorMsg = br.readLine();
-		} catch (IOException e)
+			oos.writeObject(outMessage);
+			oos.flush();
+		} catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	public String readObject()
+	{
+		try
+		{
+			inMessage=(String)ois.readObject();
+		} catch (ClassNotFoundException | IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return errorMsg;
+		return inMessage;
 	}
 	public void closeConnections()
 	{
 		try
 		{
-			outMessage = "Quit";
-			pw.println(outMessage);
-			pw.flush();
-			inMessage = br.readLine();
-			System.out.println(inMessage);
-			System.out.println("Now Closing Client Connections");
+			this.writeOutMessage("Quit");
 			socket.close();
-			br.close();
 			oos.close();
 			ois.close();
 		} catch (IOException e)

@@ -1,15 +1,8 @@
 package vzap.phoenix.Server;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -57,16 +50,9 @@ public class EmpSkillServer
 	}
 	class EmpSkillServerThread implements Runnable
 	{
-		private ServerSocket serverSocket;
 		private Socket clientSocket;
-		private BufferedReader br;
-		private FileOutputStream fos;
 		private ObjectOutputStream oos;
-		private DataOutputStream dos;
-		private PrintWriter pw;
-		private FileInputStream fis;
 		private ObjectInputStream ois;
-		private DataInputStream dis;
 		
 		private String outMessage = null;
 		private String inMessage = null;
@@ -88,8 +74,6 @@ public class EmpSkillServer
 			
 			try
 			{
-				pw = new PrintWriter(clientSocket.getOutputStream(),true);
-				br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				oos = new ObjectOutputStream(clientSocket.getOutputStream());
 				ois = new ObjectInputStream(clientSocket.getInputStream());
 				
@@ -111,124 +95,123 @@ public class EmpSkillServer
 				{
 					empControl.resetErrorMsg();;					
 				}
-				try
+				System.out.println("Try to read new message");
+				
+				inMessage= this.readObject();
+				System.out.println("Server: In Thread-inMessage: "+inMessage);
+				switch (inMessage)
 				{
-					System.out.println("Try to read new message");
-					inMessage=br.readLine();
-					System.out.println("Server: In Thread-inMessage: "+inMessage);
-					switch (inMessage)
+					case "Quit":
 					{
-						case "Quit":
-						{
-							this.closeConnections();
-							exitSession = true;
-							break;
-						}
-						case "loginEmployee":
-						{
-							this.loginEmployee();
-							break;
-						}
-						case "getLogonEmployee":
-						{
-							this.getLogonEmployee();
-							break;
-						}
-						case "getSkillList":
-						{
-							this.getSkillList();
-							break;
-						}
-						case "addSkill":
-						{
-							this.addSkill();
-							break;
-						}
-						case "getHobbyList":
-						{
-							this.getHobbyList();
-							break;
-						}
-						case "addHobby":
-						{
-							this.addHobby();
-							break;
-						}
-						case "getLevelList":
-						{
-							this.getLevelList();
-							break;
-						}
-						case "getEmpSkillList":
-						{
-							this.getEmpSkillList();
-							break;
-						}
-						case "getCapabilityList":
-						{
-							this.getCapabilityList();
-							break;
-						}
-						case "getCapabilityRatingList":
-						{
-							this.getCapabilityRatingList();
-							break;
-						}
-						case "searchEmployee":
-						{
-							this.searchEmployee();
-							break;
-						}
-						case "registerEmployee":
-						{
-							this.registerEmployee();
-							break;
-						}
-						case "updateEmployee":
-						{
-							this.updateEmployee();
-							break;
-						}
-						case "addEmployeeSkill":
-						{
-							this.addEmployeeSkill();
-							break;
-						}
-						case "nominateRater":
-						{
-							this.nominateRater();
-							break;
-						}
-						case "rateEmployeeSkill":
-						{
-							this.rateEmployeeSkill();
-							break;
-						}
-						case "searchEmployeeSkill":
-						{
-							this.searchEmployeeSkill();
-							break;
-						}
-						case "searchEmployeeSkillBySkillID":
-						{
-							this.searchEmployeeSkill();
-							break;
-						}
-						case "getErrorCode":
-						{
-							this.getErrorCode();
-							break;
-						}
-						case "getErrorMsg":
-						{
-							this.getErrorMsg();
-							break;
-						}
+						this.closeConnections();
+						exitSession = true;
+						break;
 					}
-				} catch (IOException e)
-				{
-					e.printStackTrace();
-					break;
+					case "loginEmployee":
+					{
+						this.loginEmployee();
+						break;
+					}
+					case "getLogonEmployee":
+					{
+						this.getLogonEmployee();
+						break;
+					}
+					case "getSkillList":
+					{
+						this.getSkillList();
+						break;
+					}
+					case "addSkill":
+					{
+						this.addSkill();
+						break;
+					}
+					case "getHobbyList":
+					{
+						this.getHobbyList();
+						break;
+					}
+					case "addHobby":
+					{
+						this.addHobby();
+						break;
+					}
+					case "getLevelList":
+					{
+						this.getLevelList();
+						break;
+					}
+					case "getEmpSkillList":
+					{
+						this.getEmpSkillList();
+						break;
+					}
+					case "getCapabilityList":
+					{
+						this.getCapabilityList();
+						break;
+					}
+					case "getCapabilityRatingList":
+					{
+						this.getCapabilityRatingList();
+						break;
+					}
+					case "searchEmployee":
+					{
+						this.searchEmployee();
+						break;
+					}
+					case "registerEmployee":
+					{
+						this.registerEmployee();
+						break;
+					}
+					case "updateEmployee":
+					{
+						this.updateEmployee();
+						break;
+					}
+					case "addEmployeeSkill":
+					{
+						this.addEmployeeSkill();
+						break;
+					}
+					case "nominateRater":
+					{
+						this.nominateRater();
+						break;
+					}
+					case "rateEmployeeSkill":
+					{
+						this.rateEmployeeSkill();
+						break;
+					}
+					case "searchEmployeeSkill":
+					{
+						this.searchEmployeeSkill();
+						break;
+					}
+					case "searchEmployeeSkillBySkillID":
+					{
+						this.searchEmployeeSkill();
+						break;
+					}
+					case "searchEmployeeHobby":
+					{
+						this.searchEmployeeHobby();
+						break;
+					}
+					case "getErrorCode":
+					{
+						this.getErrorCode();
+						break;
+					}
+					case "getErrorMsg":
+					{
+						this.getErrorMsg();
+						break;
+					}
 				}
 			}
 		}
@@ -236,24 +219,15 @@ public class EmpSkillServer
 		{
 			String employeeID = null;
 			String password = null;
-			try
-			{
-				employeeID = br.readLine();
-				System.out.println("Server: read EmployeeID: "+employeeID);
-				password = br.readLine();
-				System.out.println("Server: read password: "+password);
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			employeeID= this.readObject();
+			password= this.readObject();
+			System.out.println("Server: read EmployeeID: "+employeeID);
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
 			System.out.println("Employee login errorCode: "+empControl.getErrorCode());
 			outMessage = empControl.getErrorMsg();
 			System.out.println("Employee login writing errorMsg: "+outMessage);
-			pw.println(outMessage);
-			pw.flush();
+			this.writeOutMessage(outMessage);
 			try
 			{
 				short errorCode = empControl.getErrorCode();
@@ -298,16 +272,8 @@ public class EmpSkillServer
 		public void addSkill()
 		{
 			short skillID = 0;
-			String description = null;
-			try
-			{
-				description = br.readLine();
-				System.out.println("Server: read Skill Description: "+description);
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String description = this.readObject();
+			System.out.println("Server: read Skill Description: "+description);
 			skillID = empControl.addSkill(description);
 			System.out.println("Hobby Added: "+skillID);
 			try
@@ -338,16 +304,7 @@ public class EmpSkillServer
 		public void addHobby()
 		{
 			short hobbyID = 0;
-			String description = null;
-			try
-			{
-				description = br.readLine();
-				System.out.println("Server: read Hobby Description: "+description);
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String description = this.readObject();
 			hobbyID = empControl.addHobby(description);
 			System.out.println("Hobby Added: "+hobbyID);
 			try
@@ -476,16 +433,7 @@ System.out.println("Server: after flush");
 		}
 		public void searchEmployee()
 		{
-			String searchCriteria = null;
-			try
-			{
-				searchCriteria = br.readLine();
-				System.out.println(employee);
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String searchCriteria = this.readObject();
 System.out.println("calling Controller: "+searchCriteria);			
 			ArrayList <Employee> employeeSearchResults = empControl.searchEmployee(searchCriteria);
 			try
@@ -581,13 +529,11 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public void searchEmployeeSkill()
 		{
-			String employeeID = null;
+			String employeeID = this.readObject();
+			String raterID = this.readObject();
 			int skillID = 0;
-			String raterID = null;
 			try
 			{
-				employeeID = br.readLine();
-				raterID = br.readLine();
 				skillID = (Integer)ois.readObject();
 			} catch (IOException | ClassNotFoundException e)
 			{
@@ -627,6 +573,28 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				e.printStackTrace();
 			}
 		}
+		public void searchEmployeeHobby()
+		{
+			short hobbyID = 0;
+			try
+			{
+				hobbyID = (short)ois.readObject();
+			} catch (IOException | ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Server: read searchEmployeeHobby: "+hobbyID);
+			try
+			{
+				oos.writeObject(empControl.searchEmployeeHobby(hobbyID));
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		public void getErrorCode()
 		{
 			try
@@ -641,17 +609,39 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public void getErrorMsg()
 		{
-			pw.println(empControl.getErrorMsg());
-			pw.flush();
+			this.writeOutMessage(empControl.getErrorMsg());
+		}
+		public String readObject()
+		{
+System.out.println("Server: in readObject()");
+			try
+			{
+				inMessage=(String)ois.readObject();
+			} catch (ClassNotFoundException | IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Server: after read-inMessage- "+inMessage);
+			return inMessage;
+		}
+		public void writeOutMessage(String outMessage)
+		{
+			try
+			{
+				oos.writeObject(outMessage);
+				oos.flush();
+			} catch (IOException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		public void closeConnections()
 		{
 			try
 			{
-				pw.println("Closing Server Connections");
-				pw.flush();
 				clientSocket.close();
-				br.close();
 				oos.close();
 				ois.close();
 			} catch (IOException e)

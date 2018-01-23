@@ -17,6 +17,7 @@ import vzap.phoenix.client.EmpSkillClient;
 public class TestingPhoenix
 {
 	private Employee employee;
+	private ArrayList<Employee> empList;
 	private EmpSkillClient loginSession;
 	private EmployeeSkill empSkill;
 	private ArrayList<Skill> skillList;
@@ -29,7 +30,7 @@ public class TestingPhoenix
 	{
 		loginSession = new EmpSkillClient();
 		String employeeID = "a159842";
-		String password = "123";
+		String password = "1234";
 		short returnCode = loginSession.loginEmployee(employeeID, password);
 		
 		if(returnCode==0)//.equals("Login Successfull"))
@@ -47,7 +48,8 @@ public class TestingPhoenix
 //		this.searchEmployeeSkill();
 //		this.searchEmployeeSkillBySkillID();
 //		this.rateSkill();
-		this.addEmployeeHobby();
+		this.searchEmpHobby();
+		//		this.addEmployeeHobby();
 //		boolean b = this.addEmpSkill();
 //		boolean b = this.nominateRater();
 //		this.addHobby();
@@ -190,6 +192,18 @@ public class TestingPhoenix
 	public Employee getEmployee()
 	{
 		return employee;
+	}
+	public void searchEmpHobby()
+	{
+		short s=1;
+		empList = loginSession.searchEmployeeHobby(s);
+		for (int i = 0; i < empList.size(); i++)
+		{
+System.out.println(
+			"surname: "+empList.get(i).getSurname()+
+			"/n hobbies: "+empList.get(i).getEmpHobbies());
+		}
+		
 	}
 	public void updateEmployee()
 	{

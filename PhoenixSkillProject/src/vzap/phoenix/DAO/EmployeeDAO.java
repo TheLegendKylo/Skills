@@ -105,14 +105,14 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		try
 		{
-			ps = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?)");
+			ps = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?,?)");
 			ps.setString(1, employee.getEmployeeID());
 			ps.setString(2, employee.getFirstName());
 			ps.setString(3, employee.getSurname());
 			ps.setString(4, employee.getAlias());
 			ps.setString(5, employee.getEmail());
 			ps.setString(6, employee.getContactNo());
-			
+			ps.setString(7, employee.getPassword());
 			ps.executeUpdate();
 		} 
 		catch (SQLException e)
