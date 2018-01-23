@@ -203,9 +203,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfAlias.setBounds(164, 133, 116, 22);
 		panelProfile.add(tfAlias);
 		
-		panelSkills = new JPanel();
+		SkillsTab sk = new SkillsTab();
 		
-		tabbedPane.addTab("SKILLS", null, panelSkills, null);
+		//panelSkills = new JPanel();
+		
+		tabbedPane.addTab("SKILLS", null, sk, null);
 		panelSkills.setLayout(null);
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(10, 711, 209, 25);
@@ -331,11 +333,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				empHobby.add(clientControl.addHobby(addHobbyValue));
 				emp.setEmpHobbies(empHobby);
 				clientControl.updateEmployee(emp);
+				vectHobby.addElement(addHobbyValue);
 			}
-			
-			
-			//if adding hobby is successful add the hobby to the Jlist;
-			//vectHobby.addElement(addHobbyValue);
 						
 		}
 		if(source == btnDeleteHobby)
