@@ -197,6 +197,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	}
 	public ArrayList<Employee> searchEmployee(String enteredQuery)
 	{
+		empList = new ArrayList<Employee>();
 		String employeeID = null;
 		try 
 		{
