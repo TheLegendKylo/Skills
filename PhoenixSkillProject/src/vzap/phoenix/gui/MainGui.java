@@ -327,9 +327,14 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 			if(!existingHobby)
 			{
-				System.out.println("new hobby");
+				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
+				System.out.println("new hobby = " + hobbyiddddd);
 				//adding a hobby that does'nt exist in the current users profile.
-				empHobby.add(clientControl.addHobby(addHobbyValue));
+				empHobby.add(hobbyiddddd);
+				for (int i = 0; i < empHobby.size();i++)
+				{
+					System.out.println("in emp hobby loop : " + empHobby.get(i).toString());
+				}
 				emp.setEmpHobbies(empHobby);
 				clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);

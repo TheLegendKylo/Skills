@@ -79,8 +79,8 @@ public class HobbyDAO
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
-				short hobbyId = rs.getShort("hobbyId");
-				System.out.println("Hobby Search Result - hobbyID: "+hobbyId+" - "+description);
+				hobbyID = rs.getShort("hobbyId");
+				System.out.println("Hobby Search Result - hobbyID: "+hobbyID+" - "+description);
 			}
 		} catch (SQLException e)
 		{
