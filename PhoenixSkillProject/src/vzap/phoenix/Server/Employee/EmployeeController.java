@@ -69,8 +69,10 @@ public class EmployeeController
 		{
 			this.employeeDAO = new EmployeeDAO();			
 		}
+System.out.println("empControl = before call to EmployeeDAO");
 		if(employeeDAO.updateEmployee(updateEmployee))
 		{
+			System.out.println("empControl = after call to EmployeeDAO - returning true");
 			this.logonEmployee = updateEmployee;
 			this.errorCode = employeeDAO.getErrorCode();
 			this.errorMsg = employeeDAO.getErrorMsg();

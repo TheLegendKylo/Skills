@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.Hobby;
 
 public class EmployeeDAO
 {
@@ -14,6 +16,7 @@ public class EmployeeDAO
 	private Connection dbCon;
 	private Employee employee;
 	private ArrayList<Employee> empList;
+	private Vector<Hobby> hobbyList;
 	private PreparedStatement ps;
 	private String errorMsg = null;
 	private short errorCode = 0;
@@ -127,6 +130,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		boolean updSuccess = true;
 		try 
 		{
+System.out.println("before prepare Statement");
 			ps = dbCon.prepareStatement("update Employee set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
 						+ "where employeeID = ?");
 			
@@ -141,6 +145,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			ArrayList<Short> empHobbyList = employee.getEmpHobbies();
 			if(!(empHobbyList==null))
 			{
+System.out.println("addEmpHobby");
 				updSuccess = this.addEmpHobby(empHobbyList);
 			}
 		}
@@ -155,11 +160,22 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	{
 		for (int i = 0; i < empHobbyList.size(); i++)
 		{
+			System.out.println("before check Hobby: idx "+i+"hobbyId: "+empHobbyList.get(i));
 			boolean hobbyExists = this.searchEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
 			if(hobbyExists)
 			{
 				continue;
 			}
+			hobbyList = HobbyDAO.getHobbyList();
+			for (int j = 0; j < hobbyList.size(); j++)
+			{
+				if(hobbyList.get(j).getHobbyID()==empHobbyList.get(i))
+				{
+					break;
+				}
+				continue;
+			}
+System.out.println("Adding new Hobby: idx "+i+"hobbyId"+empHobbyList.get(i));
 			PreparedStatement ps = null;
 			try
 			{
@@ -175,6 +191,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			return false;
 			}
 		}
+System.out.println("Adding new Hobby - returning true");
 		return true;
 	}
 	public boolean deleteEmployee(Employee employee)
@@ -197,6 +214,7 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 	}
 	public ArrayList<Employee> searchEmployee(String enteredQuery)
 	{
+		empList = new ArrayList<Employee>();
 		String employeeID = null;
 		try 
 		{
@@ -249,6 +267,30 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		this.errorMsg = "Employee Hobby: Search statement failed for EmployeeHobby: "+employeeID;
 		}
 		return false;
+	}
+	public ArrayList<Employee> searchEmpHobby(short hobbyID)
+	{
+		empList = new ArrayList<Employee>();
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("select employeeId from employeeHobby where hobbyId=?");
+			ps.setShort(1, hobbyID);
+			ResultSet rs = ps.executeQuery();
+			int resultCount = 0;
+			while (rs.next()) 
+			{
+				String employeeID = rs.getString("employeeId");
+				employee = this.getEmployee(employeeID);
+				empList.add(employee);
+			}
+		} catch (SQLException e)
+		{
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		this.errorMsg = "Employee Hobby: Search statement failed for EmployeeHobby: "+hobbyID;
+		}
+		return empList;
 	}
 	public Employee getEmployee(String employeeID)
 	{

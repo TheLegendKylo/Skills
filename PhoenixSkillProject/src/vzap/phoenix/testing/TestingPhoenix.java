@@ -44,14 +44,15 @@ public class TestingPhoenix
 		capList = loginSession.getCapabilityList();
 		levelList = loginSession.getLevelList();
 		this.getEmpSkills();
-		this.searchEmployeeSkill();
+//		this.searchEmployeeSkill();
 //		this.searchEmployeeSkillBySkillID();
 //		this.rateSkill();
-//		this.addEmployeeHobby();
+		this.addEmployeeHobby();
 //		boolean b = this.addEmpSkill();
 //		boolean b = this.nominateRater();
 //		this.addHobby();
 //		this.addSkill();
+//		this.updateEmployee();
 //		System.out.println("Write Message:" +loginSession.getErrorMsg());
 		loginSession.closeConnections();
 	}
@@ -180,14 +181,21 @@ public class TestingPhoenix
 	public void addEmployeeHobby()
 	{
 		System.out.println("Update Hobby-Before "+employee.getEmpHobbies());
-		employee.getEmpHobbies().add((short)4);
+		employee.getEmpHobbies().add((short)5);
 		boolean success = loginSession.updateEmployee(employee);
-		System.out.println("Update Hobby-Before "+employee.getEmpHobbies());
+		System.out.println("Update Hobby-After "+employee.getEmpHobbies());
+		System.out.println("Success "+success);
 		
 	}
 	public Employee getEmployee()
 	{
 		return employee;
+	}
+	public void updateEmployee()
+	{
+//		employee.setContactNo("0824449999");
+		boolean success = loginSession.updateEmployee(employee);
+		System.out.println("Success: "+success);
 	}
 	public static void main(String[] args)
 	{
