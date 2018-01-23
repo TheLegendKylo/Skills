@@ -107,7 +107,7 @@ public class EmpSkillServer
 			boolean exitSession = false;
 			while(!exitSession)
 			{
-				empControl.resetErrorMsg();;
+				//empControl.resetErrorMsg();
 				try
 				{
 					System.out.println("Try to read new message");

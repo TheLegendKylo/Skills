@@ -307,7 +307,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 //				return;
 //			}
 			//call database to insert new hobby if successful add it to the list.
-			//datatbase must happen here
+			//must test below
 			boolean existingHobby = false;
 			for(int j = 0;j < allHobby.size();j++)
 			{
@@ -326,7 +326,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 			if(!existingHobby)
 			{
-				System.out.println("Not existing hobby");
+				System.out.println("new hobby");
 				//adding a hobby that does'nt exist in the current users profile.
 				empHobby.add(clientControl.addHobby(addHobbyValue));
 				emp.setEmpHobbies(empHobby);
