@@ -360,9 +360,11 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		}
 		
 		boolean updateSuccessfull = false;
+System.out.println("Client: waiting for server");
 		try
 		{
 			updateSuccessfull = (boolean)ois.readObject();
+System.out.println("Client: after read from server: "+updateSuccessfull);
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block

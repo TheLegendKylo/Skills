@@ -107,7 +107,10 @@ public class EmpSkillServer
 			boolean exitSession = false;
 			while(!exitSession)
 			{
-				//empControl.resetErrorMsg();
+				if(!(empControl==null))
+				{
+					empControl.resetErrorMsg();;					
+				}
 				try
 				{
 					System.out.println("Try to read new message");
@@ -458,10 +461,12 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			}
 			
 			boolean updateSuccess = empControl.updateEmployee(employee);
+System.out.println("Server: after empControl call");
 			try
 			{
 				oos.writeObject(new Boolean(updateSuccess));
 				oos.flush();
+System.out.println("Server: after flush");
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
