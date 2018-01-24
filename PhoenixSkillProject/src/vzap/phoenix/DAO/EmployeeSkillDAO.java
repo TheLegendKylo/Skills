@@ -318,14 +318,8 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			ps_select.setInt(1, skillID);
 			
 			ResultSet rs = ps_select.executeQuery();
-			ArrayList<EmployeeSkill> empSkill = new ArrayList<EmployeeSkill>();
-			while(rs.next())
-			{
-				
-				employeeID = rs.getString("employeeID");
-				empSkillList = this.populateEmpSkillList(rs);
-			}
-			
+			empSkillList = new ArrayList<EmployeeSkill>(); // gerald made change 
+			empSkillList = this.populateEmpSkillList(rs);
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
