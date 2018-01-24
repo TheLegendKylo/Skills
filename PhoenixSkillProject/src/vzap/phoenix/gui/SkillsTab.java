@@ -253,7 +253,7 @@ System.out.println(">>>set new skillcheck: "+skillIDCheck+"counter: "+counter);
 						skillIDCheck = skillList.get(j).getSkillId();
 						skillDesc[counter] = skillList.get(j).getSkillDescription();
 							break;
-						}
+						}//comment
 				}
 				System.out.println(">>>>i: "+i);
 			}
