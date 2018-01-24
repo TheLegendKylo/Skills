@@ -31,7 +31,8 @@ public class EmployeeSkillDAO
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("select * from employeeskills where employeeId=?");
+			ps = dbCon.prepareStatement("select * from employeeskills where employeeId=?"
+					+ " order by skillId, raterId");
 			ps.setString(1, employeeID);
 			ResultSet rs = ps.executeQuery();
 			empSkillList = this.populateEmpSkillList(rs);

@@ -2,9 +2,16 @@ package vzap.phoenix.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import vzap.phoenix.DAO.EmployeeSkillDAO;
-import vzap.phoenix.DAO.SkillDAO;import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.DAO.SkillDAO;
+import vzap.phoenix.Server.Employee.Capability;
+import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.EmployeeSkill;
+import vzap.phoenix.Server.Employee.Skill;
+import vzap.phoenix.client.EmpSkillClient;
+import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +22,7 @@ import javax.swing.JFrame;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -46,15 +54,37 @@ public class SkillsTab extends JPanel implements ActionListener
 	private JTable tableSummarySkills;
 	private JScrollPane scrollPaneSummarySkills;
 	private JLabel lblDetails;
-	private JTable table;
+	private JTable tableBottom;
 	private JScrollPane scrollPane;
 	private JButton btnSubmit;
-
+	private EmpSkillClient employeeSkillClient;
+	private String addSkill;
+	private ArrayList<EmployeeSkill> employeeSkillList;
+	private DefaultTableModel model;
+	private Employee loggedOnEmployee;
+	private ArrayList<Skill> skillList;
+	private ArrayList<Capability> capabilityList;
 	/**
 	 * Create the panel.
 	 */
-	public SkillsTab()
+	public SkillsTab(EmpSkillClientController clientControl)
 	{
+		loggedOnEmployee = clientControl.getLogonEmployee();
+		
+		
+		
+//		employeeSkillList.get(0).getCapabilityList();
+//		employeeSkillList.get(0).getRatingList();
+//		employeeSkillList.get(0).getSkillID();
+//		for (int i = 0; i < skillList.size(); i++)
+//		{
+//			if(skillList.get(i).getSkillId() == employeeSkillList.get(1).getSkillID())
+//			{
+//				String skillDesc = skillList.get(i).getSkillDescription();
+//			}
+//		}
+		
+		
 		setLayout(null);
 		
 		lblSkillTab = new JLabel("Skill Tab");
@@ -168,14 +198,114 @@ public class SkillsTab extends JPanel implements ActionListener
 		scrollPane.setBounds(10, 329, 869, 112);
 		add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		
 		
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(378, 127, 89, 23);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
+		
+		employeeSkillList = new ArrayList<>();
+		
+		
+		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
+				"Number of ratings","Details"};
+		
+		
+		
+		employeeSkillList = clientControl.getEmployeeSkillList();
+		int counter = 0;
+		
+		
+		String [] skillDesc = new String[99];
+		skillList = clientControl.getSkillList();
+		double yourAveRating[] = new double[99];
+		double nominateeAveRating[] = new double[99];
+		int numberOfRatings[] = new int[99];
+		int ratingCount = 0;
+		double averageRating = 0;
+		int skillIDCheck = 0;
+		
+		
+		for (int i = 0; i < employeeSkillList.size(); i++)
+		{
+System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID()
++" Counter: "+counter);
+			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
+			{
+				for (int j = 0; j < skillList.size(); j++)
+				{
+					if(i>0)
+					{
+						if(ratingCount >0)
+						{
+							System.out.println("---Nominee ID " + " counter: "+counter) ;
+							System.out.println("---Rating count = " +nominateeAveRating[counter]+ " ssss" + ratingCount);
+							nominateeAveRating[counter]= nominateeAveRating[counter]/ratingCount;
+							ratingCount = 0;
+						}
+						counter++;
+					}
+					System.out.println(">>>SkillList: "+skillList.get(j).getSkillId()+" empSkill: "+employeeSkillList.get(i).getSkillID());
+					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
+						{
+System.out.println(">>>set new skillcheck: "+skillIDCheck+"counter: "+counter);
+						skillIDCheck = skillList.get(j).getSkillId();
+						skillDesc[counter] = skillList.get(j).getSkillDescription();
+							break;
+						}
+				}
+				System.out.println(">>>>i: "+i);
+			}
+			if(employeeSkillList.get(i).getEmployeeID().equals(
+					employeeSkillList.get(i).getRaterID()))
+			{
+				yourAveRating[counter] = employeeSkillList.get(i).getOverAllAverageRating();
+			}
+			else
+			{
+				
+				averageRating = employeeSkillList.get(i).getOverAllAverageRating();
+				System.out.println("Nominee ID " + employeeSkillList.get(i).getRaterID());
+				System.out.println("Skill ID " + employeeSkillList.get(i).getSkillID());
+				System.out.println("Average rating = " + averageRating);
+				System.out.println("Rating count = " + ratingCount);
+				
+				if(averageRating > 0)
+				{
+					nominateeAveRating[counter] =+ averageRating;
+					ratingCount++;
+					numberOfRatings[i] = ratingCount;
+				}
+				
+			}
+		}
+		if(ratingCount >0)
+		{
+			System.out.println("---Nominee ID " + " counter: "+counter) ;
+			nominateeAveRating[counter]= nominateeAveRating[counter]/ratingCount;
+			ratingCount = 0;
+		}
 
+		Object[][] skillsRow = new Object[counter][5];
+		System.out.println("Before for loop + length of skillDesc " + skillDesc.length);
+		System.out.println("Testing the counter " + counter);
+		
+		for (int i = 0; i < counter; i++)
+		{
+			
+			System.out.println("Index number " + i);
+				skillsRow[i][0] = skillDesc[i];
+				skillsRow[i][1] = yourAveRating[i];
+				skillsRow[i][2] = nominateeAveRating[i];
+				skillsRow[i][3] = numberOfRatings[i];
+		
+		}
+	
+		model = new DefaultTableModel(skillsRow, skillsHeader);
+		
+		tableBottom = new JTable(model);
+		scrollPane.setViewportView(tableBottom);
 	}
 
 	@Override
@@ -187,6 +317,8 @@ public class SkillsTab extends JPanel implements ActionListener
 		if(source == btnSubmit)
 		{
 			System.out.println("Submit button was pressed");
+		
+			
 			
 			
 			if(jtfAddSkill.getText().isEmpty())
@@ -194,21 +326,19 @@ public class SkillsTab extends JPanel implements ActionListener
 				JOptionPane.showMessageDialog(this, "You need to list a skill");
 				jtfAddSkill.grabFocus();
 			}
+			else
+			{
+				addSkill = jtfAddSkill.getText();
+				employeeSkillClient.addSkill(addSkill);
+				System.out.println("Should have added " + addSkill + " to the database");
+
+				
+			}
 			
-//			EmployeeSkillDAO esd = new EmployeeSkillDAO(employeeID);
-//			employeeSkillList = esd.getEmpSkillList();
+//		
 					
 		}
 		
 	}
 	
-	public static void main(String[] args)
-	{
-		JFrame frame = new JFrame("Admin GUI");
-		frame.setSize(700, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		SkillsTab panel = new SkillsTab();
-		frame.add(panel);
-		frame.setVisible(true);
 	}
-}

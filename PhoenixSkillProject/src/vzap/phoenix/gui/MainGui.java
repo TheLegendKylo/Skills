@@ -203,7 +203,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfAlias.setBounds(164, 133, 116, 22);
 		panelProfile.add(tfAlias);
 		
-		SkillsTab sk = new SkillsTab();
+		SkillsTab sk = new SkillsTab(clientControl);
 		
 		//panelSkills = new JPanel();
 		

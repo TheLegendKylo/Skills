@@ -121,6 +121,20 @@ public class EmployeeSkill implements Serializable
 	{
 		this.ratingList = ratingList;
 	}
+	public double getOverAllAverageRating()
+	{
+		double  averageRating = 0;
+		if(this.ratingList== null)
+		{
+			return 0;
+		}
+		for (int i = 0; i < this.ratingList.size(); i++)
+		{
+			averageRating = averageRating +this.ratingList.get(i);
+					
+		}
+		return averageRating/this.ratingList.size();
+	}
 	@Override
 	public String toString()
 	{

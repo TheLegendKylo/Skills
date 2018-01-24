@@ -9,6 +9,7 @@ import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Level;
+import vzap.phoenix.Server.Employee.Skill;
 
 public class EmpSkillClientController
 {
@@ -58,6 +59,14 @@ public class EmpSkillClientController
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
 		return client.addEmployeeSkill(addEmployeeSkill);
+	}
+	public ArrayList<EmployeeSkill> getEmployeeSkillList()
+	{
+		return client.getEmpSkillList();
+	}
+	public ArrayList<Skill> getSkillList()
+	{
+		return client.getSkillList();
 	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
