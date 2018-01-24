@@ -10,16 +10,22 @@ import java.util.Vector;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.JCheckBox;
 import javax.swing.GroupLayout.Alignment;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import vzap.phoenix.Server.Employee.Capability;
@@ -33,7 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class TestingEmployeeSkill extends JPanel implements KeyListener
+public class TestingEmployeeSkill extends JPanel implements TableModelListener
 {
 	private JTabbedPane tabbedPane;
 	private JPanel profilePanel;
@@ -57,8 +63,12 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 	private JScrollPane scrollPane;
 
 	private JTable ratingTable;
-	private TableModel ratingModel;
+	private DefaultTableModel ratingModel;
 	private JTextArea textArea;
+
+    JComboBox ratingBox = null;	
+	ArrayList<Capability> capList = null;
+	ArrayList<CapabilityRating> capRatingList =null;
 	/**
 	 * Create the panel.
 	 */
@@ -104,15 +114,17 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 		
 		textArea = new JTextArea();
 		Vector<Hobby> hobbyList = empClient.getHobbyList();
-//		int hobbyCount = logonEmployee.getEmpHobbies().length;
-//		for (int i = 0; i < hobbyCount; i++)
-//		{
-//			for (int j = 0; j < empClient.getHobbyList().size(); j++)
-//			{
-////				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies()[i])
-//				textArea.setText(textArea.getText()+"\n"+hobbyList.get(j).getHobbyDescription());
-//			}
-//		}
+		int hobbyCount = logonEmployee.getEmpHobbies().size();
+		for (int i = 0; i < hobbyCount; i++)
+		{
+			for (int j = 0; j < empClient.getHobbyList().size(); j++)
+			{
+				if(hobbyList.get(j).getHobbyID()==logonEmployee.getEmpHobbies().get(i))
+				{
+					textArea.setText(textArea.getText()+"\n"+hobbyList.get(j).getHobbyDescription());					
+				}
+			}
+		}
 		
 		GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 		gl_profilePanel.setHorizontalGroup(
@@ -195,27 +207,43 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 		
 		
 		ratingPanel = new JPanel();
-		ArrayList<Capability> capList = empClient.getCapabilityList();
-		ArrayList<CapabilityRating> capRatingList = empClient.getCapabilityRatingList();
+		capList = empClient.getCapabilityList();
+		capRatingList = empClient.getCapabilityRatingList();
 		Object[][] tableRow = new Object[capList.size()][3];
         String[] tableHeader = new String[]{"Capability","Rating","Description"};       	
         for (int i=0; i<capList.size(); i++)
         {
             
-    	   	tableRow[i][0]=capList.get(i).getID();
-//    		JComboBox ratingBox = new JComboBox<Integer>();
-//    		for (int j = 0; j < 5; j++)
-//			{
-//    			ratingBox.addItem(j);		
-//			}
-//    		tableRow[i][1]=ratingBox;
-    		tableRow[i][1]=0;
-    	   	tableRow[i][2]="";
-        }
+    	   	tableRow[i][0]=capList.get(i).getName();
+       }
+//		tableRow[selIdx,2] = ratingModel.setValueAt(desc, selIdx, 2);			
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
        	ratingTable = new JTable(ratingModel);
-       	ratingTable.addKeyListener(this);;
-//		ratingTable.getColumn("Rating").setCellEditor(new JComboBox());
+//		ratingTable.getColumn("Rating").setCellEditor(new DefaultCellEditor(ratingBox));
+		TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
+		ratingBox = new JComboBox<Integer>();
+		boolean newP = true;
+		if(newP)	
+		{
+			for (int j = 1; j < 6; j++)
+			{
+				ratingBox.addItem(j);		
+			}
+			ratingColumn.setCellEditor(new DefaultCellEditor(ratingBox));
+			ratingColumn.setCellRenderer((new DefaultTableCellRenderer(){
+
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value,
+		            boolean isSelected, boolean hasFocus, int row, int column) {
+		        JLabel label = (JLabel) super.getTableCellRendererComponent(table,
+		            value, isSelected, hasFocus, row, column);
+		        label.setIcon(UIManager.getIcon("Table.descendingSortIcon"));
+		        return label;
+		    }}));
+		}
+		newP = false;
+		ratingModel.addTableModelListener(this);
+       	
 		scrollPane = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setMaximumSize(new Dimension(32767, 10000));
@@ -230,25 +258,25 @@ public class TestingEmployeeSkill extends JPanel implements KeyListener
 
 	}
 	@Override
-	public void keyTyped(KeyEvent e)
+	public void tableChanged(TableModelEvent e)
 	{
+		System.out.println("Class: "+e.getSource().getClass());
 		// TODO Auto-generated method stub
+		int selIdx = ratingTable.getSelectedRow();
+		int selRating = (int)ratingBox.getSelectedItem();
+		String desc = null;
+		System.out.println("selIdx: "+selIdx+" selRating: "+selRating);
 		
-	}
-	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		// TODO Auto-generated method stub
-		int rating = e.getKeyCode();
-		int tableIdx = ratingTable.getSelectedRow();
-//	   	tableRow[tableIdx][2]="";
-		
-		
+   		for (int j = 0; j < capRatingList.size(); j++)
+		{
+			if(capRatingList.get(j).getCapabilityID()==selIdx+1
+					&& capRatingList.get(j).getRating()==selRating)
+			{
+				desc = capRatingList.get(j).getDescription();
+				break;
+			}
+		}
+		System.out.println("Rating Description: "+desc);
+//		ratingModel.setValueAt(desc, selIdx, 2);			
 	}
 }
