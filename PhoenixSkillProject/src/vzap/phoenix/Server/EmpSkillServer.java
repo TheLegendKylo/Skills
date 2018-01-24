@@ -194,7 +194,7 @@ public class EmpSkillServer
 					}
 					case "searchEmployeeSkillBySkillID":
 					{
-						this.searchEmployeeSkill();
+						this.searchEmployeeSkillBySkillID();
 						break;
 					}
 					case "searchEmployeeHobby":
@@ -551,7 +551,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				e.printStackTrace();
 			}
 		}
-		public void searchEmployeeSkillByID()
+		public void searchEmployeeSkillBySkillID()
 		{
 			int skillID = 0;
 			try

@@ -473,7 +473,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(int skillID)
 	{
-		this.writeOutMessage("searchEmployeeSkillbyID");
+		this.writeOutMessage("searchEmployeeSkillBySkillID");
 		try
 		{
 			oos.writeObject(new Integer(skillID));

@@ -71,8 +71,7 @@ public class SearchMenu extends JPanel implements ActionListener
 	private JLabel skillLab;
 	private JComboBox skillComboBox;
 	private JLabel lblEnterEmployeeSearch;
-	
-	
+
 	public SearchMenu()
 	{
 		
@@ -178,7 +177,12 @@ public class SearchMenu extends JPanel implements ActionListener
 			//model.setColumnIdentifiers(skillHeader);
 			
 			inputJTF.setText("");
-			
+			while (model.getRowCount() > 0)
+			{
+				model.removeRow(0);
+				System.out.println("searchmenu - in clear - " + model.getRowCount());
+			}
+
 //  kyle's code ... commented out as this is used in hobby and skill selection
 //
 //			int row = table.getSelectedRow();
@@ -213,12 +217,13 @@ public class SearchMenu extends JPanel implements ActionListener
 			
 			employeeList = null;
 			System.out.println("searchmenu - employee hobby search " + hobbyList.get(x).getHobbyDescription());
-//  		employeeList = empSkillClient.searchEmployeeHobby(hobbyList.get(i).getHobbyID());
+			employeeList = empSkillClient.searchEmployeeHobby(hobbyList.get(0).getHobbyID());
 // 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
 			System.out.println("searchmenu - employee hobby search size" + employeeList.size());						
 			
 			Object[] empRow = new Object[employeeList.size()];
-			for (int i=0; i < employeeList.size(); i++)
+			
+			for (int i = 0; i < employeeList.size(); i++)
 	        {	
 	    	   	empRow[0] = employeeList.get(i).getEmployeeID();
 	    	   	empRow[1] = employeeList.get(i).getFirstName();
@@ -226,7 +231,7 @@ public class SearchMenu extends JPanel implements ActionListener
 	    	   	empRow[3] = employeeList.get(i).getAlias();
 	    	   	model.addRow(empRow);
 	        }
-			
+
 			int row = table.getSelectedRow();
 			System.out.println("row = " + row);
 			if (row <0)
@@ -250,86 +255,109 @@ public class SearchMenu extends JPanel implements ActionListener
 		{	
 //			check if user has entered search criteria for the employee search 
 //
-			if(inputJTF.getText().isEmpty() ) 
+			if(!inputJTF.getText().isEmpty() ) 
 			{
-				JOptionPane.showMessageDialog(this,  "Please enter search criteria");
-			}
+
 //			
-			System.out.println("searchmenu - employee search " + inputJTF.getText());
-			employeeList = null;
-			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
-			System.out.println("searchmenu - employee search size" + employeeList.size());						
-			
-			Object[] empRow = new Object[employeeList.size()];
-	       // JTableHeader empHeader = new String[]{"UserId","First Name","Surname","Alias"};
-	        //table
-			for (int i=0; i < employeeList.size(); i++)
-	        {	
-                  		            
-	    	   	empRow[0] = employeeList.get(i).getEmployeeID();
-	    	   	empRow[1] = employeeList.get(i).getFirstName();
-	    	   	empRow[2] = employeeList.get(i).getSurname();
-	    	   	empRow[3] = employeeList.get(i).getAlias();
-	    	   	model.addRow(empRow);
-	        }
-//			tablePanel.removeAll();
-//			tablePanel.validate();
-//			tablePanel.repaint();
-//			table.setCellSelectionEnabled(true);
-//			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			//table = new JTable(empRow,empHeader);
-	       
-	        
-//			table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
-//			scrollPane = new JScrollPane();
-//			scrollPane.setViewportView(table);
-//			tablePanel.add(scrollPane);
-//			tablePanel.validate();
-//			tablePanel.repaint();
-			
-//			int rowIndex = table.getSelectedRow();
-//			int colIndex = table.getSelectedColumn();
-//			System.out.println("IN CELL" + table.getValueAt(rowIndex, colIndex) );
+				System.out.println("searchmenu - employee search " + inputJTF.getText());
+				employeeList = null;
+				employeeList = empSkillClient.searchEmployee(inputJTF.getText());
+				System.out.println("searchmenu - employee search size " + employeeList.size());						
+				
+//				Object[] empRow = new Object[employeeList.size()];
+				Object[] empRow = new Object[4];
+		       // JTableHeader empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+		        //table
+				for (int i = 0; i < employeeList.size(); i++)
+		        {	
+		System.out.println("searchmenu - employee - in for ind " + i + " " +
+		        employeeList.get(i).getEmployeeID());		                  		            
+		    	   	empRow[0] = employeeList.get(i).getEmployeeID();
+		    	   	empRow[1] = employeeList.get(i).getFirstName();
+		    	   	empRow[2] = employeeList.get(i).getSurname();
+		    	   	empRow[3] = employeeList.get(i).getAlias();
+		    	   	model.addRow(empRow);
+		        }
+				System.out.println("searchmenu - getrowcount - " + model.getRowCount());
+				
+				int row = table.getSelectedRow();
+				System.out.println("row = " + row);
+				if (row <0)
+				{
+					JOptionPane.showMessageDialog(this,"Please select a row from the table");
+					return;
+				}
+				System.out.println("value = " + table.getValueAt(row, 0));
+				System.out.println("value = " + table.getValueAt(row, 1));
+				System.out.println("value = " + table.getValueAt(row, 2));
+				
+				//get your userid / relevant info
+				//call database with info and do as you wish.
+				
+				//ensure the row value is initialised once you done.
+				row = 0;
+			}
+			else
+			{
+						JOptionPane.showMessageDialog(this,  "Please enter search criteria");
+			}
 		}
+		
+		
 		if(source == skillComboBox)
 		{
-			System.out.println("Run run run we in combobox");
 			empSkillList = new ArrayList<>();
 			System.out.println("searchmenu - skillcombobox - index " + skillComboBox.getSelectedIndex() );
+			
+//     store the index and skillId of the cell the user has chosen from the combobox 			
 			int x = skillComboBox.getSelectedIndex();
 			int y = skillList.get(x).getSkillId();
 			System.out.println("searchmenu - employee skill search " + skillList.get(x).getSkillDescription());
 			System.out.println("searchmenu - employee skill search " + skillList.get(x).getSkillId());
 			
+//     now go and search the EmployeeSkill table for all employees that have that skill			
     		empSkillList = empSkillClient.searchEmployeeSkill(y);
-//// 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
-								
-			
-			Object[] empRow = new Object[empSkillList.size()];
+			System.out.println("searchmenu - eback from searchemployeeskill " + empSkillList.size());
+ 
+//     move the employeeID from this returned array into a vector so that it can be sorted  			
+    		Vector vect = new Vector<String>();
 			for (int i=0; i < empSkillList.size(); i++)
-	        {	
-	    	   	empRow[0] = empSkillList.get(i).getEmployeeID();
-	    	   	empRow[1] = empSkillList.get(i).getSkillID();
-	    	   	//empRow[2] = empSkillList.get(i).getSurname();
-	    	   	//empRow[3] = empSkillList.get(i).getAlias();
+	        {
+				System.out.println("searchmenu - creating vector "  +empSkillList.get(i).getEmpSkillID()+" "
+	        +empSkillList.get(i).getEmployeeID() );
+				vect.addElement(empSkillList.get(i).getEmployeeID()); 
+				System.out.println("searchmenu - in for - " + vect.get(i));
+	        }
+    		Collections.sort(vect);    		
+			System.out.println("searchmenu - after sort vect size: "+vect.size());	
+			
+//     now go thru the vector that contains the employeeID and fetch the employee details one at a time and populate
+//     the table - do not print duplicate employees
+			System.out.println("searchmenu - before for - " + empSkillList.size() );
+			Object[] empRow = new Object[4];
+			employeeList = empSkillClient.searchEmployee((String)vect.elementAt(0));
+			for (int i=0; i < vect.size(); i++)
+	        {
+System.out.println("searchmenu - before if - " + i + " " + vect.elementAt(i)); 
+				if (i>0 && (vect.elementAt(i).equals(vect.elementAt(i-1))))
+						{
+					continue;
+						}
+				employeeList = empSkillClient.searchEmployee((String)vect.elementAt(i));	    	   	
+
+				System.out.println("searchmenu - in for - " + vect.get(i) + " " + i);
+	    	   	empRow[0] = employeeList.get(0).getEmployeeID();
+	    	   	empRow[1] = employeeList.get(0).getFirstName();
+	    	   	empRow[2] = employeeList.get(0).getSurname();
+	    	   	empRow[3] = employeeList.get(0).getAlias();
 	    	   	model.addRow(empRow);
+
+	    	   	
+	    	   	
+//				employeeList = empSkillClient.searchEmployee((String)vect.elementAt(0));
 	        }
 		}
-//			System.out.println("searchcriteria - employee skills " + inputJTF.getText());
-//			empSkillList = empSkillClient.searchEmployeeSkill(inputJTF.getText());
-//			System.out.println("searchcriteria - employee skill size" + skillList.size());						
-//			
-//			Object[][] empRow = new Object[skillList.size()][2];
-//	        String[] empHeader = new String[]{"EmployeeId","Skill ID"/*,"Surname","Alias"**/};
-//	        for (int i=0; i<skillList.size(); i++)
-//	        {				            
-//	    	   	empRow[i][0]=empSkillList.get(i).getEmployeeID();
-//	    	   	empRow[i][1]=empSkillList.get(i).getEmpSkillID();
-////			    	   	empRow[i][2]=skillList.get(i).getSurname();
-////			    	   	empRow[i][3]=skillList.get(i).getAlias();
-//	        }
-//
-//		}
+
 	}//end of action performed
 	public static void main(String[] args)
 	{
