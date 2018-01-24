@@ -53,8 +53,10 @@ public class SearchMenu extends JPanel implements ActionListener
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
   	private Vector<Hobby> hobbyList;
-  	private Vector comboItems = null;
-	private ArrayList<EmployeeSkill> skillList;
+  	private Vector comboHobby = null;
+	private ArrayList<EmployeeSkill> empSkillList;
+	private ArrayList<Skill> skillList;
+ 	private Vector comboSkill = null;
 	
 	EmpSkillClient empSkillClient;
 	private JButton empBut;
@@ -65,6 +67,10 @@ public class SearchMenu extends JPanel implements ActionListener
 	
 	private DefaultTableModel model=null;
 	private JComboBox hobbyComboBox;
+	private JLabel hobbyLab;
+	private JLabel skillLab;
+	private JComboBox skillComboBox;
+	private JLabel lblEnterEmployeeSearch;
 	
 	
 	public SearchMenu()
@@ -74,16 +80,23 @@ public class SearchMenu extends JPanel implements ActionListener
 		empSkillClient.loginEmployee("A043410","1234");
 		System.out.println("searchcriteria - back from loginEmployee ");
 		capabilityList = empSkillClient.getCapabilityList();
+		
 		hobbyList = empSkillClient.getHobbyList();
-		comboItems = new Vector<>();
+		comboHobby = new Vector<>();
 		for(int i = 0 ; i < hobbyList.size();i++)
 		{
-			comboItems.add(hobbyList.get(i).getHobbyDescription());
+			comboHobby.add(hobbyList.get(i).getHobbyDescription());
 		}
 		
-		
-		
-        empHeader = new String[]{"UserId","First Name","Surname","Alias"};
+		skillList = empSkillClient.getSkillList();
+		System.out.println("searchmenu - skillList size - " + skillList.size());
+		comboSkill = new Vector<>();
+		for(int i = 0 ; i < skillList.size() ; i++)
+		{
+			System.out.println("searchmenu - skilllist for -  " + i + " desc " + skillList.get(i).getSkillDescription());
+			comboSkill.add(skillList.get(i).getSkillDescription());	
+		}
+
 		skillHeader = new String[]{"Skill","UserId","First Name","Surname","","","Average"};
 		hobbyHeader = new String[]{"HOBBY"};
 		setLayout(null);
@@ -97,26 +110,24 @@ public class SearchMenu extends JPanel implements ActionListener
 //									{"java","a043410","patsy","de Kock","2","1"} };
 									
 		inputJTF = new JTextField();
-		inputJTF.setBounds(189, 21, 346, 20);
+		inputJTF.setBounds(277, 21, 346, 20);
 		inputJTF.setColumns(10);
 		add(inputJTF);
-		
-		
+
 		clearBut = new JButton("CLEAR");
-		clearBut.setBounds(636, 20, 114, 23);
+		clearBut.setBounds(829, 54, 114, 23);
 		clearBut.addActionListener(this);
 		add(clearBut);
 		
 		empBut = new JButton("EMPLOYEE ");
-		empBut.setBounds(42, 20, 124, 23);
+		empBut.setBounds(698, 20, 124, 23);
 		empBut.addActionListener(this);
 		add(empBut);
 		
 		skillBut = new JButton("SKILL ");
-		skillBut.setBounds(199, 50, 124, 23);
+		skillBut.setBounds(695, 54, 124, 23);
 		skillBut.addActionListener(this);
 		add(skillBut);
-		
 		
 		model = new DefaultTableModel();
 		
@@ -126,18 +137,33 @@ public class SearchMenu extends JPanel implements ActionListener
 		table = new JTable(model);
 //		model.setColumnIdentifiers(empHeader);
 		
-		
-		
-		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(73, 140, 751, 138);
+		scrollPane.setBounds(73, 140, 870, 138);
 		add(scrollPane);
 		 
-		hobbyComboBox = new JComboBox(comboItems);
+		hobbyComboBox = new JComboBox(comboHobby);
 		AutoCompletion.enable(hobbyComboBox);
-		
-		hobbyComboBox.setBounds(202, 84, 124, 20);
+		hobbyComboBox.addActionListener(this);
+		hobbyComboBox.setBounds(277, 84, 346, 20);
 		add(hobbyComboBox);
+		
+		hobbyLab = new JLabel("Choose HOBBY from drop down");
+		hobbyLab.setBounds(42, 87, 177, 14);
+		add(hobbyLab);
+		
+		skillLab = new JLabel("Choose SKILL from drop down");
+		skillLab.setBounds(42, 58, 156, 14);
+		add(skillLab);
+		
+		skillComboBox = new JComboBox(comboSkill);
+		AutoCompletion.enable(skillComboBox);
+		skillComboBox.addActionListener(this);
+		skillComboBox.setBounds(277, 55, 346, 20);
+		add(skillComboBox);
+		
+		lblEnterEmployeeSearch = new JLabel("enter EMPLOYEE search criteria");
+		lblEnterEmployeeSearch.setBounds(42, 24, 177, 14);
+		add(lblEnterEmployeeSearch);
 		//scrollPane.setViewportView(table);
 
 	}
@@ -149,35 +175,90 @@ public class SearchMenu extends JPanel implements ActionListener
 		
 		if(source == clearBut)
 		{
-			model.setColumnIdentifiers(skillHeader);
+			//model.setColumnIdentifiers(skillHeader);
 			
 			inputJTF.setText("");
 			
-//			tablePanel.removeAll();
-//			tablePanel.validate();
-//			tablePanel.repaint();
-//			table = new JTable();
-//			scrollPane = new JScrollPane();
-//			scrollPane.setViewportView(table);
-//			tablePanel.add(scrollPane);
-//			tablePanel.validate();
-//			tablePanel.repaint();
-		}
-		
-		
+//  kyle's code ... commented out as this is used in hobby and skill selection
+//
+//			int row = table.getSelectedRow();
+//			System.out.println("row = " + row);
+//			if (row <0)
+//			{
+//				JOptionPane.showMessageDialog(this,"Please select a row from the table");
+//				return;
+//			}
+//			System.out.println("value = " + table.getValueAt(row, 0));
+//			System.out.println("value = " + table.getValueAt(row, 1));
+//			System.out.println("value = " + table.getValueAt(row, 2));
+//			
+//			//get your userid / relevant info
+//			//call database with info and do as you wish.
+//			
+//			//ensure the row value is initialised once you done.
+//			row = 0;				
+//			
+//			//deleting something 
+//			model.removeRow(row);
+//			
+//			row = 0;	
 
-		if(inputJTF.getText().isEmpty() ) 
-		{
-			JOptionPane.showMessageDialog(this,  "Please enter search criteria");
 		}
-		
+
+	
+		if(source == hobbyComboBox)
+		{
+			System.out.println("searchmenu - hobbycombobox - index " + hobbyComboBox.getSelectedIndex() );
+			int x = hobbyComboBox.getSelectedIndex();
+			
+			employeeList = null;
+			System.out.println("searchmenu - employee hobby search " + hobbyList.get(x).getHobbyDescription());
+//  		employeeList = empSkillClient.searchEmployeeHobby(hobbyList.get(i).getHobbyID());
+// 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
+			System.out.println("searchmenu - employee hobby search size" + employeeList.size());						
+			
+			Object[] empRow = new Object[employeeList.size()];
+			for (int i=0; i < employeeList.size(); i++)
+	        {	
+	    	   	empRow[0] = employeeList.get(i).getEmployeeID();
+	    	   	empRow[1] = employeeList.get(i).getFirstName();
+	    	   	empRow[2] = employeeList.get(i).getSurname();
+	    	   	empRow[3] = employeeList.get(i).getAlias();
+	    	   	model.addRow(empRow);
+	        }
+			
+			int row = table.getSelectedRow();
+			System.out.println("row = " + row);
+			if (row <0)
+			{
+				JOptionPane.showMessageDialog(this,"Please select a row from the table");
+				return;
+			}
+			System.out.println("value = " + table.getValueAt(row, 0));
+			System.out.println("value = " + table.getValueAt(row, 1));
+			System.out.println("value = " + table.getValueAt(row, 2));
+			
+			//get your userid / relevant info
+			//call database with info and do as you wish.
+			
+			//ensure the row value is initialised once you done.
+			row = 0;				
+		}
+
 			
 		if (source == empBut)
-		{				
-			System.out.println("searchmenu - employee " + inputJTF.getText());
+		{	
+//			check if user has entered search criteria for the employee search 
+//
+			if(inputJTF.getText().isEmpty() ) 
+			{
+				JOptionPane.showMessageDialog(this,  "Please enter search criteria");
+			}
+//			
+			System.out.println("searchmenu - employee search " + inputJTF.getText());
 			employeeList = null;
 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
-			System.out.println("searchmenu - employee size" + employeeList.size());						
+			System.out.println("searchmenu - employee search size" + employeeList.size());						
 			
 			Object[] empRow = new Object[employeeList.size()];
 	       // JTableHeader empHeader = new String[]{"UserId","First Name","Surname","Alias"};
@@ -210,32 +291,45 @@ public class SearchMenu extends JPanel implements ActionListener
 //			int colIndex = table.getSelectedColumn();
 //			System.out.println("IN CELL" + table.getValueAt(rowIndex, colIndex) );
 		}
-		if(source == skillBut)
+		if(source == skillComboBox)
 		{
-			System.out.println("searchcriteria - skills .. emp " + inputJTF.getText());
-			skillList = empSkillClient.searchEmployeeSkill(inputJTF.getText());
-			System.out.println("searchcriteria - employee skill size" + skillList.size());						
+			System.out.println("Run run run we in combobox");
+			empSkillList = new ArrayList<>();
+			System.out.println("searchmenu - skillcombobox - index " + skillComboBox.getSelectedIndex() );
+			int x = skillComboBox.getSelectedIndex();
+			int y = skillList.get(x).getSkillId();
+			System.out.println("searchmenu - employee skill search " + skillList.get(x).getSkillDescription());
+			System.out.println("searchmenu - employee skill search " + skillList.get(x).getSkillId());
 			
-			Object[][] empRow = new Object[skillList.size()][2];
-	        String[] empHeader = new String[]{"EmployeeId","Skill ID"/*,"Surname","Alias"**/};
-	        for (int i=0; i<skillList.size(); i++)
-	        {				            
-	    	   	empRow[i][0]=skillList.get(i).getEmployeeID();
-	    	   	empRow[i][1]=skillList.get(i).getEmpSkillID();
-//			    	   	empRow[i][2]=skillList.get(i).getSurname();
-//			    	   	empRow[i][3]=skillList.get(i).getAlias();
+    		empSkillList = empSkillClient.searchEmployeeSkill(y);
+//// 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
+								
+			
+			Object[] empRow = new Object[empSkillList.size()];
+			for (int i=0; i < empSkillList.size(); i++)
+	        {	
+	    	   	empRow[0] = empSkillList.get(i).getEmployeeID();
+	    	   	empRow[1] = empSkillList.get(i).getSkillID();
+	    	   	//empRow[2] = empSkillList.get(i).getSurname();
+	    	   	//empRow[3] = empSkillList.get(i).getAlias();
+	    	   	model.addRow(empRow);
 	        }
-//					tablePanel.removeAll();
-//					tablePanel.validate();
-//					tablePanel.repaint();
-//					table = new JTable(skillRows,skillHeader);
-//					table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
-//					scrollPane = new JScrollPane();
-//					scrollPane.setViewportView(table);
-//					tablePanel.add(scrollPane);
-//					tablePanel.validate();
-//					tablePanel.repaint();	
 		}
+//			System.out.println("searchcriteria - employee skills " + inputJTF.getText());
+//			empSkillList = empSkillClient.searchEmployeeSkill(inputJTF.getText());
+//			System.out.println("searchcriteria - employee skill size" + skillList.size());						
+//			
+//			Object[][] empRow = new Object[skillList.size()][2];
+//	        String[] empHeader = new String[]{"EmployeeId","Skill ID"/*,"Surname","Alias"**/};
+//	        for (int i=0; i<skillList.size(); i++)
+//	        {				            
+//	    	   	empRow[i][0]=empSkillList.get(i).getEmployeeID();
+//	    	   	empRow[i][1]=empSkillList.get(i).getEmpSkillID();
+////			    	   	empRow[i][2]=skillList.get(i).getSurname();
+////			    	   	empRow[i][3]=skillList.get(i).getAlias();
+//	        }
+//
+//		}
 	}//end of action performed
 	public static void main(String[] args)
 	{
