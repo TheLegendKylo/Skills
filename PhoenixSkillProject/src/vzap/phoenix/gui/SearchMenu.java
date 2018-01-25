@@ -35,6 +35,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JCheckBox;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class SearchMenu extends JPanel implements ActionListener
 {
@@ -71,6 +73,7 @@ public class SearchMenu extends JPanel implements ActionListener
 	private JLabel skillLab;
 	private JComboBox skillComboBox;
 	private JLabel lblEnterEmployeeSearch;
+	private JLabel contentsOfTable;
 
 	public SearchMenu()
 	{
@@ -137,7 +140,7 @@ public class SearchMenu extends JPanel implements ActionListener
 //		model.setColumnIdentifiers(empHeader);
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(73, 140, 870, 138);
+		scrollPane.setBounds(71, 156, 870, 138);
 		add(scrollPane);
 		 
 		hobbyComboBox = new JComboBox(comboHobby);
@@ -163,6 +166,11 @@ public class SearchMenu extends JPanel implements ActionListener
 		lblEnterEmployeeSearch = new JLabel("enter EMPLOYEE search criteria");
 		lblEnterEmployeeSearch.setBounds(42, 24, 177, 14);
 		add(lblEnterEmployeeSearch);
+		
+		contentsOfTable = new JLabel("");
+		contentsOfTable.setBorder(new LineBorder(new Color(0, 0, 0)));
+		contentsOfTable.setBounds(250, 131, 451, 14);
+		add(contentsOfTable);
 		//scrollPane.setViewportView(table);
 
 	}
@@ -217,14 +225,26 @@ public class SearchMenu extends JPanel implements ActionListener
 			
 			employeeList = null;
 			System.out.println("searchmenu - employee hobby search " + hobbyList.get(x).getHobbyDescription());
-			employeeList = empSkillClient.searchEmployeeHobby(hobbyList.get(0).getHobbyID());
-// 			employeeList = empSkillClient.searchEmployee(inputJTF.getText());
-			System.out.println("searchmenu - employee hobby search size" + employeeList.size());						
+			employeeList = empSkillClient.searchEmployeeHobby(hobbyList.get(x).getHobbyID());
+
+			System.out.println("searchmenu - employee hobby search size" + employeeList.size());
+			if(employeeList.size() == 0)
+			{
+				JOptionPane.showMessageDialog(this,"No employees have this hobby");
+				return;
+			}
 			
-			Object[] empRow = new Object[employeeList.size()];
+			Object[] empRow = new Object[4];
 			
 			for (int i = 0; i < employeeList.size(); i++)
 	        {	
+				System.out.println("searchmenu - hobby for - current i = " + i);
+                String heading1 = "Employees that have ";
+                String heading2 = hobbyList.get(x).getHobbyDescription();
+                String heading3 = " as a hobby";
+                String completeHeading = heading1 + heading2 + heading3;
+				contentsOfTable.setText(completeHeading);
+
 	    	   	empRow[0] = employeeList.get(i).getEmployeeID();
 	    	   	empRow[1] = employeeList.get(i).getFirstName();
 	    	   	empRow[2] = employeeList.get(i).getSurname();
@@ -232,22 +252,22 @@ public class SearchMenu extends JPanel implements ActionListener
 	    	   	model.addRow(empRow);
 	        }
 
-			int row = table.getSelectedRow();
-			System.out.println("row = " + row);
-			if (row <0)
-			{
-				JOptionPane.showMessageDialog(this,"Please select a row from the table");
-				return;
-			}
-			System.out.println("value = " + table.getValueAt(row, 0));
-			System.out.println("value = " + table.getValueAt(row, 1));
-			System.out.println("value = " + table.getValueAt(row, 2));
-			
-			//get your userid / relevant info
-			//call database with info and do as you wish.
-			
-			//ensure the row value is initialised once you done.
-			row = 0;				
+//			int row = table.getSelectedRow();
+//			System.out.println("row = " + row);
+//			if (row <0)
+//			{
+//				JOptionPane.showMessageDialog(this,"Please select a row from the table");
+//				return;
+//			}
+//			System.out.println("value = " + table.getValueAt(row, 0));
+//			System.out.println("value = " + table.getValueAt(row, 1));
+//			System.out.println("value = " + table.getValueAt(row, 2));
+//			
+//			//get your userid / relevant info
+//			//call database with info and do as you wish.
+//			
+//			//ensure the row value is initialised once you done.
+//			row = 0;				
 		}
 
 			
