@@ -299,6 +299,11 @@ System.out.println("Login Read errorMsg: "+inMessage);
 		}
 		return registerSuccessfull;
 	}
+	/*
+	 * Creates a new Skill against an Employee i.e. EmployeeSkill
+	 * Takes in an object of EmployeeSkill and returns a boolean
+	 * true=success ... false = failed
+	 */
 	public boolean updateEmployee(Employee updateEmployee)
 	{
 		this.writeOutMessage("updateEmployee");

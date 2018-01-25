@@ -94,6 +94,11 @@ public class EmpSkillClientController
 		return client.addHobby(description);
 	}
 	
+	public short addSkill(String description)
+	{
+		return client.addSkill(description);
+	}
+	
 	
 	
 	
