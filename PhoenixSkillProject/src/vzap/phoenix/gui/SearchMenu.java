@@ -412,6 +412,14 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 		if(source == empBut)
 		{
 			System.out.println("searchmenu - mouseclicked - empBut");
+
+//			ArrayList<EmployeeSkill> getEmployeeSkillList()
+			
+			
+//			vect.addElement(newCity);
+//			Collections.sort(vect);
+//			jList.setListData(vect);
+//			jList.repaint();
 		}
 		
 		if(source == skillComboBox)
