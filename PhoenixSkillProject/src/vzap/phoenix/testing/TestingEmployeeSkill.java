@@ -260,7 +260,7 @@ System.out.println(">>>>>Are you looping her too?");
 		new DefaultTableCellRenderer();
 		renderer.setToolTipText("Click for combo box");
 		rating.setCellRenderer(renderer);
-}
+    }
 
 	
 	
