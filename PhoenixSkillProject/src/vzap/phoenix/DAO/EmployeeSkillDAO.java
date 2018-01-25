@@ -270,7 +270,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		try
 		{
 			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=? and skillId=? and raterId=?"
-					+ "and status=1 or status=2");
+					+ "and status=1 or status=2 order by skillId, raterId");
 			ps_select.setString(1, employeeID);
 			ps_select.setInt(2, skillID);
 			ps_select.setString(3, raterID);

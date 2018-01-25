@@ -24,7 +24,7 @@ public class SkillDAO
 		{
 			skillList = new ArrayList<Skill>();
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from Skills");
+			ResultSet rs = stat.executeQuery("select * from Skills order by skillId");
 			System.out.println("ResultSet Size: "+rs.getFetchSize());
 			while(rs.next())
 			{

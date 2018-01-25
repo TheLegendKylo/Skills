@@ -21,7 +21,7 @@ public class LevelDAO
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from level");
+			ResultSet rs = stat.executeQuery("select * from level order by levelNumber");
 			while(rs.next())
 			{
 				short rate = rs.getShort("levelNumber");

@@ -24,7 +24,7 @@ public class CapabilityLevelDAO
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from capabilityrating");
+			ResultSet rs = stat.executeQuery("select * from capabilityrating order by capabilityId, rating");
 			while(rs.next())
 			{
 				short capabilityId = rs.getShort("capabilityId");

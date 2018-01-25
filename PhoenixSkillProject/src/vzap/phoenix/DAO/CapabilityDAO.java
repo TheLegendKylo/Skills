@@ -23,7 +23,7 @@ public class CapabilityDAO
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from capability");
+			ResultSet rs = stat.executeQuery("select * from capability order by capabilityId");
 			while(rs.next())
 			{
 				short id = rs.getShort("capabilityId");
