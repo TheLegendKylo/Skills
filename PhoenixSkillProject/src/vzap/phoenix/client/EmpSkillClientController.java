@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
@@ -44,6 +45,10 @@ public class EmpSkillClientController
 	{
 		return client.getCapabilityRatingList();
 	}
+	public ArrayList<Capability> getCapabilityList()
+	{
+		return client.getCapabilityList();
+	}
 	public boolean registerEmployee(Employee newEmployee)
 	{
 		return client.registerEmployee(newEmployee);
@@ -55,6 +60,14 @@ public class EmpSkillClientController
 	public ArrayList<Employee> searchEmployee(String searchCriteria)
 	{
 		return client.searchEmployee(searchCriteria);
+	}
+	public ArrayList<Employee> searchEmployeeHobby(short searchCriteria)
+	{
+		return client.searchEmployeeHobby(searchCriteria);
+	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(int searchCriteria)
+	{
+		return client.searchEmployeeSkill(searchCriteria);
 	}
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
