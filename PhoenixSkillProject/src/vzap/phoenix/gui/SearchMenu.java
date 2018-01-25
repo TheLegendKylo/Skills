@@ -40,7 +40,6 @@ import java.awt.Color;
 
 public class SearchMenu extends JPanel implements ActionListener
 {
-	
 
 	String [] empHeader;
 	String [] [] empRows;
