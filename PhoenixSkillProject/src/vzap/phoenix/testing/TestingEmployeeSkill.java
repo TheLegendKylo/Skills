@@ -21,8 +21,11 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -39,7 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class TestingEmployeeSkill extends JPanel implements TableModelListener
+public class TestingEmployeeSkill extends JPanel
 {
 	private JTabbedPane tabbedPane;
 	private JPanel profilePanel;
@@ -65,6 +68,8 @@ public class TestingEmployeeSkill extends JPanel implements TableModelListener
 	private JTable ratingTable;
 	private DefaultTableModel ratingModel;
 	private JTextArea textArea;
+	Object[][] tableRow;
+    String[] tableHeader;       	
 
     JComboBox ratingBox = null;	
 	ArrayList<Capability> capList = null;
@@ -209,8 +214,8 @@ public class TestingEmployeeSkill extends JPanel implements TableModelListener
 		ratingPanel = new JPanel();
 		capList = empClient.getCapabilityList();
 		capRatingList = empClient.getCapabilityRatingList();
-		Object[][] tableRow = new Object[capList.size()][3];
-        String[] tableHeader = new String[]{"Capability","Rating","Description"};       	
+		tableRow = new Object[capList.size()][3];
+        tableHeader = new String[]{"Capability","Rating","Description"};       	
         for (int i=0; i<capList.size(); i++)
         {
             
@@ -218,31 +223,13 @@ public class TestingEmployeeSkill extends JPanel implements TableModelListener
        }
 //		tableRow[selIdx,2] = ratingModel.setValueAt(desc, selIdx, 2);			
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
-       	ratingTable = new JTable(ratingModel);
+//	    ratingTable = new JTable(ratingModel);
+       	
+	    ratingTable = new JTable(new MyTableModel());
 //		ratingTable.getColumn("Rating").setCellEditor(new DefaultCellEditor(ratingBox));
 		TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
-		ratingBox = new JComboBox<Integer>();
-		boolean newP = true;
-		if(newP)	
-		{
-			for (int j = 1; j < 6; j++)
-			{
-				ratingBox.addItem(j);		
-			}
-			ratingColumn.setCellEditor(new DefaultCellEditor(ratingBox));
-			ratingColumn.setCellRenderer((new DefaultTableCellRenderer(){
-
-		    @Override
-		    public Component getTableCellRendererComponent(JTable table, Object value,
-		            boolean isSelected, boolean hasFocus, int row, int column) {
-		        JLabel label = (JLabel) super.getTableCellRendererComponent(table,
-		            value, isSelected, hasFocus, row, column);
-		        label.setIcon(UIManager.getIcon("Table.descendingSortIcon"));
-		        return label;
-		    }}));
-		}
-		newP = false;
-		ratingModel.addTableModelListener(this);
+		this.setUpRatingColumn(ratingTable, ratingTable.getColumn("Rating"));
+System.out.println(">>>>>Are you looping her too?");
        	
 		scrollPane = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -257,26 +244,69 @@ public class TestingEmployeeSkill extends JPanel implements TableModelListener
 		
 
 	}
-	@Override
-	public void tableChanged(TableModelEvent e)
-	{
-		System.out.println("Class: "+e.getSource().getClass());
-		// TODO Auto-generated method stub
-		int selIdx = ratingTable.getSelectedRow();
-		int selRating = (int)ratingBox.getSelectedItem();
-		String desc = null;
-		System.out.println("selIdx: "+selIdx+" selRating: "+selRating);
-		
-   		for (int j = 0; j < capRatingList.size(); j++)
+    public void setUpRatingColumn(JTable table,
+            TableColumn rating) 
+    {
+		//Set up the editor for the sport cells.
+		JComboBox ratingBox = new JComboBox();
+		for (int j = 1; j < 6; j++)
 		{
-			if(capRatingList.get(j).getCapabilityID()==selIdx+1
-					&& capRatingList.get(j).getRating()==selRating)
-			{
-				desc = capRatingList.get(j).getDescription();
-				break;
-			}
+			ratingBox.addItem(j);		
 		}
-		System.out.println("Rating Description: "+desc);
-//		ratingModel.setValueAt(desc, selIdx, 2);			
-	}
+		rating.setCellEditor(new DefaultCellEditor(ratingBox));
+		
+		//Set up tool tips for the sport cells.
+		DefaultTableCellRenderer renderer =
+		new DefaultTableCellRenderer();
+		renderer.setToolTipText("Click for combo box");
+		rating.setCellRenderer(renderer);
+    }
+
+	
+	
+   class MyTableModel extends AbstractTableModel 
+   {
+
+    	public String getColumnName(int col) {
+   	        return tableHeader[col].toString();
+   	    }
+   	    public int getRowCount() 
+   	    { 
+   	    	return tableRow.length; 
+   	    }
+   	    public int getColumnCount() 
+   	    { 
+   	    	return tableHeader.length; 
+   	    }
+   	    public Object getValueAt(int row, int col) 
+   	    {
+   	        return tableRow[row][col];
+   	    }
+   	    public boolean isCellEditable(int row, int col)
+   	    { 
+   	    	return true; 
+   	    }
+   	    public void setValueAt(Object value, int row, int col) 
+   	    {
+   			// TODO Auto-generated method stub
+   			int selIdx = ratingTable.getSelectedRow();
+   			int selRating = (int)this.getValueAt(selIdx, 1);
+   			String desc = null;
+   			System.out.println("selIdx: "+selIdx+" selRating: "+selRating);
+   			
+   	   		for (int j = 0; j < capRatingList.size(); j++)
+   			{
+   				if(capRatingList.get(j).getCapabilityID()==selIdx+1
+   						&& capRatingList.get(j).getRating()==selRating)
+   				{
+   					desc = capRatingList.get(j).getDescription();
+   					break;
+   				}
+   			}
+//   			System.out.println("Rating Description: "+desc);
+   	   		tableRow[selIdx][2] = desc;
+//   			ratingModel.setValueAt(desc, selIdx, 2);			
+   	        fireTableCellUpdated(selIdx, 2);
+   	    }
+   }	
 }
