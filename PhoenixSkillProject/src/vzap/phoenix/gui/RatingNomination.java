@@ -20,21 +20,27 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Component;
+import javax.swing.table.TableModel;
 
-public class RatingNomination extends JPanel implements ActionListener
+public class RatingNomination extends JPanel implements ActionListener, MouseListener
 {
 	private JLabel selectRaterlbl;
 	private JButton btnOutRatings;
 	private JButton btnDeleteSkill;
 	private JLabel nomineelbl;
 	private JTextField rater1JTF;
-	private JTable table;
-	private JScrollPane scrollPane;
+	private JTable selectTable, nominateTable;
+	private JScrollPane scrollPane, nominateScrollPane;
 	private JButton btnSubmit;
 	private JTextField rater2JTF;
 	private JTextField rater3JTF;
@@ -42,7 +48,9 @@ public class RatingNomination extends JPanel implements ActionListener
 	private JTextField rater5JTF;
 	private JLabel lblSkill;
 	private JTextField rater6JTF;
-	private Vector comboSkill, comboRaters;
+	private Vector<String> comboSkill; 
+	private Vector<Integer> selectedSkill;
+	private Vector<String> comboRaters;
 	private ArrayList<EmployeeSkill> empSkillList;
 	private EmpSkillClient empSkillClient;
 	private String [] skillHeader;
@@ -50,16 +58,18 @@ public class RatingNomination extends JPanel implements ActionListener
 	private ArrayList<Skill> skillList;
 	private String searchCriteria;
 	private JTextField empSearchJTF;
-	private JButton btnAdd;
-	private JButton btnAdd1;
-	private JButton btnAdd2;
-	private JButton btnAdd3;
-	private JButton btnAdd4;
-	private JButton btnAdd5;
+	private JButton btnAdd,btnAdd1,btnAdd2,btnAdd3,btnAdd4,btnAdd5;
 	private Object[] empHeader,empRow;
-	private DefaultTableModel model;
+	private DefaultTableModel selectModel, nominateModel;
+	private Object[] nominateHeader;
+	private Object[] nominateRow;
 	private JButton btnSearch;
 	private int row;
+	private JComboBox skill1ComboBox,skill2ComboBox,skill3ComboBox;
+	private JComboBox skill4ComboBox,skill5ComboBox,skill6ComboBox;
+	private EmployeeSkill employeeSkill;
+	private Employee loggedOnEmployee;
+	private JTable table_1;
 
 
 	/**
@@ -70,9 +80,10 @@ public class RatingNomination extends JPanel implements ActionListener
 		setLayout(null);
 		
 		empSkillClient = new EmpSkillClient();
+		employeeSkill = new EmployeeSkill();
         empSkillClient.loginEmployee("A119685","1234");
         System.out.println("RatingNomination - back from loginEmployee ");
-		
+		loggedOnEmployee = empSkillClient.getLogonEmployee();
 		empSkillList = empSkillClient.getEmpSkillList();
 		skillList = empSkillClient.getSkillList();
         System.out.println("RatingNomination - skillList size - " + empSkillList.size());
@@ -87,15 +98,14 @@ public class RatingNomination extends JPanel implements ActionListener
             	}
             }
         }
-
-    	skillHeader = new String[]{"Skill","UserId","First Name","Surname","","","Average"};
-		
-		model = new DefaultTableModel();
+	
+		selectModel = new DefaultTableModel();
+		selectTable.getSelectionModel();
+		selectTable.addMouseListener(this);
         
         empHeader = new String[]{"UserId","First Name","Surname","Alias"};
-        
-        model.setColumnIdentifiers(empHeader);
-        table = new JTable(model);
+        selectModel.setColumnIdentifiers(empHeader);
+        selectTable = new JTable(selectModel);
 		
 		selectRaterlbl = new JLabel("Select Raters");
 		selectRaterlbl.setFont(new Font("Arial", Font.PLAIN, 19));
@@ -107,15 +117,12 @@ public class RatingNomination extends JPanel implements ActionListener
 		nomineelbl.setBounds(160, 121, 125, 16);
 		add(nomineelbl);
 		
-		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 365, 535, 112);
+		scrollPane = new JScrollPane(selectTable);
+		scrollPane.setBounds(10, 528, 535, 112);
 		add(scrollPane);
 		
-//		table = new JTable();
-//		scrollPane.setViewportView(table);
-		
 		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(163, 488, 89, 23);
+		btnSubmit.setBounds(163, 651, 89, 23);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
@@ -160,41 +167,41 @@ public class RatingNomination extends JPanel implements ActionListener
 		add(lblSkill);
 		
 		btnDeleteSkill = new JButton("Delete nomination");
-		btnDeleteSkill.setBounds(10, 488, 142, 23);
+		btnDeleteSkill.setBounds(10, 651, 142, 23);
 		add(btnDeleteSkill);
 		btnDeleteSkill.addActionListener(this);
 		
-		JComboBox skill1ComboBox = new JComboBox(comboSkill);
+		skill1ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill1ComboBox);
 		skill1ComboBox.addActionListener(this);
 		skill1ComboBox.setBounds(324, 148, 179, 20);
 		add(skill1ComboBox);
 		
-		JComboBox skill2ComboBox = new JComboBox(comboSkill);
+		skill2ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill2ComboBox);
 		skill2ComboBox.addActionListener(this);
 		skill2ComboBox.setBounds(324, 179, 179, 20);
 		add(skill2ComboBox);
 		
-		JComboBox skill3ComboBox = new JComboBox(comboSkill);
+		skill3ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill3ComboBox);
 		skill3ComboBox.addActionListener(this);
 		skill3ComboBox.setBounds(324, 208, 179, 20);
 		add(skill3ComboBox);
 		
-		JComboBox skill4ComboBox = new JComboBox(comboSkill);
+		skill4ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill4ComboBox);
 		skill4ComboBox.addActionListener(this);
 		skill4ComboBox.setBounds(324, 236, 179, 20);
 		add(skill4ComboBox);
 		
-		JComboBox skill5ComboBox = new JComboBox(comboSkill);
+		skill5ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill5ComboBox);
 		skill5ComboBox.addActionListener(this);
 		skill5ComboBox.setBounds(324, 264, 179, 20);
 		add(skill5ComboBox);
 		
-		JComboBox skill6ComboBox = new JComboBox(comboSkill);
+		skill6ComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skill6ComboBox);
 		skill6ComboBox.addActionListener(this);
 		skill6ComboBox.setBounds(324, 295, 179, 20);
@@ -240,12 +247,14 @@ public class RatingNomination extends JPanel implements ActionListener
 		btnSearch.addActionListener(this);
 		add(btnSearch);
 		
-
-        		
+		nominateScrollPane = new JScrollPane((Component) null);
+		nominateScrollPane.setBounds(10, 382, 535, 112);
+		add(nominateScrollPane);
 		
-				
-		
-
+		nominateTable = new JTable((TableModel) null);
+		nominateScrollPane.setViewportView(nominateTable);
+		nominateHeader = new Object[]{"Rater ID", "Rater Name", "Skill"};
+		nominateRow = new Object [3];
 	}
 
 	@Override
@@ -257,157 +266,125 @@ public class RatingNomination extends JPanel implements ActionListener
 		if(source == btnSubmit)
 		{
 			System.out.println("Submit button was pressed");
-			
-			
-			if(rater1JTF.getText().isEmpty())
+	        comboRaters = new Vector<String>();
+	        comboRaters.add(rater1JTF.getText());
+//	        comboRaters.add(rater2JTF.getText());
+//	        comboRaters.add(rater3JTF.getText());
+//	        comboRaters.add(rater4JTF.getText());
+//	        comboRaters.add(rater5JTF.getText());
+//	        comboRaters.add(rater6JTF.getText());
+	        
+	        selectedSkill = new Vector<Integer>();
+	        
+	        for(int i = 0 ; i < comboSkill.size() ; i++)
+	        {
+	            for(int j = 0; j < skillList.size(); j++)
+	            {
+	            	if(comboSkill.get(i) == skillList.get(j).getSkillDescription() && comboSkill.get(i) == skill1ComboBox.getSelectedItem())
+	            	{
+	            		System.out.println("Combo Skill id = " + comboSkill.get(i));
+	            		System.out.println("Skill id = " + skillList.get(j).getSkillDescription());
+	            		System.out.println("Skill id = " + skillList.get(j).getSkillId());
+	            		selectedSkill.add(skillList.get(j).getSkillId());
+//	            		System.out.println("Selected Skill = " + selectedSkill.get(i).getEmpSkillID());
+	            	}
+	            }
+	        }
+	        
+			for(int i = 0; i < comboRaters.size();i++)
 			{
-				JOptionPane.showMessageDialog(this, "You need to list a skill");
-				rater1JTF.grabFocus();
+				System.out.println("Into the Submit buitton loop = " + comboRaters.get(i));
+				System.out.println("Print logged on employee = " + loggedOnEmployee.getEmployeeID());
+				//change to new employee skill as opposed to a set method
+				String employeeID = loggedOnEmployee.getEmployeeID();
+				int skillId =  selectedSkill.get(i);
+				String raterID = comboRaters.get(i);
+				Date createdDate = new Date();
+				employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
+				boolean success = empSkillClient.nominateRater(employeeSkill);
 			}
-			
-//			EmployeeSkillDAO esd = new EmployeeSkillDAO(employeeID);
-//			employeeSkillList = esd.getEmpSkillList();
 					
 		}
 		if(source == btnAdd)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                    row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    //get your userid / relevant info
-                    //call database with info and do as you wish.
-                    
-                    rater1JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
-                   // System.out.println("Into 2nd IF Statement: value = " + table.getValueAt(row, 1));
-                    //ensure the row value is initialised once you done.
-                    
-                    
-                    //deleting something 
-                    //model.removeRow(row);
-                    
+                    rater1JTF.setText((String) selectTable.getValueAt(row, 0) );
                     row = 0;           
 
         }
 		if(source == btnAdd1)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                    row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    rater2JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
+                    rater2JTF.setText("("+(String) selectTable.getValueAt(row, 0) +") "
+                    		+ ""+ (String) selectTable.getValueAt(row, 1) +" "+(String) selectTable.getValueAt(row, 2));
                     row = 0;           
 
         }
 		if(source == btnAdd2)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                    row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    rater3JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
+                    rater3JTF.setText("("+(String) selectTable.getValueAt(row, 0) +") "
+                    		+ ""+ (String) selectTable.getValueAt(row, 1) +" "+(String) selectTable.getValueAt(row, 2));
                     row = 0;           
 
         }
 		if(source == btnAdd3)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                    row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    rater4JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
+                    rater4JTF.setText("("+(String) selectTable.getValueAt(row, 0) +") "
+                    		+ ""+ (String) selectTable.getValueAt(row, 1) +" "+(String) selectTable.getValueAt(row, 2));
                     row = 0;           
 
         }
 		if(source == btnAdd4)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                   row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    rater5JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
+                    rater5JTF.setText("("+(String) selectTable.getValueAt(row, 0) +") "
+                    		+ ""+ (String) selectTable.getValueAt(row, 1) +" "+(String) selectTable.getValueAt(row, 2));
                     row = 0;           
 
         }
 		if(source == btnAdd5)
         {
-                    //model.setColumnIdentifiers(skillHeader);
-                    
-                   // inputJTF.setText("");
-                    
-                    
-                    row = table.getSelectedRow();
+                    row = selectTable.getSelectedRow();
                     System.out.println("row = " + row);
                     if (row <0)
                     {
                                 JOptionPane.showMessageDialog(this,"Please select a row from the table");
                                 return;
                     }
-                    System.out.println("value = " + table.getValueAt(row, 0));
-                    System.out.println("value = " + table.getValueAt(row, 1));
-                    System.out.println("value = " + table.getValueAt(row, 2));
-                    
-                    rater6JTF.setText("("+(String) table.getValueAt(row, 0) +") "+ (String) table.getValueAt(row, 1) +" "+(String) table.getValueAt(row, 2));
+                    rater6JTF.setText("("+(String) selectTable.getValueAt(row, 0) +") "
+                    		+ ""+ (String) selectTable.getValueAt(row, 1) +" "+(String) selectTable.getValueAt(row, 2));
                     row = 0;           
 
         }
@@ -418,7 +395,7 @@ public class RatingNomination extends JPanel implements ActionListener
 			empList = empSkillClient.searchEmployee(empSearchJTF.getText());
 	        System.out.println("RatingNomination - Employee size - " + empList.size());
 	        empRow = new Object[empList.size()];
-	        comboRaters = new Vector<>();
+	        //comboRaters = new Vector<>();
 	        for(int i = 0 ; i < empList.size() ; i++)
 	        {
 	                    System.out.println("RatingNomination - skillList for -  " + i + " desc " + empList.get(i).getEmployeeID());
@@ -426,7 +403,7 @@ public class RatingNomination extends JPanel implements ActionListener
                         empRow[1] = empList.get(i).getFirstName();
                         empRow[2] = empList.get(i).getSurname();
                         empRow[3] = empList.get(i).getAlias();
-                        model.addRow(empRow);
+                        selectModel.addRow(empRow);
                         
 	        }
 	        
@@ -442,5 +419,37 @@ public class RatingNomination extends JPanel implements ActionListener
 		RatingNomination panel = new RatingNomination();
 		frame.getContentPane().add(panel);
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) 
+	{
+		nominateRow[0]= rater1JTF.getText();
+		nominateRow[1]= rater2JTF.getText();
+		//nominateRow[2]= skill3JTF.getText();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
