@@ -18,6 +18,8 @@ import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JTable;
@@ -35,7 +38,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SkillsTab extends JPanel implements ActionListener, MouseListener
+public class SkillsTab extends JPanel implements ActionListener
 {
 	private JLabel lblSkillTab;
 	private JPanel panelTop;
@@ -82,6 +85,9 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private JLabel lblSkill;
 	private JComboBox<String> comboBoxSkillList;
 	private EmpSkillClientController clientControl;
+	private JComboBox comboBoxRating;
+	private String[] ratingValues;
+	Object[] HeaderForAddSkill;
 	/**
 	 * Create the panel.
 	 */
@@ -335,7 +341,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		scrollPaneAddSkill.setBounds(193, 159, 745, 44);
 		add(scrollPaneAddSkill);
 		
-		Object[] HeaderForAddSkill = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
+		HeaderForAddSkill = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
 				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
 		Object[][] ratingRow = new Object[1][HeaderForAddSkill.length];
 		
@@ -346,11 +352,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		tableCaptureSkills.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		tableCaptureSkills.getRowSelectionAllowed();
 		
+	
+		
 		scrollPaneAddSkill.setViewportView(tableCaptureSkills);
 		
 		tableCaptureSkills.getRowSelectionAllowed();
 		tableCaptureSkills.getSelectionModel();
-		tableCaptureSkills.addMouseListener(this);
 		
 		lblSkill = new JLabel("Skill");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -378,6 +385,15 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		btnAddSkill.addActionListener(this);
 		
 		
+		ratingValues = new String[] {"1", "2", "3", "4", "5"};
+		comboBoxRating = new JComboBox(ratingValues);
+		
+		for (int i = 0; i < HeaderForAddSkill.length; i++)
+		{
+			tableCaptureSkills.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor(comboBoxRating) );
+		}
+		
+		
 		
 		
 		
@@ -391,20 +407,26 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if(source == btnAddSkill)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
-			System.out.println("Testing JOptionPane " + description);
-			System.out.println("**before .addskill**");
 			short skillID = clientControl.addSkill(description);
-			System.out.println("**after .addskill. before vector.addElement**");
-			
+						
 			if(! (skillID ==0))
 			{
+				String employeeID = loggedOnEmployee.getEmployeeID();
+				String raterID = employeeID;
+				Date createdDate = new Date();
 				
-//				vectorSkills.addElement(description);
+				EmployeeSkill employeeSkill = new EmployeeSkill(employeeID,skillID,raterID, createdDate);
+				boolean success = clientControl.addEmployeeSkill(employeeSkill);
+				
+				
+				vectorSkills.addElement(description);
+				Collections.sort(vectorSkills);
 				clientControl.getSkillList();
 				JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
-//				comboBoxSkillList.removeAll();
-				comboBoxSkillList.addItem(description);
-//				comboBoxSkillList.repaint();
+				comboBoxSkillList.removeAll();
+				DefaultComboBoxModel dcbm = new DefaultComboBoxModel(vectorSkills);
+				comboBoxSkillList.setModel(dcbm);
+				this.repaint();
 			}
 			else
 			{
@@ -419,11 +441,18 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			
 			
 			
-//			int row = tableCaptureSkills.getSelectedRow();
-//			
-//			if(!(row < 0))
-//			{
-				String x = comboBoxSkillList.getSelectedItem().toString();
+			int row = tableCaptureSkills.getSelectedRow();
+			
+			if(!(row < 0))
+			{
+				for (int i = 0; i < HeaderForAddSkill.length; i++)
+				{
+					String skillToBeAdded = tableCaptureSkills.getValueAt(row, i).toString();
+					System.out.println("Skill rating " + skillToBeAdded);
+				}
+				
+			}
+//				String x = comboBoxSkillList.getSelectedItem().toString();
 				
 //				Object object = tableCaptureSkills.getValueAt(row, 0);
 //				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
@@ -431,8 +460,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				//Still need to figure out how to clear the cell that was selected so that the
 				//skill can be sent directly
 //				tableCaptureSkills.clearSelection();
-				System.out.println("Printing out StringValue " + x);
-				jtfAddSkill.setText(x);
+//				System.out.println("Printing out StringValue " + x);
+//				jtfAddSkill.setText(x);
 				
 				
 				/*
@@ -448,38 +477,5 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-		
-		
-	}
 
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	}

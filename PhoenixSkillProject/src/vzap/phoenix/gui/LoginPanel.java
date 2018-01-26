@@ -47,6 +47,7 @@ public class LoginPanel extends JPanel implements ActionListener
 	private String loggedInUser = null;
 	private EmpSkillClientController clientControl = null;
 	private Employee emp = null, newEmp = null;
+	private JButton btnRyan;
 	/**
 	 * Create the panel.
 	 */
@@ -75,6 +76,11 @@ public class LoginPanel extends JPanel implements ActionListener
 		passwordField = new JPasswordField();
 		passwordField.setBounds(479, 391, 224, 31);
 		passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		btnRyan = new JButton("Ryan Login");
+		btnRyan.setBounds(336, 224, 76, 23);
+		btnRyan.addActionListener(this);
+		add(btnRyan);
 		
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(350, 502, 128, 33);
@@ -159,6 +165,13 @@ public class LoginPanel extends JPanel implements ActionListener
 //		password = new String(passwordField.getPassword());
 //		
 //		loggedInUser = tf_UserID.getText();
+		
+		if(source == btnRyan)
+		{
+			tf_UserID.setText("A207532");
+			passwordField.setText("1234");
+			btnLogin.doClick();
+		}
 		
 		if(source == btnLogin)
 		{	
