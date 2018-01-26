@@ -499,6 +499,21 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		}
 		return empSkillList;
 	}
+	public ArrayList<EmployeeSkill> getEmpSkillByEmpID(String employeeID)
+	{
+		this.writeOutMessage("getEmpSkillByEmpID");
+		this.writeOutMessage(employeeID);
+		ArrayList<EmployeeSkill> empSkillList = new ArrayList<EmployeeSkill>();
+		try
+		{
+			empSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillList;
+	}
 	public ArrayList<Employee> searchEmployeeHobby(short hobbyID)
 	{
 		if(hobbyID==0)

@@ -147,6 +147,11 @@ public class EmpSkillServer
 						this.getEmpSkillList();
 						break;
 					}
+					case "getEmpSkillByEmpID":
+					{
+						this.getEmpSkillByEmpID();
+						break;
+					}
 					case "getCapabilityList":
 					{
 						this.getCapabilityList();
@@ -335,6 +340,21 @@ System.out.println("Number of Levels: "+levelList.size());
 		public void getEmpSkillList()
 		{
 			empSkillList = empControl.getEmpSkillList();
+System.out.println("Number of Employee SkillS: "+empSkillList.size());
+			try
+			{
+				oos.writeObject(empSkillList);
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void getEmpSkillByEmpID()
+		{
+			this.readObject();
+			empSkillList = empControl.getEmpSkillByEmpID(inMessage);
 System.out.println("Number of Employee SkillS: "+empSkillList.size());
 			try
 			{

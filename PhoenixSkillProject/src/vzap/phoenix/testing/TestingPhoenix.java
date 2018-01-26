@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Vector;
 
 import vzap.phoenix.Server.Employee.Capability;
@@ -44,11 +45,12 @@ public class TestingPhoenix
 		hobbyList = loginSession.getHobbyList();
 		capList = loginSession.getCapabilityList();
 		levelList = loginSession.getLevelList();
-		this.getEmpSkills();
-//		this.searchEmployeeSkill();
+//		this.getEmpSkills();
+		this.getEmpSkillByEmpID();
+		//		this.searchEmployeeSkill();
 //		this.searchEmployeeSkillBySkillID();
 //		this.rateSkill();
-		this.searchEmpHobby();
+//		this.searchEmpHobby();
 		//		this.addEmployeeHobby();
 //		boolean b = this.addEmpSkill();
 //		boolean b = this.nominateRater();
@@ -203,7 +205,14 @@ System.out.println(
 			"surname: "+empList.get(i).getSurname()+
 			"/n hobbies: "+empList.get(i).getEmpHobbies());
 		}
-		
+	}
+	public void getEmpSkillByEmpID()
+	{
+		empSkillList = loginSession.getEmpSkillByEmpID("a159842");
+		for (int i = 0; i < empSkillList.size(); i++)
+		{
+			System.out.println(" "+i+" "+empSkillList.get(i).getEmployeeID()+" "+empSkillList.get(i).getRaterID());
+		}
 	}
 	public void updateEmployee()
 	{
