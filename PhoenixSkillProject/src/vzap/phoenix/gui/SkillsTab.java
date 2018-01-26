@@ -401,14 +401,14 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				
 //				vectorSkills.addElement(description);
 				clientControl.getSkillList();
-				JOptionPane.showMessageDialog(this, "Successfully added skill");
+				JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
 //				comboBoxSkillList.removeAll();
 				comboBoxSkillList.addItem(description);
 //				comboBoxSkillList.repaint();
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(this, "Failed");
+				JOptionPane.showMessageDialog(this, "No Skill Added");
 			}
 			
 		}
@@ -419,18 +419,20 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			
 			
 			
-			int row = tableCaptureSkills.getSelectedRow();
-			
-			if(!(row < 0))
-			{
-				Object object = tableCaptureSkills.getValueAt(row, 0);
-				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
+//			int row = tableCaptureSkills.getSelectedRow();
+//			
+//			if(!(row < 0))
+//			{
+				String x = comboBoxSkillList.getSelectedItem().toString();
+				
+//				Object object = tableCaptureSkills.getValueAt(row, 0);
+//				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
 				
 				//Still need to figure out how to clear the cell that was selected so that the
 				//skill can be sent directly
-				tableCaptureSkills.clearSelection();
-				System.out.println("Printing out StringValue " + skillToBeAdded);
-				jtfAddSkill.setText(skillToBeAdded);
+//				tableCaptureSkills.clearSelection();
+				System.out.println("Printing out StringValue " + x);
+				jtfAddSkill.setText(x);
 				
 				
 				/*
@@ -439,7 +441,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				 */
 			
 							
-			}
+//			}
 			
 
 		}
