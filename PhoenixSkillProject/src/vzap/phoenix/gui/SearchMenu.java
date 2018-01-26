@@ -60,18 +60,20 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
-  	private Vector<Hobby> hobbyList;
-  	private Vector comboHobby;
+  	private Vector<Hobby> hobbyList;   
+  	private Vector comboHobby;   
 	private ArrayList<EmployeeSkill> empSkillList;
 	private ArrayList<Skill> skillList;
- 	private Vector comboSkill;
- 	
+ 	private Vector comboSkill;   
+	 	
 	private Employee loggedOnEmployee;
 	private ArrayList<Employee> individualEmp;
 	private ArrayList<Short> individualEmpHobbyList;
-	private Vector<String> vectHobby;
-
-	private EmpSkillClientController clientControl;
+	private Vector<String> vectHobby;   
+	private ArrayList<Short> individualEmpSkillList;
+	private Vector<String> vectSkill;   
+	
+  	private EmpSkillClientController clientControl;
 	private JButton empBut;
 	private JButton clearBut;
 	private JScrollPane scrollPane;
@@ -95,14 +97,13 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		loggedOnEmployee = clientControl.getLogonEmployee();
 		capabilityList = clientControl.getCapabilityList();
 		
+		vectHobby = new Vector<String>();
 		hobbyList = clientControl.getHobbyList();
-		
 		comboHobby = new Vector<>();
 		for(int i = 0 ; i < hobbyList.size();i++)
 		{
 			comboHobby.add(hobbyList.get(i).getHobbyDescription());
 		}
-		
 		
 		skillList = clientControl.getSkillList();
 		comboSkill = new Vector<>();
@@ -196,7 +197,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollPane_Hobby.setBounds(761, 324, 218, 187);
 		add(scrollPane_Hobby);
 		
-		hobbyJlist = new JList();
+		System.out.println("vectHobby size = " + vectHobby.size());
+		hobbyJlist = new JList(vectHobby);
 		hobbyJlist.setToolTipText("This will only be populated once you have entered \"EMPLOYEE search criteria\" optionb");
 		hobbyJlist.setEnabled(false);
 		scrollPane_Hobby.setViewportView(hobbyJlist);
@@ -233,7 +235,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			if(!inputJTF.getText().isEmpty() ) 
 			{
 
-//			
+
 System.out.println("searchmenu - employee search " + inputJTF.getText());
 				employeeList = null;
 				employeeList = clientControl.searchEmployee(inputJTF.getText());
@@ -419,14 +421,47 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 		{
 			System.out.println("searchmenu - mouseclicked - empBut");
 
-//			ArrayList<EmployeeSkill> getEmployeeSkillList()
+			int row = table.getSelectedRow();
+			String individualEmpID = (String)table.getValueAt(row, 0);
+			individualEmp = clientControl.searchEmployee(individualEmpID);
 			
+//     build Jlist of selected employee's hobbies			
+			individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
+			vectHobby = new Vector<String>();
+			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
+			{
+				for(int j = 0;j < hobbyList.size();j++)
+				{
+					if (individualEmpHobbyList.get(i) == hobbyList.get(j).getHobbyID())
+					{
+						vectHobby.addElement(hobbyList.get(j).getHobbyDescription());
+					}
+				}
+			}
+System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
+			hobbyJlist.setListData(vectHobby);
+			hobbyJlist.updateUI();		
 			
-//			vect.addElement(newCity);
-//			Collections.sort(vect);
-//			jList.setListData(vect);
-//			jList.repaint();
+//		     build Jlist of selected employee's skills			
+//					individualEmpSkillList = individualEmp.get(0).searchEmployeeSkill();
+					vectSkill = new Vector<String>();
+					for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
+					{
+						for(int j = 0;j < hobbyList.size();j++)
+						{
+							if (individualEmpHobbyList.get(i) == hobbyList.get(j).getHobbyID())
+							{
+								vectHobby.addElement(hobbyList.get(j).getHobbyDescription());
+							}
+						}
+					}
+		System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
+					hobbyJlist.setListData(vectHobby);
+					hobbyJlist.updateUI();	
 		}
+		
+
+		
 		
 		if(source == skillComboBox)
 		{
