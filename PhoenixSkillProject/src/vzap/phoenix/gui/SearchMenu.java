@@ -79,7 +79,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private JScrollPane scrollPane;
 	private JTable table;
 	
-	private DefaultTableModel model;    //=null;
+	private DefaultTableModel model;
 	private JComboBox hobbyComboBox;
 	private JLabel hobbyLab;
 	private JLabel skillLab;
@@ -99,13 +99,11 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		vectHobby = new Vector<String>();
 		hobbyList = clientControl.getHobbyList();
-//		System.out.println("searchmenu - load hobby list : " + hobbyList.size());
 		comboHobby = new Vector<>();
 		for(int i = 0 ; i < hobbyList.size();i++)
 		{
 			comboHobby.add(hobbyList.get(i).getHobbyDescription());
 		}
-
 		
 		skillList = clientControl.getSkillList();
 		comboSkill = new Vector<>();
@@ -445,7 +443,7 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 			hobbyJlist.updateUI();		
 			
 //		     build Jlist of selected employee's skills			
-					individualEmpSkillList = individualEmp.get(0).searchEmployeeSkill();
+//					individualEmpSkillList = individualEmp.get(0).searchEmployeeSkill();
 					vectSkill = new Vector<String>();
 					for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
 					{

@@ -24,7 +24,7 @@ public class SkillDAO
 		{
 			skillList = new ArrayList<Skill>();
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from Skills");
+			ResultSet rs = stat.executeQuery("select * from Skills order by skillId");
 			System.out.println("ResultSet Size: "+rs.getFetchSize());
 			while(rs.next())
 			{
@@ -57,14 +57,15 @@ public class SkillDAO
 			skillID = this.searchSkill(description);
 			if(skillID!=0)
 			{
-				System.out.println("skillID: "+skillID+" - "+description);
-				skillList.add(new Skill(skillID, description));					
+				System.out.println("Added skillID: "+skillID+" - "+description);
+				skillList.add(new Skill(skillID, description));	
 			}
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Returning skillID: "+skillID+" - "+description);
 		return skillID;
 	}
 	public short searchSkill(String description)
@@ -78,8 +79,8 @@ public class SkillDAO
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
-				short skillId = rs.getShort("skillId");
-				System.out.println("Skill Search Result - skillID: "+skillId+" - "+description);
+				skillID = rs.getShort("skillId");
+				System.out.println("Skill Search Result - skillID: "+skillID+" - "+description);
 			}
 		} catch (SQLException e)
 		{
