@@ -275,7 +275,7 @@ public class EmpSkillServer
 			String description = this.readObject();
 			System.out.println("Server: read Skill Description: "+description);
 			skillID = empControl.addSkill(description);
-			System.out.println("Hobby Added: "+skillID);
+			System.out.println("Server Skill Added: "+skillID);
 			try
 			{
 				oos.writeObject(new Short(skillID));

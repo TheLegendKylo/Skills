@@ -2,6 +2,9 @@ package vzap.phoenix.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import vzap.phoenix.DAO.EmployeeSkillDAO;
@@ -23,11 +26,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class SkillsTab extends JPanel implements ActionListener
+public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
 	private JLabel lblSkillTab;
 	private JPanel panelTop;
@@ -55,21 +63,33 @@ public class SkillsTab extends JPanel implements ActionListener
 	private JScrollPane scrollPaneSummarySkills;
 	private JLabel lblDetails;
 	private JTable tableBottom;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneBottom;
 	private JButton btnSubmit;
 	private EmpSkillClient employeeSkillClient;
 	private String addSkill;
 	private ArrayList<EmployeeSkill> employeeSkillList;
 	private DefaultTableModel model;
+	private DefaultTableModel modelInsert;
 	private Employee loggedOnEmployee;
 	private ArrayList<Skill> skillList;
 	private ArrayList<Capability> capabilityList;
+	private JScrollPane scrollPaneAddSkill;
+	private JTable tableCaptureSkills; 
+	
+	private Vector<String> vectorSkills = null;
+	
+	private int getSelectedRow;
+	private JLabel lblSkill;
+	private JComboBox<String> comboBoxSkillList;
+	private EmpSkillClientController clientControl;
 	/**
 	 * Create the panel.
 	 */
 	public SkillsTab(EmpSkillClientController clientControl)
 	{
+		setAutoscrolls(true);
 		loggedOnEmployee = clientControl.getLogonEmployee();
+		this.clientControl=clientControl;
 		
 		
 		
@@ -92,12 +112,8 @@ public class SkillsTab extends JPanel implements ActionListener
 		add(lblSkillTab);
 		
 		panelTop = new JPanel();
-		panelTop.setBounds(10, 35, 869, 33);
+		panelTop.setBounds(10, 35, 928, 33);
 		add(panelTop);
-		
-		btnAddSkill = new JButton("Add Skill");
-		panelTop.add(btnAddSkill);
-		btnAddSkill.addActionListener(this);
 		
 		btnEditSkill = new JButton("Edit Skill");
 		panelTop.add(btnEditSkill);
@@ -180,28 +196,28 @@ public class SkillsTab extends JPanel implements ActionListener
 		jtfPurposefulCollaboration.setColumns(10);
 		
 		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 168, 107, 14);
+		lblSummaryOfSkills.setBounds(10, 272, 107, 14);
 		add(lblSummaryOfSkills);
 		
 		scrollPaneSummarySkills = new JScrollPane();
-		scrollPaneSummarySkills.setBounds(10, 201, 859, 92);
+		scrollPaneSummarySkills.setBounds(10, 305, 928, 92);
 		add(scrollPaneSummarySkills);
 		
 		tableSummarySkills = new JTable();
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		
 		lblDetails = new JLabel("Details");
-		lblDetails.setBounds(10, 304, 46, 14);
+		lblDetails.setBounds(10, 408, 46, 14);
 		add(lblDetails);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 329, 869, 112);
-		add(scrollPane);
+		scrollPaneBottom = new JScrollPane();
+		scrollPaneBottom.setBounds(10, 433, 928, 112);
+		add(scrollPaneBottom);
 		
 		
 		
 		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(378, 127, 89, 23);
+		btnSubmit.setBounds(429, 224, 89, 23);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
@@ -209,7 +225,7 @@ public class SkillsTab extends JPanel implements ActionListener
 		
 		
 		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
-				"Number of ratings","Details"};
+				"Number of ratings"};
 		
 		
 		
@@ -229,8 +245,8 @@ public class SkillsTab extends JPanel implements ActionListener
 		
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID()
-+" Counter: "+counter);
+	System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID()
+	+" Counter: "+counter);
 
 			// Check whether a new SkillId has been read
 			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
@@ -311,8 +327,60 @@ System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillLis
 	
 		model = new DefaultTableModel(skillsRow, skillsHeader);
 		
-		tableBottom = new JTable(model);
-		scrollPane.setViewportView(tableBottom);
+		tableSummarySkills = new JTable(model);
+		
+		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
+		
+		scrollPaneAddSkill = new JScrollPane();
+		scrollPaneAddSkill.setBounds(193, 159, 745, 44);
+		add(scrollPaneAddSkill);
+		
+		Object[] HeaderForAddSkill = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
+				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
+		Object[][] ratingRow = new Object[1][HeaderForAddSkill.length];
+		
+		modelInsert = new DefaultTableModel(ratingRow, HeaderForAddSkill);
+		
+		tableCaptureSkills = new JTable(modelInsert);
+		tableCaptureSkills.setAutoResizeMode(tableCaptureSkills.AUTO_RESIZE_OFF);
+		tableCaptureSkills.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+		tableCaptureSkills.getRowSelectionAllowed();
+		
+		scrollPaneAddSkill.setViewportView(tableCaptureSkills);
+		
+		tableCaptureSkills.getRowSelectionAllowed();
+		tableCaptureSkills.getSelectionModel();
+		tableCaptureSkills.addMouseListener(this);
+		
+		lblSkill = new JLabel("Skill");
+		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblSkill.setBounds(82, 155, 65, 20);
+		add(lblSkill);
+		
+		
+		vectorSkills = new Vector<>();
+		
+		for (int i = 0; i < skillList.size(); i++)
+		{
+			vectorSkills.addElement(skillList.get(i).getSkillDescription());
+		}
+		
+		comboBoxSkillList = new JComboBox<>(vectorSkills);
+		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
+		Collections.sort(vectorSkills);
+		comboBoxSkillList.setSelectedIndex(0);
+		comboBoxSkillList.setBounds(10, 183, 173, 20);
+		add(comboBoxSkillList);
+		
+		btnAddSkill = new JButton("Add Skill");
+		btnAddSkill.setBounds(336, 224, 76, 23);
+		add(btnAddSkill);
+		btnAddSkill.addActionListener(this);
+		
+		
+		
+		
+		
 	}
 
 	@Override
@@ -320,32 +388,98 @@ System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillLis
 	{
 		Object source = e.getSource();
 		
+		if(source == btnAddSkill)
+		{
+			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
+			System.out.println("Testing JOptionPane " + description);
+			System.out.println("**before .addskill**");
+			short skillID = clientControl.addSkill(description);
+			System.out.println("**after .addskill. before vector.addElement**");
+			
+			if(! (skillID ==0))
+			{
+				
+//				vectorSkills.addElement(description);
+				clientControl.getSkillList();
+				JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
+//				comboBoxSkillList.removeAll();
+				comboBoxSkillList.addItem(description);
+//				comboBoxSkillList.repaint();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "No Skill Added");
+			}
+			
+		}
 		
 		if(source == btnSubmit)
 		{
 			System.out.println("Submit button was pressed");
-		
 			
 			
 			
-			if(jtfAddSkill.getText().isEmpty())
-			{
-				JOptionPane.showMessageDialog(this, "You need to list a skill");
-				jtfAddSkill.grabFocus();
-			}
-			else
-			{
-				addSkill = jtfAddSkill.getText();
-				employeeSkillClient.addSkill(addSkill);
-				System.out.println("Should have added " + addSkill + " to the database");
-
+//			int row = tableCaptureSkills.getSelectedRow();
+//			
+//			if(!(row < 0))
+//			{
+				String x = comboBoxSkillList.getSelectedItem().toString();
 				
-			}
+//				Object object = tableCaptureSkills.getValueAt(row, 0);
+//				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
+				
+				//Still need to figure out how to clear the cell that was selected so that the
+				//skill can be sent directly
+//				tableCaptureSkills.clearSelection();
+				System.out.println("Printing out StringValue " + x);
+				jtfAddSkill.setText(x);
+				
+				
+				/*
+				 * Now you need to check to see if the description of the skillToBeAdded already
+				 * exists by looping through the array of the SkillList.
+				 */
 			
-//		
-					
+							
+//			}
+			
+
 		}
 		
 	}
-	
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	}

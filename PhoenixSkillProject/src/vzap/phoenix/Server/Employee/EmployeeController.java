@@ -152,7 +152,9 @@ System.out.println("empControl = before call to EmployeeDAO");
 	}
 	public short addSkill(String description)
 	{
-		return skillDAO.addSkill(description);
+		short skillID = skillDAO.addSkill(description);
+		System.out.println("Server Controller SkillID: "+skillID);
+		return skillID;
 	}
 	public static Vector<Hobby> getHobbyList()
 	{
