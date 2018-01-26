@@ -99,6 +99,10 @@ public class EmpSkillClientController
 	{
 		return client.getEmpSkillByEmpID(employeeID);
 	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByRaterID(String raterID)
+	{
+		return client.searchEmployeeSkillByRaterID(raterID);
+	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(int searchCriteria)
 	{
 		return client.searchEmployeeSkill(searchCriteria);

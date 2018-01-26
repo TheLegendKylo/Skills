@@ -269,7 +269,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		PreparedStatement ps_select=null;
 		try
 		{
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=? and skillId=? and raterId=?"
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
 					+ "and status=1 or status=2 order by skillId, raterId");
 			ps_select.setString(1, employeeID);
 			ps_select.setInt(2, skillID);
@@ -313,12 +313,32 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		
 		try
 		{
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId = ? and status = 1 or status =2");
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId = ?");
 			
 			ps_select.setInt(1, skillID);
 			
 			ResultSet rs = ps_select.executeQuery();
 			empSkillList = new ArrayList<EmployeeSkill>(); // gerald made change 
+			empSkillList = this.populateEmpSkillList(rs);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return empSkillList;
+	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByRaterID(String raterID)
+	{
+		PreparedStatement ps_select;
+		
+		try
+		{
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where raterId = ?");
+			
+			ps_select.setString(1, raterID);
+			
+			ResultSet rs = ps_select.executeQuery();
+			empSkillList = new ArrayList<EmployeeSkill>(); 
 			empSkillList = this.populateEmpSkillList(rs);
 		} catch (SQLException e)
 		{

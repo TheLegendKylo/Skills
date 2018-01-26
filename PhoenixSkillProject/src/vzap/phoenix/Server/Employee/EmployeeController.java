@@ -129,6 +129,10 @@ System.out.println("empControl = before call to EmployeeDAO");
 	{
 		return empSkillDAO.searchEmployeeSkillByID(skillID);
 	}
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByRaterID(String raterID)
+	{
+		return empSkillDAO.searchEmployeeSkillByRaterID(raterID);
+	}
 	public ArrayList<Employee> searchEmployeeHobby(short hobbyID)
 	{
 		return employeeDAO.searchEmpHobby(hobbyID);

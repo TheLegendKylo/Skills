@@ -202,6 +202,11 @@ public class EmpSkillServer
 						this.searchEmployeeSkillBySkillID();
 						break;
 					}
+					case "searchEmployeeSkillByRaterID":
+					{
+						this.searchEmployeeSkillByRaterID();
+						break;
+					}
 					case "searchEmployeeHobby":
 					{
 						this.searchEmployeeHobby();
@@ -586,6 +591,22 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			try
 			{
 				oos.writeObject(empControl.searchEmployeeSkill(skillID));
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void searchEmployeeSkillByRaterID()
+		{
+			String raterID = null;
+			this.readObject();
+			raterID = inMessage;
+			System.out.println("Server: read searchEmployeeSkills: "+raterID);
+			try
+			{
+				oos.writeObject(empControl.searchEmployeeSkillByRaterID(raterID));
 				oos.flush();
 			} catch (IOException e)
 			{

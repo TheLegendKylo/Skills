@@ -195,6 +195,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(scrollPane_Skills);
 		
 		individualSkillsModel = new DefaultTableModel();
+		Object[] modelHeader = new String[]{"Skill","Your Ave Rating","Nominated Average","Number of ratings"};
+		individualSkillsModel.setColumnIdentifiers(modelHeader);
+
 		individualSkillsTable = new JTable(individualSkillsModel);
 		scrollPane_Skills.setViewportView(individualSkillsTable);
 		
@@ -469,10 +472,12 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 //		     build Jlist of selected employee's skills	
 			
 			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
-System.out.println(" indiv list cnt "  + individualEmpSkillList.size()); 
-// if ( individualEmpSkillList.get(index)
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
-			individualSkillsModel.fireTableDataChanged(); 
+			scrollPane_Skills.remove(individualSkillsTable);
+			individualSkillsTable = new JTable(individualSkillsModel);
+			scrollPane_Skills.setViewportView(individualSkillsTable);
+			individualSkillsModel.fireTableDataChanged();
+			this.repaint();
 			
 			
 //			vectSkill = new Vector<String>();
