@@ -445,8 +445,8 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 			hobbyJlist.updateUI();		
 			
 //		     build Jlist of selected employee's skills			
-					individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
-					vectHobby = new Vector<String>();
+					individualEmpSkillList = individualEmp.get(0).searchEmployeeSkill();
+					vectSkill = new Vector<String>();
 					for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
 					{
 						for(int j = 0;j < hobbyList.size();j++)
