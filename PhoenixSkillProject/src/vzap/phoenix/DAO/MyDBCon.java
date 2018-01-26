@@ -58,7 +58,7 @@ public class MyDBCon
 		}
 	
 	}
-	static Connection getDBCon()
+	public static Connection getDBCon()
 	{
 		return dbCon;
 	}

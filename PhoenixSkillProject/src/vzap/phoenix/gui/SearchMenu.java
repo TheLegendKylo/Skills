@@ -70,8 +70,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private ArrayList<Employee> individualEmp;
 	private ArrayList<Short> individualEmpHobbyList;
 	private Vector<String> vectHobby;   
-	private ArrayList<Short> individualEmpSkillList;
-	private Vector<String> vectSkill;   
+	private ArrayList<EmployeeSkill> individualEmpSkillList;
+	private Vector<String> vectSkill; 
+	private Vector<String> vectTabSkill;   
 	
   	private EmpSkillClientController clientControl;
 	private JButton empBut;
@@ -87,9 +88,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private JLabel lblEnterEmployeeSearch;
 	private JLabel contentsOfTable;
 	private JScrollPane scrollPane_Skills;
-	private JList skillsJlist;
 	private JScrollPane scrollPane_Hobby;
 	private JList hobbyJlist;
+	private JLabel individualSkillListLab;
+	private JLabel individualHobbyListLab;
+	private JTable individualSkillsTable;
+	private DefaultTableModel individualSkillsModel;
 
 	public SearchMenu(EmpSkillClientController clientControl)
 	{
@@ -98,6 +102,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		capabilityList = clientControl.getCapabilityList();
 		
 		vectHobby = new Vector<String>();
+		vectSkill = new Vector<String>();
+		vectTabSkill = new Vector<String>();
 		hobbyList = clientControl.getHobbyList();
 		comboHobby = new Vector<>();
 		for(int i = 0 ; i < hobbyList.size();i++)
@@ -185,24 +191,33 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(contentsOfTable);
 		
 		scrollPane_Skills = new JScrollPane();
-		scrollPane_Skills.setBounds(71, 324, 451, 187);
+		scrollPane_Skills.setBounds(71, 353, 451, 158);
 		add(scrollPane_Skills);
 		
-		skillsJlist = new JList();
-		skillsJlist.setToolTipText("This will only be populated once you have entered \"EMPLOYEE search criteria\" option");
-		skillsJlist.setEnabled(false);
-		scrollPane_Skills.setViewportView(skillsJlist);
+		individualSkillsModel = new DefaultTableModel();
+		individualSkillsTable = new JTable(individualSkillsModel);
+		scrollPane_Skills.setViewportView(individualSkillsTable);
 		
 		scrollPane_Hobby = new JScrollPane();
-		scrollPane_Hobby.setBounds(761, 324, 218, 187);
+		scrollPane_Hobby.setBounds(761, 353, 128, 158);
 		add(scrollPane_Hobby);
 		
-		System.out.println("vectHobby size = " + vectHobby.size());
 		hobbyJlist = new JList(vectHobby);
 		hobbyJlist.setToolTipText("This will only be populated once you have entered \"EMPLOYEE search criteria\" optionb");
 		hobbyJlist.setEnabled(false);
 		scrollPane_Hobby.setViewportView(hobbyJlist);
-		//scrollPane.setViewportView(table);
+		
+		individualSkillListLab = new JLabel("Chosen Employee's SKILL list ");
+		individualSkillListLab.setVisible(false);
+		individualSkillListLab.setEnabled(false);
+		individualSkillListLab.setBounds(201, 328, 193, 14);
+		add(individualSkillListLab);
+		
+		individualHobbyListLab = new JLabel("Chosen Employee's HOBBY list");
+		individualHobbyListLab.setEnabled(false);
+		individualHobbyListLab.setVisible(false);
+		individualHobbyListLab.setBounds(761, 328, 150, 14);
+		add(individualHobbyListLab);
 
 	}
 
@@ -222,7 +237,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			}
 			hobbyJlist.removeAll();
 			vectHobby.removeAllElements();
-			skillsJlist.removeAll();
+//			skillJlist.removeAll();
 		}
 
 	
@@ -425,7 +440,8 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 			String individualEmpID = (String)table.getValueAt(row, 0);
 			individualEmp = clientControl.searchEmployee(individualEmpID);
 			
-//     build Jlist of selected employee's hobbies			
+//     build Jlist of selected employee's hobbies	
+			
 			individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
 			vectHobby = new Vector<String>();
 			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
@@ -438,26 +454,67 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 					}
 				}
 			}
+			if(individualEmpHobbyList.size() < 1)
+			{
+				vectHobby.addElement("No Hobbies loaded for this employee");
+			}
+
 System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
+			individualHobbyListLab.setVisible(true);
 			hobbyJlist.setListData(vectHobby);
-			hobbyJlist.updateUI();		
+			hobbyJlist.updateUI();	
 			
-//		     build Jlist of selected employee's skills			
-//					individualEmpSkillList = individualEmp.get(0).searchEmployeeSkill();
-					vectSkill = new Vector<String>();
-					for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
-					{
-						for(int j = 0;j < hobbyList.size();j++)
-						{
-							if (individualEmpHobbyList.get(i) == hobbyList.get(j).getHobbyID())
-							{
-								vectHobby.addElement(hobbyList.get(j).getHobbyDescription());
-							}
-						}
-					}
-		System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
-					hobbyJlist.setListData(vectHobby);
-					hobbyJlist.updateUI();	
+			
+			
+//		     build Jlist of selected employee's skills	
+			
+			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
+System.out.println(" indiv list cnt "  + individualEmpSkillList.size()); 
+// if ( individualEmpSkillList.get(index)
+			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
+			individualSkillsModel.fireTableDataChanged(); 
+			
+			
+//			vectSkill = new Vector<String>();
+//			for(int i = 0 ; i < individualEmpSkillList.size() ; i++)
+//			{
+//				for(int j = 0;j < skillList.size();j++)
+//				{
+//					if (individualEmpSkillList.get(i).getSkillID() == skillList.get(j).getSkillId())
+//					{
+//						vectSkill.addElement(skillList.get(j).getSkillDescription());
+//					}
+//				}
+//			}
+//			
+//			Collections.sort(vectSkill);
+//			String compareSkill = vectSkill.firstElement();
+//System.out.println("searchmenu compareSkill = " + compareSkill);
+//			for(int i = 0 ; i < vectSkill.size() ; i++)
+//			{
+//System.out.println("searchmenu compareSkill = compare = " + compareSkill + " " + vectSkill.elementAt(i));
+//				if((vectSkill.elementAt(i).equals(compareSkill)) )
+//				{
+//System.out.println("searchmenu compareSkill before continue");
+//					continue;
+//				}
+//System.out.println("searchmenu compareSkill after continue");
+//				vectTabSkill.addElement(compareSkill);
+//				compareSkill = vectSkill.elementAt(i);
+//			}
+//			if(! (vectTabSkill.lastElement().equals(compareSkill) ) )
+//			{
+//				vectTabSkill.addElement(compareSkill);
+//			}
+//			
+//			if(individualEmpSkillList.size() < 1)
+//			{
+//				vectSkill.addElement("No skills loaded for this employee");
+//			}
+//System.out.println("searchmenu - indivskill - vect = " + vectSkill.size() + " " +vectSkill.elementAt(0));
+//			individualSkillListLab.setVisible(true);	
+//			skillJlist.setListData(vectSkill);
+//			skillJlist.updateUI();	
 		}
 		
 
