@@ -2,8 +2,6 @@ package vzap.phoenix.testing;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -12,7 +10,6 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
-import javax.swing.JCheckBox;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.Component;
@@ -20,16 +17,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
@@ -38,7 +30,6 @@ import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClient;
 
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -58,7 +49,7 @@ public class TestingEmployeeSkill extends JPanel
 	private JLabel outContactNo;
 	private JLabel outEmail;
 	private JPanel addSkillPanel;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private JLabel lblAlias;
 	private JLabel outAlias;
 	private JPanel skillSelPanel;
@@ -69,9 +60,9 @@ public class TestingEmployeeSkill extends JPanel
 	private DefaultTableModel ratingModel;
 	private JTextArea textArea;
 	Object[][] tableRow;
-    String[] tableHeader;       	
+    String[] tableHeader; 
+    private boolean DEBUG = true;
 
-    JComboBox ratingBox = null;	
 	ArrayList<Capability> capList = null;
 	ArrayList<CapabilityRating> capRatingList =null;
 	/**
@@ -220,15 +211,13 @@ public class TestingEmployeeSkill extends JPanel
         {
             
     	   	tableRow[i][0]=capList.get(i).getName();
+       	   	tableRow[i][1]="Select skill...";
        }
-//		tableRow[selIdx,2] = ratingModel.setValueAt(desc, selIdx, 2);			
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
-//	    ratingTable = new JTable(ratingModel);
-       	
 	    ratingTable = new JTable(new MyTableModel());
-//		ratingTable.getColumn("Rating").setCellEditor(new DefaultCellEditor(ratingBox));
 		TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
-		this.setUpRatingColumn(ratingTable, ratingTable.getColumn("Rating"));
+		this.initColumnSizes(ratingTable);
+		this.setUpRatingColumn(ratingTable, ratingColumn);
 System.out.println(">>>>>Are you looping her too?");
        	
 		scrollPane = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -244,26 +233,67 @@ System.out.println(">>>>>Are you looping her too?");
 		
 
 	}
+	/*
+     * This method picks good column sizes.
+     * If all column heads are wider than the column's cells'
+     * contents, then you can just use column.sizeWidthToFit().
+     */
+    private void initColumnSizes(JTable ratingTable) 
+    {
+        MyTableModel ratingModel = (MyTableModel)ratingTable.getModel();
+        TableColumn column = null;
+        Component comp = null;
+        int headerWidth = 0;
+        int cellWidth = 0;
+        Object[] longValues = ratingModel.longValues;
+        TableCellRenderer headerRenderer =
+            ratingTable.getTableHeader().getDefaultRenderer();
+ 
+        for (int i = 0; i < 3; i++) {
+            column = ratingTable.getColumnModel().getColumn(i);
+ 
+            comp = headerRenderer.getTableCellRendererComponent(
+                                 null, column.getHeaderValue(),
+                                 false, false, 0, 0);
+            headerWidth = comp.getPreferredSize().width;
+ 
+            comp = ratingTable.getDefaultRenderer(ratingModel.getColumnClass(i)).
+                             getTableCellRendererComponent(
+                            		 ratingTable, longValues[i],
+                                 false, false, 0, i);
+            cellWidth = comp.getPreferredSize().width;
+ 
+            if (DEBUG) {
+                System.out.println("Initializing width of column "
+                                   + i + ". "
+                                   + "headerWidth = " + headerWidth
+                                   + "; cellWidth = " + cellWidth);
+            }
+ 
+            column.setPreferredWidth(Math.max(headerWidth, cellWidth));
+        }
+    }
+ 
+	
+	
+	/*
+	 * This method sets up the Combo Box used in the table
+	 */
     public void setUpRatingColumn(JTable table,
             TableColumn rating) 
     {
 		//Set up the editor for the sport cells.
-		JComboBox ratingBox = new JComboBox();
+		JComboBox<Integer> ratingBox = new JComboBox<Integer>();
 		for (int j = 1; j < 6; j++)
 		{
-			ratingBox.addItem(j);		
+			ratingBox.addItem(j);
 		}
 		rating.setCellEditor(new DefaultCellEditor(ratingBox));
-		
 		//Set up tool tips for the sport cells.
-		DefaultTableCellRenderer renderer =
-		new DefaultTableCellRenderer();
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setToolTipText("Click for combo box");
 		rating.setCellRenderer(renderer);
     }
-
-	
-	
    class MyTableModel extends AbstractTableModel 
    {
 
@@ -280,7 +310,7 @@ System.out.println(">>>>>Are you looping her too?");
    	    }
    	    public Object getValueAt(int row, int col) 
    	    {
-   	        return tableRow[row][col];
+   	    	return tableRow[row][col];
    	    }
    	    public boolean isCellEditable(int row, int col)
    	    { 
@@ -288,25 +318,26 @@ System.out.println(">>>>>Are you looping her too?");
    	    }
    	    public void setValueAt(Object value, int row, int col) 
    	    {
-   			// TODO Auto-generated method stub
-   			int selIdx = ratingTable.getSelectedRow();
-   			int selRating = (int)this.getValueAt(selIdx, 1);
-   			String desc = null;
-   			System.out.println("selIdx: "+selIdx+" selRating: "+selRating);
-   			
+   	  		int selRating = (int)value;
+   	  		System.out.println("Value: "+(int)value+" selRating: "+selRating);
+   	    	String desc = null;
    	   		for (int j = 0; j < capRatingList.size(); j++)
    			{
-   				if(capRatingList.get(j).getCapabilityID()==selIdx+1
+   				if(capRatingList.get(j).getCapabilityID()==row+1
    						&& capRatingList.get(j).getRating()==selRating)
    				{
    					desc = capRatingList.get(j).getDescription();
    					break;
    				}
    			}
-//   			System.out.println("Rating Description: "+desc);
-   	   		tableRow[selIdx][2] = desc;
-//   			ratingModel.setValueAt(desc, selIdx, 2);			
-   	        fireTableCellUpdated(selIdx, 2);
+   			System.out.println("Rating Description: "+desc);
+   	   		tableRow[row][1] = selRating;
+   	   		tableRow[row][2] = desc;
+   	        fireTableCellUpdated(row, 2);
+   	        this.isCellEditable(row, 2);
    	    }
-   }	
+        public final Object[] longValues = {"Purposeful Collaboration", "Rating",
+                "Straightforward tasks likely to be completed to an acceptable standard",
+                new Integer(20), Boolean.TRUE};
+   }
 }

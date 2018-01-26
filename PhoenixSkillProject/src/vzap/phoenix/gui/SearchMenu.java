@@ -61,20 +61,23 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
   	private Vector<Hobby> hobbyList;
-  	private Vector comboHobby = null;
+  	private Vector comboHobby;
 	private ArrayList<EmployeeSkill> empSkillList;
 	private ArrayList<Skill> skillList;
- 	private Vector comboSkill = null;
+ 	private Vector comboSkill;
  	
 	private Employee loggedOnEmployee;
-	
-  	private EmpSkillClientController clientControl;
+	private ArrayList<Employee> individualEmp;
+	private ArrayList<Short> individualEmpHobbyList;
+	private Vector<String> vectHobby;
+
+	private EmpSkillClientController clientControl;
 	private JButton empBut;
 	private JButton clearBut;
 	private JScrollPane scrollPane;
 	private JTable table;
 	
-	private DefaultTableModel model=null;
+	private DefaultTableModel model;
 	private JComboBox hobbyComboBox;
 	private JLabel hobbyLab;
 	private JLabel skillLab;
@@ -93,11 +96,13 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		capabilityList = clientControl.getCapabilityList();
 		
 		hobbyList = clientControl.getHobbyList();
+		
 		comboHobby = new Vector<>();
 		for(int i = 0 ; i < hobbyList.size();i++)
 		{
 			comboHobby.add(hobbyList.get(i).getHobbyDescription());
 		}
+		
 		
 		skillList = clientControl.getSkillList();
 		comboSkill = new Vector<>();
@@ -213,8 +218,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			{
 				model.removeRow(0);
 			}
-			hobbyJlist = null;
-			skillsJlist = null;
+			hobbyJlist.removeAll();
+			vectHobby.removeAllElements();
+			skillsJlist.removeAll();
 		}
 
 	

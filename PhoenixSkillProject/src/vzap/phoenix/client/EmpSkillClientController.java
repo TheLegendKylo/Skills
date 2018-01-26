@@ -16,6 +16,12 @@ public class EmpSkillClientController
 {
 	private Employee employee;
 	private EmpSkillClient client;
+	private Vector<Hobby> hobbyList;
+	private ArrayList <Skill> skillList;
+	private ArrayList <Level> levelList;
+	private ArrayList <Capability> capabilityList;
+	private ArrayList <CapabilityRating> capabilityRatingList;
+	private ArrayList <EmployeeSkill> empSkillList;
 	
 	public EmpSkillClientController()
 	{
@@ -35,19 +41,35 @@ public class EmpSkillClientController
 	}
 	public Vector<Hobby> getHobbyList()
 	{
-		return client.getHobbyList();
+		if(hobbyList==null)
+		{
+			hobbyList = client.getHobbyList();			
+		}
+		return hobbyList;
 	}
 	public ArrayList<Level> getLevelList()
 	{
-			return client.getLevelList();
+		if(levelList==null)
+		{
+			levelList = client.getLevelList();			
+		}
+		return levelList;
 	}
 	public ArrayList<CapabilityRating> getCapabilityRatingList()
 	{
-		return client.getCapabilityRatingList();
+		if(capabilityRatingList==null)
+		{
+			capabilityRatingList = client.getCapabilityRatingList();
+		}
+		return capabilityRatingList;
 	}
 	public ArrayList<Capability> getCapabilityList()
 	{
-		return client.getCapabilityList();
+		if(capabilityRatingList==null)
+		{
+			capabilityList = client.getCapabilityList();
+		}
+		return capabilityList;
 	}
 	public boolean registerEmployee(Employee newEmployee)
 	{
@@ -71,11 +93,29 @@ public class EmpSkillClientController
 	}
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
-		return client.addEmployeeSkill(addEmployeeSkill);
+		boolean success = client.addEmployeeSkill(addEmployeeSkill);
+		empSkillList = client.getEmpSkillList();
+		return success;
 	}
 	public ArrayList<EmployeeSkill> getEmployeeSkillList()
 	{
-		return client.getEmpSkillList();
+		if(empSkillList==null)
+		{
+			empSkillList = client.getEmpSkillList();
+		}
+		return empSkillList;
+	}
+	public ArrayList<EmployeeSkill> getOutstandingRatings()
+	{
+		ArrayList<EmployeeSkill> outstRatings = new ArrayList<EmployeeSkill>();
+		for (int i = 0; i < empSkillList.size(); i++)
+		{
+			if(empSkillList.get(i).getStatus()==0)
+			{
+				outstRatings.add(empSkillList.get(i));
+			}
+		}
+		return outstRatings;
 	}
 	public ArrayList<Skill> getSkillList()
 	{
@@ -101,13 +141,16 @@ public class EmpSkillClientController
 	{
 		client.closeConnections();
 	}
-
 	public short addHobby(String description)
 	{
-		return client.addHobby(description);
+		short hobbyID = client.addHobby(description);
+		hobbyList = client.getHobbyList();
+		return hobbyID;
 	}
-	
-	
-	
-	
+	public short addSkill(String description)
+	{
+		short skillID = client.addSkill(description);
+		skillList = client.getSkillList();
+		return skillID;
+	}
 }
