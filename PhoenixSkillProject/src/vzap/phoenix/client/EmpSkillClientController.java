@@ -1,8 +1,9 @@
 package vzap.phoenix.client;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
@@ -14,7 +15,6 @@ import vzap.phoenix.Server.Employee.Skill;
 
 public class EmpSkillClientController
 {
-	private Employee employee;
 	private EmpSkillClient client;
 	private Vector<Hobby> hobbyList;
 	private ArrayList <Skill> skillList;
@@ -46,6 +46,14 @@ public class EmpSkillClientController
 			hobbyList = client.getHobbyList();			
 		}
 		return hobbyList;
+	}
+	public ArrayList<Skill> getSkillList()
+	{
+		if(skillList==null)
+		{
+			skillList = client.getSkillList();			
+		}
+		return skillList;
 	}
 	public ArrayList<Level> getLevelList()
 	{
@@ -121,10 +129,6 @@ public class EmpSkillClientController
 		}
 		return outstRatings;
 	}
-	public ArrayList<Skill> getSkillList()
-	{
-		return client.getSkillList();
-	}
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
 		return client.nominateRater(nominateRater);
@@ -157,5 +161,15 @@ public class EmpSkillClientController
 		skillList = client.getSkillList();
 		return skillID;
 	}
-	
+	public DefaultTableModel getEmpSkillAverage(ArrayList<EmployeeSkill> employeeSkillList)
+	{
+		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
+		return empSkillMethod.getEmpSkillAverage(this, employeeSkillList);
+	}
+	public DefaultTableModel getEmpSkillList(ArrayList<EmployeeSkill> employeeSkillList, Employee employee)
+	{
+		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
+		return empSkillMethod.getEmpSkillList(this, employeeSkillList, employee);
+	}
+
 }
