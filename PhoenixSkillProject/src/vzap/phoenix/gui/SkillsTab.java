@@ -417,7 +417,10 @@ public class SkillsTab extends JPanel implements ActionListener
 				
 				EmployeeSkill employeeSkill = new EmployeeSkill(employeeID,skillID,raterID, createdDate);
 				boolean success = clientControl.addEmployeeSkill(employeeSkill);
-				
+				employeeSkillList = clientControl.getEmployeeSkillList();
+				Object[] newRow = new Object[]{description, 0, 0, 0};
+				model.addRow(newRow);
+				model.fireTableDataChanged();
 				
 				vectorSkills.addElement(description);
 				Collections.sort(vectorSkills);
