@@ -221,6 +221,10 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 //		btnMainExit.setBounds(10, 711, 209, 25);
 //		btnMainExit.addActionListener(this);
 //		add(btnMainExit);
+		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
+		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
+		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
+		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(859, 713, 209, 25);

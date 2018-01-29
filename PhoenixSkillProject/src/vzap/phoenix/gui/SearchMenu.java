@@ -43,7 +43,7 @@ import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
 import javax.swing.JList;
-import javax.swing.UIManager;
+// mport javax.swing.UIManager;
 
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
 {
@@ -110,7 +110,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	
 	public SearchMenu(EmpSkillClientController clientControl)
 	{
-		setBackground(UIManager.getColor("CheckBoxMenuItem.background"));
+//		setBackground(UIManager.getColor("CheckBoxMenuItem.background"));
 		this.clientControl = clientControl;
 		loggedOnEmployee = clientControl.getLogonEmployee();
 		capabilityList = clientControl.getCapabilityList();
@@ -141,7 +141,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(inputJTF);
 
 		clearBut = new JButton("CLEAR");
-		clearBut.setBackground(UIManager.getColor("Button.shadow"));
+//		clearBut.setBackground(UIManager.getColor("Button.shadow"));
 		clearBut.setFont(new Font("Tahoma", Font.BOLD, 14));
 		clearBut.setToolTipText("click this CLEAR button between each different search - this will initialise the tables ");
 		clearBut.setBounds(711, 113, 111, 40);
@@ -149,7 +149,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(clearBut);
 		
 		empBut = new JButton("search EMPLOYEE ");
-		empBut.setBackground(UIManager.getColor("Button.background"));
+//		empBut.setBackground(UIManager.getColor("Button.background"));
 		empBut.setFont(new Font("Tahoma", Font.BOLD, 11));
 		empBut.setBounds(693, 22, 159, 23);
 		empBut.addActionListener(this);
@@ -188,29 +188,20 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		contentsOfTable.setBounds(250, 131, 451, 14);
 		add(contentsOfTable);
 		
-<<<<<<< HEAD
+
 		scrollHobby = new JScrollPane();
 		scrollHobby.setBounds(791, 352, 84, 158);
 		add(scrollHobby);
-=======
-		scrollPane_Skills = new JScrollPane();
-		scrollPane_Skills.setBounds(71, 353, 451, 158);
-		add(scrollPane_Skills);
-		
+
 		individualSkillsModel = new DefaultTableModel();
 		Object[] modelHeader = new String[]{"Skill","Your Ave Rating","Nominated Average","Number of ratings"};
 		individualSkillsModel.setColumnIdentifiers(modelHeader);
 
 		individualSkillsTable = new JTable(individualSkillsModel);
-		scrollPane_Skills.setViewportView(individualSkillsTable);
 		
-		scrollPane_Hobby = new JScrollPane();
-		scrollPane_Hobby.setBounds(761, 353, 128, 158);
-		add(scrollPane_Hobby);
-		
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
+
 		hobbyJlist = new JList(vectHobby);
-		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
+//		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
 		scrollHobby.setViewportView(hobbyJlist);
@@ -517,28 +508,20 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 //		     build JTable of selected employee's skills	
 			
 			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
-<<<<<<< HEAD
+
 			if(individualEmpSkillList.size()<1)
 			{
 // display "no skills for selected employee"				
 			}
-=======
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
+
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
-<<<<<<< HEAD
+
 			scrollIndividualSkills.remove(individualSkillsTable);
 			individualSkillsTable = new JTable(individualSkillsModel);
 			scrollIndividualSkills.setViewportView(individualSkillsTable);			
 			individualSkillsModel.fireTableDataChanged(); 
 			this.repaint();
 		} //  end of empBut
-=======
-			scrollPane_Skills.remove(individualSkillsTable);
-			individualSkillsTable = new JTable(individualSkillsModel);
-			scrollPane_Skills.setViewportView(individualSkillsTable);
-			individualSkillsModel.fireTableDataChanged();
-			this.repaint();
-			
 			
 //			vectSkill = new Vector<String>();
 //			for(int i = 0 ; i < individualEmpSkillList.size() ; i++)
@@ -580,8 +563,7 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 //			individualSkillListLab.setVisible(true);	
 //			skillJlist.setListData(vectSkill);
 //			skillJlist.updateUI();	
-		}
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
+//		}
 		
 
 		
