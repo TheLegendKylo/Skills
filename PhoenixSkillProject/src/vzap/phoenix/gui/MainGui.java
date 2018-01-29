@@ -314,7 +314,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					vectHobby.add(addHobbyValue);
 					empHobby.add(allHobby.get(j).getHobbyID());
 					emp.setEmpHobbies(empHobby);
-					clientControl.updateEmployee(emp);	
+					//clientControl.updateEmployee(emp);	
+					btnUpdateEmployee.doClick();
 					break;
 				}
 			}
@@ -324,7 +325,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				//adding a hobby that does'nt exist in the current users profile.
 				empHobby.add(hobbyiddddd);
 				emp.setEmpHobbies(empHobby);
-				clientControl.updateEmployee(emp);
+				btnUpdateEmployee.doClick();
+				//clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);
 			}
 						
@@ -359,12 +361,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				if(empHobby.get(i) == delhobbyID)
 				{
 					System.out.println("we in the delete : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
-					//remove the element where the match occured
+					//remove the element where the match occurred
 					empHobby.remove(i);
 					//set the employees hobbies
 					emp.setEmpHobbies(empHobby);
 					// update the employee 
-					clientControl.updateEmployee(emp);
+					btnUpdateEmployee.doClick();
+					//clientControl.updateEmployee(emp);
 					//remove from display
 					vectHobby.removeElement(deleteHobbyValue);
 					break;
