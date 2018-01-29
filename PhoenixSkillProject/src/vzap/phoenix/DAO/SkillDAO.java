@@ -30,7 +30,6 @@ public class SkillDAO
 			{
 				int skillId = rs.getInt("skillId");
 				String skillDescription = rs.getString("skillDescription");
-				System.out.println("SkillID: "+skillId+" - "+skillDescription);
 				skillList.add(new Skill(skillId, skillDescription));					
 			}
 		} catch (SQLException e)
