@@ -142,7 +142,7 @@ public class EmpSkillCommonMethods
 				{
 					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
 					{
-						skillsRow[2] = skillList.get(j).getSkillId();
+						skillsRow[2] = skillList.get(j).getSkillDescription();
 						break;
 					}//comment
 				}

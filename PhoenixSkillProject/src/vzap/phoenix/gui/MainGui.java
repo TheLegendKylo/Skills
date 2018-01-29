@@ -205,6 +205,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		SkillsTab sk = new SkillsTab(clientControl);
 		
+		
 		//panelSkills = new JPanel();
 		
 		tabbedPane.addTab("SKILLS", null, sk, null);
@@ -239,6 +240,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		//comboBox.setEditable(true);
 		//comboBox.setBounds(164, 331, 231, 22);
 		//panelProfile.add(comboBox);
+		RatingOfSkills ratingSkillsTab = new RatingOfSkills(clientControl);
+		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
 		
 
 	}
