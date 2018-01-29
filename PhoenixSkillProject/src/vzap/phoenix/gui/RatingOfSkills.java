@@ -8,13 +8,15 @@ import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.client.EmpSkillClientController;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
-public class RatingOfSkills extends JPanel
+public class RatingOfSkills extends JPanel implements MouseListener
 {
 	private Employee loggedOnEmployee;
 	private EmpSkillClientController clientControl;
@@ -28,11 +30,12 @@ public class RatingOfSkills extends JPanel
 	private ArrayList<EmployeeSkill> employeeSkillList;
 	private DefaultTableModel outstandingModel;
 	private JScrollPane scrollPaneTop;
+	private Object source;
 
 	/**
 	 * Create the panel.
 	 */
-	public RatingOfSkills(EmpSkillClientController clientControl)
+	public RatingOfSkills(EmpSkillClientController clientControl) 
 	{
 		
 		setAutoscrolls(true);
@@ -57,6 +60,7 @@ public class RatingOfSkills extends JPanel
 		scrollPaneTop = new JScrollPane(tableTop);
 		scrollPaneTop.setBounds(63, 5, 568, 154);
 		panelTop.add(scrollPaneTop);
+		tableTop.addMouseListener(this);
 		
 //		scrollPane.setViewportView(tableTop);
 
@@ -81,5 +85,47 @@ public class RatingOfSkills extends JPanel
 		btnSubmitRating = new JButton("Submit Rating");
 		btnSubmitRating.setBounds(299, 523, 116, 23);
 		add(btnSubmitRating);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		source = e.getSource();
+		if(source == e)
+		{
+			System.out.println("Mouse clicked");
+			int row = tableTop.getSelectedRow();
+			String individualEmpID = (String)tableTop.getValueAt(row, 0);
+			System.out.println("Mouse clicked and the empID = " + individualEmpID);
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
