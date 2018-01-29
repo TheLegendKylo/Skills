@@ -43,6 +43,7 @@ import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
 import javax.swing.JList;
+import javax.swing.UIManager;
 
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
 {
@@ -53,50 +54,63 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	String [] [] skillRows;
 	String [] hobbyHeader;
 	String [] [] hobbyRows;
-	
 	String [] capability; 
 	Object source; 
-	private JTextField inputJTF;
-	
+
 	private ArrayList<Capability> capabilityList;
 	private ArrayList<Employee> employeeList; 
-  	private Vector<Hobby> hobbyList;   
-  	private Vector comboHobby;   
-	private ArrayList<EmployeeSkill> empSkillList;
+ 	private ArrayList<EmployeeSkill> empSkillList;
 	private ArrayList<Skill> skillList;
- 	private Vector comboSkill;   
-	 	
-	private Employee loggedOnEmployee;
 	private ArrayList<Employee> individualEmp;
 	private ArrayList<Short> individualEmpHobbyList;
-	private Vector<String> vectHobby;   
 	private ArrayList<EmployeeSkill> individualEmpSkillList;
+	
+ 	private Vector comboSkill;  
+  	private Vector<Hobby> hobbyList;   
+  	private Vector comboHobby; 
+	private Vector<String> vectHobby;   
 	private Vector<String> vectSkill; 
 	private Vector<String> vectTabSkill;   
 	
+	private DefaultTableModel model;
+	private DefaultTableModel modelInsert;
+	private DefaultTableModel individualSkillsModel;
+	
+	private JComboBox hobbyComboBox;
+	private JComboBox skillComboBox;
+	 	
+	private Employee loggedOnEmployee;
   	private EmpSkillClientController clientControl;
+  	
 	private JButton empBut;
 	private JButton clearBut;
-	private JScrollPane scrollPane;
-	private JTable table;
 	
-	private DefaultTableModel model;
-	private JComboBox hobbyComboBox;
 	private JLabel hobbyLab;
 	private JLabel skillLab;
-	private JComboBox skillComboBox;
 	private JLabel lblEnterEmployeeSearch;
 	private JLabel contentsOfTable;
-	private JScrollPane scrollPane_Skills;
-	private JScrollPane scrollPane_Hobby;
-	private JList hobbyJlist;
 	private JLabel individualSkillListLab;
 	private JLabel individualHobbyListLab;
-	private JTable individualSkillsTable;
-	private DefaultTableModel individualSkillsModel;
+	
+	private JList hobbyJlist;
 
+	private JScrollPane scrollEmployee;
+	private JScrollPane scrollIndividualSkills;
+	private JScrollPane scrollHobby;
+	private JScrollPane scrollSkillsDetails;
+	
+	private JTable tableEmployee;
+	private JTable tableSkillsDetails;
+	private JTable individualSkillsTable;
+	
+	private JTextField inputJTF;
+	
+	Object[] HeaderForSkillsDetails;
+	private JLabel skillsDetailsLab;
+	
 	public SearchMenu(EmpSkillClientController clientControl)
 	{
+		setBackground(UIManager.getColor("CheckBoxMenuItem.background"));
 		this.clientControl = clientControl;
 		loggedOnEmployee = clientControl.getLogonEmployee();
 		capabilityList = clientControl.getCapabilityList();
@@ -119,11 +133,6 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		}
 
 		setLayout(null);
-//		for(int pos = 0; pos<7; pos++)
-//		{
-//			skillHeader[pos] = capabilityList.get
-//		}
-//			
 									
 		inputJTF = new JTextField();
 		inputJTF.setToolTipText("Enter your employee search criteria ..... and then click on the \"search EMPLOYEE\" button");
@@ -132,33 +141,19 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(inputJTF);
 
 		clearBut = new JButton("CLEAR");
+		clearBut.setBackground(UIManager.getColor("Button.shadow"));
+		clearBut.setFont(new Font("Tahoma", Font.BOLD, 14));
 		clearBut.setToolTipText("click this CLEAR button between each different search - this will initialise the tables ");
-		clearBut.setBounds(865, 112, 114, 23);
+		clearBut.setBounds(711, 113, 111, 40);
 		clearBut.addActionListener(this);
 		add(clearBut);
 		
 		empBut = new JButton("search EMPLOYEE ");
+		empBut.setBackground(UIManager.getColor("Button.background"));
+		empBut.setFont(new Font("Tahoma", Font.BOLD, 11));
 		empBut.setBounds(693, 22, 159, 23);
 		empBut.addActionListener(this);
 		add(empBut);
-		
-		model = new DefaultTableModel();
-		
-		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
-		
-		model.setColumnIdentifiers(tabHeader);
-		table = new JTable(model);
-
-		table.getRowSelectionAllowed();
-		table.getSelectionModel();
-		table.addMouseListener(this);
-//		model.setColumnIdentifiers(tabHeader);
-		
-		scrollPane = new JScrollPane(table);
-		scrollPane.setToolTipText("This will be populated once you have chosen one of the above options  ");
-		scrollPane.setEnabled(false);
-		scrollPane.setBounds(71, 156, 919, 138);
-		add(scrollPane);
 		 
 		hobbyComboBox = new JComboBox(comboHobby);
 		hobbyComboBox.setBorder(null);
@@ -168,10 +163,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(hobbyComboBox);
 		
 		hobbyLab = new JLabel("Choose HOBBY from dropdown list");
+		hobbyLab.setFont(new Font("Tahoma", Font.BOLD, 11));
 		hobbyLab.setBounds(42, 87, 205, 14);
 		add(hobbyLab);
 		
 		skillLab = new JLabel("Choose SKILL from dropdown list");
+		skillLab.setFont(new Font("Tahoma", Font.BOLD, 11));
 		skillLab.setBounds(42, 58, 205, 14);
 		add(skillLab);
 		
@@ -182,6 +179,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(skillComboBox);
 		
 		lblEnterEmployeeSearch = new JLabel("enter EMPLOYEE search criteria");
+		lblEnterEmployeeSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEnterEmployeeSearch.setBounds(42, 24, 219, 14);
 		add(lblEnterEmployeeSearch);
 		
@@ -190,35 +188,75 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		contentsOfTable.setBounds(250, 131, 451, 14);
 		add(contentsOfTable);
 		
-		scrollPane_Skills = new JScrollPane();
-		scrollPane_Skills.setBounds(71, 353, 451, 158);
-		add(scrollPane_Skills);
-		
-		individualSkillsModel = new DefaultTableModel();
-		individualSkillsTable = new JTable(individualSkillsModel);
-		scrollPane_Skills.setViewportView(individualSkillsTable);
-		
-		scrollPane_Hobby = new JScrollPane();
-		scrollPane_Hobby.setBounds(761, 353, 128, 158);
-		add(scrollPane_Hobby);
-		
+		scrollHobby = new JScrollPane();
+		scrollHobby.setBounds(791, 352, 84, 158);
+		add(scrollHobby);
 		hobbyJlist = new JList(vectHobby);
-		hobbyJlist.setToolTipText("This will only be populated once you have entered \"EMPLOYEE search criteria\" optionb");
+		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
+		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
-		scrollPane_Hobby.setViewportView(hobbyJlist);
+		scrollHobby.setViewportView(hobbyJlist);
 		
 		individualSkillListLab = new JLabel("Chosen Employee's SKILL list ");
-		individualSkillListLab.setVisible(false);
-		individualSkillListLab.setEnabled(false);
+		individualSkillListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		individualSkillListLab.setToolTipText("This will lsit ALL skills for chosen Employee");
 		individualSkillListLab.setBounds(201, 328, 193, 14);
 		add(individualSkillListLab);
 		
 		individualHobbyListLab = new JLabel("Chosen Employee's HOBBY list");
-		individualHobbyListLab.setEnabled(false);
-		individualHobbyListLab.setVisible(false);
-		individualHobbyListLab.setBounds(761, 328, 150, 14);
+		individualHobbyListLab.setToolTipText("This will show all chosen Employee's hobbies");
+		individualHobbyListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		individualHobbyListLab.setBounds(754, 328, 176, 14);
 		add(individualHobbyListLab);
+		
+		scrollSkillsDetails = new JScrollPane();
+		scrollSkillsDetails.setToolTipText("This will give capability ratings for chosen Employee's skill");
+		scrollSkillsDetails.setBounds(71, 556, 927, 143);
+		add(scrollSkillsDetails);
+		
+		skillsDetailsLab = new JLabel("Chosen Employee's skills ratings");
+		skillsDetailsLab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		skillsDetailsLab.setToolTipText("This will give capability ratings for chosen Employee's skill");
+		skillsDetailsLab.setBounds(201, 531, 231, 14);
+		add(skillsDetailsLab);
+		
+		model = new DefaultTableModel();
+		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
+		model.setColumnIdentifiers(tabHeader);
+		tableEmployee = new JTable(model);
+		tableEmployee.getRowSelectionAllowed();
+		tableEmployee.getSelectionModel();
+		tableEmployee.addMouseListener(this);
+		scrollEmployee = new JScrollPane(tableEmployee);
+		scrollEmployee.setToolTipText("This will be populated once you have chosen one of the above options  ");
+		scrollEmployee.setEnabled(false);
+		scrollEmployee.setBounds(71, 179, 919, 138);
+		add(scrollEmployee);
+		
+		individualSkillsModel = new DefaultTableModel();
+		individualSkillsTable = new JTable(individualSkillsModel);
+		individualSkillsTable.getRowSelectionAllowed();
+		individualSkillsTable.getSelectionModel();
+		individualSkillsTable.addMouseListener(this);
+		scrollIndividualSkills = new JScrollPane(individualSkillsTable);
+		scrollIndividualSkills.setToolTipText("This will only be populated with chosen Employee's skills once you have entered \"EMPLOYEE search criteria\" option");
+		scrollIndividualSkills.setEnabled(false);
+		scrollIndividualSkills.setBounds(71, 353, 451, 158);
+		add(scrollIndividualSkills);
+		scrollIndividualSkills.setViewportView(individualSkillsTable);
 
+		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
+				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
+		Object[][] ratingRow = new Object[1][HeaderForSkillsDetails.length];
+		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
+		tableSkillsDetails = new JTable(modelInsert);
+//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
+  		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+		scrollSkillsDetails.setViewportView(tableSkillsDetails);
+		tableSkillsDetails.getRowSelectionAllowed();
+		tableSkillsDetails.getSelectionModel();
+//		tableSkillsDetails.addMouseListener(this);
+		
 	}
 
 	@Override
@@ -237,7 +275,14 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			}
 			hobbyJlist.removeAll();
 			vectHobby.removeAllElements();
-//			skillJlist.removeAll();
+			hobbyJlist.updateUI();	
+			
+			individualSkillsTable = new JTable();
+			scrollIndividualSkills.setViewportView(individualSkillsTable);	
+			
+			tableSkillsDetails = new JTable();
+			scrollSkillsDetails.setViewportView(tableSkillsDetails);
+
 		}
 
 	
@@ -358,24 +403,6 @@ System.out.println("searchmenu - in for - " + vect.get(i) + " " + i);
 	        }
 			
 			JOptionPane.showMessageDialog(this,"Please select a row from the table");
-			
-//			int row = table.getSelectedRow();
-//System.out.println("searchmenu - selecting employee skill " + row);
-//			if (row <0)
-//			{
-//				System.out.println("searchmenu - display details of employee skill : " + table.getValueAt(row, 0));
-//				System.out.println("searchmenu - display details of employee skill : " + table.getValueAt(row, 1));
-//				System.out.println("searchmenu - display details of employee skill : " + table.getValueAt(row, 2));
-//							
-//							//get your userid / relevant info
-//							//call database with info and do as you wish.
-//				return;
-//			}
-//
-//			
-//			//ensure the row value is initialised once you done.
-//			row = 0;	
-//			employeeList = empSkillClient.searchEmployee((String)vect.elementAt(0));
 		}
 		
 		
@@ -436,11 +463,13 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 		{
 			System.out.println("searchmenu - mouseclicked - empBut");
 
-			int row = table.getSelectedRow();
-			String individualEmpID = (String)table.getValueAt(row, 0);
+			int row = tableEmployee.getSelectedRow();
+			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
 			individualEmp = clientControl.searchEmployee(individualEmpID);
+	
 			
-//     build Jlist of selected employee's hobbies	
+			
+//     build Jlist of selected employee's hobbies 
 			
 			individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
 			vectHobby = new Vector<String>();
@@ -456,94 +485,91 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 			}
 			if(individualEmpHobbyList.size() < 1)
 			{
-				vectHobby.addElement("No Hobbies loaded for this employee");
+				vectHobby.addElement("NO HOBBIES"); 
 			}
-
+			else
+			{
 System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
-			individualHobbyListLab.setVisible(true);
+			}
 			hobbyJlist.setListData(vectHobby);
 			hobbyJlist.updateUI();	
 			
 			
 			
-//		     build Jlist of selected employee's skills	
+//		     build JTable of selected employee's skills	
 			
 			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
-System.out.println(" indiv list cnt "  + individualEmpSkillList.size()); 
-// if ( individualEmpSkillList.get(index)
+			if(individualEmpSkillList.size()<1)
+			{
+// display "no skills for selected employee"				
+			}
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
+			scrollIndividualSkills.remove(individualSkillsTable);
+			individualSkillsTable = new JTable(individualSkillsModel);
+			scrollIndividualSkills.setViewportView(individualSkillsTable);			
 			individualSkillsModel.fireTableDataChanged(); 
-			
-			
-//			vectSkill = new Vector<String>();
-//			for(int i = 0 ; i < individualEmpSkillList.size() ; i++)
-//			{
-//				for(int j = 0;j < skillList.size();j++)
-//				{
-//					if (individualEmpSkillList.get(i).getSkillID() == skillList.get(j).getSkillId())
-//					{
-//						vectSkill.addElement(skillList.get(j).getSkillDescription());
-//					}
-//				}
-//			}
-//			
-//			Collections.sort(vectSkill);
-//			String compareSkill = vectSkill.firstElement();
-//System.out.println("searchmenu compareSkill = " + compareSkill);
-//			for(int i = 0 ; i < vectSkill.size() ; i++)
-//			{
-//System.out.println("searchmenu compareSkill = compare = " + compareSkill + " " + vectSkill.elementAt(i));
-//				if((vectSkill.elementAt(i).equals(compareSkill)) )
-//				{
-//System.out.println("searchmenu compareSkill before continue");
-//					continue;
-//				}
-//System.out.println("searchmenu compareSkill after continue");
-//				vectTabSkill.addElement(compareSkill);
-//				compareSkill = vectSkill.elementAt(i);
-//			}
-//			if(! (vectTabSkill.lastElement().equals(compareSkill) ) )
-//			{
-//				vectTabSkill.addElement(compareSkill);
-//			}
-//			
-//			if(individualEmpSkillList.size() < 1)
-//			{
-//				vectSkill.addElement("No skills loaded for this employee");
-//			}
-//System.out.println("searchmenu - indivskill - vect = " + vectSkill.size() + " " +vectSkill.elementAt(0));
-//			individualSkillListLab.setVisible(true);	
-//			skillJlist.setListData(vectSkill);
-//			skillJlist.updateUI();	
-		}
+			this.repaint();
+		} //  end of empBut
 		
 
 		
 		
 		if(source == skillComboBox)
 		{
-			System.out.println("searchmenu - mouseclicked - skillComboBox");
+			int row = tableEmployee.getSelectedRow();
+			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
+			individualEmp = clientControl.searchEmployee(individualEmpID);
 		}
-		int row = table.getSelectedRow();
 
-System.out.println("searchmenu mouseclicked - row = " + row );
-		if (!(row <0))
+//	     build JTable of selected employee's skills	
+		
+		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
+		if(individualEmpSkillList.size()<1)
 		{
-			String x = (String)table.getValueAt(row, 0);
-			//get your userid / relevant info
-			//call database with info and do as you wish.
-			System.out.println("searchmenu - after caste : " + x);
-			System.out.println("searchmenu - select employee to display profile : " + table.getValueAt(row, 0));
-			System.out.println("searchmenu - select employee to display profile : " + table.getValueAt(row, 1));
-			System.out.println("searchmenu - select employee to display profile : " + table.getValueAt(row, 2));
-
-//			return;
+//  display "no skills for selected employee"
+			return;
 		}
-
 		
-		//ensure the row value is initialised once you done.
-		row = 0;
+		individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
+		scrollIndividualSkills.remove(individualSkillsTable);
+		individualSkillsTable = new JTable(individualSkillsModel);
+		scrollIndividualSkills.setViewportView(individualSkillsTable);			
+		individualSkillsModel.fireTableDataChanged(); 
+		this.repaint();
 		
+//		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
+//				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
+//		Object[][] ratingRow = new Object[1][HeaderForSkillsDetails.length];
+////		
+//		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
+////		
+//		tableSkillsDetails = new JTable(modelInsert);
+//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
+//		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+//		tableSkillsDetails.getRowSelectionAllowed();
+//		scrollSkillsDetails.setViewportView(tableSkillsDetails);
+//		tableSkillsDetails.getRowSelectionAllowed();
+//		tableSkillsDetails.getSelectionModel();
+		
+//   from ryan's program 
+//		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
+//				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
+//		Object[][] ratingRow = new Object[1][HeaderForSkillsDetails.length];
+////		
+//		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
+////		
+//		tableSkillsDetails = new JTable(modelInsert);
+//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
+//		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+//		tableSkillsDetails.getRowSelectionAllowed();
+////		
+////	
+////		
+//		scrollSkillsDetails.setViewportView(tableSkillsDetails);
+////		
+//		tableSkillsDetails.getRowSelectionAllowed();
+//		tableSkillsDetails.getSelectionModel();
+//		
 	}
 
 	@Override

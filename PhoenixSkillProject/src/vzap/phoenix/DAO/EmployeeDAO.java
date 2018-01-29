@@ -198,11 +198,9 @@ System.out.println("Adding new Hobby - returning true");
 	{
 		try 
 		{
-			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
-			
+			ps = dbCon.prepareStatement("delete from Employee where employeeID = ?");
 			ps.setString(1,employee.getEmployeeID());
-			
-			ps.executeQuery();
+			ps.executeUpdate();
 		}
 		catch (SQLException e) 
 		{
