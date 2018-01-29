@@ -339,8 +339,37 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			//if hobby populated
 			//call database to delete existing hobby if successful remove it to the list.
 			//database must happen here
-			vectHobby.removeElement(deleteHobbyValue);
-			
+			//vectHobby.removeElement(deleteHobbyValue);
+			short delhobbyID=0;
+			//first ensure we have the ID for the hobby
+			for(int j = 0;j < allHobby.size();j++)
+			{
+				if (deleteHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				{
+					System.out.println("delete hobby value: " + allHobby.get(j).getHobbyID());
+					delhobbyID = allHobby.get(j).getHobbyID();
+					break;
+				}
+			}
+			//use the ID to match to the employee short array of hobby IDs
+			for(int i=0;i< empHobby.size();i++)
+			{
+				System.out.println("we in the emp loop : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
+				
+				if(empHobby.get(i) == delhobbyID)
+				{
+					System.out.println("we in the delete : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
+					//remove the element where the match occured
+					empHobby.remove(i);
+					//set the employees hobbies
+					emp.setEmpHobbies(empHobby);
+					// update the employee 
+					clientControl.updateEmployee(emp);
+					//remove from display
+					vectHobby.removeElement(deleteHobbyValue);
+					break;
+				}
+			}
 		}
 		if(source == btnMainExit)
 		{
