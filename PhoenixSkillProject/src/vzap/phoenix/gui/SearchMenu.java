@@ -43,7 +43,7 @@ import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
 import javax.swing.JList;
-import javax.swing.UIManager;
+// mport javax.swing.UIManager;
 
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
 {
@@ -110,7 +110,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	
 	public SearchMenu(EmpSkillClientController clientControl)
 	{
-		setBackground(UIManager.getColor("CheckBoxMenuItem.background"));
+//		setBackground(UIManager.getColor("CheckBoxMenuItem.background"));
 		this.clientControl = clientControl;
 		loggedOnEmployee = clientControl.getLogonEmployee();
 		capabilityList = clientControl.getCapabilityList();
@@ -141,7 +141,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(inputJTF);
 
 		clearBut = new JButton("CLEAR");
-		clearBut.setBackground(UIManager.getColor("Button.shadow"));
+//		clearBut.setBackground(UIManager.getColor("Button.shadow"));
 		clearBut.setFont(new Font("Tahoma", Font.BOLD, 14));
 		clearBut.setToolTipText("click this CLEAR button between each different search - this will initialise the tables ");
 		clearBut.setBounds(711, 113, 111, 40);
@@ -149,7 +149,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(clearBut);
 		
 		empBut = new JButton("search EMPLOYEE ");
-		empBut.setBackground(UIManager.getColor("Button.background"));
+//		empBut.setBackground(UIManager.getColor("Button.background"));
 		empBut.setFont(new Font("Tahoma", Font.BOLD, 11));
 		empBut.setBounds(693, 22, 159, 23);
 		empBut.addActionListener(this);
@@ -201,7 +201,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 
 		hobbyJlist = new JList(vectHobby);
-		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
+//		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
 		scrollHobby.setViewportView(hobbyJlist);
