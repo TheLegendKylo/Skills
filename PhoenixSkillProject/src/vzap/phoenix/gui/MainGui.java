@@ -65,11 +65,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private ArrayList<Short> empHobby;
 	private SearchMenu searchMenu =null;
 	private RatingNomination ratingNom = null;
+	private boolean hobbyChange = false;
 	/**
 	 * Create the panel.
 	 */
 	public MainGui(JPanel basePanel, boolean newUser,Employee emp,EmpSkillClientController clientControl)
 	{
+		setBorder(null);
 		//My added code
 		this.basePanel = basePanel;
 		this.newUser = newUser;
@@ -98,10 +100,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 1107, 700);
+		tabbedPane.setBorder(null);
+		tabbedPane.setBounds(49, 13, 1128, 700);
+		//tabbedPane.bor(null);
 		add(tabbedPane);
 		
 		panelProfile = new JPanel();
+		panelProfile.setBorder(null);
 		tabbedPane.addTab("PROFILE", null, panelProfile, null);
 		panelProfile.setLayout(null);
 		
@@ -200,7 +205,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		tabbedPane.addTab("SKILLS", null, sk, null);
 		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(10, 711, 209, 25);
+		btnMainExit.setBounds(332, 717, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 		
@@ -212,7 +217,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 //		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
 		
 		btnLogoff = new JButton("Log Off");
-		btnLogoff.setBounds(859, 713, 209, 25);
+		btnLogoff.setBounds(606, 717, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
 		
@@ -269,7 +274,15 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			
 			if(clientControl.updateEmployee(emp))
 			{
-				JOptionPane.showMessageDialog(this, "Successfully Updated employee details?");
+				if(!hobbyChange)
+				{
+					JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+				}
+				tfAlias.setText(emp.getAlias());
+				tfName.setText(emp.getFirstName());
+				tfSurname.setText(emp.getSurname());
+				tfContact.setText(emp.getContactNo());
+				tfEmail.setText(emp.getEmail());
 			}
 			else
 			{
@@ -280,6 +293,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		if(source == btnAddHobby)
 		{
+			hobbyChange = true;
 			tfAddHobby.grabFocus();
 			addHobbyValue = tfAddHobby.getText();
 			if(addHobbyValue.equals("") || addHobbyValue == null )
@@ -306,7 +320,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			for(int j = 0;j < allHobby.size();j++)
 			{
 				
-				if (addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				if(addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
 				{
 					System.out.println("existing hobby");
 					
@@ -329,10 +343,12 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				//clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);
 			}
+			hobbyChange = false;
 						
 		}
 		if(source == btnDeleteHobby)
 		{
+			hobbyChange = true;
 			if(deleteHobbyValue.equals("") || deleteHobbyValue == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please select Your Hobby from the list to remove ?");
@@ -373,6 +389,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					break;
 				}
 			}
+			hobbyChange = false;
 		}
 		if(source == btnMainExit)
 		{
