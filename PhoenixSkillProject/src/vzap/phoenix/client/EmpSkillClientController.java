@@ -73,7 +73,7 @@ public class EmpSkillClientController
 	}
 	public ArrayList<Capability> getCapabilityList()
 	{
-		if(capabilityRatingList==null)
+		if(capabilityList==null)
 		{
 			capabilityList = client.getCapabilityList();
 		}
@@ -175,6 +175,15 @@ public class EmpSkillClientController
 	{
 		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
 		return empSkillMethod.getEmpSkillList(this, employeeSkillList, employee);
+	}
+	public DefaultTableModel getEmpSkillDetail(ArrayList<EmployeeSkill> employeeSkillList)
+	{
+		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
+		if(capabilityList==null)
+		{
+			capabilityList = this.getCapabilityList();
+		}
+		return empSkillMethod.getEmpSkillDetail(this, employeeSkillList, this.capabilityList);
 	}
 
 }

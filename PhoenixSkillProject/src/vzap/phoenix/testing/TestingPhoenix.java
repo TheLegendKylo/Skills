@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.table.DefaultTableModel;
+
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
@@ -14,6 +16,8 @@ import vzap.phoenix.Server.Employee.Hobby;
 import vzap.phoenix.Server.Employee.Level;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClient;
+import vzap.phoenix.client.EmpSkillClientController;
+import vzap.phoenix.client.EmpSkillCommonMethods;
 
 public class TestingPhoenix
 {
@@ -26,27 +30,30 @@ public class TestingPhoenix
 	private ArrayList<Capability> capList;
 	private ArrayList<Level> levelList;
 	private ArrayList<EmployeeSkill> empSkillList;
+	private EmpSkillClientController clientControl;
 	
 	public TestingPhoenix()
 	{
-		loginSession = new EmpSkillClient();
+		clientControl = new EmpSkillClientController();
+//		loginSession = new EmpSkillClient();
 		String employeeID = "a159842";
 		String password = "1234";
-		short returnCode = loginSession.loginEmployee(employeeID, password);
+		short returnCode = clientControl.loginEmployee(employeeID, password);
 		
 		if(returnCode==0)//.equals("Login Successfull"))
 		{
-			employee = loginSession.getLogonEmployee();
+			employee = clientControl.getLogonEmployee();
 			System.out.println(employee.toString());
 		} else {
-			System.out.println(loginSession.getErrorMsg());
+			System.out.println(clientControl.getErrorMsg());
 		}
-		skillList = loginSession.getSkillList();
-		hobbyList = loginSession.getHobbyList();
-		capList = loginSession.getCapabilityList();
-		levelList = loginSession.getLevelList();
+		skillList = clientControl.getSkillList();
+		hobbyList = clientControl.getHobbyList();
+		capList = clientControl.getCapabilityList();
+		levelList = clientControl.getLevelList();
 //		this.getEmpSkills();
-		this.searchEmployeeSkillByRaterID();
+//		this.searchEmployeeSkillByRaterID();
+		this.getEmpSkillDetail();
 //		this.getEmpSkillByEmpID();
 //		this.searchEmployeeSkill();
 //		this.searchEmployeeSkillBySkillID();
@@ -59,7 +66,7 @@ public class TestingPhoenix
 //		this.addSkill();
 //		this.updateEmployee();
 //		System.out.println("Write Message:" +loginSession.getErrorMsg());
-		loginSession.closeConnections();
+		clientControl.closeConnections();
 	}
 	public void addHobby()
 	{
@@ -222,6 +229,19 @@ System.out.println(
 		for (int i = 0; i < empSkillList.size(); i++)
 		{
 			System.out.println(" "+i+" "+empSkillList.get(i).getEmployeeID()+" "+empSkillList.get(i).getRaterID());
+		}
+	}
+	public void getEmpSkillDetail()
+	{
+		empSkillList = clientControl.searchEmployeeSkill(2);
+		DefaultTableModel capModel = clientControl.getEmpSkillDetail(empSkillList);
+		for (int i = 0; i < capModel.getRowCount(); i++)
+		{
+			for (int j = 0; j < capModel.getColumnCount(); j++)
+			{
+				System.out.print(capModel.getValueAt(i, j)+" ");
+			}
+			System.out.println("\n");
 		}
 	}
 	public void updateEmployee()

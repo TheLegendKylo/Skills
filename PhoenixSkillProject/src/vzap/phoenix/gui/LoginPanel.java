@@ -35,7 +35,7 @@ public class LoginPanel extends JPanel implements ActionListener
 	private JButton btnLogin;
 	private JButton btnExit;
 	private JPanel basePanel;
-	private JLabel lblMediaApplicationLibrary;
+	private JLabel lblSkills;
 	private JLabel label;
 	private JLabel lblRepeatPassword;
 	private JPasswordField passwordFieldRepeat;
@@ -58,76 +58,70 @@ public class LoginPanel extends JPanel implements ActionListener
 		this.basePanel = basePanel;
 		
 		lblUserId = new JLabel("User ID : ");
-		lblUserId.setForeground(Color.MAGENTA);
-		lblUserId.setBounds(350, 332, 96, 25);
-		lblUserId.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblUserId.setBounds(440, 256, 96, 25);
+		//lblUserId.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		lblPassword = new JLabel("Password :");
-		lblPassword.setForeground(Color.MAGENTA);
-		lblPassword.setBounds(350, 397, 116, 25);
-		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		lblPassword.setBounds(440, 321, 116, 25);
+		//lblPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		tf_UserID = new JTextField();
-		tf_UserID.setBounds(479, 332, 224, 31);
-		tf_UserID.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tf_UserID.setBounds(569, 256, 224, 31);
+		//tf_UserID.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tf_UserID.setColumns(10);
 		tf_UserID.grabFocus();
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(479, 391, 224, 31);
-		passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
+		passwordField.setBounds(569, 315, 224, 31);
+	//	passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		btnRyan = new JButton("Ryan Login");
-		btnRyan.setBounds(336, 224, 76, 23);
+		btnRyan.setBounds(426, 148, 76, 23);
 		btnRyan.addActionListener(this);
 		add(btnRyan);
 		
 		btnLogin = new JButton("Login");
-		btnLogin.setBounds(350, 502, 128, 33);
+		btnLogin.setBounds(440, 426, 128, 33);
 		btnLogin.addActionListener(this);
-		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		//btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		btnExit = new JButton("Exit");
-		btnExit.setBounds(350, 594, 128, 33);
+		btnExit.setBounds(440, 518, 128, 33);
 		btnExit.addActionListener(this);
-		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		//btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		 
-		lblMediaApplicationLibrary = new JLabel("Skillz ");
-		lblMediaApplicationLibrary.setForeground(new Color(0, 0, 255));
-		lblMediaApplicationLibrary.setBounds(350, 218, 353, 86);
-		lblMediaApplicationLibrary.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblMediaApplicationLibrary.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSkills = new JLabel("Skillz ");
+		lblSkills.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblSkills.setBounds(440, 142, 353, 86);
+		
+		lblSkills.setHorizontalAlignment(SwingConstants.CENTER);
 		setLayout(null);
 		add(btnLogin);
 		add(btnExit);
-		add(lblMediaApplicationLibrary);
+		add(lblSkills);
 		add(lblUserId);
 		add(lblPassword);
 		add(passwordField);
 		add(tf_UserID);
 		
 		lblRepeatPassword = new JLabel("Confrim Password :");
-		lblRepeatPassword.setForeground(Color.MAGENTA);
-		lblRepeatPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblRepeatPassword.setBounds(350, 435, 197, 54);
+		lblRepeatPassword.setBounds(440, 359, 197, 54);
 		add(lblRepeatPassword);
 			
 		passwordFieldRepeat = new JPasswordField();
-		passwordFieldRepeat.setFont(new Font("Tahoma", Font.BOLD, 20));
-		passwordFieldRepeat.setBounds(559, 447, 144, 31);
+		passwordFieldRepeat.setBounds(649, 371, 144, 31);
 		add(passwordFieldRepeat);
 		passwordFieldRepeat.setVisible(false);
 		lblRepeatPassword.setVisible(false);
 		
 		btnSignUp = new JButton("Sign Up");
-		btnSignUp.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnSignUp.setBounds(575, 502, 128, 33);
 		btnSignUp.addActionListener(this);
 		add(btnSignUp);
 		
 		btnConfirmRegistration = new JButton("Confirm Registration");
-		btnConfirmRegistration.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnConfirmRegistration.setBounds(350, 548, 353, 33);
+		
+		btnConfirmRegistration.setBounds(440, 472, 353, 33);
 		btnConfirmRegistration.addActionListener(this);
 		add(btnConfirmRegistration);
 		
