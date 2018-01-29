@@ -1,5 +1,5 @@
 package vzap.phoenix.gui;
-//Comment
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
