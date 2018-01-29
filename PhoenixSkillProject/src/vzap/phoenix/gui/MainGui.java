@@ -65,6 +65,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private Employee emp = null;
 	private JComboBox comboBox;
 	private ArrayList<Short> empHobby;
+	private SearchMenu searchMenu =null;
+	private RatingNomination ratingNom = null;
 	/**
 	 * Create the panel.
 	 */
@@ -205,18 +207,18 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		SkillsTab sk = new SkillsTab(clientControl);
 		
-		
-		//panelSkills = new JPanel();
-		
 		tabbedPane.addTab("SKILLS", null, sk, null);
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(10, 711, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 		
-		SearchMenu searchMenuTab = new SearchMenu(clientControl);
+		searchMenu = new SearchMenu(clientControl);
+		tabbedPane.addTab("SEARCH", null, searchMenu, null);
 		
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
+		//addd the clientControl here 
+//		ratingNom = new RatingNomination();
+//		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(859, 713, 209, 25);
