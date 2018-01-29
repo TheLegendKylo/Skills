@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
 
 public class RatingOfSkills extends JPanel
 {
@@ -26,6 +27,7 @@ public class RatingOfSkills extends JPanel
 	private JTable tableTop;
 	private ArrayList<EmployeeSkill> employeeSkillList;
 	private DefaultTableModel outstandingModel;
+	private JScrollPane scrollPaneTop;
 
 	/**
 	 * Create the panel.
@@ -48,10 +50,17 @@ public class RatingOfSkills extends JPanel
 		panelTop.setBounds(10, 35, 694, 159);
 		add(panelTop);
 		
-		outstandingModel = clientControl.getEmpSkillList(employeeSkillList, loggedOnEmployee);
-		tableTop = new JTable(outstandingModel);
 		
-		panelTop.add(tableTop);
+		outstandingModel = clientControl.getEmpSkillList(employeeSkillList, loggedOnEmployee);
+		panelTop.setLayout(null);
+		tableTop = new JTable(outstandingModel);
+		scrollPaneTop = new JScrollPane(tableTop);
+		scrollPaneTop.setBounds(63, 5, 568, 154);
+		panelTop.add(scrollPaneTop);
+		
+//		scrollPane.setViewportView(tableTop);
+
+		
 		
 		btnCannotRate = new JButton("Cannot Rate");
 		btnCannotRate.setToolTipText("Select if you are unable to offer a rating for an employee request");
