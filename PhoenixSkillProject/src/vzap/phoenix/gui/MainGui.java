@@ -216,11 +216,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		SearchMenu searchMenuTab = new SearchMenu(clientControl);
 		
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(10, 711, 209, 25);
-		btnMainExit.addActionListener(this);
-		add(btnMainExit);
+//		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
+//		btnMainExit = new JButton("Exit");
+//		btnMainExit.setBounds(10, 711, 209, 25);
+//		btnMainExit.addActionListener(this);
+//		add(btnMainExit);
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(859, 713, 209, 25);
