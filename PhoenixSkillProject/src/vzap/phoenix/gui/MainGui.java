@@ -53,8 +53,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private String loggedInUser = null;
 	private Vector<String> vectHobby = null;
 	private Vector<Hobby> allHobby = null;
-//	private Vector<String> vectDisplayHobbyForEmp = null;
-	//private Vector<String> vectHobby = null;
 	private JButton btnLogoff;
 	private JButton btnUpdateEmployee;
 	private String deleteHobbyValue = null;
@@ -79,15 +77,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		loggedInUser = emp.getEmployeeID();
 		this.clientControl = clientControl;
 		
-		//adding the existing hobbies for a user
-//		System.out.println("Size " + clientControl.getHobbyList().size() );
+//		adding the existing hobbies for a user
 		allHobby = clientControl.getHobbyList();
 		vectHobby = new Vector<String>();
-		
 		//will setup the array
-				
 		empHobby = emp.getEmpHobbies();
-		
 		for(int i = 0 ; i < empHobby.size() ; i ++)
 		{
 			for(int j = 0;j < allHobby.size();j++)
@@ -100,10 +94,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 		}
 			
-//		//end my added code
-//		
-		
-		//vectHobby.add("Test");
+//		end my added code
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -216,7 +207,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		searchMenu = new SearchMenu(clientControl);
 		tabbedPane.addTab("SEARCH", null, searchMenu, null);
 		
-		//addd the clientControl here 
+//		add the clientControl here 
 //		ratingNom = new RatingNomination();
 //		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
 		
@@ -224,6 +215,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		btnLogoff.setBounds(859, 713, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
+		
 		//add info on employee here;
 		tfAlias.setText(emp.getAlias());
 		tfName.setText(emp.getFirstName());
@@ -231,13 +223,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfContact.setText(emp.getContactNo());
 		tfEmail.setText(emp.getEmail());	
 		
-		//	comboBox = new JComboBox(vectHobby);
-		//AutoCompleteDe
-		//AutoCompletion ac = new AutoCompletion(comboBox);
-		//AutoCompletion.enable(comboBox);
-		//comboBox.setEditable(true);
-		//comboBox.setBounds(164, 331, 231, 22);
-		//panelProfile.add(comboBox);
 		RatingOfSkills ratingSkillsTab = new RatingOfSkills(clientControl);
 		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
 		
@@ -317,7 +302,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 //				return;
 //			}
 			//call database to insert new hobby if successful add it to the list.
-			//must test below
 			boolean existingHobby = false;
 			for(int j = 0;j < allHobby.size();j++)
 			{
@@ -337,13 +321,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			if(!existingHobby)
 			{
 				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
-				System.out.println("new hobby = " + hobbyiddddd);
 				//adding a hobby that does'nt exist in the current users profile.
 				empHobby.add(hobbyiddddd);
-				for (int i = 0; i < empHobby.size();i++)
-				{
-					System.out.println("in emp hobby loop : " + empHobby.get(i).toString());
-				}
 				emp.setEmpHobbies(empHobby);
 				clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);
