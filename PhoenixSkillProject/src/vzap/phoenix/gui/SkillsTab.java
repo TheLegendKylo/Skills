@@ -54,13 +54,13 @@ public class SkillsTab extends JPanel implements ActionListener
 	private JLabel lblPerceptionOfContext;
 	private JLabel lblGrowingCapability;
 	private JLabel lblPurposefulCollaboration;
-	private JTextField jtfKnowledge;
-	private JTextField jtfStdOfWork;
-	private JTextField jtfAutonomy;
-	private JTextField jtfCopingWithComplexity;
-	private JTextField jtfComplexity;
-	private JTextField jtfGrowingCapability;
-	private JTextField jtfPurposefulCollaboration;
+	private JTextField jtf0;
+	private JTextField jtf1;
+	private JTextField jtf2;
+	private JTextField jtf3;
+	private JTextField jtf4;
+	private JTextField jtf5;
+	private JTextField jtf6;
 	private JLabel lblSummaryOfSkills;
 	private JTable tableSummarySkills;
 	private JScrollPane scrollPaneSummarySkills;
@@ -166,44 +166,45 @@ public class SkillsTab extends JPanel implements ActionListener
 		lblPurposefulCollaboration.setBounds(737, 79, 117, 14);
 		add(lblPurposefulCollaboration);
 		
-		jtfKnowledge = new JTextField();
-		jtfKnowledge.setBounds(170, 93, 40, 20);
-		add(jtfKnowledge);
-		jtfKnowledge.setColumns(10);
+		jtf0 = new JTextField();
+		jtf0.setBounds(170, 93, 40, 20);
+		add(jtf0);
+		jtf0.setColumns(10);
 		
-		jtfStdOfWork = new JTextField();
-		jtfStdOfWork.setBounds(270, 93, 40, 20);
-		add(jtfStdOfWork);
-		jtfStdOfWork.setColumns(10);
+		jtf1 = new JTextField();
+		jtf1.setBounds(270, 93, 40, 20);
+		add(jtf1);
+		jtf1.setColumns(10);
 		
-		jtfAutonomy = new JTextField();
-		jtfAutonomy.setBounds(351, 93, 40, 20);
-		add(jtfAutonomy);
-		jtfAutonomy.setColumns(10);
+		jtf2 = new JTextField();
+		jtf2.setBounds(351, 93, 40, 20);
+		add(jtf2);
+		jtf2.setColumns(10);
 		
-		jtfCopingWithComplexity = new JTextField();
-		jtfCopingWithComplexity.setBounds(437, 93, 40, 20);
-		add(jtfCopingWithComplexity);
-		jtfCopingWithComplexity.setColumns(10);
+		jtf3 = new JTextField();
+		jtf3.setBounds(437, 93, 40, 20);
+		add(jtf3);
+		jtf3.setColumns(10);
 		
-		jtfComplexity = new JTextField();
-		jtfComplexity.setBounds(550, 93, 40, 20);
-		add(jtfComplexity);
-		jtfComplexity.setColumns(10);
+		jtf4 = new JTextField();
+		jtf4.setBounds(550, 93, 40, 20);
+		add(jtf4);
+		jtf4.setColumns(10);
 		
-		jtfGrowingCapability = new JTextField();
-		jtfGrowingCapability.setBounds(663, 93, 40, 20);
-		add(jtfGrowingCapability);
-		jtfGrowingCapability.setColumns(10);
+		jtf5 = new JTextField();
+		jtf5.setBounds(663, 93, 40, 20);
+		add(jtf5);
+		jtf5.setColumns(10);
 		
-		jtfPurposefulCollaboration = new JTextField();
-		jtfPurposefulCollaboration.setBounds(771, 93, 40, 20);
-		add(jtfPurposefulCollaboration);
-		jtfPurposefulCollaboration.setColumns(10);
+		jtf6 = new JTextField();
+		jtf6.setBounds(771, 93, 40, 20);
+		add(jtf6);
+		jtf6.setColumns(10);
 		
 		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 272, 107, 14);
+		lblSummaryOfSkills.setBounds(10, 272, 928, 22);
 		add(lblSummaryOfSkills);
+		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 		
 		scrollPaneSummarySkills = new JScrollPane();
 		scrollPaneSummarySkills.setBounds(10, 305, 928, 92);
@@ -213,8 +214,9 @@ public class SkillsTab extends JPanel implements ActionListener
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		
 		lblDetails = new JLabel("Details");
-		lblDetails.setBounds(10, 408, 46, 14);
+		lblDetails.setBounds(10, 408, 928, 22);
 		add(lblDetails);
+		lblDetails.setHorizontalAlignment(JLabel.CENTER);
 		
 		scrollPaneBottom = new JScrollPane();
 		scrollPaneBottom.setBounds(10, 433, 928, 112);
@@ -440,6 +442,10 @@ public class SkillsTab extends JPanel implements ActionListener
 			
 		}
 		
+		/*
+		 * This submit button will be used to submit your final rating...
+		 */
+		
 		if(source == btnSubmit)
 		{
 			System.out.println("Submit button was pressed");
@@ -459,8 +465,8 @@ public class SkillsTab extends JPanel implements ActionListener
 			}
 //				String x = comboBoxSkillList.getSelectedItem().toString();
 				
-//				Object object = tableCaptureSkills.getValueAt(row, 0);
-//				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
+				Object object = tableCaptureSkills.getValueAt(row, 0);
+				String skillToBeAdded = (String)tableCaptureSkills.getValueAt(row, 0);
 				
 				//Still need to figure out how to clear the cell that was selected so that the
 				//skill can be sent directly
@@ -469,10 +475,7 @@ public class SkillsTab extends JPanel implements ActionListener
 //				jtfAddSkill.setText(x);
 				
 				
-				/*
-				 * Now you need to check to see if the description of the skillToBeAdded already
-				 * exists by looping through the array of the SkillList.
-				 */
+			
 			
 							
 //			}

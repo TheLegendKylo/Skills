@@ -20,8 +20,11 @@ public class GuiControl extends JFrame
 		clientControl = new EmpSkillClientController();
 		this.setTitle("Skills Application");
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setSize(1200,770);
-		//this.setResizable(false);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(100, 100, (int) dim.getWidth(), (int) dim.getHeight());
+	    setLocationRelativeTo(null);
+		
 		this.addWindowListener(new java.awt.event.WindowAdapter() 
 		{
 		    @Override
@@ -38,10 +41,6 @@ public class GuiControl extends JFrame
 		        }
 		    }
 		});
-		
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		basePanel = new JPanel();
 		basePanel.setBackground(new Color(220,220,220));

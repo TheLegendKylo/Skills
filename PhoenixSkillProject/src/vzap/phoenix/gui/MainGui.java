@@ -53,8 +53,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private String loggedInUser = null;
 	private Vector<String> vectHobby = null;
 	private Vector<Hobby> allHobby = null;
-//	private Vector<String> vectDisplayHobbyForEmp = null;
-	//private Vector<String> vectHobby = null;
 	private JButton btnLogoff;
 	private JButton btnUpdateEmployee;
 	private String deleteHobbyValue = null;
@@ -65,11 +63,15 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private Employee emp = null;
 	private JComboBox comboBox;
 	private ArrayList<Short> empHobby;
+	private SearchMenu searchMenu =null;
+	private RatingNomination ratingNom = null;
+	private boolean hobbyChange = false;
 	/**
 	 * Create the panel.
 	 */
 	public MainGui(JPanel basePanel, boolean newUser,Employee emp,EmpSkillClientController clientControl)
 	{
+		setBorder(null);
 		//My added code
 		this.basePanel = basePanel;
 		this.newUser = newUser;
@@ -77,15 +79,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		loggedInUser = emp.getEmployeeID();
 		this.clientControl = clientControl;
 		
-		//adding the existing hobbies for a user
-//		System.out.println("Size " + clientControl.getHobbyList().size() );
+//		adding the existing hobbies for a user
 		allHobby = clientControl.getHobbyList();
 		vectHobby = new Vector<String>();
-		
 		//will setup the array
-				
 		empHobby = emp.getEmpHobbies();
-		
 		for(int i = 0 ; i < empHobby.size() ; i ++)
 		{
 			for(int j = 0;j < allHobby.size();j++)
@@ -98,83 +96,83 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			}
 		}
 			
-//		//end my added code
-//		
-		
-		//vectHobby.add("Test");
+//		end my added code
 		setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 1107, 700);
+		tabbedPane.setBorder(null);
+		tabbedPane.setBounds(49, 13, 1128, 700);
+		//tabbedPane.bor(null);
 		add(tabbedPane);
 		
 		panelProfile = new JPanel();
+		panelProfile.setBorder(null);
 		tabbedPane.addTab("PROFILE", null, panelProfile, null);
 		panelProfile.setLayout(null);
 		
 		lblNewLabel = new JLabel("User ID");
-		lblNewLabel.setBounds(65, 102, 56, 16);
+		lblNewLabel.setBounds(286, 103, 56, 16);
 		panelProfile.add(lblNewLabel);
 		
 		lblFirstName = new JLabel("First Name");
-		lblFirstName.setBounds(65, 165, 76, 16);
+		lblFirstName.setBounds(286, 166, 76, 16);
 		panelProfile.add(lblFirstName);
 		
 		lblSurname = new JLabel("Surname");
-		lblSurname.setBounds(65, 194, 76, 16);
+		lblSurname.setBounds(286, 195, 76, 16);
 		panelProfile.add(lblSurname);
 		
 		lblContact = new JLabel("Contact");
-		lblContact.setBounds(65, 229, 76, 16);
+		lblContact.setBounds(286, 230, 76, 16);
 		panelProfile.add(lblContact);
 		
 		lblEmail = new JLabel("Email");
-		lblEmail.setBounds(65, 269, 76, 16);
+		lblEmail.setBounds(286, 270, 76, 16);
 		panelProfile.add(lblEmail);
 		
 		tfUserID = new JTextField(loggedInUser);
 		tfUserID.setEditable(false);
-		tfUserID.setBounds(164, 99, 116, 22);
+		tfUserID.setBounds(385, 100, 116, 22);
 		panelProfile.add(tfUserID);
 		tfUserID.setColumns(10);
 		
 		tfName = new JTextField();
 		tfName.setColumns(10);
-		tfName.setBounds(164, 162, 116, 22);
+		tfName.setBounds(385, 163, 116, 22);
 		panelProfile.add(tfName);
 		
 		tfSurname = new JTextField();
 		tfSurname.setColumns(10);
-		tfSurname.setBounds(164, 188, 116, 22);
+		tfSurname.setBounds(385, 189, 116, 22);
 		panelProfile.add(tfSurname);
 		
 		tfContact = new JTextField();
 		tfContact.setColumns(10);
-		tfContact.setBounds(164, 223, 116, 22);
+		tfContact.setBounds(385, 224, 116, 22);
 		panelProfile.add(tfContact);
 		
 		tfEmail = new JTextField();
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(164, 258, 116, 22);
+		tfEmail.setBounds(385, 259, 116, 22);
 		panelProfile.add(tfEmail);
 		
 		lblHobbies = new JLabel("Hobbies");
-		lblHobbies.setBounds(65, 302, 76, 16);
+		lblHobbies.setBounds(286, 303, 76, 16);
 		panelProfile.add(lblHobbies);
 		
 		tfAddHobby = new JTextField();
 		tfAddHobby.setColumns(10);
-		tfAddHobby.setBounds(164, 299, 116, 22);
+		tfAddHobby.setBounds(385, 300, 116, 22);
 		panelProfile.add(tfAddHobby);
 		
 		btnAddHobby = new JButton("Add Hobby");
-		btnAddHobby.setBounds(298, 298, 97, 25);
+		btnAddHobby.setBounds(519, 299, 97, 25);
 		btnAddHobby.addActionListener(this);
 		panelProfile.add(btnAddHobby);
 		
 		btnDeleteHobby = new JButton("Delete Hobby");
 		btnDeleteHobby.setToolTipText("Select a Hobby from the list above before clicking");
-		btnDeleteHobby.setBounds(566, 264, 116, 25);
+		btnDeleteHobby.setBounds(745, 265, 116, 25);
 		btnDeleteHobby.addActionListener(this);
 		panelProfile.add(btnDeleteHobby);
 		
@@ -186,45 +184,43 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
     	list.addListSelectionListener(this);
 
     	scrollPane = new JScrollPane(list,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(566, 102, 135, 149);
+		scrollPane.setBounds(745, 100, 135, 149);
 		panelProfile.add(scrollPane);
 		
 		btnUpdateEmployee = new JButton("Update Employee");
-		btnUpdateEmployee.setBounds(65, 393, 157, 25);
+		btnUpdateEmployee.setBounds(286, 373, 157, 25);
 		btnUpdateEmployee.addActionListener(this);
 		panelProfile.add(btnUpdateEmployee);
 		
 		lblAlias = new JLabel("Alias");
-		lblAlias.setBounds(65, 136, 76, 16);
+		lblAlias.setBounds(286, 137, 76, 16);
 		panelProfile.add(lblAlias);
 		
 		tfAlias = new JTextField();
 		tfAlias.setColumns(10);
-		tfAlias.setBounds(164, 133, 116, 22);
+		tfAlias.setBounds(385, 134, 116, 22);
 		panelProfile.add(tfAlias);
 		
 		SkillsTab sk = new SkillsTab(clientControl);
 		
-		//panelSkills = new JPanel();
-		
 		tabbedPane.addTab("SKILLS", null, sk, null);
 		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(10, 711, 209, 25);
+		btnMainExit.setBounds(332, 717, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 		
-		SearchMenu searchMenuTab = new SearchMenu(clientControl);
+		searchMenu = new SearchMenu(clientControl);
+		tabbedPane.addTab("SEARCH", null, searchMenu, null);
 		
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(10, 711, 209, 25);
-		btnMainExit.addActionListener(this);
-		add(btnMainExit);
+//		add the clientControl here 
+//		ratingNom = new RatingNomination();
+//		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
 		
 		btnLogoff = new JButton("Log Off");
-		btnLogoff.setBounds(859, 713, 209, 25);
+		btnLogoff.setBounds(606, 717, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
+		
 		//add info on employee here;
 		tfAlias.setText(emp.getAlias());
 		tfName.setText(emp.getFirstName());
@@ -232,13 +228,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		tfContact.setText(emp.getContactNo());
 		tfEmail.setText(emp.getEmail());	
 		
-		//	comboBox = new JComboBox(vectHobby);
-		//AutoCompleteDe
-		//AutoCompletion ac = new AutoCompletion(comboBox);
-		//AutoCompletion.enable(comboBox);
-		//comboBox.setEditable(true);
-		//comboBox.setBounds(164, 331, 231, 22);
-		//panelProfile.add(comboBox);
+		RatingOfSkills ratingSkillsTab = new RatingOfSkills(clientControl);
+		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
 		
 
 	}
@@ -283,7 +274,15 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			
 			if(clientControl.updateEmployee(emp))
 			{
-				JOptionPane.showMessageDialog(this, "Successfully Updated employee details?");
+				if(!hobbyChange)
+				{
+					JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+				}
+				tfAlias.setText(emp.getAlias());
+				tfName.setText(emp.getFirstName());
+				tfSurname.setText(emp.getSurname());
+				tfContact.setText(emp.getContactNo());
+				tfEmail.setText(emp.getEmail());
 			}
 			else
 			{
@@ -294,6 +293,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		if(source == btnAddHobby)
 		{
+			hobbyChange = true;
 			tfAddHobby.grabFocus();
 			addHobbyValue = tfAddHobby.getText();
 			if(addHobbyValue.equals("") || addHobbyValue == null )
@@ -316,12 +316,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 //				return;
 //			}
 			//call database to insert new hobby if successful add it to the list.
-			//must test below
 			boolean existingHobby = false;
 			for(int j = 0;j < allHobby.size();j++)
 			{
 				
-				if (addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				if(addHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
 				{
 					System.out.println("existing hobby");
 					
@@ -329,28 +328,27 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					vectHobby.add(addHobbyValue);
 					empHobby.add(allHobby.get(j).getHobbyID());
 					emp.setEmpHobbies(empHobby);
-					clientControl.updateEmployee(emp);	
+					//clientControl.updateEmployee(emp);	
+					btnUpdateEmployee.doClick();
 					break;
 				}
 			}
 			if(!existingHobby)
 			{
 				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
-				System.out.println("new hobby = " + hobbyiddddd);
 				//adding a hobby that does'nt exist in the current users profile.
 				empHobby.add(hobbyiddddd);
-				for (int i = 0; i < empHobby.size();i++)
-				{
-					System.out.println("in emp hobby loop : " + empHobby.get(i).toString());
-				}
 				emp.setEmpHobbies(empHobby);
-				clientControl.updateEmployee(emp);
+				btnUpdateEmployee.doClick();
+				//clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);
 			}
+			hobbyChange = false;
 						
 		}
 		if(source == btnDeleteHobby)
 		{
+			hobbyChange = true;
 			if(deleteHobbyValue.equals("") || deleteHobbyValue == null )
 			{
 				JOptionPane.showMessageDialog(this, "Please select Your Hobby from the list to remove ?");
@@ -359,8 +357,39 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 			//if hobby populated
 			//call database to delete existing hobby if successful remove it to the list.
 			//database must happen here
-			vectHobby.removeElement(deleteHobbyValue);
-			
+			//vectHobby.removeElement(deleteHobbyValue);
+			short delhobbyID=0;
+			//first ensure we have the ID for the hobby
+			for(int j = 0;j < allHobby.size();j++)
+			{
+				if (deleteHobbyValue.equalsIgnoreCase(allHobby.get(j).getHobbyDescription()))
+				{
+					System.out.println("delete hobby value: " + allHobby.get(j).getHobbyID());
+					delhobbyID = allHobby.get(j).getHobbyID();
+					break;
+				}
+			}
+			//use the ID to match to the employee short array of hobby IDs
+			for(int i=0;i< empHobby.size();i++)
+			{
+				System.out.println("we in the emp loop : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
+				
+				if(empHobby.get(i) == delhobbyID)
+				{
+					System.out.println("we in the delete : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
+					//remove the element where the match occurred
+					empHobby.remove(i);
+					//set the employees hobbies
+					emp.setEmpHobbies(empHobby);
+					// update the employee 
+					btnUpdateEmployee.doClick();
+					//clientControl.updateEmployee(emp);
+					//remove from display
+					vectHobby.removeElement(deleteHobbyValue);
+					break;
+				}
+			}
+			hobbyChange = false;
 		}
 		if(source == btnMainExit)
 		{
