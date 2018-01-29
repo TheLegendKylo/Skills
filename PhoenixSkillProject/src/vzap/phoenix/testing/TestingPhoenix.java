@@ -46,12 +46,13 @@ public class TestingPhoenix
 		capList = loginSession.getCapabilityList();
 		levelList = loginSession.getLevelList();
 //		this.getEmpSkills();
-		this.getEmpSkillByEmpID();
-		//		this.searchEmployeeSkill();
+		this.searchEmployeeSkillByRaterID();
+//		this.getEmpSkillByEmpID();
+//		this.searchEmployeeSkill();
 //		this.searchEmployeeSkillBySkillID();
 //		this.rateSkill();
 //		this.searchEmpHobby();
-		//		this.addEmployeeHobby();
+//		this.addEmployeeHobby();
 //		boolean b = this.addEmpSkill();
 //		boolean b = this.nominateRater();
 //		this.addHobby();
@@ -180,6 +181,15 @@ public class TestingPhoenix
 		{
 			empSkill = empSkillList.get(i);
 			System.out.println("searchEmp"+empSkill.getEmployeeID()+" "+empSkill.getRaterID()+" "+empSkill.getEmpSkillID()+" "+loginSession.getErrorMsg());
+		}
+	}
+	public void searchEmployeeSkillByRaterID()
+	{
+		empSkillList = loginSession.searchEmployeeSkillByRaterID("a159842");
+		for (int i = 0; i < empSkillList.size(); i++)
+		{
+			empSkill = empSkillList.get(i);
+			System.out.println("searchEmp"+empSkill.getEmployeeID()+" "+empSkill.getRaterID()+" "+empSkill.getEmpSkillID());
 		}
 	}
 	public void addEmployeeHobby()

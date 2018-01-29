@@ -378,6 +378,27 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
 		return employeeSkillList;
 	}	
+	public ArrayList<EmployeeSkill> searchEmployeeSkillByRaterID(String raterID)
+	{
+		if(raterID==null)
+		{
+			return null;
+		}
+		
+		this.writeOutMessage("searchEmployeeSkillByRaterID");
+		this.writeOutMessage(raterID);
+		ArrayList<EmployeeSkill> employeeSkillList = new ArrayList<EmployeeSkill>();
+		try
+		{
+			employeeSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
+		return employeeSkillList;
+	}	
 
 	public boolean addEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{

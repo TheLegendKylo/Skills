@@ -13,6 +13,9 @@ public class EmpSkillCommonMethods
 	
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
+		System.out.println("**********************************************************/n"
+				+ "Into getEmpSkillAverage");
+
 		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
 		"Number of ratings"};
 		int counter = 0;
@@ -26,7 +29,6 @@ public class EmpSkillCommonMethods
 		int ratingCount = 0;
 		double averageRating = 0;
 		int skillIDCheck = 0;
-		
 		
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -109,6 +111,8 @@ public class EmpSkillCommonMethods
 				skillsRow[i][2] = nominateeAveRating[i];
 				skillsRow[i][3] = numberOfRatings[i];
 		}
+		System.out.println("**********************************************************");
+		System.out.println("**********************************************************");
 		
 		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader);
 		return empSkillModel;

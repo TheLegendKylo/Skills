@@ -188,9 +188,27 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		contentsOfTable.setBounds(250, 131, 451, 14);
 		add(contentsOfTable);
 		
+<<<<<<< HEAD
 		scrollHobby = new JScrollPane();
 		scrollHobby.setBounds(791, 352, 84, 158);
 		add(scrollHobby);
+=======
+		scrollPane_Skills = new JScrollPane();
+		scrollPane_Skills.setBounds(71, 353, 451, 158);
+		add(scrollPane_Skills);
+		
+		individualSkillsModel = new DefaultTableModel();
+		Object[] modelHeader = new String[]{"Skill","Your Ave Rating","Nominated Average","Number of ratings"};
+		individualSkillsModel.setColumnIdentifiers(modelHeader);
+
+		individualSkillsTable = new JTable(individualSkillsModel);
+		scrollPane_Skills.setViewportView(individualSkillsTable);
+		
+		scrollPane_Hobby = new JScrollPane();
+		scrollPane_Hobby.setBounds(761, 353, 128, 158);
+		add(scrollPane_Hobby);
+		
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 		hobbyJlist = new JList(vectHobby);
 		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
@@ -499,17 +517,71 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 //		     build JTable of selected employee's skills	
 			
 			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
+<<<<<<< HEAD
 			if(individualEmpSkillList.size()<1)
 			{
 // display "no skills for selected employee"				
 			}
+=======
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
+<<<<<<< HEAD
 			scrollIndividualSkills.remove(individualSkillsTable);
 			individualSkillsTable = new JTable(individualSkillsModel);
 			scrollIndividualSkills.setViewportView(individualSkillsTable);			
 			individualSkillsModel.fireTableDataChanged(); 
 			this.repaint();
 		} //  end of empBut
+=======
+			scrollPane_Skills.remove(individualSkillsTable);
+			individualSkillsTable = new JTable(individualSkillsModel);
+			scrollPane_Skills.setViewportView(individualSkillsTable);
+			individualSkillsModel.fireTableDataChanged();
+			this.repaint();
+			
+			
+//			vectSkill = new Vector<String>();
+//			for(int i = 0 ; i < individualEmpSkillList.size() ; i++)
+//			{
+//				for(int j = 0;j < skillList.size();j++)
+//				{
+//					if (individualEmpSkillList.get(i).getSkillID() == skillList.get(j).getSkillId())
+//					{
+//						vectSkill.addElement(skillList.get(j).getSkillDescription());
+//					}
+//				}
+//			}
+//			
+//			Collections.sort(vectSkill);
+//			String compareSkill = vectSkill.firstElement();
+//System.out.println("searchmenu compareSkill = " + compareSkill);
+//			for(int i = 0 ; i < vectSkill.size() ; i++)
+//			{
+//System.out.println("searchmenu compareSkill = compare = " + compareSkill + " " + vectSkill.elementAt(i));
+//				if((vectSkill.elementAt(i).equals(compareSkill)) )
+//				{
+//System.out.println("searchmenu compareSkill before continue");
+//					continue;
+//				}
+//System.out.println("searchmenu compareSkill after continue");
+//				vectTabSkill.addElement(compareSkill);
+//				compareSkill = vectSkill.elementAt(i);
+//			}
+//			if(! (vectTabSkill.lastElement().equals(compareSkill) ) )
+//			{
+//				vectTabSkill.addElement(compareSkill);
+//			}
+//			
+//			if(individualEmpSkillList.size() < 1)
+//			{
+//				vectSkill.addElement("No skills loaded for this employee");
+//			}
+//System.out.println("searchmenu - indivskill - vect = " + vectSkill.size() + " " +vectSkill.elementAt(0));
+//			individualSkillListLab.setVisible(true);	
+//			skillJlist.setListData(vectSkill);
+//			skillJlist.updateUI();	
+		}
+>>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 		
 
 		
