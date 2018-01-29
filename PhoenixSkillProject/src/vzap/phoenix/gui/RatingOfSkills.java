@@ -18,11 +18,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +35,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.JScrollPane;
 import java.awt.ComponentOrientation;
 
-public class RatingOfSkills extends JPanel implements MouseListener
+
+public class RatingOfSkills extends JPanel implements MouseListener, ActionListener
 {
 	private Employee loggedOnEmployee;
 	private EmpSkillClientController clientControl;
@@ -53,6 +58,10 @@ public class RatingOfSkills extends JPanel implements MouseListener
 	private String[] tableHeader;
 	private JTable ratingTable;
 	private DefaultTableModel ratingModel;
+	private ArrayList<Employee> employeeList;
+	private EmployeeSkill selectedEmpSkill;
+	private ArrayList<Short> capListArray =null;
+	
 
 	/**
 	 * Create the panel.
@@ -65,6 +74,8 @@ public class RatingOfSkills extends JPanel implements MouseListener
 		this.clientControl=clientControl;
 		employeeSkillList = clientControl.getOutstandingRatings();
 		setLayout(null);
+		employeeList = new ArrayList<Employee>();
+		
 		
 		lblRatingOfSkills = new JLabel("Rate Skills");
 		lblRatingOfSkills.setBounds(317, 10, 79, 14);
@@ -95,6 +106,8 @@ public class RatingOfSkills extends JPanel implements MouseListener
 		scrollPaneTop.setBounds(10, 5, 621, 154);
 		panelTop.add(scrollPaneTop);
 		tableTop.addMouseListener(this);
+	
+//		outstandingModel.addTableModelListener(this);
 		
 //		scrollPane.setViewportView(tableTop);
 
@@ -120,6 +133,7 @@ public class RatingOfSkills extends JPanel implements MouseListener
 		btnSubmitRating = new JButton("Submit Rating");
 		btnSubmitRating.setBounds(299, 523, 116, 23);
 		add(btnSubmitRating);
+		btnSubmitRating.addActionListener(this);
 		
 
 		capList = clientControl.getCapabilityList();
@@ -265,45 +279,130 @@ System.out.println(">>>>>Are you looping her too?");
 	
 	
 
+//	@Override
+//	public void mouseClicked(MouseEvent e)
+//	{
+//		source = e.getSource();
+//		if(source == e)
+//		{
+//			System.out.println("Mouse clicked");
+//			int row = tableTop.getSelectedRow();
+//			String individualEmpID = (String)tableTop.getValueAt(row, 0);
+//			System.out.println("Mouse clicked and the empID = " + individualEmpID);
+//		}
+//		
+//	}
+//
+//	@Override
+//	public void mousePressed(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void tableChanged(TableModelEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		System.out.println("**** Table Changed ****");
+//		int rowSelected = tableTop.getSelectedRow();
+//		String individualEmpID = (String)tableTop.getValueAt(rowSelected, 0);
+//		individualEmp = clientControl.searchEmployee(individualEmpID);
+//		System.out.println("The individual Employee = " + individualEmpID);
+//		
+//	}
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		source = e.getSource();
-		if(source == e)
+		System.out.println("*****Mouse Clicked*****");
+		int rowSelected = tableTop.getSelectedRow();
+		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
+		String empName = (String)tableTop.getModel().getValueAt(rowSelected, 1);
+		String skillName = (String)tableTop.getModel().getValueAt(rowSelected, 2);
+		
+		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			System.out.println("Mouse clicked");
-			int row = tableTop.getSelectedRow();
-			String individualEmpID = (String)tableTop.getValueAt(row, 0);
-			System.out.println("Mouse clicked and the empID = " + individualEmpID);
+			if(employeeSkillList.get(i).getEmployeeID() == empID)
+			{
+				selectedEmpSkill = employeeSkillList.get(i);
+			}
+		
+		
+	////	lblMessageIdentifier.setText("You are rating " + name + " " + surname + "'s " + skillName +
+	//					" skill.");
+	//		
 		}
 		
+		
+		
+		
 	}
-
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object source = e.getSource();
+		
+		if (source == btnSubmitRating)
+		{
+			capListArray = new ArrayList<Short>();
+			ArrayList<Short>ratingArray = new ArrayList<Short>();
+			
+			for (int i = 0; i < tableRow.length; i++)
+			{
+				capListArray.add(capList.get(i).getID());
+				ratingArray.add((Short)ratingModel.getValueAt(i, 1));
+				
+			}
+			selectedEmpSkill.setCapabilityList(capListArray);
+			selectedEmpSkill.setRatingList(ratingArray);
+			clientControl.rateEmployeeSkill(selectedEmpSkill);
+			
+			
+		}
 		
 	}
 }
