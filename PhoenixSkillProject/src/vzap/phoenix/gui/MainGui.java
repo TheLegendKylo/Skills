@@ -216,21 +216,9 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		searchMenu = new SearchMenu(clientControl);
 		tabbedPane.addTab("SEARCH", null, searchMenu, null);
 		
-<<<<<<< HEAD
 		//addd the clientControl here 
 //		ratingNom = new RatingNomination();
 //		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
-=======
-//		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-//		btnMainExit = new JButton("Exit");
-//		btnMainExit.setBounds(10, 711, 209, 25);
-//		btnMainExit.addActionListener(this);
-//		add(btnMainExit);
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
-		tabbedPane.addTab("SEARCH", null, searchMenuTab, null);
->>>>>>> branch 'master' of https://github.com/TheLegendKylo/Skills.git
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(859, 713, 209, 25);
