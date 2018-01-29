@@ -390,7 +390,7 @@ System.out.println(">>>>>Are you looping her too?");
 		{
 			capListArray = new ArrayList<Short>();
 			ArrayList<Short>ratingArray = new ArrayList<Short>();
-			
+			//comment
 			for (int i = 0; i < tableRow.length; i++)
 			{
 				capListArray.add(capList.get(i).getID());
