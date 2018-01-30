@@ -105,10 +105,6 @@ System.out.println("empControl = before call to EmployeeDAO");
 	{
 		return this.addEmployeeSkill(addEmployeeSkill);
 	}
-	public boolean updateRatingStatus(int skillID, String raterID)
-	{
-		return empSkillDAO.updateRatingStatus(skillID, raterID);
-	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
 		this.errorCode = 0;

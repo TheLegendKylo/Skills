@@ -371,30 +371,6 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		}
 		return this.errorCode;
 	}
-	public boolean updateRatingStatus(int skillID, String raterID )
-	{
-		this.errorCode = 0;
-		String comment = null;
-		comment = "User deactivated";
-		PreparedStatement ps = null;
-		System.out.println("Into SQL query");
-		try
-		{
-			ps = dbCon.prepareStatement("update EmployeeSkills set status = 9,comment = ? where skillID = ? and raterid = ? and status = 0");
-			ps.setString(1, comment);
-			ps.setInt(2, skillID);
-			ps.setString(3, raterID);
-			ps.executeUpdate();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			this.errorCode = 9;
-			this.errorMsg = "Employee Skill: Delete statement failed for EmpSkillID: "+ skillID;
-			return false;
-		}
-		return true;
-	}
 	public short getErrorCode()
 	{
 		return this.errorCode;
