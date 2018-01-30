@@ -116,20 +116,20 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nomineelbl = new JLabel("Rater/Nominee");
 		nomineelbl.setFont(new Font("Arial", Font.PLAIN, 14));
-		nomineelbl.setBounds(160, 247, 125, 16);
+		nomineelbl.setBounds(160, 233, 125, 16);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
 		scrollPane.setBounds(10, 110, 535, 112);
 		add(scrollPane);
 		
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(163, 629, 89, 23);
+		btnSubmit = new JButton("Submit Raters");
+		btnSubmit.setBounds(10, 417, 106, 22);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 274, 85, 22);
+		raterIDJTF.setBounds(109, 261, 85, 22);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
@@ -144,7 +144,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empSearchJTF.setColumns(10);
 		
 		btnAdd = new JButton("ADD");
-		btnAdd.setBounds(10, 273, 89, 23);
+		btnAdd.setBounds(10, 260, 89, 23);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
@@ -164,7 +164,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		nominateScrollPane.setBounds(10, 324, 535, 112);
+		nominateScrollPane.setBounds(10, 294, 535, 112);
 		add(nominateScrollPane);
 
 		
@@ -172,7 +172,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		raterName = new JTextField();
 		raterName.setColumns(10);
-		raterName.setBounds(204, 274, 146, 22);
+		raterName.setBounds(204, 261, 146, 22);
 		add(raterName);
 		
 		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill"};
@@ -185,13 +185,13 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 
 		outstandingRatesScrollP = new JScrollPane(outstandingRatesTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		outstandingRatesScrollP.setBounds(10, 481, 535, 112);
+		outstandingRatesScrollP.setBounds(10, 506, 535, 112);
 		add(outstandingRatesScrollP);
 		outstandingRatesScrollP.setViewportView(outstandingRatesTable);
 		
 		JLabel lblOutStandingNomination = new JLabel("Outstanding Norminations");
 		lblOutStandingNomination.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblOutStandingNomination.setBounds(10, 447, 184, 23);
+		lblOutStandingNomination.setBounds(10, 472, 184, 23);
 		add(lblOutStandingNomination);
 		
 		empOutSkillList = new ArrayList<EmployeeSkill>();
@@ -286,7 +286,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         {
 			if(raterIDJTF.getText() == null && raterName.getText() == null)
 			{
-				JOptionPane.showMessageDialog(this,"Rater cannot be null, Please select a rater from the search list");
+				JOptionPane.showMessageDialog(this,"Rater/Nominee cannot be blank, Please select a rater from the search list");
                 return;
 			}
 			else
