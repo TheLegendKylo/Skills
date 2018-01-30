@@ -536,6 +536,33 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		}
 		return empSkillList;
 	}
+	public boolean updateRatingStatus(int skillID, String raterID)
+	{
+		this.writeOutMessage("updateRating");
+		this.writeOutMessage(raterID);
+		try
+		{
+			oos.writeObject(new Integer(skillID));
+			oos.flush();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean updateSuccessfull = false;
+System.out.println("Client: waiting for server");
+		try
+		{
+			updateSuccessfull = (boolean)ois.readObject();
+System.out.println("Client: after read from server: "+updateSuccessfull);
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return updateSuccessfull;
+	}
 	public ArrayList<Employee> searchEmployeeHobby(short hobbyID)
 	{
 		if(hobbyID==0)

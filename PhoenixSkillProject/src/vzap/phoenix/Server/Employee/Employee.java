@@ -93,7 +93,7 @@ public class Employee implements Serializable
 	@Override
 	public String toString()
 	{
-		return "Employee kyle [employeeID=" + employeeID + ", surname=" + surname + ", firstName=" + firstName
+		return "Employee [employeeID=" + employeeID + ", surname=" + surname + ", firstName=" + firstName
 				+ ", cellNumber=" + cellNumber + ", email=" + email + ", alias=" + alias + ", password=" + password
 				+ ", hobbyID=" + empHobbyList + "]";
 	}

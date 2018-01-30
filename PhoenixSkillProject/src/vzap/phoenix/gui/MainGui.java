@@ -95,7 +95,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				}
 			}
 		}
-			
 //		end my added code
 		setLayout(null);
 		
@@ -327,7 +326,14 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 					existingHobby = true;
 					vectHobby.add(addHobbyValue);
 					empHobby.add(allHobby.get(j).getHobbyID());
+					
+					//added loop for testing purposes
+					for(int i=0;i< empHobby.size();i++)
+					{
+						System.out.println(" existing employee hoobbbbyyyy : " + empHobby.get(i));
+					}
 					emp.setEmpHobbies(empHobby);
+				
 					//clientControl.updateEmployee(emp);	
 					btnUpdateEmployee.doClick();
 					break;
@@ -339,6 +345,12 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				//adding a hobby that does'nt exist in the current users profile.
 				empHobby.add(hobbyiddddd);
 				emp.setEmpHobbies(empHobby);
+				
+				//added loop for testing purposes
+				for(int i=0;i< empHobby.size();i++)
+				{
+					System.out.println("new employee hoobbbbyyyy : " + empHobby.get(i));
+				}
 				btnUpdateEmployee.doClick();
 				//clientControl.updateEmployee(emp);
 				vectHobby.addElement(addHobbyValue);
