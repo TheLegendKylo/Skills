@@ -319,8 +319,13 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                 	if(empSkillList.get(z).getRaterID().equals(outstandingRatesTable.getValueAt(row, 0)) && 
                 		empSkillList.get(z).getSkillID() ==  skillID)
                 	{
+                		System.out.println("Rater ID : = " + empSkillList.get(z).getRaterID() 
+                							+ " SkillID : " + skillID + 
+                							" Status Array : " + empSkillList.get(z).getStatus() );
+                		
                 		empSkillList.get(z).setStatus((short) 9);
                 		boolean success = clientControl.updateEmployeeSkill(empSkillList.get(z));
+                		System.out.println(" success : " + success);
                 	}
                 }
              
