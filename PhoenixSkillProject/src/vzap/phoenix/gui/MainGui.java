@@ -69,7 +69,7 @@ public class MainGui extends JPanel implements ActionListener
 	private RatingNomination ratingNom = null;
 	private boolean hobbyChange = false;
 	/**
-	 * 
+	 * ...
 	 * Create the panel.
 	 */
 	public MainGui(JPanel basePanel, boolean newUser,Employee emp,EmpSkillClientController clientControl)
