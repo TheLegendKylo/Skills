@@ -214,8 +214,8 @@ public class MainGui extends JPanel implements ActionListener
 		
 		
 //		add the clientControl here 
-//		ratingNom = new RatingNomination();
-//		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
+		ratingNom = new RatingNomination(clientControl);
+		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(606, 717, 209, 25);
