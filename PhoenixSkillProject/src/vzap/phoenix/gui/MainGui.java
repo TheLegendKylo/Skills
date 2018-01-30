@@ -95,7 +95,6 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				}
 			}
 		}
-			
 //		end my added code
 		setLayout(null);
 		
