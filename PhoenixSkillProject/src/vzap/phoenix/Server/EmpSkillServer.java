@@ -58,6 +58,7 @@ public class EmpSkillServer
 		private String inMessage = null;
 		
 		private Employee employee = null;
+		private Employee updateEmployee = null;
 		private EmployeeController empControl;
 		private Thread thread = null;
 		
@@ -428,10 +429,19 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 		}
 		public void updateEmployee()
 		{
-			employee = new Employee();
+			updateEmployee = null;
+			ArrayList<Short> hobbyIDList = new ArrayList<Short>(); 
 			try
 			{
-				employee = (Employee)ois.readObject();
+				updateEmployee = (Employee)ois.readObject();
+				int hobbyCount = (Integer)ois.readObject();
+				System.out.println("Server: Update Employee - hobby count Field: "+hobbyCount);			
+				for (int i = 0; i < hobbyCount; i++)
+				{
+					hobbyIDList.add((Short)ois.readObject());
+				}
+				System.out.println("Server: Update Employee - hobbyIDList.size: "+hobbyIDList.size());			
+				updateEmployee.setEmpHobbies(hobbyIDList);
 			} catch (ClassNotFoundException e)
 			{
 				// TODO Auto-generated catch block
@@ -441,14 +451,12 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			boolean updateSuccess = empControl.updateEmployee(employee);
-System.out.println("Server: after empControl call");
+			System.out.println("Server: Update Employee - hobby count: "+updateEmployee.getEmpHobbies().size());			
+			boolean updateSuccess = empControl.updateEmployee(updateEmployee);
 			try
 			{
 				oos.writeObject(new Boolean(updateSuccess));
 				oos.flush();
-System.out.println("Server: after flush");
 			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
