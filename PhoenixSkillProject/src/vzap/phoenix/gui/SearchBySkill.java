@@ -91,7 +91,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		clearBut.addActionListener(this);
 		clearBut.setBounds(460, 95, 89, 23);
 		add(clearBut);
-		
+	//	
 
 	}
 
