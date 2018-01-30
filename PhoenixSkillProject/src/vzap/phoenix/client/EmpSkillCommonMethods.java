@@ -198,6 +198,7 @@ public class EmpSkillCommonMethods
 					}
 				}
 			}
+			
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
 			
