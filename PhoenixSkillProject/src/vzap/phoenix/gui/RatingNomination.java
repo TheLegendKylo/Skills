@@ -8,9 +8,11 @@ import javax.swing.table.TableColumn;
 
 import vzap.phoenix.DAO.EmployeeSkillDAO;
 import vzap.phoenix.DAO.SkillDAO;import vzap.phoenix.Server.Employee.Employee;
+import vzap.phoenix.Server.Employee.EmployeeController;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClient;
+import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,8 +40,7 @@ import javax.swing.table.TableModel;
 public class RatingNomination extends JPanel implements ActionListener, MouseListener
 {
 	private JLabel selectRaterlbl;
-	private JButton btnOutRatings;
-	private JButton btnDeleteSkill;
+	private JButton btnDeleteNomination;
 	private JLabel nomineelbl;
 	private JTextField raterIDJTF;
 	private JTable selectTable, nominateTable;
@@ -48,7 +49,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private Vector<String> comboSkill; 
 	private Vector<Integer> selectedSkill;
 	private Vector<String> comboRaters;
-	private ArrayList<EmployeeSkill> empSkillList;
+	private ArrayList<EmployeeSkill> empSkillList,empOutSkillList;
 	private EmpSkillClient empSkillClient;
 	private String [] skillHeader;
 	private ArrayList<Employee> empList;
@@ -57,15 +58,19 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private JTextField empSearchJTF;
 	private JButton btnAdd;
 	private Object[] empHeader,empRow;
-	private DefaultTableModel selectModel, nominateModel;
-	private String[] nominateHeader;
-	private Object[] nominateRow;
+	private DefaultTableModel selectModel, nominateModel, outstandingModel;
+	private String[] nominateHeader, outStandingHeader;
+	private Object[] nominateRow, outStandingRow;
 	private JButton btnSearch;
 	private int row;
 	private EmployeeSkill employeeSkill;
 	private Employee loggedOnEmployee;
 	private JTable table_1;
 	private JTextField raterName;
+	private JScrollPane outstandingRatesScrollP;
+	private JTable outstandingRatesTable;
+	private EmpSkillClientController overdueRatings;
+	private EmployeeController clientControl;
 
 
 	/**
@@ -77,12 +82,10 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		empSkillClient = new EmpSkillClient();
 		employeeSkill = new EmployeeSkill();
-        empSkillClient.loginEmployee("A159842","1234");
-        System.out.println("RatingNomination - back from loginEmployee ");
-		loggedOnEmployee = empSkillClient.getLogonEmployee();
+        empSkillClient.loginEmployee("A119685","1234");
+ 		loggedOnEmployee = empSkillClient.getLogonEmployee();
 		empSkillList = empSkillClient.getEmpSkillList();
 		skillList = empSkillClient.getSkillList();
-        System.out.println("RatingNomination - skillList size - " + empSkillList.size());
         comboSkill = new Vector<>();
         for(int i = 0 ; i < empSkillList.size() ; i++)
         {
@@ -90,7 +93,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
             {
             	if(skillList.get(j).getSkillId() == empSkillList.get(i).getSkillID())
             	{
-            		comboSkill.add(skillList.get(j).getSkillDescription());            		
+            		comboSkill.add(skillList.get(j).getSkillDescription());  
             	}
             }
         }
@@ -111,40 +114,35 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nomineelbl = new JLabel("Rater/Nominee");
 		nomineelbl.setFont(new Font("Arial", Font.PLAIN, 14));
-		nomineelbl.setBounds(160, 121, 125, 16);
+		nomineelbl.setBounds(160, 247, 125, 16);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
-		scrollPane.setBounds(10, 528, 535, 112);
+		scrollPane.setBounds(10, 110, 535, 112);
 		add(scrollPane);
 		
 		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(163, 651, 89, 23);
+		btnSubmit.setBounds(163, 629, 89, 23);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
-		btnOutRatings = new JButton("List Outstanding Ratings");
-		btnOutRatings.setBounds(10, 331, 184, 23);
-		add(btnOutRatings);
-		btnOutRatings.addActionListener(this);
-		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 148, 85, 20);
+		raterIDJTF.setBounds(109, 274, 85, 20);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
-		btnDeleteSkill = new JButton("Delete nomination");
-		btnDeleteSkill.setBounds(10, 651, 142, 23);
-		add(btnDeleteSkill);
-		btnDeleteSkill.addActionListener(this);
+		btnDeleteNomination = new JButton("Delete nomination");
+		btnDeleteNomination.setBounds(10, 629, 142, 23);
+		add(btnDeleteNomination);
+		btnDeleteNomination.addActionListener(this);
 		
 		empSearchJTF = new JTextField();
 		empSearchJTF.setBounds(109, 67, 211, 20);
 		add(empSearchJTF);
 		empSearchJTF.setColumns(10);
 		
-		btnAdd = new JButton("ADD:");
-		btnAdd.setBounds(10, 147, 89, 23);
+		btnAdd = new JButton("ADD");
+		btnAdd.setBounds(10, 273, 89, 23);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
@@ -164,7 +162,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		nominateScrollPane.setBounds(10, 192, 535, 112);
+		nominateScrollPane.setBounds(10, 324, 535, 112);
 		add(nominateScrollPane);
 
 		
@@ -172,8 +170,65 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		raterName = new JTextField();
 		raterName.setColumns(10);
-		raterName.setBounds(204, 148, 146, 20);
+		raterName.setBounds(204, 274, 146, 20);
 		add(raterName);
+		
+		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill"};
+		outStandingRow = new Object [3];
+		outstandingModel = new DefaultTableModel();
+		outstandingModel.setColumnIdentifiers(outStandingHeader);
+		
+		outstandingRatesTable = new JTable(outstandingModel);
+
+
+		outstandingRatesScrollP = new JScrollPane(outstandingRatesTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		outstandingRatesScrollP.setBounds(10, 481, 535, 112);
+		add(outstandingRatesScrollP);
+		outstandingRatesScrollP.setViewportView(outstandingRatesTable);
+		
+		JLabel lblOutStandingNomination = new JLabel("Outstanding Norminations");
+		lblOutStandingNomination.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblOutStandingNomination.setBounds(10, 447, 184, 23);
+		add(lblOutStandingNomination);
+		
+		empOutSkillList = new ArrayList<EmployeeSkill>();
+		overdueRatings = new EmpSkillClientController();
+		empList = new ArrayList<Employee>();
+		clientControl = new EmployeeController("A119685", "1234");
+		for (int i = 0; i < empSkillList.size(); i++)
+		{
+			if(empSkillList.get(i).getStatus()==0)
+			{
+				empOutSkillList.add(empSkillList.get(i));
+				System.out.println("XXXXX value after deleting list= " + empSkillList.get(i));
+			}
+		}
+
+		outStandingRow = new Object[3];
+
+        for(int i = 0 ; i < empOutSkillList.size() ; i++)
+        {
+            System.out.println("into first loop = " + i);
+        	empList = clientControl.searchEmployee((String) empOutSkillList.get(i).getRaterID());
+        	for(int j = 0; j < empList.size(); j++)        
+            {
+        		if(empList.get(j).getEmployeeID().equals(empOutSkillList.get(i).getRaterID()) )
+            	{
+                    outStandingRow[0] = empOutSkillList.get(i).getRaterID();
+                    outStandingRow[1] = empList.get(j).getSurname() + ", " + empList.get(j).getFirstName();
+                    
+                    for(int k = 0; k < skillList.size(); k++)
+                    {
+                    	if(skillList.get(k).getSkillId() == (empOutSkillList.get(i).getSkillID()))
+                    	{
+                    		outStandingRow[2] = skillList.get(k).getSkillDescription();            		
+                    	}
+                    }
+            	}
+        		outstandingModel.addRow(outStandingRow);  
+            }
+        }
 	}
 
 	@Override
@@ -204,6 +259,14 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			Date createdDate = new Date();
 			employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
 			boolean success = empSkillClient.nominateRater(employeeSkill);
+			//clear input fields
+			raterIDJTF.setText("");
+			raterName.setText("");
+			for(int r = 0; r < nominateModel.getRowCount(); r++)
+			{
+				nominateModel.removeRow(r);
+			}
+			
 		}
 					
 		}
@@ -212,6 +275,46 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			nominateRow[0]= raterIDJTF.getText();
 			nominateRow[1]= raterName.getText();
 			nominateModel.addRow(nominateRow);
+
+        }
+		if(source == btnDeleteNomination)
+        {
+            int row = outstandingRatesTable.getSelectedRow();
+            System.out.println("row = " + row);
+            if (row <0)
+            {
+                        JOptionPane.showMessageDialog(this,"Please select a row from the Oustanding Ratings table");
+                        return;
+            }
+            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 0));
+            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 1));
+            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 2));
+            
+            String raterID = (String) outstandingRatesTable.getValueAt(row, 0);
+            System.out.println("String Value is = " + (String) outstandingRatesTable.getValueAt(row, 0));
+            int skillID = 0;
+                for(int j = 0; j < skillList.size(); j++)
+                {
+                	
+                	if(skillList.get(j).getSkillDescription().equals(outstandingRatesTable.getValueAt(row, 2)))
+                	{
+                		skillID = skillList.get(j).getSkillId();  
+                		System.out.println("Value skillid = " + skillID);
+                		System.out.println("Descr1 = " + skillList.get(j).getSkillDescription() +"= "+ outstandingRatesTable.getValueAt(row, 2));
+                	}
+                }
+             
+            boolean success = clientControl.updateRatingStatus(skillID, raterID);
+            
+            //get your userid / relevant info
+            //call database with info and do as you wish.
+            
+            //ensure the row value is initialised once you done.
+            
+            
+            //deleting something 
+            outstandingModel.removeRow(row);
+
 
         }
 		if(source == btnSearch)
