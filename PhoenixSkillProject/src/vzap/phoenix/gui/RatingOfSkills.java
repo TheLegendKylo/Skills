@@ -1,6 +1,7 @@
 package vzap.phoenix.gui;
 //Comment
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import vzap.phoenix.Server.Employee.Capability;
@@ -121,6 +122,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnCannotRate.setBounds(299, 205, 116, 23);
 		btnCannotRate.setToolTipText("Select if you are unable to offer a rating for an employee request");
 		add(btnCannotRate);
+		btnCannotRate.addActionListener(this);
+		btnCannotRate.setEnabled(false);
 		
 		panelBottom = new JPanel();
 		panelBottom.setBounds(-24, 267, 763, 234);
@@ -138,6 +141,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnSubmitRating.setBounds(299, 523, 116, 23);
 		add(btnSubmitRating);
 		btnSubmitRating.addActionListener(this);
+		btnSubmitRating.setEnabled(false);
 		
 
 		capList = clientControl.getCapabilityList();
@@ -152,6 +156,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
        }
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
 	    ratingTable = new JTable(new MyTableModel());
+	    ratingTable.setEnabled(false);
 	    ratingArray = new short[7];
 	    TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
 		this.initColumnSizes(ratingTable);
@@ -270,7 +275,19 @@ System.out.println(">>>>>Are you looping her too?");
    	   		tableRow[row][2] = desc;
    	   		ratingArray[row] = (short)selRating;
    	        fireTableCellUpdated(row, 2);
+   	        boolean enableSubmitBtn = true;
+   	        for (int i = 0; i < ratingArray.length; i++)
+			{
+				if(ratingArray[i] == 0)
+				{
+					enableSubmitBtn = false;
+				}
+			}
    	        this.isCellEditable(row, 2);
+   	        if(enableSubmitBtn = true)
+   	        {
+   	        	btnSubmitRating.setEnabled(true);
+   	        }
    	    }
         public final Object[] longValues = {"Purposeful Collaboration", "Select rating...",
                 "Straightforward tasks likely to be completed to an acceptable standard",
@@ -313,6 +330,8 @@ System.out.println("empID: "+empID);
 			{
 				selectedEmpSkill = outstandingRatersList.get(i);
 				System.out.println("selectedEmpSkill: "+selectedEmpSkill);
+				ratingTable.setEnabled(true);
+				btnCannotRate.setEnabled(true);
 			}
 		
 		}
@@ -374,6 +393,17 @@ System.out.println("empID: "+empID);
 			clientControl.rateEmployeeSkill(selectedEmpSkill);
 			
 			
+			
+		}
+		
+		if (source == btnCannotRate)
+		{
+			System.out.println("Cannot Rate button was pressed");
+			selectedEmpSkill.setStatus((short)9);
+			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
+			selectedEmpSkill.setComment(comment);
+			boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
+			System.out.println("Printing boolean result--- = " + success);
 			
 		}
 		
