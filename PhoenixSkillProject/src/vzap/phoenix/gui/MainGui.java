@@ -211,11 +211,9 @@ public class MainGui extends JPanel implements ActionListener
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 
-		
-		
 //		add the clientControl here 
 		ratingNom = new RatingNomination(clientControl);
-		tabbedPane.addTab("Rating Nominations", null, ratingNom, null);
+		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
 		
 		btnLogoff = new JButton("Log Off");
 		btnLogoff.setBounds(606, 717, 209, 25);
@@ -317,11 +315,6 @@ public class MainGui extends JPanel implements ActionListener
 				tfAddHobby.selectAll();
 				return; 
 			}
-//			if(vectHobby.size() >= 5)
-//			{
-//				JOptionPane.showMessageDialog(this, "Oops You cannot have more than 5 hobbies captured");
-//				return;
-//			}
 			//call database to insert new hobby if successful add it to the list.
 			boolean existingHobby = false;
 			for(int j = 0;j < allHobby.size();j++)
@@ -344,6 +337,8 @@ public class MainGui extends JPanel implements ActionListener
 				
 					//clientControl.updateEmployee(emp);	
 					btnUpdateEmployee.doClick();
+					tfAddHobby.grabFocus();
+					tfAddHobby.setText("");
 					break;
 				}
 			}

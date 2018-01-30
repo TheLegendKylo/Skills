@@ -308,7 +308,7 @@ System.out.println("empID: "+empID);
 		{
 			System.out.println("empSkillList ID: " + outstandingRatersList.get(i).getEmployeeID()+ " vs +empID: "+empID);	
 			
-			if((outstandingRatersList.get(i).getEmployeeID().equals(empID))
+			if((outstandingRatersList.get(i).getEmployeeID().equalsIgnoreCase(empID))
 				&& (outstandingRatersList.get(i).getSkillID()==skillID))
 			{
 				selectedEmpSkill = outstandingRatersList.get(i);
