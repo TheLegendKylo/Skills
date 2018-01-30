@@ -540,7 +540,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
 			boolean success = empControl.rateEmployeeSkill(rateEmployeeSkill);
 			try
 			{

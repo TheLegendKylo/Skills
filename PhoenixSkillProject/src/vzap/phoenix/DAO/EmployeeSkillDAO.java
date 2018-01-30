@@ -83,10 +83,11 @@ public class EmployeeSkillDAO
 	}
 	public short rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
-System.out.println("Into rateEmployeeSkill");
+System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeID()+" "+rateEmployeeSkill.getEmpSkillID());
 		int updateCount=0, ratingsCount=0;
-		if(!(rateEmployeeSkill.getCapabilityList()==null))
+		if(rateEmployeeSkill.getCapabilityList()==null)
 		{
+			System.out.println("Get capabilityList = null");
 			this.errorCode = 1; //No rating data provided
 			this.errorMsg = "Rate Employee: Rating information is required for: "+rateEmployeeSkill.getEmpSkillID();
 			return this.errorCode;
@@ -99,7 +100,7 @@ System.out.println("Into rateEmployeeSkill");
 					+"where empSkillID=?");
 			java.sql.Date ratedDate = new java.sql.Date(rateEmployeeSkill.getRatedDate().getTime());
 			ps.setDate(1,  ratedDate);
-			ps.setShort(2, rateEmployeeSkill.getStatus());
+			ps.setShort(2, (short)1);
 			ps.setShort(3, rateEmployeeSkill.getEmpSkillID());
 			updateCount = ps.executeUpdate();
 			System.out.println("calling this.addEmployeeSkillRating");
