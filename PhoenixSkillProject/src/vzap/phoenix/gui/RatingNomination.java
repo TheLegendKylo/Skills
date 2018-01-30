@@ -252,6 +252,14 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			{
 				System.out.println("Into the Submit buitton loop = " + nominateModel.getValueAt(i, 0));
 				System.out.println("Print logged on employee = " + loggedOnEmployee.getEmployeeID());
+	            if (nominateTable.getValueAt(i, 2) == null)
+	            {
+	                        JOptionPane.showMessageDialog(this,"Please select a Skill from the Nomination table");
+	                        return;
+	            }
+	            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 0));
+
+				
 				//change to new employee skill as opposed to a set method
 				String employeeID = loggedOnEmployee.getEmployeeID();
 				int skillId = 0;
@@ -276,10 +284,17 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		}
 		if(source == btnAdd)
         {
+			if(raterIDJTF.getText() == null && raterName.getText() == null)
+			{
+				JOptionPane.showMessageDialog(this,"Rater cannot be null, Please select a rater from the search list");
+                return;
+			}
+			else
+			{
 			nominateRow[0]= raterIDJTF.getText();
 			nominateRow[1]= raterName.getText();
 			nominateModel.addRow(nominateRow);
-
+			}
         }
 		if(source == btnDeleteNomination)
         {
