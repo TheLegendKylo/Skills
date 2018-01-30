@@ -293,6 +293,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			int skillID = rs.getInt("skillId");
 			String raterID = rs.getString("raterID");
 			String coachingAvailability = rs.getString("coachingAvailability");
+			short status = rs.getShort("status");
 			String comment = rs.getString("comment");
 			Date ratedDate = rs.getDate("ratedDate");
 			Date createDate = rs.getDate("createdDate");
@@ -301,6 +302,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			int idx = empSkillList.size()-1;
 			empSkillList.get(idx).setEmpSkillID(empSkillID);
 			empSkillList.get(idx).setCoachingAvailability(coachingAvailability);
+			empSkillList.get(idx).setStatus(status);
 			empSkillList.get(idx).setComment(comment);
 			empSkillList.get(idx).setRatedDate(ratedDate);
 			this.getEmpSkillRating(empSkillID, idx);
@@ -368,6 +370,30 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			return this.errorCode;
 		}
 		return this.errorCode;
+	}
+	public boolean updateRatingStatus(int skillID, String raterID )
+	{
+		this.errorCode = 0;
+		String comment = null;
+		comment = "User deactivated";
+		PreparedStatement ps = null;
+		System.out.println("Into SQL query");
+		try
+		{
+			ps = dbCon.prepareStatement("update EmployeeSkills set status = 9,comment = ? where skillID = ? and raterid = ? and status = 0");
+			ps.setString(1, comment);
+			ps.setInt(2, skillID);
+			ps.setString(3, raterID);
+			ps.executeUpdate();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.errorCode = 9;
+			this.errorMsg = "Employee Skill: Delete statement failed for EmpSkillID: "+ skillID;
+			return false;
+		}
+		return true;
 	}
 	public short getErrorCode()
 	{

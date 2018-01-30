@@ -16,6 +16,7 @@ public class EmployeeDAO
 	private Connection dbCon;
 	private Employee employee;
 	private ArrayList<Employee> empList;
+	private ArrayList<Short> compareHobbyList;
 	private Vector<Hobby> hobbyList;
 	private PreparedStatement ps;
 	private String errorMsg = null;
@@ -78,7 +79,8 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 			}
 			System.out.println("Hobby result count: "+resultCount);
 			ArrayList<Short> empHobbyList= new ArrayList<Short>();
-			
+			// setup list to check for deletions
+			compareHobbyList = empHobbyList; 
 			while(rs.next())
 			{
 				int j=0;
@@ -146,7 +148,8 @@ System.out.println("before prepare Statement");
 			if(!(empHobbyList==null))
 			{
 System.out.println("addEmpHobby");
-				updSuccess = this.addEmpHobby(empHobbyList);
+				updSuccess = this.checkForNewHobbies(employee, empHobbyList);
+				updSuccess = this.checkForDeletedHobbies(employee, empHobbyList);
 			}
 		}
 		catch (SQLException e) 
@@ -156,11 +159,12 @@ System.out.println("addEmpHobby");
 		}
 		return updSuccess;
 	}
-	public boolean addEmpHobby(ArrayList<Short> empHobbyList)
+	public boolean checkForNewHobbies(Employee employee, ArrayList<Short> empHobbyList)
 	{
+		boolean newHobbyAdded = false;
 		for (int i = 0; i < empHobbyList.size(); i++)
 		{
-			System.out.println("before check Hobby: idx "+i+"hobbyId: "+empHobbyList.get(i));
+			System.out.println("before check Hobby: idx "+i+"hobbyId: "+empHobbyList.get(i)+" of "+empHobbyList.size());
 			boolean hobbyExists = this.searchEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
 			if(hobbyExists)
 			{
@@ -173,23 +177,27 @@ System.out.println("addEmpHobby");
 				{
 					break;
 				}
-				continue;
 			}
-System.out.println("Adding new Hobby: idx "+i+"hobbyId"+empHobbyList.get(i));
-			PreparedStatement ps = null;
-			try
-			{
-				ps = dbCon.prepareStatement("insert into employeeHobby values (null, ?,?)");
-				ps.setString(1, employee.getEmployeeID());
-				ps.setShort(2, empHobbyList.get(i));
-				int resultCount = ps.executeUpdate();
-			} catch (SQLException e)
-			{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			this.errorMsg = "Employee Hobby: Select statement failed for EmployeeHobby: "+employee.getEmployeeID();
-			return false;
-			}
+			newHobbyAdded = addEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
+		}
+		return true;
+	}
+	public boolean addEmpHobby(String employeeID, short hobbyID)
+	{
+System.out.println("Adding new HobbyID: "+hobbyID);
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("insert into employeeHobby values (null, ?,?)");
+			ps.setString(1, employeeID);
+			ps.setShort(2, hobbyID);
+			int resultCount = ps.executeUpdate();
+		} catch (SQLException e)
+		{
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		this.errorMsg = "Employee Hobby: Select statement failed for EmployeeHobby: "+employee.getEmployeeID();
+		return false;
 		}
 System.out.println("Adding new Hobby - returning true");
 		return true;
@@ -209,6 +217,51 @@ System.out.println("Adding new Hobby - returning true");
 			return false;
 		}
 		return true;
+	}
+	public boolean checkForDeletedHobbies(Employee employee, ArrayList<Short> empHobbyList)
+	{
+		boolean success = false;
+		System.out.println("Into delete hobby check = compareHobbyList.size()" +compareHobbyList.size());
+		for (int i = 0; i < compareHobbyList.size(); i++)
+		{
+			System.out.println("before delete check hobbyId: "+compareHobbyList.get(i)+" of "+compareHobbyList.size());
+			boolean deleteHobby = true;
+			for (int j = 0; j < empHobbyList.size(); j++)
+			{
+				System.out.println("Compare hobbyId: "+compareHobbyList.get(i)+" to "+empHobbyList.get(j));
+				if(empHobbyList.get(j)==compareHobbyList.get(i))
+				{
+					System.out.println("do not delete hobbyId: "+compareHobbyList.get(i)+" BREAK ");
+					deleteHobby = false;
+					break;
+				}
+			}
+			if(deleteHobby)
+			{
+				System.out.println("Delete hobbyId: "+compareHobbyList.get(i));
+				success = this.deleteEmpHobby(employee.getEmployeeID(), compareHobbyList.get(i));
+			}
+		}
+		compareHobbyList = empHobbyList;
+		return true;
+	}
+	public boolean deleteEmpHobby(String employeeID, Short hobbyID)
+	{
+		try 
+		{
+			ps = dbCon.prepareStatement("delete from employeeHobby where employeeId = ? and hobbyId=?");
+			ps.setString(1,employeeID);
+			ps.setShort(2,hobbyID);
+			ps.executeUpdate();
+		}
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+		
 	}
 	public ArrayList<Employee> searchEmployee(String enteredQuery)
 	{

@@ -74,7 +74,6 @@ public class EmpSkillClient
 		this.writeOutMessage("loginEmployee");
 		this.writeOutMessage(employeeID);
 		this.writeOutMessage(password);
-		System.out.println("Login: Waiting to read");
 		try
 		{
 			inMessage = (String)ois.readObject();
@@ -84,13 +83,9 @@ public class EmpSkillClient
 			e1.printStackTrace();
 		}
 		short errorCode=0;
-System.out.println("Login Read errorMsg: "+inMessage);
 		try
 		{
-			System.out.println("Login Read above readErrorCode: "+inMessage);
 			errorCode = (Short)ois.readObject();
-//			errorCode = dis.readShort();
-			System.out.println("Login Read errorCode: "+errorCode);
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
@@ -307,9 +302,15 @@ System.out.println("Login Read errorMsg: "+inMessage);
 	public boolean updateEmployee(Employee updateEmployee)
 	{
 		this.writeOutMessage("updateEmployee");
+		System.out.println("Client: updateEmployee - No of Hobbies: "+updateEmployee.getEmpHobbies().size());
 		try
 		{
 			oos.writeObject(updateEmployee);
+			oos.writeObject(updateEmployee.getEmpHobbies().size());
+			for (int i = 0; i < updateEmployee.getEmpHobbies().size(); i++)
+			{
+				oos.writeObject(updateEmployee.getEmpHobbies().get(i));
+			}
 			oos.flush();
 		} catch (IOException e)
 		{
@@ -535,6 +536,33 @@ System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());
 			e.printStackTrace();
 		}
 		return empSkillList;
+	}
+	public boolean updateRatingStatus(int skillID, String raterID)
+	{
+		this.writeOutMessage("updateRating");
+		this.writeOutMessage(raterID);
+		try
+		{
+			oos.writeObject(new Integer(skillID));
+			oos.flush();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean updateSuccessfull = false;
+System.out.println("Client: waiting for server");
+		try
+		{
+			updateSuccessfull = (boolean)ois.readObject();
+System.out.println("Client: after read from server: "+updateSuccessfull);
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return updateSuccessfull;
 	}
 	public ArrayList<Employee> searchEmployeeHobby(short hobbyID)
 	{

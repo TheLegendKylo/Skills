@@ -116,6 +116,7 @@ public class LoginPanel extends JPanel implements ActionListener
 		lblRepeatPassword.setVisible(false);
 		
 		btnSignUp = new JButton("Sign Up");
+		btnSignUp.setBounds(649, 427, 144, 31);
 		btnSignUp.addActionListener(this);
 		add(btnSignUp);
 		

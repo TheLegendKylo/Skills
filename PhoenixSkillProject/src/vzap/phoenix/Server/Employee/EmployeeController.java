@@ -1,5 +1,6 @@
 package vzap.phoenix.Server.Employee;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -103,6 +104,10 @@ System.out.println("empControl = before call to EmployeeDAO");
 	public boolean addNominee(EmployeeSkill addEmployeeSkill)
 	{
 		return this.addEmployeeSkill(addEmployeeSkill);
+	}
+	public boolean updateRatingStatus(int skillID, String raterID)
+	{
+		return empSkillDAO.updateRatingStatus(skillID, raterID);
 	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
