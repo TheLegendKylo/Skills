@@ -224,9 +224,9 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("update EmployeeSkills set status=?,coachingAvailability=?,comment=? where empSkillId=?)");
-			ps.setString(1, updEmployeeSkill.getCoachingAvailability());
-			ps.setShort(2, updEmployeeSkill.getStatus());
+			ps = dbCon.prepareStatement("update EmployeeSkills set status=?,coachingAvailability=?,comment=? where empSkillId=?");
+			ps.setShort(1, updEmployeeSkill.getStatus());
+			ps.setString(2, updEmployeeSkill.getCoachingAvailability());
 			ps.setString(3, updEmployeeSkill.getComment());
 			ps.setShort(4, updEmployeeSkill.getEmpSkillID());
 			updateCount = ps.executeUpdate();
