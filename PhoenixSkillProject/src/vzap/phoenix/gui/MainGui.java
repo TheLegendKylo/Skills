@@ -64,9 +64,11 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 	private JComboBox comboBox;
 	private ArrayList<Short> empHobby;
 	private SearchMenu searchMenu =null;
+	private SearchBySkill searchBySkill =null;
 	private RatingNomination ratingNom = null;
 	private boolean hobbyChange = false;
 	/**
+	 * 
 	 * Create the panel.
 	 */
 	public MainGui(JPanel basePanel, boolean newUser,Employee emp,EmpSkillClientController clientControl)
@@ -207,9 +209,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		btnMainExit.setBounds(332, 717, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
+
 		
-		searchMenu = new SearchMenu(clientControl);
-		tabbedPane.addTab("SEARCH", null, searchMenu, null);
 		
 //		add the clientControl here 
 //		ratingNom = new RatingNomination();
@@ -229,6 +230,12 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		
 		RatingOfSkills ratingSkillsTab = new RatingOfSkills(clientControl);
 		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
+		
+		searchMenu = new SearchMenu(clientControl);
+		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
+		
+		searchBySkill = new SearchBySkill(clientControl);
+		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
 		
 
 	}
