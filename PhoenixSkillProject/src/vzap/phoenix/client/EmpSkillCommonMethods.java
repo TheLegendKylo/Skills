@@ -71,7 +71,7 @@ public class EmpSkillCommonMethods
 			if(employeeSkillList.get(i).getEmployeeID().equals(
 					employeeSkillList.get(i).getRaterID()))
 			{
-				yourAveRating[counter] = ( (employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0);
+				yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
 			}
 			else
 				// this record if of a nominee rating
@@ -95,7 +95,7 @@ public class EmpSkillCommonMethods
 		if(ratingCount >0)
 		{
 			System.out.println("---Nominee ID " + " counter: "+counter) ;
-			nominateeAveRating[counter]= nominateeAveRating[counter]/ratingCount;
+			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
 			ratingCount = 0;
 		}
 		
