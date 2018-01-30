@@ -123,7 +123,7 @@ System.out.println("empControl = before call to EmployeeDAO");
 		this.errorCode = 0;
 		this.errorMsg = null;
 		int responseCode = empSkillDAO.updateEmployeeSkill(updEmployeeSkill);
-		if(responseCode==0)// employeeSkill record not rated successfully
+		if(responseCode!=0)// employeeSkill record not rated successfully
 		{
 			this.errorCode = empSkillDAO.getErrorCode();
 			this.errorMsg = empSkillDAO.getErrorMsg();

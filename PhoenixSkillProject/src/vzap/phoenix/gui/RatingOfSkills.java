@@ -81,8 +81,9 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		
 		lblRatingOfSkills = new JLabel("Rate Skills");
-		lblRatingOfSkills.setBounds(317, 10, 79, 14);
+		lblRatingOfSkills.setBounds(43, 10, 627, 14);
 		add(lblRatingOfSkills);
+		lblRatingOfSkills.setHorizontalAlignment(JLabel.CENTER);
 		
 		panelTop = new JPanel();
 		panelTop.setBounds(10, 35, 694, 159);
@@ -284,58 +285,7 @@ System.out.println(">>>>>Are you looping her too?");
 	
 	
 
-//	@Override
-//	public void mouseClicked(MouseEvent e)
-//	{
-//		source = e.getSource();
-//		if(source == e)
-//		{
-//			System.out.println("Mouse clicked");
-//			int row = tableTop.getSelectedRow();
-//			String individualEmpID = (String)tableTop.getValueAt(row, 0);
-//			System.out.println("Mouse clicked and the empID = " + individualEmpID);
-//		}
-//		
-//	}
-//
-//	@Override
-//	public void mousePressed(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseReleased(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseEntered(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseExited(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	@Override
-//	public void tableChanged(TableModelEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		System.out.println("**** Table Changed ****");
-//		int rowSelected = tableTop.getSelectedRow();
-//		String individualEmpID = (String)tableTop.getValueAt(rowSelected, 0);
-//		individualEmp = clientControl.searchEmployee(individualEmpID);
-//		System.out.println("The individual Employee = " + individualEmpID);
-//		
-//	}
+
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
@@ -354,20 +304,17 @@ System.out.println(">>>>>Are you looping her too?");
 			}
 		}
 System.out.println("empID: "+empID);		
-		for (int i = 0; i < employeeSkillList.size(); i++)
+		for (int i = 0; i < outstandingRatersList.size(); i++)
 		{
-			System.out.println("empSkillList ID: "+employeeSkillList.get(i).getEmployeeID()+ " vs +empID: "+empID);		
-			if((employeeSkillList.get(i).getEmployeeID().equals(empID))
-				&& (employeeSkillList.get(i).getSkillID()==skillID))
+			System.out.println("empSkillList ID: " + outstandingRatersList.get(i).getEmployeeID()+ " vs +empID: "+empID);	
+			
+			if((outstandingRatersList.get(i).getEmployeeID().equalsIgnoreCase(empID))
+				&& (outstandingRatersList.get(i).getSkillID()==skillID))
 			{
-				selectedEmpSkill = employeeSkillList.get(i);
+				selectedEmpSkill = outstandingRatersList.get(i);
 				System.out.println("selectedEmpSkill: "+selectedEmpSkill);
 			}
 		
-		
-	////	lblMessageIdentifier.setText("You are rating " + name + " " + surname + "'s " + skillName +
-	//					" skill.");
-	//		
 		}
 		
 		
@@ -407,11 +354,13 @@ System.out.println("empID: "+empID);
 		{
 			capListArray = new ArrayList<Short>();
 			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
-			//comment
+			System.out.println("btnSubmitRating was pressed and the capList size = " + capList.size());
 			for (int i = 0; i < capList.size(); i++)
 			{
+				System.out.println("Printing ValueAt for ratingModel ... " +capList.get(i).getID());
+				System.out.println("CapList size = " + capList.size());
 				capListArray.add(capList.get(i).getID());
-System.out.println("Printing ValueAt for ratingModel ... " +capList.get(i).getID());
+				
 				ratingArrayList.add(ratingArray[i]);
 				
 			}
