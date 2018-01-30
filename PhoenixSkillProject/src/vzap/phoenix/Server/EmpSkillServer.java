@@ -193,6 +193,11 @@ public class EmpSkillServer
 						this.rateEmployeeSkill();
 						break;
 					}
+					case "updateEmployeeSkill":
+					{
+						this.updateEmployeeSkill();
+						break;
+					}
 					case "searchEmployeeSkill":
 					{
 						this.searchEmployeeSkill();
@@ -550,6 +555,33 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			}
 			
 			boolean success = empControl.rateEmployeeSkill(rateEmployeeSkill);
+			try
+			{
+				oos.writeObject(new Boolean(success));
+				oos.flush();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		public void updateEmployeeSkill()
+		{
+			EmployeeSkill updEmployeeSkill = new EmployeeSkill();
+			try
+			{
+				updEmployeeSkill = (EmployeeSkill)ois.readObject();
+			} catch (ClassNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			boolean success = empControl.updateEmployeeSkill(updEmployeeSkill);
 			try
 			{
 				oos.writeObject(new Boolean(success));

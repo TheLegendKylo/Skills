@@ -449,6 +449,30 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		}
 		return nominateSuccessfull;
 	}
+	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
+	{
+		this.writeOutMessage("updateEmployeeSkill");
+		try
+		{
+			oos.writeObject(updEmployeeSkill);
+			oos.flush();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean updateSuccessfull = false;
+		try
+		{
+			updateSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return updateSuccessfull;
+	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
 		this.writeOutMessage("rateEmployeeSkill");

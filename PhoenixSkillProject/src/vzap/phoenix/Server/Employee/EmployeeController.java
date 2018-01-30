@@ -122,6 +122,19 @@ System.out.println("empControl = before call to EmployeeDAO");
 		}
 		return true;
 	}
+	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
+	{
+		this.errorCode = 0;
+		this.errorMsg = null;
+		int responseCode = empSkillDAO.updateEmployeeSkill(updEmployeeSkill);
+		if(responseCode==0)// employeeSkill record not rated successfully
+		{
+			this.errorCode = empSkillDAO.getErrorCode();
+			this.errorMsg = empSkillDAO.getErrorMsg();
+			return false;
+		}
+		return true;
+	}
 	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		return empSkillDAO.searchEmployeeSkill(employeeID, skillID, raterID);
