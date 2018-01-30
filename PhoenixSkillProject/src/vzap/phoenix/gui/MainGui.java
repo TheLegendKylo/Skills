@@ -26,7 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
-public class MainGui extends JPanel implements ActionListener,ListSelectionListener
+public class MainGui extends JPanel implements ActionListener
+//,ListSelectionListener
 {
 	private JTabbedPane tabbedPane;
 	private JPanel basePanel;
@@ -182,7 +183,7 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		list.setToolTipText("List Of Hobbies Only 5 allowed");
 		list.setVisibleRowCount(5);
     	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    	list.addListSelectionListener(this);
+    	//list.addListSelectionListener(this);
 
     	scrollPane = new JScrollPane(list,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(745, 100, 135, 149);
@@ -368,7 +369,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		if(source == btnDeleteHobby)
 		{
 			hobbyChange = true;
-			if(deleteHobbyValue.equals("") || deleteHobbyValue == null )
+			deleteHobbyValue = (String) list.getSelectedValue();
+			if(deleteHobbyValue == null || deleteHobbyValue.equals("") )
 			{
 				JOptionPane.showMessageDialog(this, "Please select Your Hobby from the list to remove ?");
 				return;
@@ -409,6 +411,8 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 				}
 			}
 			hobbyChange = false;
+			deleteHobbyValue = null;
+			
 		}
 		if(source == btnMainExit)
 		{
@@ -438,13 +442,13 @@ public class MainGui extends JPanel implements ActionListener,ListSelectionListe
 		}
 		list.updateUI();
 	}
-	@Override
-	public void valueChanged(ListSelectionEvent e)
-	{
-		Object source = e.getSource();
-		if(list == source && (!(e.getValueIsAdjusting()))) // isValueAdjusting does'nt check other events only when mouse released will get through 
-		{
-			deleteHobbyValue = list.getSelectedValue().toString();
-		}
-	}
+//	@Override
+//	public void valueChanged(ListSelectionEvent e)
+//	{
+//		Object source = e.getSource();
+//		if(list == source && (!(e.getValueIsAdjusting()))) // isValueAdjusting does'nt check other events only when mouse released will get through 
+//		{
+//			deleteHobbyValue = list.getSelectedValue().toString();
+//		}
+//	}
 }

@@ -1,5 +1,5 @@
 package vzap.phoenix.gui;
-
+//Comment
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -7,6 +7,7 @@ import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.CapabilityRating;
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
+import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClientController;
 
 
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
@@ -60,8 +62,9 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private DefaultTableModel ratingModel;
 	private ArrayList<Employee> employeeList;
 	private EmployeeSkill selectedEmpSkill;
+	private ArrayList<Skill> skillList;
 	private ArrayList<Short> capListArray =null;
-	
+	private short[] ratingArray;
 
 	/**
 	 * Create the panel.
@@ -148,7 +151,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
        }
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
 	    ratingTable = new JTable(new MyTableModel());
-		TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
+	    ratingArray = new short[7];
+	    TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
 		this.initColumnSizes(ratingTable);
 		this.setUpRatingColumn(ratingTable, ratingColumn);
 System.out.println(">>>>>Are you looping her too?");
@@ -263,6 +267,7 @@ System.out.println(">>>>>Are you looping her too?");
    			System.out.println("Rating Description: "+desc);
    	   		tableRow[row][1] = selRating;
    	   		tableRow[row][2] = desc;
+   	   		ratingArray[row] = (short)selRating;
    	        fireTableCellUpdated(row, 2);
    	        this.isCellEditable(row, 2);
    	    }
@@ -339,12 +344,24 @@ System.out.println(">>>>>Are you looping her too?");
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
 		String empName = (String)tableTop.getModel().getValueAt(rowSelected, 1);
 		String skillName = (String)tableTop.getModel().getValueAt(rowSelected, 2);
-		
+		short skillID = 0;
+		skillList = clientControl.getSkillList();
+		for (int i = 0; i < skillList.size(); i++)
+		{
+			if(skillName.equals(skillList.get(i).getSkillDescription()))
+			{
+				skillID = (short)skillList.get(i).getSkillId();
+			}
+		}
+System.out.println("empID: "+empID);		
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			if(employeeSkillList.get(i).getEmployeeID() == empID)
+			System.out.println("empSkillList ID: "+employeeSkillList.get(i).getEmployeeID()+ " vs +empID: "+empID);		
+			if((employeeSkillList.get(i).getEmployeeID().equals(empID))
+				&& (employeeSkillList.get(i).getSkillID()==skillID))
 			{
 				selectedEmpSkill = employeeSkillList.get(i);
+				System.out.println("selectedEmpSkill: "+selectedEmpSkill);
 			}
 		
 		
@@ -389,17 +406,24 @@ System.out.println(">>>>>Are you looping her too?");
 		if (source == btnSubmitRating)
 		{
 			capListArray = new ArrayList<Short>();
-			ArrayList<Short>ratingArray = new ArrayList<Short>();
+			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
 			//comment
-			for (int i = 0; i < tableRow.length; i++)
+			for (int i = 0; i < capList.size(); i++)
 			{
 				capListArray.add(capList.get(i).getID());
-				ratingArray.add((Short)ratingModel.getValueAt(i, 1));
+System.out.println("Printing ValueAt for ratingModel ... " +capList.get(i).getID());
+				ratingArrayList.add(ratingArray[i]);
 				
 			}
+			if(selectedEmpSkill==null)
+			{
+				System.out.println("selectedEmpSkill is NULL>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			}
 			selectedEmpSkill.setCapabilityList(capListArray);
-			selectedEmpSkill.setRatingList(ratingArray);
+			selectedEmpSkill.setRatingList(ratingArrayList);
+			selectedEmpSkill.setRatedDate(new Date());
 			clientControl.rateEmployeeSkill(selectedEmpSkill);
+			
 			
 			
 		}

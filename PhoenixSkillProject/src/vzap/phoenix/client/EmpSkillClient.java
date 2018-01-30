@@ -449,6 +449,30 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 		}
 		return nominateSuccessfull;
 	}
+	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
+	{
+		this.writeOutMessage("updateEmployeeSkill");
+		try
+		{
+			oos.writeObject(updEmployeeSkill);
+			oos.flush();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		boolean updateSuccessfull = false;
+		try
+		{
+			updateSuccessfull = (boolean)ois.readObject();
+		} catch (IOException | ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return updateSuccessfull;
+	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
 		this.writeOutMessage("rateEmployeeSkill");
@@ -461,7 +485,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
 		boolean ratingSuccessfull = false;
 		try
 		{
@@ -471,6 +495,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("EmpSkillClient printing ratingSuccessful..." + ratingSuccessfull);
 		return ratingSuccessfull;
 	}
 	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)

@@ -105,15 +105,24 @@ System.out.println("empControl = before call to EmployeeDAO");
 	{
 		return this.addEmployeeSkill(addEmployeeSkill);
 	}
-	public boolean updateRatingStatus(int skillID, String raterID)
-	{
-		return empSkillDAO.updateRatingStatus(skillID, raterID);
-	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
 		this.errorCode = 0;
 		this.errorMsg = null;
 		int responseCode = empSkillDAO.rateEmployeeSkill(rateEmployeeSkill);
+		if(responseCode!=0)// employeeSkill record not rated successfully
+		{
+			this.errorCode = empSkillDAO.getErrorCode();
+			this.errorMsg = empSkillDAO.getErrorMsg();
+			return false;
+		}
+		return true;
+	}
+	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
+	{
+		this.errorCode = 0;
+		this.errorMsg = null;
+		int responseCode = empSkillDAO.updateEmployeeSkill(updEmployeeSkill);
 		if(responseCode==0)// employeeSkill record not rated successfully
 		{
 			this.errorCode = empSkillDAO.getErrorCode();

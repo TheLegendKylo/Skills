@@ -83,10 +83,11 @@ public class EmployeeSkillDAO
 	}
 	public short rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
-System.out.println("Into rateEmployeeSkill");
+System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeID()+" "+rateEmployeeSkill.getEmpSkillID());
 		int updateCount=0, ratingsCount=0;
-		if(!(rateEmployeeSkill.getCapabilityList()==null))
+		if(rateEmployeeSkill.getCapabilityList()==null)
 		{
+			System.out.println("Get capabilityList = null");
 			this.errorCode = 1; //No rating data provided
 			this.errorMsg = "Rate Employee: Rating information is required for: "+rateEmployeeSkill.getEmpSkillID();
 			return this.errorCode;
@@ -99,7 +100,7 @@ System.out.println("Into rateEmployeeSkill");
 					+"where empSkillID=?");
 			java.sql.Date ratedDate = new java.sql.Date(rateEmployeeSkill.getRatedDate().getTime());
 			ps.setDate(1,  ratedDate);
-			ps.setShort(2, rateEmployeeSkill.getStatus());
+			ps.setShort(2, (short)1);
 			ps.setShort(3, rateEmployeeSkill.getEmpSkillID());
 			updateCount = ps.executeUpdate();
 			System.out.println("calling this.addEmployeeSkillRating");
@@ -369,30 +370,6 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			return this.errorCode;
 		}
 		return this.errorCode;
-	}
-	public boolean updateRatingStatus(int skillID, String raterID )
-	{
-		this.errorCode = 0;
-		String comment = null;
-		comment = "User deactivated";
-		PreparedStatement ps = null;
-		System.out.println("Into SQL query");
-		try
-		{
-			ps = dbCon.prepareStatement("update EmployeeSkills set status = 9,comment = ? where skillID = ? and raterid = ? and status = 0");
-			ps.setString(1, comment);
-			ps.setInt(2, skillID);
-			ps.setString(3, raterID);
-			ps.executeUpdate();
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			this.errorCode = 9;
-			this.errorMsg = "Employee Skill: Delete statement failed for EmpSkillID: "+ skillID;
-			return false;
-		}
-		return true;
 	}
 	public short getErrorCode()
 	{
