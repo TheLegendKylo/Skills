@@ -145,7 +145,6 @@ public class EmpSkillCommonMethods
 		double ratingCount = 0;
 		String empIDCheck = null;
 		short skillIDCheck = 0;
-
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
@@ -210,8 +209,7 @@ public class EmpSkillCommonMethods
 					averageRating [j]=+ Math.round(ratingList.get(j)*100.0)/100.0;
 				}
 				ratingCount++;
-			}
-					
+			}		
 		}
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
@@ -269,9 +267,8 @@ public class EmpSkillCommonMethods
 				}
 				skillIDCheck = employeeSkillList.get(i).getSkillID();
 			}
-			System.out.println(">>>empIDCheck: "+empIDCheck+ "Employee ID: "+employeeSkillList.get(i).getEmployeeID());
-			if((empIDCheck==null) ||
-					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
+			if((empIDCheck==null)||
+			!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
 			{
 				System.out.println("Employee ID: "+employeeSkillList.get(i).getEmployeeID());
 				ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
@@ -281,7 +278,8 @@ public class EmpSkillCommonMethods
 				skillsRow[0] = employee.getEmployeeID();
 				skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
 				skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
-				empSkillModel.addRow(skillsRow);				
+				empSkillModel.addRow(skillsRow);
+				empIDCheck = employeeSkillList.get(i).getEmployeeID();
 			}
 		}
 		

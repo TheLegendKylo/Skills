@@ -228,6 +228,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                     
                     for(int k = 0; k < skillList.size(); k++)
                     {
+                    	
                     	if(skillList.get(k).getSkillId() == (empOutSkillList.get(i).getSkillID()))
                     	{
                     		outStandingRow[2] = skillList.get(k).getSkillDescription();            		
@@ -239,6 +240,45 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         }
 	}
 
+	public void update()
+	{
+		empSkillList = clientControl.getEmpSkillList();
+		
+		outstandingModel.setRowCount(0);
+		for (int i = 0; i < empSkillList.size(); i++)
+		{
+			if(empSkillList.get(i).getStatus()==0)
+			{
+				empOutSkillList.add(empSkillList.get(i));
+			}
+		}
+
+		outStandingRow = new Object[3];
+
+        for(int i = 0 ; i < empOutSkillList.size() ; i++)
+        {
+        	empList = clientControl.searchEmployee((String) empOutSkillList.get(i).getRaterID());
+        	for(int j = 0; j < empList.size(); j++)        
+            {
+        		if(empList.get(j).getEmployeeID().equals(empOutSkillList.get(i).getRaterID()) )
+            	{
+                    outStandingRow[0] = empOutSkillList.get(i).getRaterID();
+                    outStandingRow[1] = empList.get(j).getSurname() + ", " + empList.get(j).getFirstName();
+                    
+                    for(int k = 0; k < skillList.size(); k++)
+                    {
+                    	if(skillList.get(k).getSkillId() == (empOutSkillList.get(i).getSkillID()))
+                    	{
+                    		outStandingRow[2] = skillList.get(k).getSkillDescription();            		
+                    	}
+                    }
+            	}
+        		outstandingModel.addRow(outStandingRow);  
+            }
+        }
+        updateUI();
+
+	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
