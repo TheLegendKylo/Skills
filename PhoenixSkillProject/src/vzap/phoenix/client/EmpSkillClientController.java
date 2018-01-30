@@ -91,6 +91,10 @@ public class EmpSkillClientController
 	{
 		return client.searchEmployee(searchCriteria);
 	}
+	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)//added for Nico
+	{
+		return client.updateEmployeeSkill(updEmployeeSkill);
+	}
 	public ArrayList<Employee> searchEmployeeHobby(short searchCriteria)
 	{
 		return client.searchEmployeeHobby(searchCriteria);
@@ -137,6 +141,10 @@ public class EmpSkillClientController
 	public boolean nominateRater(EmployeeSkill nominateRater)
 	{
 		return client.nominateRater(nominateRater);
+	}
+	public ArrayList<EmployeeSkill> getEmpSkillList()
+	{
+		return client.getEmpSkillList();
 	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{

@@ -50,7 +50,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private Vector<Integer> selectedSkill;
 	private Vector<String> comboRaters;
 	private ArrayList<EmployeeSkill> empSkillList,empOutSkillList;
-	private EmpSkillClient empSkillClient;
+	//private EmpSkillClient empSkillClient;
 	private String [] skillHeader;
 	private ArrayList<Employee> empList;
 	private ArrayList<Skill> skillList;
@@ -69,23 +69,23 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private JTextField raterName;
 	private JScrollPane outstandingRatesScrollP;
 	private JTable outstandingRatesTable;
-	private EmpSkillClientController overdueRatings;
-	private EmployeeController clientControl;
+	private EmpSkillClientController clientControl;
 
 
 	/**
 	 * Create the panel.
 	 */
-	public RatingNomination()
+	public RatingNomination(EmpSkillClientController clientControl)
 	{
 		setLayout(null);
+		this.clientControl = clientControl;
 		
-		empSkillClient = new EmpSkillClient();
+		
 		employeeSkill = new EmployeeSkill();
-        empSkillClient.loginEmployee("A119685","1234");
- 		loggedOnEmployee = empSkillClient.getLogonEmployee();
-		empSkillList = empSkillClient.getEmpSkillList();
-		skillList = empSkillClient.getSkillList();
+        
+ 		loggedOnEmployee = clientControl.getLogonEmployee();
+		empSkillList = clientControl.getEmpSkillList();
+		skillList = clientControl.getSkillList();
         comboSkill = new Vector<>();
         for(int i = 0 ; i < empSkillList.size() ; i++)
         {
@@ -127,7 +127,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		btnSubmit.addActionListener(this);
 		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 274, 85, 20);
+		raterIDJTF.setBounds(109, 274, 85, 22);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
@@ -137,7 +137,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		btnDeleteNomination.addActionListener(this);
 		
 		empSearchJTF = new JTextField();
-		empSearchJTF.setBounds(109, 67, 211, 20);
+		empSearchJTF.setBounds(109, 67, 211, 22);
 		add(empSearchJTF);
 		empSearchJTF.setColumns(10);
 		
@@ -170,7 +170,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		raterName = new JTextField();
 		raterName.setColumns(10);
-		raterName.setBounds(204, 274, 146, 20);
+		raterName.setBounds(204, 274, 146, 22);
 		add(raterName);
 		
 		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill"};
@@ -193,9 +193,17 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		add(lblOutStandingNomination);
 		
 		empOutSkillList = new ArrayList<EmployeeSkill>();
-		overdueRatings = new EmpSkillClientController();
-		empList = new ArrayList<Employee>();
-		clientControl = new EmployeeController("A119685", "1234");
+		//clientControl = new EmpSkillClientController();
+		//empList = new ArrayList<Employee>();
+		
+//		loggedOnEmployee = clientControl.getLogonEmployee();
+//		empSkillList = clientControl.getEmpSkillList();
+//		skillList = clientControl.getSkillList();
+		
+		
+		
+		
+		
 		for (int i = 0; i < empSkillList.size(); i++)
 		{
 			if(empSkillList.get(i).getStatus()==0)
@@ -258,7 +266,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			String raterID = (String)nominateModel.getValueAt(i, 0);
 			Date createdDate = new Date();
 			employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
-			boolean success = empSkillClient.nominateRater(employeeSkill);
+			boolean success = clientControl.nominateRater(employeeSkill);
 			//clear input fields
 			raterIDJTF.setText("");
 			raterName.setText("");
@@ -281,7 +289,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         {
             int row = outstandingRatesTable.getSelectedRow();
             System.out.println("row = " + row);
-            if (row <0)
+            if (row < 0)
             {
                         JOptionPane.showMessageDialog(this,"Please select a row from the Oustanding Ratings table");
                         return;
@@ -292,7 +300,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
             
             String raterID = (String) outstandingRatesTable.getValueAt(row, 0);
             System.out.println("String Value is = " + (String) outstandingRatesTable.getValueAt(row, 0));
-            int skillID = 0;
+            
+            	int skillID = 0;
                 for(int j = 0; j < skillList.size(); j++)
                 {
                 	
@@ -301,10 +310,21 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                 		skillID = skillList.get(j).getSkillId();  
                 		System.out.println("Value skillid = " + skillID);
                 		System.out.println("Descr1 = " + skillList.get(j).getSkillDescription() +"= "+ outstandingRatesTable.getValueAt(row, 2));
+                	
+                	}
+                }
+                //getting the object that needs to change
+                for (int z=0; z < empSkillList.size();z++)
+                {
+                	if(empSkillList.get(z).getRaterID().equals(outstandingRatesTable.getValueAt(row, 0)) && 
+                		empSkillList.get(z).getSkillID() ==  skillID)
+                	{
+                		empSkillList.get(z).setStatus((short) 9);
+                		boolean success = clientControl.updateEmployeeSkill(empSkillList.get(z));
                 	}
                 }
              
-            boolean success = clientControl.updateRatingStatus(skillID, raterID);
+            
             
             //get your userid / relevant info
             //call database with info and do as you wish.
@@ -321,7 +341,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		{
 			searchCriteria = empSearchJTF.getText();
 	        
-			empList = empSkillClient.searchEmployee(empSearchJTF.getText());
+			empList = clientControl.searchEmployee(empSearchJTF.getText());
 	        System.out.println("RatingNomination - Employee size - " + empList.size());
 	        empRow = new Object[4];
 	        //comboRaters = new Vector<>();
@@ -357,15 +377,15 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		skill.setCellRenderer(renderer);
     }
 
-	public static void main(String[] args)
-	{
-		JFrame frame = new JFrame("Admin GUI");
-		frame.setSize(700, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		RatingNomination panel = new RatingNomination();
-		frame.getContentPane().add(panel);
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args)
+//	{
+//		JFrame frame = new JFrame("Admin GUI");
+//		frame.setSize(700, 450);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		RatingNomination panel = new RatingNomination();
+//		frame.getContentPane().add(panel);
+//		frame.setVisible(true);
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) 
