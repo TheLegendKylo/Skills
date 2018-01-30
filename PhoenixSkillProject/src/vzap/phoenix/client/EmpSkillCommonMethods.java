@@ -142,7 +142,7 @@ public class EmpSkillCommonMethods
 		double averageRating[] = new double[7];
 		double ratingCount = 0;
 		String empIDCheck = null;
-
+		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
@@ -154,7 +154,9 @@ public class EmpSkillCommonMethods
 		+" Counter: "+counter);
 		
 			// Check whether a new SkillId has been read
-			if(!(empIDCheck==employeeSkillList.get(i).getEmployeeID()))
+		if(((empIDCheck==null)||
+		!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
+				|| !(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 			{
 				// if this is not the first record found
 				// update the previous totals to the relevant variables
@@ -178,6 +180,7 @@ public class EmpSkillCommonMethods
 					counter++;
 				}
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
+				skillIDCheck = (short)employeeSkillList.get(i).getSkillID();
 			}
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
@@ -190,8 +193,7 @@ public class EmpSkillCommonMethods
 					averageRating [j]=+ratingList.get(j);
 				}
 				ratingCount++;
-			}
-					
+			}		
 		}
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
@@ -227,6 +229,7 @@ public class EmpSkillCommonMethods
 		empSkillModel.setColumnIdentifiers(skillsHeader);
 		String [] skillDesc = new String[99];
 		int skillIDCheck = 0;
+		String empIDCheck = null;
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -248,15 +251,20 @@ public class EmpSkillCommonMethods
 				}
 				skillIDCheck = employeeSkillList.get(i).getSkillID();
 			}
-			System.out.println("Employee ID: "+employeeSkillList.get(i).getEmployeeID());
-			ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
-			System.out.println("Employee: "+empList.get(0));
-			employee = empList.get(0);
-//			employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
-			skillsRow[0] = employee.getEmployeeID();
-			skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
-			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
-			empSkillModel.addRow(skillsRow);
+			if((empIDCheck==null)||
+			!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
+			{
+				System.out.println("Employee ID: "+employeeSkillList.get(i).getEmployeeID());
+				ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
+				System.out.println("Employee: "+empList.get(0));
+				employee = empList.get(0);
+//				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
+				skillsRow[0] = employee.getEmployeeID();
+				skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
+				skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
+				empSkillModel.addRow(skillsRow);
+				empIDCheck = employeeSkillList.get(i).getEmployeeID();
+			}
 		}
 		
 		return empSkillModel;
