@@ -278,14 +278,6 @@ System.out.println(">>>>>Are you looping her too?");
    }
 
 
-		
-	
-	
-	
-	
-	
-
-
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{

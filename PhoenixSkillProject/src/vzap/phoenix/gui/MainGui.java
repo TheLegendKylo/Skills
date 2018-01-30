@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -26,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
-public class MainGui extends JPanel implements ActionListener
+public class MainGui extends JPanel implements ActionListener,ChangeListener
 //,ListSelectionListener
 {
 	private JTabbedPane tabbedPane;
@@ -104,6 +106,7 @@ public class MainGui extends JPanel implements ActionListener
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
 		tabbedPane.setBounds(49, 13, 1128, 700);
+		tabbedPane.addChangeListener(this);
 		//tabbedPane.bor(null);
 		add(tabbedPane);
 		
@@ -446,4 +449,11 @@ public class MainGui extends JPanel implements ActionListener
 //			deleteHobbyValue = list.getSelectedValue().toString();
 //		}
 //	}
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
+		ratingNom.update();
+		System.out.println("Hey This dude changed a tab");
+		
+	}
 }
