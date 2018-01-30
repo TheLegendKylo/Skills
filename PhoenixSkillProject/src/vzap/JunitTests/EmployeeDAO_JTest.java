@@ -46,27 +46,27 @@ public class EmployeeDAO_JTest
 	public void testLoginEmployeeStringString() throws Exception
 	{
 //   insert a record to enable testing  
-		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?)");
-		ps.setString(1, "xxxx");
+		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?,?,?)");
+		ps.setString(1, "aaaa");
 		ps.setString(2, "1stName");
 		ps.setString(3, "surName");
 		ps.setString(4, "alias");
 		ps.setString(5, "email");
-		ps.setString(6, "contact");
+		ps.setString(6, "contactNo");
 		ps.setString(7, "psword");
 		ps.executeUpdate();
 		
 		
 		ps = dbCon.prepareStatement("select password from Employee where employeeID = ?");
-		ps.setString(1, "xxxx");
+		ps.setString(1, "aaaa");
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		String psw = rs.getString(1);
 		assertTrue("psword".equals(psw));
 		
 //  delete the record used for testing
-		ps = dbCon.prepareStatement("delete from  employee where (employeID = ?)");
-		ps.setString(1, "xxxx");
+		ps = dbCon.prepareStatement("delete from  employee where employeeID = ?");
+		ps.setString(1, "aaaa");
 		ps.executeUpdate();
 	}
 
@@ -77,14 +77,18 @@ public class EmployeeDAO_JTest
 	{
 		
 //   insert record into employeeHobby to enable testing
+		short hobbyId = 3;
 		ps = dbCon.prepareStatement("insert into EmployeeHobby values (null, ?, ?) ");
-		ps.setString(1, "xxxx");
-		ps.setShort (2, tempHobbyId);
+		ps.setString(1, "bbbb");
+		ps.setShort (2, hobbyId);
 		ps.executeUpdate();
 
+		
+		
+		
 		PreparedStatement ps = null;
 		ps = dbCon.prepareStatement("select * from employeeHobby where employeeId=?");
-		ps.setString(1, "xxxx");
+		ps.setString(1, "bbbb");
 		ResultSet rs = ps.executeQuery();
 		int resultCount = 0;
 		if (rs.last()) 
@@ -92,7 +96,6 @@ public class EmployeeDAO_JTest
 			resultCount = rs.getRow();
 			  rs.beforeFirst(); 
 		}
-		System.out.println("Hobby result count: "+resultCount);
 		ArrayList<Short> empHobbyList= new ArrayList<Short>();
 		
 		while(rs.next())
@@ -105,8 +108,8 @@ public class EmployeeDAO_JTest
 		assertTrue(empHobbyList.size() > 0);
 		
 //  delete the record used for testing
-		ps = dbCon.prepareStatement("delete from  employeeHobby where (employeID = ?)");
-		ps.setString(1, "xxxx");
+		ps = dbCon.prepareStatement("delete from  employeeHobby where employeeID = ?");
+		ps.setString(1, "bbbb");
 		ps.executeUpdate();
 	}
 
@@ -117,7 +120,7 @@ public class EmployeeDAO_JTest
 	{
 		PreparedStatement ps = null;
 		ps = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?,?)");
-		ps.setString(1, "A32345");
+		ps.setString(1, "cccc");
 		ps.setString(2, "Gabby");
 		ps.setString(3, "Grey");
 		ps.setString(4, "Gabby");
@@ -126,11 +129,11 @@ public class EmployeeDAO_JTest
 		ps.setString(7, "1234");
 		ps.executeUpdate();
 		
-		ps = dbCon.prepareStatement("select * from employee where employeeID = 'A12345'");
+		ps = dbCon.prepareStatement("select * from employee where employeeID = 'cccc'");
 		ResultSet rs = ps.executeQuery();
 		while(rs.next())
 		{
-			assertTrue("A32345".equals(rs.getString("employeeID")));
+			assertTrue("cccc".equals(rs.getString("employeeID")));
 			assertTrue("Gabby".equals(rs.getString("firstName")));
 			assertTrue("Grey".equals(rs.getString("surname")));
 			assertTrue("Gabby".equals(rs.getString("alias")));
@@ -140,8 +143,8 @@ public class EmployeeDAO_JTest
 		}
 		
 //  delete the record used for testing
-			ps = dbCon.prepareStatement("delete from  employee where (employeID = 'xxxx')");
-			ps.executeUpdate();		
+		ps = dbCon.prepareStatement("delete from  employee where employeeID = 'cccc'");
+		ps.executeUpdate();		
 	}
 
 	
@@ -154,7 +157,7 @@ public class EmployeeDAO_JTest
 //   insert a record onto employee to enable testing  		
 		PreparedStatement pst = null;
 		pst = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?,?)");
-		pst.setString(1, "A12345");
+		pst.setString(1, "dddd");
 		pst.setString(2, "Gabby");
 		pst.setString(3, "Grey");
 		pst.setString(4, "Gabby");
@@ -166,30 +169,30 @@ public class EmployeeDAO_JTest
 		PreparedStatement ps = null;
 		ps = dbCon.prepareStatement("update Employee set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
 					+ "where employeeID = ?");
-		ps.setString(1, "Gabby");
-		ps.setString(2, "Grey");
-		ps.setString(3, "Gabby");
-		ps.setString(4, "gabby.boobs@standardbank.co.za");
-		ps.setString(5, "0832292786");
-		ps.setString(6, "A22345");
+		ps.setString(1, "xxxx");
+		ps.setString(2, "xxxx");
+		ps.setString(3, "xxxx");
+		ps.setString(4, "xxxx");
+		ps.setString(5, "xxxx");
+		ps.setString(6, "xxxx");
 		ps.executeUpdate();
 		
 		
 		ps = dbCon.prepareStatement("Select * from employee where employeeID = ?");
-		ps.setString(1, "A22345");
+		ps.setString(1, "xxxx");
 		ResultSet rs = ps.executeQuery();	
 		while (rs.next())
 		{
-			assertTrue("A22345".equals(rs.getString("employeeID")));
-			assertTrue("Gabby".equals(rs.getString("firstName")));
-			assertTrue("Grey".equals(rs.getString("surname")));
-			assertTrue("Gabby".equals(rs.getString("alias")));
-			assertTrue("gabby.boobs@standardbank.co.za".equals(rs.getString("email")));
-			assertTrue("0832292786".equals(rs.getString("contactNo")));
+			assertTrue("dddd".equals(rs.getString("employeeID")));
+			assertTrue("xxxx".equals(rs.getString("firstName")));
+			assertTrue("xxxx".equals(rs.getString("surname")));
+			assertTrue("xxxx".equals(rs.getString("alias")));
+			assertTrue("xxxx".equals(rs.getString("email")));
+			assertTrue("xxxx".equals(rs.getString("contactNo")));
 		}
 		
 //  delete the record from employee that was used for testing
-		ps = dbCon.prepareStatement("delete from  employee where (employeID = 'A22345')");
+		ps = dbCon.prepareStatement("delete from  employee where employeeID = 'dddd'");
 		ps.executeUpdate();		
 	}
 
@@ -203,23 +206,23 @@ public class EmployeeDAO_JTest
 	{
 		
 //   insert records into Hobby and employeeHobby tables to enable testing  
-		ps = dbCon.prepareStatement("insert into Hobby values (null,'xxxxx')");
+		ps = dbCon.prepareStatement("insert into Hobby values (null,'eeee')");
 		ps.executeUpdate();
-		ps = dbCon.prepareStatement ("select hobbyID from hobby where hobbyDescription = 'xxxxx'");
+		ps = dbCon.prepareStatement ("select hobbyID from hobby where hobbyDescription = 'eeee'");
 		ResultSet rs = ps.executeQuery();
 		while(rs.next())
 		{
 			tempHobbyId = rs.getShort("hobbyID");
 		}
 		ps = dbCon.prepareStatement("insert into EmployeeHobby values (null, ?, ?) ");
-		ps.setString(1, "xxxx");
+		ps.setString(1, "eeee");
 		ps.setShort (2, tempHobbyId);
 		ps.executeUpdate();
 		
 		
 		PreparedStatement ps = null;
 		ps = dbCon.prepareStatement("select id from employeeHobby where employeeId=? and hobbyId=?");
-		ps.setString(1, "xxxx");
+		ps.setString(1, "eeee");
 		ps.setShort(2, tempHobbyId);
 		ResultSet rs1 = ps.executeQuery();
 		int resultCount = 0;
@@ -230,9 +233,9 @@ public class EmployeeDAO_JTest
 		assertTrue(resultCount>0);
 		
 //   delete records from Hobby and employeeHobby 		
-		ps = dbCon.prepareStatement("delete from  Hobby where (hobbyID = 'xxxxx')");
+		ps = dbCon.prepareStatement("delete from  Hobby where (hobbyID = 'eeee')");
 		ps.executeUpdate();	
-		ps = dbCon.prepareStatement("delete from  employeeHobby where (employeID = 'xxxx')");
+		ps = dbCon.prepareStatement("delete from  employeeHobby where employeeID = 'eeee'");
 		ps.executeUpdate();	
 	}
 
@@ -254,7 +257,7 @@ public class EmployeeDAO_JTest
 //   insert a record onto employee to enable testing  		
 		PreparedStatement pst = null;
 		pst = dbCon.prepareStatement("insert into employee values(?,?,?,?,?,?,?)");
-		pst.setString(1, "A12345");
+		pst.setString(1, "ffff");
 		pst.setString(2, "Gabby");
 		pst.setString(3, "Grey");
 		pst.setString(4, "Gabby");
@@ -265,10 +268,10 @@ public class EmployeeDAO_JTest
 		
 		
 		ps = dbCon.prepareStatement("delete from Employee where employeeID = ?");
-		ps.setString(1,"A12345");
+		ps.setString(1,"ffff");
 		ps.executeUpdate();
 		
-		ps = dbCon.prepareStatement("select * from Employeee where employeeID = 'A12345'");
+		ps = dbCon.prepareStatement("select * from Employee where employeeID = 'ffff'");
 		ResultSet rs = ps.executeQuery();
 		int rsCount = 0;
 		while(rs.next())
@@ -287,8 +290,8 @@ public class EmployeeDAO_JTest
 	public void testSearchEmployeeString() throws Exception
 	{
 //  insert employee records to enable testing 
-		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?)");
-		ps.setString(1, "xxxx");
+		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?,?,?)");
+		ps.setString(1, "aaaa");
 		ps.setString(2, "1stName");
 		ps.setString(3, "surName");
 		ps.setString(4, "alias");
@@ -296,7 +299,7 @@ public class EmployeeDAO_JTest
 		ps.setString(6, "contact");
 		ps.setString(7, "psword");
 		ps.executeUpdate();
-		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?)");
+		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?,?,?)");
 		ps.setString(1, "bbbb");
 		ps.setString(2, "xxxx");
 		ps.setString(3, "surName");
@@ -305,7 +308,7 @@ public class EmployeeDAO_JTest
 		ps.setString(6, "contact");
 		ps.setString(7, "psword");
 		ps.executeUpdate();
-		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?)");
+		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?,?,?)");
 		ps.setString(1, "cccc");
 		ps.setString(2, "1stName");
 		ps.setString(3, "xxxx");
@@ -314,7 +317,7 @@ public class EmployeeDAO_JTest
 		ps.setString(6, "contact");
 		ps.setString(7, "psword");
 		ps.executeUpdate();
-		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?)");
+		ps = dbCon.prepareStatement("insert into employee values (?,?,?,?,?,?,?)");
 		ps.setString(1, "dddd");
 		ps.setString(2, "1stName");
 		ps.setString(3, "surName");
@@ -348,7 +351,7 @@ public class EmployeeDAO_JTest
 
 	
 //   delete the 4 records inserted above
-	ps = dbCon.prepareStatement("delete from into employee where employeeID = 'xxxx'");
+	ps = dbCon.prepareStatement("delete from into employee where employeeID = 'aaaa'");
 	ps.executeUpdate();
 	ps = dbCon.prepareStatement("delete from into employee where employeeID = 'bbbb'");
 	ps.executeUpdate();

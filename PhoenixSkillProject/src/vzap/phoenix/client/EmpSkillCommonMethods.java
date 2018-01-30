@@ -246,8 +246,13 @@ public class EmpSkillCommonMethods
 						break;
 					}//comment
 				}
+				skillIDCheck = employeeSkillList.get(i).getSkillID();
 			}
-			employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
+			System.out.println("Employee ID: "+employeeSkillList.get(i).getEmployeeID());
+			ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
+			System.out.println("Employee: "+empList.get(0));
+			employee = empList.get(0);
+//			employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
 			skillsRow[0] = employee.getEmployeeID();
 			skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
 			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
