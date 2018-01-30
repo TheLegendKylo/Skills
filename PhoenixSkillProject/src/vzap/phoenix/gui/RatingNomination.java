@@ -110,7 +110,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		selectTable.addMouseListener(this);
 		
 		selectRaterlbl = new JLabel("Select Raters");
-		selectRaterlbl.setFont(new Font("Arial", Font.PLAIN, 19));
+		selectRaterlbl.setFont(new Font("Arial", Font.PLAIN, 20));
 		selectRaterlbl.setBounds(268, 11, 142, 32);
 		add(selectRaterlbl);
 		
@@ -123,8 +123,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		scrollPane.setBounds(10, 110, 535, 112);
 		add(scrollPane);
 		
-		btnSubmit = new JButton("Submit Raters");
-		btnSubmit.setBounds(10, 417, 106, 22);
+		btnSubmit = new JButton("SUBMIT RATERS");
+		btnSubmit.setBounds(10, 417, 153, 22);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
@@ -133,8 +133,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
-		btnDeleteNomination = new JButton("Delete nomination");
-		btnDeleteNomination.setBounds(10, 629, 142, 23);
+		btnDeleteNomination = new JButton("DELETE NOMINATION");
+		btnDeleteNomination.setBounds(10, 629, 153, 22);
 		add(btnDeleteNomination);
 		btnDeleteNomination.addActionListener(this);
 		
@@ -148,7 +148,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
-		btnSearch = new JButton("Search");
+		btnSearch = new JButton("SEARCH");
 		btnSearch.setBounds(10, 66, 89, 23);
 		btnSearch.addActionListener(this);
 		add(btnSearch);
@@ -190,8 +190,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		outstandingRatesScrollP.setViewportView(outstandingRatesTable);
 		
 		JLabel lblOutStandingNomination = new JLabel("Outstanding Norminations");
-		lblOutStandingNomination.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblOutStandingNomination.setBounds(10, 472, 184, 23);
+		lblOutStandingNomination.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblOutStandingNomination.setBounds(10, 472, 236, 23);
 		add(lblOutStandingNomination);
 		
 		empOutSkillList = new ArrayList<EmployeeSkill>();
@@ -284,17 +284,15 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		}
 		if(source == btnAdd)
         {
-			if(raterIDJTF.getText() == null && raterName.getText() == null)
+			if(raterIDJTF.getText().isEmpty() && raterName.getText().isEmpty())
 			{
 				JOptionPane.showMessageDialog(this,"Rater/Nominee cannot be blank, Please select a rater from the search list");
                 return;
 			}
-			else
-			{
 			nominateRow[0]= raterIDJTF.getText();
 			nominateRow[1]= raterName.getText();
 			nominateModel.addRow(nominateRow);
-			}
+			
         }
 		if(source == btnDeleteNomination)
         {
