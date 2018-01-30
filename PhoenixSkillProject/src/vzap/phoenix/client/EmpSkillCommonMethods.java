@@ -33,8 +33,8 @@ public class EmpSkillCommonMethods
 		
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-		System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID()
-		+" Counter: "+counter);
+		System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "
+				+employeeSkillList.get(i).getSkillID() +" Counter: "+counter);
 		
 			// Check whether a new SkillId has been read
 			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
@@ -47,7 +47,7 @@ public class EmpSkillCommonMethods
 					{
 						System.out.println("---Nominee ID " + " counter: "+counter) ;
 						System.out.println("---Rating count = " +nominateeAveRating[counter]+ " ssss" + ratingCount);
-						nominateeAveRating[counter]= nominateeAveRating[counter]/ratingCount;
+						nominateeAveRating[counter]= ( (nominateeAveRating[counter]/ratingCount *100.0)/100.0);
 						ratingCount = 0;
 					}
 					counter++;
@@ -71,7 +71,7 @@ public class EmpSkillCommonMethods
 			if(employeeSkillList.get(i).getEmployeeID().equals(
 					employeeSkillList.get(i).getRaterID()))
 			{
-				yourAveRating[counter] = employeeSkillList.get(i).getOverAllAverageRating();
+				yourAveRating[counter] = ( (employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0);
 			}
 			else
 				// this record if of a nominee rating
@@ -167,7 +167,7 @@ public class EmpSkillCommonMethods
 						int ratingIdx = 1;
 						for (int j = 0; j < averageRating.length; j++)
 						{
-							capabilityRating[ratingIdx] = averageRating[j]/ratingCount;
+							capabilityRating[ratingIdx] = (averageRating[j]/ratingCount*100.0)/100.0;
 							averageRating[j]=0;
 							ratingIdx++;
 						}
@@ -187,7 +187,7 @@ public class EmpSkillCommonMethods
 				System.out.println("ratingList.size: "+ratingList.size());
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-					averageRating [j]=+ratingList.get(j);
+					averageRating [j]=+ (ratingList.get(j)*100.0)/100.0;
 				}
 				ratingCount++;
 			}
@@ -203,7 +203,7 @@ public class EmpSkillCommonMethods
 			int ratingIdx = 1;
 			for (int j = 0; j < averageRating.length; j++)
 			{
-				capabilityRating[ratingIdx] = averageRating[j]/ratingCount;
+				capabilityRating[ratingIdx] = (averageRating[j]/ratingCount *100.0)/100.0;
 				averageRating[j]=0;
 				ratingIdx++;
 			}
