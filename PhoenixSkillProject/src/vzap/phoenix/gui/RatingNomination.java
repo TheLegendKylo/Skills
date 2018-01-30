@@ -228,6 +228,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                     
                     for(int k = 0; k < skillList.size(); k++)
                     {
+                    	
                     	if(skillList.get(k).getSkillId() == (empOutSkillList.get(i).getSkillID()))
                     	{
                     		outStandingRow[2] = skillList.get(k).getSkillDescription();            		
