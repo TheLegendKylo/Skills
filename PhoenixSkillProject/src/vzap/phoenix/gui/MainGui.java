@@ -106,7 +106,6 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
 		tabbedPane.setBounds(49, 13, 1128, 700);
-		tabbedPane.addChangeListener(this);
 		//tabbedPane.bor(null);
 		add(tabbedPane);
 		
@@ -239,6 +238,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		searchBySkill = new SearchBySkill(clientControl);
 		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
 		
+		tabbedPane.addChangeListener(this);
 
 	}
 	@Override
