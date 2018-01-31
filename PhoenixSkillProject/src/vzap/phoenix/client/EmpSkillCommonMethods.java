@@ -175,7 +175,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			
 			if(ratingList!=null)
 			{
-				System.out.println("ratingList.size: "+ratingList.size());
+				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
 					System.out.println("Write Lines: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);

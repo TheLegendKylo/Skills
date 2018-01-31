@@ -41,7 +41,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
-		tabbedPane.setBounds(49, 13, 1128, 700);
+		tabbedPane.setBounds(49, 13, 1420, 700);
 		add(tabbedPane);
 	
 		// adding tabs
@@ -57,7 +57,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		ratingSkillsTab = new RatingOfSkills(clientControl);
 		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
 		
-		searchMenu = new SearchMenu(clientControl);
+		searchMenu = new SearchMenu(clientControl,emp);
 		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
 		
 		searchBySkill = new SearchBySkill(clientControl);
@@ -70,7 +70,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		add(btnMainExit);
 		
 		btnLogoff = new JButton("Log Off");
-		btnLogoff.setBounds(606, 717, 209, 25);
+		btnLogoff.setBounds(908, 717, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
 
@@ -115,6 +115,10 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("RATING NOMINATIONS"))
 		{
 			ratingNom.setup();
+		}
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("SEARCH by EMPLOYEE"))
+		{
+			searchMenu.setup();
 		}
 	}
 }

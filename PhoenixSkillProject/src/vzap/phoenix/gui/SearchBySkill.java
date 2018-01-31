@@ -6,6 +6,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Vector;
@@ -100,6 +104,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		exportBut.addActionListener(this);
 		exportBut.setBounds(1290, 63, 105, 23);
 		add(exportBut);
+		exportBut.setEnabled(false);
 	}
 
 
@@ -108,6 +113,52 @@ public class SearchBySkill extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent ae)
 	{
 		Object source = ae.getSource();
+		
+		if(source == exportBut)
+		{
+			
+			File file;
+			file =  new File("C:\\Users\\a208563\\java\\excellTest.csv");
+			FileWriter fw = null; // opens connection
+			PrintWriter pw = null;//wraps in FileWriter
+			String row = null;
+			try
+			{
+				fw = new FileWriter(file);
+				pw = new PrintWriter(fw);
+//				String message1 = "Hello IO World... ";
+//				String message2 = "Java is not for kidz!!\n!!";
+				for(int i = 0 ; i < modelInsert.getRowCount();i++)
+				{
+					row = 
+					modelInsert.getValueAt(i, 0) + "," +
+					modelInsert.getValueAt(i, 1) + "," +
+					modelInsert.getValueAt(i, 2) + "," +
+					modelInsert.getValueAt(i, 3) + "," +
+					modelInsert.getValueAt(i, 4) + "," +
+					modelInsert.getValueAt(i, 5) + "," +
+					modelInsert.getValueAt(i, 6) + "," +
+					modelInsert.getValueAt(i, 7) + "," +
+					modelInsert.getValueAt(i, 8) + "," +
+					modelInsert.getValueAt(i, 9);// + "," +
+					//modelInsert.getValueAt(i, 10);
+					pw.println(row);
+				}
+				//pw.println(message1);
+				//pw.println(message2);
+				System.out.println("Data saved to file");
+				fw.close();
+				pw.close();
+				System.out.println("All Io connections closed");
+				
+			}
+			catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if(source == clearBut)
 		{
 			skillTable = new JTable();
@@ -118,16 +169,16 @@ public class SearchBySkill extends JPanel implements ActionListener
 		if(source == skillComboBox)
 		{
 			empSkillList = new ArrayList<>();
-System.out.println("searchbyskill - skillcombobox - index " + skillComboBox.getSelectedIndex() );
+			System.out.println("searchbyskill - skillcombobox - index " + skillComboBox.getSelectedIndex() );
 		
 //          store the index and skillId of the cell the user has chosen from the combobox 			
 			int x = skillComboBox.getSelectedIndex();
 			int y = skillList.get(x).getSkillId();
-System.out.println("searchbyskill - skill search "+skillList.get(x).getSkillDescription()+" "+skillList.get(x).getSkillId() );
+			System.out.println("searchbyskill - skill search "+skillList.get(x).getSkillDescription()+" "+skillList.get(x).getSkillId() );
 
 //          now go and search the EmployeeSkill table for all employees that have that skill			
 			empSkillList = clientControl.searchEmployeeSkill(y);
-System.out.println("searchbymenu - number of employees with this skill - " + empSkillList.size());
+			System.out.println("searchbymenu - number of employees with this skill - " + empSkillList.size());
 
 
 //          check if there are any matches for users search criteria 
@@ -142,31 +193,31 @@ System.out.println("searchbymenu - number of employees with this skill - " + emp
 			Vector vect = new Vector<String>();
 			for (int i=0; i < empSkillList.size(); i++)
 	        {
-System.out.println("searchbyskill - creating vector "  +empSkillList.get(i).getEmpSkillID()+" "+empSkillList.get(i).getEmployeeID() );
+				System.out.println("searchbyskill - creating vector "  +empSkillList.get(i).getEmpSkillID()+" "+empSkillList.get(i).getEmployeeID() );
 				vect.addElement(empSkillList.get(i).getEmployeeID()); 
 	        }
 			Collections.sort(vect);    		
-System.out.println("searchbyskill - after sort vect size: "+vect.size());	
+			System.out.println("searchbyskill - after sort vect size: "+vect.size());	
 		
 
 //          now go thru the vector that contains the employeeID and fetch the employee details one at a time and populate
 //          the table - do not print duplicate employees
-System.out.println("searchbyskill - before for - " + empSkillList.size() );
-
-			Object[] tabCols = new Object[5];
-			employeeList = clientControl.searchEmployee((String)vect.elementAt(0));
-			for (int i=0; i < vect.size(); i++)
-	        {
-				if (i>0 && (vect.elementAt(i).equals(vect.elementAt(i-1))))
-				{
-					continue;
-				}
-				employeeList = clientControl.searchEmployee((String)vect.elementAt(i));	    	   	
-	    	   	tabCols[0] = employeeList.get(0).getEmployeeID();
-	    	   	tabCols[1] = employeeList.get(0).getFirstName();
-	    	   	tabCols[2] = employeeList.get(0).getSurname();
-	 //     	   	model.addRow(tabCols);
-	        }
+			System.out.println("searchbyskill - before for - " + empSkillList.size() );
+//
+//			Object[] tabCols = new Object[5];
+//			employeeList = clientControl.searchEmployee((String)vect.elementAt(0));
+//			for (int i=0; i < vect.size(); i++)
+//	        {
+//				if (i>0 && (vect.elementAt(i).equals(vect.elementAt(i-1))))
+//				{
+//					continue;
+//				}
+//				employeeList = clientControl.searchEmployee((String)vect.elementAt(i));	    	   	
+//	    	   	tabCols[0] = employeeList.get(0).getEmployeeID();
+//	    	   	tabCols[1] = employeeList.get(0).getFirstName();
+//	    	   	tabCols[2] = employeeList.get(0).getSurname();
+//	 //     	   	model.addRow(tabCols);
+//	        }
 			
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
 //			skillTable.setAutoCreateRowSorter(true);
@@ -177,6 +228,7 @@ System.out.println("searchbyskill - before for - " + empSkillList.size() );
 			modelInsert.fireTableDataChanged();
 			this.repaint();
 		
+			exportBut.setEnabled(true);
 		}
 	}
 }
