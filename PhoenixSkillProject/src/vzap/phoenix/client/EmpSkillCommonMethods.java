@@ -18,7 +18,7 @@ public class EmpSkillCommonMethods
 				+ "Into getEmpSkillAverage");
 
 		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
-		"Number of ratings"};
+		"Number of \nNominee ratings"};
 		int counter = 0;
 		
 		
@@ -128,7 +128,7 @@ public class EmpSkillCommonMethods
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
-		capabilityHeader[9] = "No of Ratings";
+		capabilityHeader[10] = "No of Ratings";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 
 		// iterate through the static capability array to obtain the capabilityName
@@ -170,7 +170,7 @@ public class EmpSkillCommonMethods
 						Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
 						capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
 						capabilityRating[1] = ""+skillDesc; 
-						int ratingIdx = 1;
+						int ratingIdx = 2;
 						for (int j = 0; j < averageRating.length; j++)
 						{
 							capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount*100.0)/100.0;
@@ -220,7 +220,8 @@ public class EmpSkillCommonMethods
 			Employee employee = new Employee();
 			employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
-			int ratingIdx = 1;
+			capabilityRating[1] = ""+skillDesc; 
+			int ratingIdx = 2;
 			for (int j = 0; j < averageRating.length; j++)
 			{
 				capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount *100.0)/100.0;

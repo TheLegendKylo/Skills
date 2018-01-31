@@ -97,7 +97,14 @@ public class EmpSkillServer
 					empControl.resetErrorMsg();;					
 				}
 				System.out.println("Try to read new message");
-				
+				try
+				{
+					oos.reset();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				inMessage= this.readObject();
 				System.out.println("Server: In Thread-inMessage: "+inMessage);
 				switch (inMessage)

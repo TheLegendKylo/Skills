@@ -12,7 +12,7 @@ import vzap.phoenix.DAO.CapabilityLevelDAO;
 import vzap.phoenix.DAO.LevelDAO;
 import vzap.phoenix.DAO.SkillDAO;
 
-public class EmployeeController
+public class EmployeeController implements Runnable
 {
 	private Employee logonEmployee;
 	private EmployeeDAO employeeDAO;
@@ -27,6 +27,8 @@ public class EmployeeController
 	static ArrayList <Capability> capabilityList;
 	static ArrayList <CapabilityRating> capabilityRatingList;
 	private ArrayList <EmployeeSkill> empSkillList;
+	
+	private Thread thread;
 
 	public EmployeeController(String employeeID, String password)
 	{
@@ -37,18 +39,9 @@ public class EmployeeController
 		System.out.println("getDAO Error Code: "+this.errorCode);
 		if(this.errorCode==0)
 		{
-			skillDAO = new SkillDAO();
-			skillList = SkillDAO.getSkillList();
-			hobbyDAO = new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			new LevelDAO();
-			levelList = LevelDAO.getLevelList();
-			new CapabilityDAO();
-			capabilityList = CapabilityDAO.getCapabilityList();
-			new CapabilityLevelDAO();
-			capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
-			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-			empSkillList = empSkillDAO.getEmpSkillList();
+			thread = new Thread(this);
+			thread.start();
+
 		}
 	}
 	public boolean registerEmployee(Employee newEmployee)
@@ -70,16 +63,15 @@ public class EmployeeController
 		{
 			this.employeeDAO = new EmployeeDAO();			
 		}
-System.out.println("empControl = before call to EmployeeDAO");
 		if(employeeDAO.updateEmployee(updateEmployee))
 		{
 			System.out.println("empControl = after call to EmployeeDAO - returning true");
 			this.logonEmployee = updateEmployee;
-			this.errorCode = employeeDAO.getErrorCode();
-			this.errorMsg = employeeDAO.getErrorMsg();
 			return true;
 		}
 		System.out.println("Employee Update Failed");
+		this.errorCode = employeeDAO.getErrorCode();
+		this.errorMsg = employeeDAO.getErrorMsg();
 		return false;
 	}
 	public ArrayList<Employee> searchEmployee(String searchCriteria)
@@ -201,6 +193,22 @@ System.out.println("empControl = before call to EmployeeDAO");
 	public static ArrayList<CapabilityRating> getCapabilityRatingList()
 	{
 		return capabilityRatingList;
+	}
+	@Override
+	public void run()
+	{
+		skillDAO = new SkillDAO();
+		skillList = SkillDAO.getSkillList();
+		hobbyDAO = new HobbyDAO();
+		hobbyList = HobbyDAO.getHobbyList();
+		new LevelDAO();
+		levelList = LevelDAO.getLevelList();
+		new CapabilityDAO();
+		capabilityList = CapabilityDAO.getCapabilityList();
+		new CapabilityLevelDAO();
+		capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
+		empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+		empSkillList = empSkillDAO.getEmpSkillList();
 	}
 
 }
