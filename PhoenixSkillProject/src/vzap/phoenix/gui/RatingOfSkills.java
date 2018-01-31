@@ -140,7 +140,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		add(btnSubmitRating);
 		btnSubmitRating.addActionListener(this);
 			
-
+//x
 		capList = clientControl.getCapabilityList();
 		capRatingList = clientControl.getCapabilityRatingList();
 		tableRow = new Object[capList.size()][3];
