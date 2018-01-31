@@ -19,8 +19,7 @@ public class EmpSkillCommonMethods
 
 		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
 		"Number of \nNominee ratings"};
-		int counter = 0;
-		
+		int counter = 0;	
 		
 		String [] skillDesc = new String[99];
 		ArrayList<Skill> skillList = clientControl.getSkillList();
