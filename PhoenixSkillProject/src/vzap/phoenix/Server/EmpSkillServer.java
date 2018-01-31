@@ -106,7 +106,6 @@ public class EmpSkillServer
 					e.printStackTrace();
 				}
 				inMessage= this.readObject();
-				System.out.println("Server: In Thread-inMessage: "+inMessage);
 				switch (inMessage)
 				{
 					case "Quit":
@@ -244,20 +243,14 @@ public class EmpSkillServer
 			String password = null;
 			employeeID= this.readObject();
 			password= this.readObject();
-			System.out.println("Server: read EmployeeID: "+employeeID);
 			empControl = new EmployeeController(employeeID, password);
 			employee = empControl.getLogonEmployee();
-			System.out.println("Employee login errorCode: "+empControl.getErrorCode());
 			outMessage = empControl.getErrorMsg();
-			System.out.println("Employee login writing errorMsg: "+outMessage);
 			this.writeOutMessage(outMessage);
 			try
 			{
 				short errorCode = empControl.getErrorCode();
-				System.out.println("Employee login writing errorCode: "+errorCode);
 				oos.writeObject(new Short(errorCode));
-//				dos.writeShort(1234);//errorCode);
-				System.out.println("Employee login AFTER writing errorCode: "+errorCode);
 				oos.flush();
 			} catch (IOException e)
 			{
@@ -296,7 +289,6 @@ public class EmpSkillServer
 		{
 			short skillID = 0;
 			String description = this.readObject();
-			System.out.println("Server: read Skill Description: "+description);
 			skillID = empControl.addSkill(description);
 			System.out.println("Server Skill Added: "+skillID);
 			try
@@ -447,12 +439,10 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			{
 				updateEmployee = (Employee)ois.readObject();
 				int hobbyCount = (Integer)ois.readObject();
-				System.out.println("Server: Update Employee - hobby count Field: "+hobbyCount);			
 				for (int i = 0; i < hobbyCount; i++)
 				{
 					hobbyIDList.add((Short)ois.readObject());
 				}
-				System.out.println("Server: Update Employee - hobbyIDList.size: "+hobbyIDList.size());			
 				updateEmployee.setEmpHobbies(hobbyIDList);
 			} catch (ClassNotFoundException e)
 			{
@@ -463,7 +453,6 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Server: Update Employee - hobby count: "+updateEmployee.getEmpHobbies().size());			
 			boolean updateSuccess = empControl.updateEmployee(updateEmployee);
 			try
 			{
@@ -479,7 +468,6 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 		public void searchEmployee()
 		{
 			String searchCriteria = this.readObject();
-System.out.println("calling Controller: "+searchCriteria);			
 			ArrayList <Employee> employeeSearchResults = empControl.searchEmployee(searchCriteria);
 			try
 			{
@@ -701,7 +689,6 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 		}
 		public String readObject()
 		{
-System.out.println("Server: in readObject()");
 			try
 			{
 				inMessage=(String)ois.readObject();

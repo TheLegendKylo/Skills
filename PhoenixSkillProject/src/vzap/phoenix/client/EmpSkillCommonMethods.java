@@ -14,9 +14,6 @@ public class EmpSkillCommonMethods
 	
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
-		System.out.println("**********************************************************/n"
-				+ "Into getEmpSkillAverage");
-
 		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
 		"Number of \nNominee ratings"};
 		int counter = 0;	
@@ -32,9 +29,6 @@ public class EmpSkillCommonMethods
 		
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-		System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "
-				+employeeSkillList.get(i).getSkillID() +" Counter: "+counter);
-		
 			// Check whether a new SkillId has been read
 			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 			{
@@ -44,9 +38,8 @@ public class EmpSkillCommonMethods
 				{
 					if(ratingCount >0)
 					{
-						System.out.println("---Nominee ID " + " counter: "+counter) ;
-						System.out.println("---Rating count = " +nominateeAveRating[counter]+ " ssss" + ratingCount);
 						nominateeAveRating[counter]= ( (nominateeAveRating[counter]/ratingCount *100.0)/100.0);
+						numberOfRatings[counter] = ratingCount;
 						ratingCount = 0;
 					}
 					counter++;
@@ -54,14 +47,11 @@ public class EmpSkillCommonMethods
 				// iterate through the static skill array to obtain the skilldescription
 				for (int j = 0; j < skillList.size(); j++)
 				{
-					System.out.println(">>>SkillList: "+skillList.get(j).getSkillId()+" empSkill: "+employeeSkillList.get(i).getSkillID());
 					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
 						{
 						skillIDCheck = skillList.get(j).getSkillId();
-						System.out.println(">>>set new skillcheck: "+skillIDCheck+" counter: "+counter);
 						skillDesc[counter] = skillList.get(j).getSkillDescription();
-						System.out.println(">>>set new skillcheck: "+skillIDCheck+" counter: "+counter+" desc: "+skillDesc[counter]);
-							break;
+						break;
 						}//comment
 				}
 			}
@@ -76,44 +66,30 @@ public class EmpSkillCommonMethods
 				// this record if of a nominee rating
 			{
 				averageRating = employeeSkillList.get(i).getOverAllAverageRating();
-				System.out.println("Nominee ID " + employeeSkillList.get(i).getRaterID());
-				System.out.println("Skill ID " + employeeSkillList.get(i).getSkillID());
-				System.out.println("Average rating = " + averageRating);
-				System.out.println("Rating count = " + ratingCount);
 				// only include in the average ratings if it is not 0;
 				if(averageRating > 0)
 				{
 					nominateeAveRating[counter] =+ averageRating;
 					ratingCount++;
-					numberOfRatings[i] = ratingCount;
 				}
-				
 			}
 		}
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
-			System.out.println("---Nominee ID " + " counter: "+counter) ;
 			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
+			numberOfRatings[counter] = ratingCount;
 			ratingCount = 0;
 		}
 		
 		Object[][] skillsRow = new Object[counter+1][5];
-		System.out.println("Before for loop + length of skillDesc " + skillDesc.length);
-		System.out.println("Testing the counter " + counter);
-		
 		for (int i = 0; i < (counter+1); i++)
 		{
-			
-			System.out.println("Index number " + i +" skillDesc "+skillDesc[i]);
-				skillsRow[i][0] = skillDesc[i];
-				skillsRow[i][1] = yourAveRating[i];
-				skillsRow[i][2] = nominateeAveRating[i];
-				skillsRow[i][3] = numberOfRatings[i];
+			skillsRow[i][0] = skillDesc[i];
+			skillsRow[i][1] = yourAveRating[i];
+			skillsRow[i][2] = nominateeAveRating[i];
+			skillsRow[i][3] = numberOfRatings[i];
 		}
-		System.out.println("**********************************************************");
-		System.out.println("**********************************************************");
-		
 		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader);
 		return empSkillModel;
 	}
@@ -121,9 +97,6 @@ public class EmpSkillCommonMethods
 	public DefaultTableModel getEmpSkillDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
-		System.out.println("**********************************************************/n"
-				+ "Into getEmpSkillDetail");
-
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
@@ -151,9 +124,6 @@ public class EmpSkillCommonMethods
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-		System.out.println(">>>empIDcheck: "+empIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID()
-		+" Counter: "+counter);
-		
 			// Check whether a new SkillId has been read
 			if(((empIDCheck==null) ||
 					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID()))) ||
@@ -175,7 +145,7 @@ public class EmpSkillCommonMethods
 							averageRating[j]=0;
 							ratingIdx++;
 						}
-						capabilityRating[ratingIdx-1] = ratingCount;
+						capabilityRating[9] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
 					}
@@ -213,7 +183,6 @@ public class EmpSkillCommonMethods
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
-			System.out.println("empIDCheck: "+empIDCheck);
 			Employee employee = new Employee();
 			employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
@@ -225,14 +194,10 @@ public class EmpSkillCommonMethods
 				averageRating[j]=0;
 				ratingIdx++;
 			}
-			capabilityRating[ratingIdx-1] = ratingCount;
+			capabilityRating[9] = ratingCount;
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}
-		
-		System.out.println("**********************************************************");
-		System.out.println("**********************************************************");
-		
 		return empCapModel;
 	}
 
@@ -249,8 +214,6 @@ public class EmpSkillCommonMethods
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			System.out.println(">>>Skillcheck: "+skillIDCheck+" empSkill: "+employeeSkillList.get(i).getSkillID());
-		
 			// Check whether a new SkillId has been read
 			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 			{
@@ -270,17 +233,15 @@ public class EmpSkillCommonMethods
 			if((empIDCheck==null)||
 			!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
 			{
-				System.out.println("Employee ID: "+employeeSkillList.get(i).getEmployeeID());
 				ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
-				System.out.println("Employee: "+empList.get(0));
 				employee = empList.get(0);
 //				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
 				skillsRow[0] = employee.getEmployeeID();
 				skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
-				skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
-				empSkillModel.addRow(skillsRow);
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
 			}
+			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
+			empSkillModel.addRow(skillsRow);
 		}
 		
 		return empSkillModel;
