@@ -108,7 +108,7 @@ public class EmpSkillCommonMethods
 		{
 			capabilityHeader[j+2] = capabilityList.get(j).getName();
 		}
-		Object[] capabilityRating = new Object[9];
+		Object[] capabilityRating = new Object[10];
 		int counter = 0;
 		
 		
@@ -145,6 +145,7 @@ public class EmpSkillCommonMethods
 							averageRating[j]=0;
 							ratingIdx++;
 						}
+System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
 						capabilityRating[9] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;

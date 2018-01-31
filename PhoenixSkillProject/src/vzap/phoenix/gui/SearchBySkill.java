@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.Employee;
@@ -43,6 +44,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 	private Object[] HeaderForSkillsDetails;
 	private DefaultTableModel modelInsert;
 	private JButton clearBut;
+	private JButton exportBut;
   	
 
 
@@ -67,21 +69,23 @@ public class SearchBySkill extends JPanel implements ActionListener
 		setLayout(null);
 		
 		searchBySkillLab = new JLabel("Choose SKILL from dropdown list");
-		searchBySkillLab.setBounds(302, 57, 197, 14);
+		searchBySkillLab.setBounds(413, 57, 197, 14);
 		add(searchBySkillLab);
 		
 		skillComboBox = new JComboBox(comboSkill);
 		AutoCompletion.enable(skillComboBox);
 		skillComboBox.addActionListener(this);
-		skillComboBox.setBounds(542, 54, 243, 20);
+		skillComboBox.setBounds(677, 54, 243, 20);
 		add(skillComboBox);
 		
 		skillScrollPane = new JScrollPane();
 		modelInsert = new DefaultTableModel();
-		skillScrollPane.setBounds(20, 139, 1011, 485);
+		skillScrollPane.setBounds(20, 97, 1380, 527);
 		add(skillScrollPane);
 		skillTable = new JTable(modelInsert);
 //		skillTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
+		skillTable.setAutoCreateRowSorter(true); 
 		skillTable.getRowSelectionAllowed();
 		skillTable.getSelectionModel();
 
@@ -89,10 +93,13 @@ public class SearchBySkill extends JPanel implements ActionListener
 		
 		clearBut = new JButton("CLEAR");
 		clearBut.addActionListener(this);
-		clearBut.setBounds(460, 95, 89, 23);
+		clearBut.setBounds(1290, 29, 99, 23);
 		add(clearBut);
-	//	//
-
+		
+		exportBut = new JButton("Export to excel");
+		exportBut.addActionListener(this);
+		exportBut.setBounds(1290, 63, 105, 23);
+		add(exportBut);
 	}
 
 
@@ -161,7 +168,6 @@ System.out.println("searchbyskill - before for - " + empSkillList.size() );
 	 //     	   	model.addRow(tabCols);
 	        }
 			
-//			modelInsert = clientControl.getEmpSkillList(empSkillList, loggedOnEmployee);
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
 //			skillTable.setAutoCreateRowSorter(true);
 			skillTable.setAutoCreateRowSorter(isEnabled());

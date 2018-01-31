@@ -42,6 +42,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JList;
 // mport javax.swing.UIManager;
 
@@ -177,7 +179,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 
 		scrollHobby = new JScrollPane();
-		scrollHobby.setBounds(791, 327, 84, 158);
+		scrollHobby.setBounds(932, 326, 84, 158);
 		add(scrollHobby);
 
 		individualSkillsModel = new DefaultTableModel();
@@ -196,24 +198,24 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		individualSkillListLab = new JLabel("Chosen Employee's SKILL list ");
 		individualSkillListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
 		individualSkillListLab.setToolTipText("This will lsit ALL skills for chosen Employee");
-		individualSkillListLab.setBounds(201, 302, 193, 14);
+		individualSkillListLab.setBounds(298, 302, 193, 14);
 		add(individualSkillListLab);
 		
 		individualHobbyListLab = new JLabel("Chosen Employee's HOBBY list");
 		individualHobbyListLab.setToolTipText("This will show all chosen Employee's hobbies");
 		individualHobbyListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
-		individualHobbyListLab.setBounds(752, 302, 176, 14);
+		individualHobbyListLab.setBounds(893, 302, 176, 14);
 		add(individualHobbyListLab);
 		
 		scrollSkillsDetails = new JScrollPane();
 		scrollSkillsDetails.setToolTipText("This will give capability ratings for chosen Employee's skill");
-		scrollSkillsDetails.setBounds(71, 521, 927, 143);
+		scrollSkillsDetails.setBounds(10, 521, 1390, 143);
 		add(scrollSkillsDetails);
 		
 		skillsDetailsLab = new JLabel("Chosen Employee's skills ratings");
 		skillsDetailsLab.setFont(new Font("Tahoma", Font.BOLD, 11));
 		skillsDetailsLab.setToolTipText("This will give capability ratings for chosen Employee's skill");
-		skillsDetailsLab.setBounds(201, 496, 231, 14);
+		skillsDetailsLab.setBounds(298, 496, 235, 14);
 		add(skillsDetailsLab);
 		
 		model = new DefaultTableModel();
@@ -226,7 +228,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollEmployee = new JScrollPane(tableEmployee);
 		scrollEmployee.setToolTipText("This will be populated once you have chosen one of the above options  ");
 		scrollEmployee.setEnabled(false);
-		scrollEmployee.setBounds(71, 153, 919, 138);
+		scrollEmployee.setBounds(24, 160, 769, 138);
 		add(scrollEmployee);
 		
 		individualSkillsModel = new DefaultTableModel();
@@ -237,7 +239,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollIndividualSkills = new JScrollPane(individualSkillsTable);
 		scrollIndividualSkills.setToolTipText("This will only be populated with chosen Employee's skills once you have entered \"EMPLOYEE search criteria\" option");
 		scrollIndividualSkills.setEnabled(false);
-		scrollIndividualSkills.setBounds(71, 327, 451, 158);
+		scrollIndividualSkills.setBounds(24, 327, 769, 158);
 		add(scrollIndividualSkills);
 		scrollIndividualSkills.setViewportView(individualSkillsTable);
 
@@ -250,6 +252,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 //		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
   		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		scrollSkillsDetails.setViewportView(tableSkillsDetails);
+		tableSkillsDetails.getTableHeader().setPreferredSize(new Dimension(tableSkillsDetails.getColumnModel().getTotalColumnWidth(),32));
 		tableSkillsDetails.getRowSelectionAllowed();
 		tableSkillsDetails.getSelectionModel();
 //		tableSkillsDetails.addMouseListener(this);
