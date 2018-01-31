@@ -40,8 +40,7 @@ public class GuiControl extends JFrame
 		        	System.exit(0);
 		        }
 		    }
-		});
-		
+		});	
 		basePanel = new JPanel();
 		basePanel.setBackground(new Color(220,220,220));
 		basePanel.setBorder(new EmptyBorder(15,15,15,15));
@@ -54,7 +53,6 @@ public class GuiControl extends JFrame
 	public static void main(String[] args)
 	{
 		GuiControl gc = new GuiControl();
-		gc.setVisible(true);
-				
+		gc.setVisible(true);				
 	}
 }
