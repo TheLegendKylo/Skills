@@ -397,6 +397,37 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		if (source == btnSubmitRating)
 		{
+			System.out.println("Submit button was pressed");
+			int submit = 0;
+			System.out.println("Printing Clear int value before " + submit);
+			submit = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear?");
+			/*
+			 *  0 = Yes
+			 *  1 = No
+			 *  2 = Cancel			
+			 */
+			switch(submit)
+			{
+			case 0 : System.out.println("YES was selected");
+			
+					for (int i = 0; i < tableRow.length; i++)
+					{
+						tableRow[i][1]="Select rating";
+
+						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+						
+					}	
+					
+					ratingModel.fireTableDataChanged();
+					ratingTable.repaint();
+					break;
+					
+			case 1 : System.out.println("NO was selected");
+					break;
+			case 2 : System.out.println("CANCEL was selected");
+					break;
+			}
+			
 			capListArray = new ArrayList<Short>();
 			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
 			for (int i = 0; i < capList.size(); i++)

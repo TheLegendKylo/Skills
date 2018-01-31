@@ -178,8 +178,9 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-					System.out.println("Write Lines: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
-					averageRating [j]=+ Math.round(ratingList.get(j)*100.0)/100.0;
+					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+					averageRating [j] += Math.round(ratingList.get(j)*100.0)/100.0;
+					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 				}
 				ratingCount++;
 			}		

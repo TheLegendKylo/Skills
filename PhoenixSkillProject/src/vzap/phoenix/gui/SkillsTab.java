@@ -38,7 +38,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SkillsTab extends JPanel implements ActionListener
+public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
 	private JLabel lblSkillTab;
 	private JPanel panelTop;
@@ -77,6 +77,10 @@ public class SkillsTab extends JPanel implements ActionListener
 	private DefaultTableModel detailTableModel;
 	private JTable detailedTable;
 	private JScrollPane detailedScrollPane;
+	
+	private int rowSelected = -1;
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -114,9 +118,6 @@ public class SkillsTab extends JPanel implements ActionListener
 		scrollPaneSummarySkills.setBounds(10, 236, 928, 161);
 		add(scrollPaneSummarySkills);
 		
-		tableSummarySkills = new JTable();
-		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
-		
 		lblDetails = new JLabel("Details");
 		lblDetails.setBounds(10, 408, 928, 22);
 		add(lblDetails);
@@ -145,6 +146,7 @@ public class SkillsTab extends JPanel implements ActionListener
 	skillList = clientControl.getSkillList();
 
 		tableSummarySkills = new JTable(model);
+		tableSummarySkills.addMouseListener(this);
 		
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		
@@ -287,6 +289,46 @@ public class SkillsTab extends JPanel implements ActionListener
 			this.repaint();
 
 		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+//		Getting ready to delete and delete skills
+		
+		System.out.println("****Mouse Clicked****");
+		rowSelected = tableSummarySkills.getSelectedRow();
+		System.out.println("Printing the rowSelected value: " + rowSelected);
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
 		
 	}
 
