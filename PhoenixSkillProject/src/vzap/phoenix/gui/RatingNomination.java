@@ -3,6 +3,7 @@ package vzap.phoenix.gui;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -11,6 +12,8 @@ import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClientController;
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.util.*;
@@ -49,6 +52,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private JScrollPane outstandingRatesScrollP;
 	private JTable outstandingRatesTable;
 	private EmpSkillClientController clientControl;
+	private Color colour;
 
 
 	/**
@@ -77,6 +81,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         }
 	
 		selectModel = new DefaultTableModel();
+		colour = new Color(255,255,255);
         
         empHeader = new String[]{"UserId","First Name","Surname","Alias"};
         selectModel.setColumnIdentifiers(empHeader);
@@ -91,8 +96,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		add(selectRaterlbl);
 		
 		nomineelbl = new JLabel("Rater/Nominee");
-		nomineelbl.setFont(new Font("Arial", Font.PLAIN, 14));
-		nomineelbl.setBounds(160, 233, 125, 16);
+		nomineelbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		nomineelbl.setBounds(10, 234, 201, 22);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
@@ -100,12 +105,14 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		add(scrollPane);
 		
 		btnSubmit = new JButton("SUBMIT RATERS");
-		btnSubmit.setBounds(10, 417, 153, 22);
+		btnSubmit.setBounds(10, 423, 153, 22);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 261, 85, 22);
+		raterIDJTF.setBounds(109, 267, 85, 22);
+		raterIDJTF.setEditable(false);
+		raterIDJTF.setBackground(colour);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
@@ -120,7 +127,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empSearchJTF.setColumns(10);
 		
 		btnAdd = new JButton("ADD");
-		btnAdd.setBounds(10, 260, 89, 23);
+		btnAdd.setBounds(10, 266, 89, 23);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
@@ -140,7 +147,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		nominateScrollPane.setBounds(10, 294, 623, 112);
+		nominateScrollPane.setBounds(10, 300, 623, 112);
 		add(nominateScrollPane);
 
 		
@@ -148,7 +155,9 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		raterName = new JTextField();
 		raterName.setColumns(10);
-		raterName.setBounds(204, 261, 146, 22);
+		raterName.setEditable(false);
+		raterName.setBackground(colour);
+		raterName.setBounds(204, 267, 146, 22);
 		add(raterName);
 		
 		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill","Date Requested"};
