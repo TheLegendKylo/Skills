@@ -51,7 +51,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		sk = new SkillsTab(clientControl);
 		tabbedPane.addTab("SKILLS", null, sk, null);
  
-		ratingNom = new RatingNomination(clientControl);
+		ratingNom = new RatingNomination(clientControl, emp);
 		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
 		
 		ratingSkillsTab = new RatingOfSkills(clientControl);
@@ -110,8 +110,11 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		//ratingNom.update();
-		System.out.println("Hey This dude changed a tab : " + tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()));
 		
+		System.out.println("Hey Nico changed a tab : " + tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()));
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("RATING NOMINATIONS"))
+		{
+			ratingNom.setup();
+		}
 	}
 }
