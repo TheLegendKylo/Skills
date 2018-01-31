@@ -127,13 +127,13 @@ public class EmpSkillCommonMethods
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
-		capabilityHeader[10] = "No of Ratings";
+		capabilityHeader[9] = "No of Ratings";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 
 		// iterate through the static capability array to obtain the capabilityName
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
-			capabilityHeader[j+1] = capabilityList.get(j).getName();
+			capabilityHeader[j+2] = capabilityList.get(j).getName();
 		}
 		Object[] capabilityRating = new Object[9];
 		int counter = 0;
@@ -175,7 +175,7 @@ public class EmpSkillCommonMethods
 							averageRating[j]=0;
 							ratingIdx++;
 						}
-						capabilityRating[ratingIdx] = ratingCount;
+						capabilityRating[ratingIdx-1] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
 					}
@@ -225,7 +225,7 @@ public class EmpSkillCommonMethods
 				averageRating[j]=0;
 				ratingIdx++;
 			}
-			capabilityRating[ratingIdx] = ratingCount;
+			capabilityRating[ratingIdx-1] = ratingCount;
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}
