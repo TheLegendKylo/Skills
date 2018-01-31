@@ -50,7 +50,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private JLabel lblMessageIdentifier;
 	private JButton btnSubmitRating;
 	private JTable tableTop;
-	private ArrayList<EmployeeSkill> employeeSkillList;
 	private DefaultTableModel outstandingModel;
 	private JScrollPane scrollPaneTop;
 	private Object source;
@@ -66,6 +65,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private ArrayList<Skill> skillList;
 	private ArrayList<Short> capListArray =null;
 	private short[] ratingArray;
+	private JButton btnClearRatings;
 
 	/**
 	 * Create the panel.
@@ -76,7 +76,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		setAutoscrolls(true);
 		loggedOnEmployee = clientControl.getLogonEmployee();
 		this.clientControl=clientControl;
-		employeeSkillList = clientControl.getOutstandingRatings();
 		setLayout(null);
 		employeeList = new ArrayList<Employee>();
 		
@@ -123,7 +122,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnCannotRate.setToolTipText("Select if you are unable to offer a rating for an employee request");
 		add(btnCannotRate);
 		btnCannotRate.addActionListener(this);
-		btnCannotRate.setEnabled(false);
 		
 		panelBottom = new JPanel();
 		panelBottom.setBounds(-24, 267, 763, 234);
@@ -138,11 +136,10 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		add(lblMessageIdentifier);
 		
 		btnSubmitRating = new JButton("Submit Rating");
-		btnSubmitRating.setBounds(299, 523, 116, 23);
+		btnSubmitRating.setBounds(165, 523, 116, 23);
 		add(btnSubmitRating);
 		btnSubmitRating.addActionListener(this);
-		btnSubmitRating.setEnabled(false);
-		
+			
 
 		capList = clientControl.getCapabilityList();
 		capRatingList = clientControl.getCapabilityRatingList();
@@ -156,12 +153,10 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
        }
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
 	    ratingTable = new JTable(new MyTableModel());
-	    ratingTable.setEnabled(false);
 	    ratingArray = new short[7];
 	    TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
 		this.initColumnSizes(ratingTable);
 		this.setUpRatingColumn(ratingTable, ratingColumn);
-System.out.println(">>>>>Are you looping her too?");
 		panelBottom.setLayout(null);
        	
 		JScrollPane scrollPaneBottom = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -173,16 +168,37 @@ System.out.println(">>>>>Are you looping her too?");
 
 		panelBottom.add(scrollPaneBottom);
 		
+		btnClearRatings = new JButton("Clear Ratings");
+		btnClearRatings.setBounds(419, 523, 129, 23);
+		add(btnClearRatings);
+		btnClearRatings.addActionListener(this);
 		
+		this.disableRating();
 	//	ratingPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 
 	}
+	
+	private void disableRating()
+	{
+		btnCannotRate.setEnabled(false);
+		btnSubmitRating.setEnabled(false);
+		ratingTable.setEnabled(false);
+		btnClearRatings.setEnabled(false);
+	}
+	
+	private void enableRating()
+	{
+		btnCannotRate.setEnabled(true);
+		ratingTable.setEnabled(true);
+	}
+	
+	
 	/*
      * This method picks good column sizes.
      * If all column heads are wider than the column's cells'
      * contents, then you can just use column.sizeWidthToFit().
-     */
+     */	
     private void initColumnSizes(JTable ratingTable) 
     {
         MyTableModel ratingModel = (MyTableModel)ratingTable.getModel();
@@ -259,7 +275,6 @@ System.out.println(">>>>>Are you looping her too?");
    	    public void setValueAt(Object value, int row, int col) 
    	    {
    	  		int selRating = (int)value;
-   	  		System.out.println("Value: "+(int)value+" selRating: "+selRating);
    	    	String desc = null;
    	   		for (int j = 0; j < capRatingList.size(); j++)
    			{
@@ -270,22 +285,36 @@ System.out.println(">>>>>Are you looping her too?");
    					break;
    				}
    			}
-   			System.out.println("Rating Description: "+desc);
+
    	   		tableRow[row][1] = selRating;
    	   		tableRow[row][2] = desc;
    	   		ratingArray[row] = (short)selRating;
    	        fireTableCellUpdated(row, 2);
+   	        
    	        boolean enableSubmitBtn = true;
    	        for (int i = 0; i < ratingArray.length; i++)
 			{
-				if(ratingArray[i] == 0)
+				if(ratingArray[i] == 0 )
 				{
 					enableSubmitBtn = false;
+					break;
 				}
 			}
+   	        
+   	     for (int i = 0; i < ratingArray.length; i++)
+			{
+				if(! (ratingArray[i] == 0) )
+				{
+					btnClearRatings.setEnabled(true);
+					break;
+				}
+			}
+   	        
    	        this.isCellEditable(row, 2);
-   	        if(enableSubmitBtn = true)
+ 
+   	        if(enableSubmitBtn == true)
    	        {
+
    	        	btnSubmitRating.setEnabled(true);
    	        }
    	    }
@@ -312,16 +341,15 @@ System.out.println(">>>>>Are you looping her too?");
 				skillID = (short)skillList.get(i).getSkillId();
 			}
 		}
-System.out.println("empID: "+empID);		
+		
 		for (int i = 0; i < outstandingRatersList.size(); i++)
 		{
-			System.out.println("empSkillList ID: " + outstandingRatersList.get(i).getEmployeeID()+ " vs +empID: "+empID);	
+
 			
 			if((outstandingRatersList.get(i).getEmployeeID().equalsIgnoreCase(empID))
 				&& (outstandingRatersList.get(i).getSkillID()==skillID))
 			{
 				selectedEmpSkill = outstandingRatersList.get(i);
-				System.out.println("selectedEmpSkill: "+selectedEmpSkill);
 				ratingTable.setEnabled(true);
 				btnCannotRate.setEnabled(true);
 			}
@@ -365,11 +393,9 @@ System.out.println("empID: "+empID);
 		{
 			capListArray = new ArrayList<Short>();
 			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
-			System.out.println("btnSubmitRating was pressed and the capList size = " + capList.size());
 			for (int i = 0; i < capList.size(); i++)
 			{
-				System.out.println("Printing ValueAt for ratingModel ... " +capList.get(i).getID());
-				System.out.println("CapList size = " + capList.size());
+
 				capListArray.add(capList.get(i).getID());
 				
 				ratingArrayList.add(ratingArray[i]);
@@ -383,7 +409,7 @@ System.out.println("empID: "+empID);
 			selectedEmpSkill.setRatingList(ratingArrayList);
 			selectedEmpSkill.setRatedDate(new Date());
 			clientControl.rateEmployeeSkill(selectedEmpSkill);
-			
+			this.disableRating();
 			
 			
 		}
@@ -395,8 +421,31 @@ System.out.println("empID: "+empID);
 			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
 			selectedEmpSkill.setComment(comment);
 			boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
-			System.out.println("Printing boolean result--- = " + success);
+			this.disableRating();
 			
+		}
+		
+		if (source == btnClearRatings)
+		{
+			System.out.println("Clear Rating button was pressed");
+			int clear = 0;
+			System.out.println("Printing Clear int value before " + clear);
+			clear = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear?");
+			/*
+			 *  0 = Yes
+			 *  1 = No
+			 *  2 = Cancel			
+			 */
+			System.out.println("Printing Clear int value after" + clear);
+			switch(clear)
+			{
+			case 0 : System.out.println("YES was selected");
+					break;
+			case 1 : System.out.println("NO was selected");
+					break;
+			case 2 : System.out.println("CANCEL was selected");
+					break;
+			}
 		}
 		
 	}

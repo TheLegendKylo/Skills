@@ -277,10 +277,10 @@ public class EmpSkillCommonMethods
 //				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
 				skillsRow[0] = employee.getEmployeeID();
 				skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
-				skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
-				empSkillModel.addRow(skillsRow);
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
 			}
+			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
+			empSkillModel.addRow(skillsRow);
 		}
 		
 		return empSkillModel;
