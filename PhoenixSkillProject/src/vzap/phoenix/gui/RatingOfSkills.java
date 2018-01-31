@@ -66,6 +66,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private ArrayList<Short> capListArray =null;
 	private short[] ratingArray;
 	private JButton btnClearRatings;
+	private int rowSelected = -1;
 
 	/**
 	 * Create the panel.
@@ -141,6 +142,16 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnSubmitRating.addActionListener(this);
 			
 //x
+		
+		this.createRatingTable();
+		this.disableRating();
+	//	ratingPanel.setLayout(new GridLayout(1, 1, 0, 0));
+		
+
+	}
+	
+	private void createRatingTable()
+	{
 		capList = clientControl.getCapabilityList();
 		capRatingList = clientControl.getCapabilityRatingList();
 		tableRow = new Object[capList.size()][3];
@@ -172,11 +183,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnClearRatings.setBounds(419, 523, 129, 23);
 		add(btnClearRatings);
 		btnClearRatings.addActionListener(this);
-		
-		this.disableRating();
-	//	ratingPanel.setLayout(new GridLayout(1, 1, 0, 0));
-		
-
 	}
 	
 	private void disableRating()
@@ -328,7 +334,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	public void mouseClicked(MouseEvent e)
 	{
 		System.out.println("*****Mouse Clicked*****");
-		int rowSelected = tableTop.getSelectedRow();
+		rowSelected = tableTop.getSelectedRow();
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
 		String empName = (String)tableTop.getModel().getValueAt(rowSelected, 1);
 		String skillName = (String)tableTop.getModel().getValueAt(rowSelected, 2);
@@ -409,6 +415,16 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			selectedEmpSkill.setRatingList(ratingArrayList);
 			selectedEmpSkill.setRatedDate(new Date());
 			clientControl.rateEmployeeSkill(selectedEmpSkill);
+			
+			outstandingModel.removeRow(rowSelected);
+			outstandingModel.fireTableDataChanged();
+			
+			for (int i = 0; i < ratingModel.getRowCount(); i++)
+			{
+				ratingModel.setValueAt(0, i, 1);
+			}			
+			ratingModel.fireTableDataChanged();
+			
 			this.disableRating();
 			
 			
@@ -421,7 +437,10 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
 			selectedEmpSkill.setComment(comment);
 			boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
+			outstandingModel.removeRow(rowSelected);
+			outstandingModel.fireTableDataChanged();
 			this.disableRating();
+			
 			
 		}
 		
@@ -440,7 +459,19 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			switch(clear)
 			{
 			case 0 : System.out.println("YES was selected");
+			
+					for (int i = 0; i < tableRow.length; i++)
+					{
+						tableRow[i][1]="Select rating";
+
+						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+						
+					}	
+					
+					ratingModel.fireTableDataChanged();
+					ratingTable.repaint();
 					break;
+					
 			case 1 : System.out.println("NO was selected");
 					break;
 			case 2 : System.out.println("CANCEL was selected");
