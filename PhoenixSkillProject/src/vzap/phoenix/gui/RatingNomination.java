@@ -419,12 +419,18 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
     public void setUpSkillColumn(JTable table,
             TableColumn skill) 
     {
-		//Set up the editor for the sport cells.
+		//Set up the editor for the skill cells.
 		JComboBox skillBox = new JComboBox();
-		for (int j = 1; j<skillList.size(); j++)
-		{
-			skillBox.addItem(skillList.get(j).getSkillDescription());
-		}
+	    for(int i = 0 ; i < empSkillList.size() ; i++)
+	    	{
+	            for(int j = 0; j < skillList.size(); j++)
+	            {
+	            	if(skillList.get(j).getSkillId() == empSkillList.get(i).getSkillID())
+	            	{
+	            		skillBox.addItem(skillList.get(j).getSkillDescription());  
+	            	}
+	            }
+	    	}
 		skill.setCellEditor(new DefaultCellEditor(skillBox));
 		
 		//Set up tool tips for the sport cells.

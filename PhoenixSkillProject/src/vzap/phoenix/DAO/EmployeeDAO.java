@@ -34,13 +34,11 @@ public class EmployeeDAO
 		try
 		{
 			ps = dbCon.prepareStatement("select password from Employee where employeeID = ?");
-System.out.println("What is the EmployeeID: "+employeeID);
 			ps.setString(1,employeeID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
 			{
 				String rsPassword = rs.getString("password");
-System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				if(password.equals(rsPassword))
 				{
 					System.out.println("Validation passed, create OBJECT");
@@ -77,7 +75,6 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 				resultCount = rs.getRow();
 				  rs.beforeFirst(); 
 			}
-			System.out.println("Hobby result count: "+resultCount);
 			ArrayList<Short> empHobbyList= new ArrayList<Short>();
 			// setup list to check for deletions
 			compareHobbyList = empHobbyList; 
@@ -132,7 +129,6 @@ System.out.println("Compare rsPassword: "+rsPassword+" to "+password);
 		boolean updSuccess = true;
 		try 
 		{
-System.out.println("before prepare Statement");
 			ps = dbCon.prepareStatement("update Employee set firstName = ?,Surname = ?,alias = ?,email = ?,contact = ?"
 						+ "where employeeID = ?");
 			
@@ -164,7 +160,6 @@ System.out.println("addEmpHobby");
 		boolean newHobbyAdded = false;
 		for (int i = 0; i < empHobbyList.size(); i++)
 		{
-			System.out.println("before check Hobby: idx "+i+"hobbyId: "+empHobbyList.get(i)+" of "+empHobbyList.size());
 			boolean hobbyExists = this.searchEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
 			if(hobbyExists)
 			{
@@ -184,7 +179,6 @@ System.out.println("addEmpHobby");
 	}
 	public boolean addEmpHobby(String employeeID, short hobbyID)
 	{
-System.out.println("Adding new HobbyID: "+hobbyID);
 		PreparedStatement ps = null;
 		try
 		{
@@ -199,7 +193,6 @@ System.out.println("Adding new HobbyID: "+hobbyID);
 		this.errorMsg = "Employee Hobby: Select statement failed for EmployeeHobby: "+employee.getEmployeeID();
 		return false;
 		}
-System.out.println("Adding new Hobby - returning true");
 		return true;
 	}
 	public boolean deleteEmployee(Employee employee)
@@ -221,24 +214,19 @@ System.out.println("Adding new Hobby - returning true");
 	public boolean checkForDeletedHobbies(Employee employee, ArrayList<Short> empHobbyList)
 	{
 		boolean success = false;
-		System.out.println("Into delete hobby check = compareHobbyList.size()" +compareHobbyList.size());
 		for (int i = 0; i < compareHobbyList.size(); i++)
 		{
-			System.out.println("before delete check hobbyId: "+compareHobbyList.get(i)+" of "+compareHobbyList.size());
 			boolean deleteHobby = true;
 			for (int j = 0; j < empHobbyList.size(); j++)
 			{
-				System.out.println("Compare hobbyId: "+compareHobbyList.get(i)+" to "+empHobbyList.get(j));
 				if(empHobbyList.get(j)==compareHobbyList.get(i))
 				{
-					System.out.println("do not delete hobbyId: "+compareHobbyList.get(i)+" BREAK ");
 					deleteHobby = false;
 					break;
 				}
 			}
 			if(deleteHobby)
 			{
-				System.out.println("Delete hobbyId: "+compareHobbyList.get(i));
 				success = this.deleteEmpHobby(employee.getEmployeeID(), compareHobbyList.get(i));
 			}
 		}
@@ -349,7 +337,6 @@ System.out.println("Adding new Hobby - returning true");
 		try
 		{
 			ps = dbCon.prepareStatement("select * from Employee where employeeID = ?");
-System.out.println("Search: What is the EmployeeID: "+employeeID);
 			ps.setString(1,employeeID);
 			ResultSet rs = ps.executeQuery();
 			
@@ -375,7 +362,6 @@ System.out.println("Search: What is the EmployeeID: "+employeeID);
 			e.printStackTrace();
 			errorMsg = "Employee Get "+employeeID+" not found";
 		}
-		System.out.println("out of result set emp object = " + employee.toString());
 		return employee;
 	}
 	

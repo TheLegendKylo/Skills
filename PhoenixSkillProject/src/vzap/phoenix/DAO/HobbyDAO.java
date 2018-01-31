@@ -26,12 +26,10 @@ public class HobbyDAO
 			hobbyList = new Vector<Hobby>();
 			Statement stat=dbCon.createStatement();
 			ResultSet rs = stat.executeQuery("select * from hobby");
-			System.out.println("ResultSet Size: "+rs.getFetchSize());
 			while(rs.next())
 			{
 				short hobbyId = rs.getShort("hobbyId");
 				String hobbyDescription = rs.getString("hobbyDescription");
-				System.out.println("hobbyID: "+hobbyId+" - "+hobbyDescription);
 				hobbyList.add(new Hobby(hobbyId, hobbyDescription));					
 			}
 		} catch (SQLException e)
@@ -58,7 +56,6 @@ public class HobbyDAO
 			hobbyID = this.searchHobby(description);
 			if(hobbyID!=0)
 			{
-				System.out.println("hobbyID: "+hobbyID+" - "+description);
 				hobbyList.add(new Hobby(hobbyID, description));					
 			}
 		} catch (SQLException e)
@@ -80,7 +77,6 @@ public class HobbyDAO
 			while(rs.next())
 			{
 				hobbyID = rs.getShort("hobbyId");
-				System.out.println("Hobby Search Result - hobbyID: "+hobbyID+" - "+description);
 			}
 		} catch (SQLException e)
 		{

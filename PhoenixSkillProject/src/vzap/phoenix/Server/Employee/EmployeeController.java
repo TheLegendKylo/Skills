@@ -39,6 +39,8 @@ public class EmployeeController implements Runnable
 		System.out.println("getDAO Error Code: "+this.errorCode);
 		if(this.errorCode==0)
 		{
+			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+			empSkillList = empSkillDAO.getEmpSkillList();
 			thread = new Thread(this);
 			thread.start();
 
@@ -207,8 +209,6 @@ public class EmployeeController implements Runnable
 		capabilityList = CapabilityDAO.getCapabilityList();
 		new CapabilityLevelDAO();
 		capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
-		empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-		empSkillList = empSkillDAO.getEmpSkillList();
 	}
 
 }

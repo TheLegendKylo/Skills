@@ -16,6 +16,7 @@ import vzap.phoenix.Server.Employee.Skill;
 public class EmpSkillClientController
 {
 	private EmpSkillClient client;
+	private Employee logonEmployee;
 	private Vector<Hobby> hobbyList;
 	private ArrayList <Skill> skillList;
 	private ArrayList <Level> levelList;
@@ -37,7 +38,11 @@ public class EmpSkillClientController
 	public Employee getLogonEmployee()
 	{
 		//if null no employee found.
-		return client.getLogonEmployee();
+		if(this.logonEmployee==null)
+		{
+			this.logonEmployee = client.getLogonEmployee();
+		}
+		return logonEmployee;
 	}
 	public Vector<Hobby> getHobbyList()
 	{
@@ -85,7 +90,12 @@ public class EmpSkillClientController
 	}
 	public boolean updateEmployee(Employee updateEmployee)
 	{
-		return client.updateEmployee(updateEmployee);
+		boolean success = client.updateEmployee(updateEmployee);
+		if(this.logonEmployee.getEmployeeID().equals(updateEmployee.getEmployeeID()))
+		{
+			this.logonEmployee = client.getLogonEmployee();
+		}
+		return success;
 	}
 	public ArrayList<Employee> searchEmployee(String searchCriteria)
 	{
