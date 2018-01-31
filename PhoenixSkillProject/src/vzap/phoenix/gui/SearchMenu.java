@@ -80,11 +80,11 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	
 	private JComboBox hobbyComboBox;
 	 	
-	private Employee loggedOnEmployee;
+	private Employee emp=null;
   	private EmpSkillClientController clientControl;
   	
 	private JButton empBut;
-	private JButton clearBut;
+	
 	
 	private JLabel hobbyLab;
 	private JLabel lblEnterEmployeeSearch;
@@ -108,31 +108,20 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	Object[] HeaderForSkillsDetails;
 	private JLabel skillsDetailsLab;
 	
-	public SearchMenu(EmpSkillClientController clientControl)
+	public SearchMenu(EmpSkillClientController clientControl, Employee emp)
 	{
 //		
 		this.clientControl = clientControl;
-		loggedOnEmployee = clientControl.getLogonEmployee();
-		capabilityList = clientControl.getCapabilityList();
-		
+		// incase you want to do anything with the logged on employee
+		this.emp = emp;
+		setLayout(null);
+	
 		vectHobby = new Vector<String>();
 		vectSkill = new Vector<String>();
 		vectTabSkill = new Vector<String>();
-		hobbyList = clientControl.getHobbyList();
 		comboHobby = new Vector<>();
-		for(int i = 0 ; i < hobbyList.size();i++)
-		{
-			comboHobby.add(hobbyList.get(i).getHobbyDescription());
-		}
-		
-		skillList = clientControl.getSkillList();
 		comboSkill = new Vector<>();
-		for(int i = 0 ; i < skillList.size() ; i++)
-		{
-			comboSkill.add(skillList.get(i).getSkillDescription());	
-		}
-
-		setLayout(null);
+		
 									
 		inputJTF = new JTextField();
 		inputJTF.setToolTipText("Enter your employee search criteria ..... and then click on the \"search EMPLOYEE\" button");
@@ -140,16 +129,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		inputJTF.setColumns(10);
 		add(inputJTF);
 
-		clearBut = new JButton("CLEAR");
-		//
-		clearBut.setFont(new Font("Tahoma", Font.BOLD, 14));
-		clearBut.setToolTipText("click this CLEAR button between each different search - this will initialise the tables ");
-		clearBut.setBounds(724, 72, 111, 40);
-		clearBut.addActionListener(this);
-		add(clearBut);
 		
 		empBut = new JButton("search EMPLOYEE ");
-		//
 		empBut.setFont(new Font("Tahoma", Font.BOLD, 11));
 		empBut.setBounds(693, 22, 159, 23);
 		empBut.addActionListener(this);
@@ -257,50 +238,60 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		tableSkillsDetails.getSelectionModel();
 //		tableSkillsDetails.addMouseListener(this);
 		
+		setup();
+	
+		
 	}
+	public void setup()
+	{
+		// must add database calls here
+		vectHobby.clear();
+		vectSkill.clear();
+		vectTabSkill.clear();
+		comboHobby.clear();
+		comboSkill.clear();
+		
+		capabilityList = clientControl.getCapabilityList();
+		model.setRowCount(0);
+		modelInsert.setRowCount(0);
+		individualSkillsModel.setRowCount(0);
+		contentsOfTable.setText(" ");			
+		inputJTF.setText("");
+		
+		hobbyList = clientControl.getHobbyList();
+		System.out.println("hobby size: " + hobbyList.size());
+		
+		for(int i = 0 ; i < hobbyList.size();i++)
+		{
+			comboHobby.add(hobbyList.get(i).getHobbyDescription());
+		}
+		
+		skillList = clientControl.getSkillList();
+		
+		for(int i = 0 ; i < skillList.size() ; i++)
+		{
+			comboSkill.add(skillList.get(i).getSkillDescription());	
+		}
 
+
+	}
 	@Override
 	public void actionPerformed(ActionEvent ae)
 	{
 		source = ae.getSource();
-		
-		if(source == clearBut)
-		{
-			//model.setColumnIdentifiers(skillHeader);
-            contentsOfTable.setText(" ");			
-			inputJTF.setText("");
-			while (model.getRowCount() > 0)
-			{
-				model.removeRow(0);
-			}
-			hobbyJlist.removeAll();
-			vectHobby.removeAllElements();
-			hobbyJlist.updateUI();	
-			
-			individualSkillsTable = new JTable();
-			scrollIndividualSkills.setViewportView(individualSkillsTable);	
-			
-			tableSkillsDetails = new JTable();
-			scrollSkillsDetails.setViewportView(tableSkillsDetails);
-
-		}
-
-	
-//---------------------------------  EMPLOYEE
 			
 		if (source == empBut)
 		{	
 //			check if user has entered search criteria for the employee search 
-//
-	
+			model.setRowCount(0);
+			modelInsert.setRowCount(0);
+			individualSkillsModel.setRowCount(0);
+			
 			if(!inputJTF.getText().isEmpty() ) 
 			{
-
-
-System.out.println("searchmenu - employee search " + inputJTF.getText());
 				employeeList = null;
 				employeeList = clientControl.searchEmployee(inputJTF.getText());
-System.out.println("searchmenu - employee search size " + employeeList.size());	
+					
 				if(employeeList.size() == 0)
 				{
 					JOptionPane.showMessageDialog(this,"No employees found with your search criteria");
@@ -316,23 +307,21 @@ System.out.println("searchmenu - employee search size " + employeeList.size());
 				Object[] tabCols = new Object[5];
 				for (int i = 0; i < employeeList.size(); i++)
 		        {	
-System.out.println("searchmenu - employee - in for ind " + i + " " + employeeList.get(i).getEmployeeID());		                  		            
+							                  		            
 		    	   	tabCols[0] = employeeList.get(i).getEmployeeID();
 		    	   	tabCols[1] = employeeList.get(i).getFirstName();
 		    	   	tabCols[2] = employeeList.get(i).getSurname();
 		    	   	tabCols[3] = employeeList.get(i).getAlias();
 		    	   	tabCols[4] = employeeList.get(i).getContactNo();
 		    	   	model.addRow(tabCols);
-		    	   	
-		    	   	//int rowSelected = table.getSelectedRow()
 		        }
-System.out.println("searchmenu - getrowcount - " + model.getRowCount());
 				JOptionPane.showMessageDialog(this,"Please select a row from the table");
 			}
 			else
 			{
 				JOptionPane.showMessageDialog(this,  "Please enter search criteria");
 			}
+			inputJTF.setText("");
 		}
 		
 		
@@ -342,31 +331,29 @@ System.out.println("searchmenu - getrowcount - " + model.getRowCount());
 		
 		if(source == hobbyComboBox)
 		{
-			
+			model.setRowCount(0);
+			modelInsert.setRowCount(0);
+			individualSkillsModel.setRowCount(0);
 //		Hobby combobox was setup at the beginning of class - AutoCompletion was enabled at beginning.
 //		when you come into this IF statement it means user has selected a hobby to search
-System.out.println("searchmenu - hobbycombobox - index selected: " + hobbyComboBox.getSelectedIndex() );
-			int x = hobbyComboBox.getSelectedIndex();
-System.out.println("searchmenu - hobbycombobox - hobby description: " + hobbyList.get(x).getHobbyDescription());
 			
+			int x = hobbyComboBox.getSelectedIndex();			
 //		clear the employee arraylist and go and get all the employees that partake in this hobby		
 			employeeList = null;
 			employeeList = clientControl.searchEmployeeHobby(hobbyList.get(x).getHobbyID());
 
-System.out.println("searchmenu - employee hobby search size: " + employeeList.size());
 			if(employeeList.size() == 0)
 			{
 				JOptionPane.showMessageDialog(this,"No employees have this hobby");
+				//contentsOfTable.setText(" ");
 				return;
 			}
-			
 //		declare 4 column in the table 			
 			Object[] tabCols = new Object[5];
 			
 //		go thru the employeeList array and move information into the table 			
 			for (int i = 0; i < employeeList.size(); i++)
 	        {	
-System.out.println("searchmenu - hobby for - current i = " + i);
                 String heading1 = "List of employees that have \"";
                 String heading2 = hobbyList.get(x).getHobbyDescription();
                 String heading3 = "\" as a hobby";
@@ -396,12 +383,16 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 			int row = tableEmployee.getSelectedRow();
 			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
 			individualEmp = clientControl.searchEmployee(individualEmpID);
-	
-			
-//     build Jlist of selected employee's hobbies 
+			System.out.println("kyle emp hobby id : " + individualEmpID);
 			
 			individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
-			vectHobby = new Vector<String>();
+			
+			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
+			{
+				System.out.println(" my hobbies: " + individualEmpHobbyList.get(i));
+			}
+			
+			
 			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
 			{
 				for(int j = 0;j < hobbyList.size();j++)
@@ -416,17 +407,12 @@ System.out.println("searchmenu - hobby for - current i = " + i);
 			{
 				vectHobby.addElement("NO HOBBIES"); 
 			}
-			else
-			{
-System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " +vectHobby.elementAt(0));
-			}
-			hobbyJlist.setListData(vectHobby);
+			//hobbyJlist.setListData(vectHobby);
 			hobbyJlist.updateUI();	
 		
 			
 			
 //		     build JTable of selected employee's skills	
-			
 			individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
 
 			if(individualEmpSkillList.size()<1)
@@ -450,64 +436,7 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 			modelInsert.fireTableDataChanged();
 			this.repaint();
 		} //  end of empBut
-			
-	//   testing 
-		
-		
-//			vectSkill = new Vector<String>();
-//			for(int i = 0 ; i < individualEmpSkillList.size() ; i++)
-//			{
-//				for(int j = 0;j < skillList.size();j++)
-//				{
-//					if (individualEmpSkillList.get(i).getSkillID() == skillList.get(j).getSkillId())
-//					{
-//						vectSkill.addElement(skillList.get(j).getSkillDescription());
-//					}
-//				}
-//			}
-//			
-//			Collections.sort(vectSkill);
-//			String compareSkill = vectSkill.firstElement();
-//System.out.println("searchmenu compareSkill = " + compareSkill);
-//			for(int i = 0 ; i < vectSkill.size() ; i++)
-//			{
-//System.out.println("searchmenu compareSkill = compare = " + compareSkill + " " + vectSkill.elementAt(i));
-//				if((vectSkill.elementAt(i).equals(compareSkill)) )
-//				{
-//System.out.println("searchmenu compareSkill before continue");
-//					continue;
-//				}
-//System.out.println("searchmenu compareSkill after continue");
-//				vectTabSkill.addElement(compareSkill);
-//				compareSkill = vectSkill.elementAt(i);
-//			}
-//			if(! (vectTabSkill.lastElement().equals(compareSkill) ) )
-//			{
-//				vectTabSkill.addElement(compareSkill);
-//			}
-//			
-//			if(individualEmpSkillList.size() < 1)
-//			{
-//				vectSkill.addElement("No skills loaded for this employee");
-//			}
-//System.out.println("searchmenu - indivskill - vect = " + vectSkill.size() + " " +vectSkill.elementAt(0));
-//			individualSkillListLab.setVisible(true);	
-//			skillJlist.setListData(vectSkill);
-//			skillJlist.updateUI();	
-//		}
-		
 
-		
-		
-//		if(source == skillComboBox)
-//		{
-//			int row = tableEmployee.getSelectedRow();
-//			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
-//			individualEmp = clientControl.searchEmployee(individualEmpID);
-//		}
-
-//	     build JTable of selected employee's skills	
-		
 		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
 		if(individualEmpSkillList.size()<1)
 		{
@@ -520,41 +449,7 @@ System.out.println("searchmenu - indivhobby - vect = " + vectHobby.size() + " " 
 		individualSkillsTable = new JTable(individualSkillsModel);
 		scrollIndividualSkills.setViewportView(individualSkillsTable);			
 		individualSkillsModel.fireTableDataChanged(); 
-		this.repaint();
-		
-//		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
-//				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
-//		Object[][] ratingRow = new Object[1][HeaderForSkillsDetails.length];
-////		
-//		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
-////		
-//		tableSkillsDetails = new JTable(modelInsert);
-//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
-//		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
-//		tableSkillsDetails.getRowSelectionAllowed();
-//		scrollSkillsDetails.setViewportView(tableSkillsDetails);
-//		tableSkillsDetails.getRowSelectionAllowed();
-//		tableSkillsDetails.getSelectionModel();
-		
-//   from ryan's program 
-//		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
-//				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
-//		Object[][] ratingRow = new Object[1][HeaderForSkillsDetails.length];
-////		
-//		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
-////		
-//		tableSkillsDetails = new JTable(modelInsert);
-//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
-//		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
-//		tableSkillsDetails.getRowSelectionAllowed();
-////		
-////	
-////		
-//		scrollSkillsDetails.setViewportView(tableSkillsDetails);
-////		
-//		tableSkillsDetails.getRowSelectionAllowed();
-//		tableSkillsDetails.getSelectionModel();
-//		
+		this.repaint();		
 	}
 
 	@Override
