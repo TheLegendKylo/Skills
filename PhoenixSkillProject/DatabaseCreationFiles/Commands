@@ -141,9 +141,7 @@ insert into CapabilityRating values
 		(7,2,'Identifies functions to be engaged - Effectively connects stakeholders'),
 		(7,3,'Actively engages other functions driving new ideas, plans and ensuring alignment'),
 		(7,4,'Drives decisions, leads across structures and ensures cross functional alignment'),
-		(7,5,'Drives organisational collaboration and has the ability to redirect/re-prioritise focus from the 
-
-group');
+		(7,5,'Drives organisational collaboration and has the ability to redirect/re-prioritise focus from the group');
 	
 
 
@@ -245,14 +243,7 @@ insert into EmployeeSkillsRating values
 insert into EmployeeSkillsRating values
 (null,19,1,1),(null,19,2,1),(null,19,3,1),(null,19,4,1),(null,19,5,1),(null,19,6,1),(null,19,7,1);
 
-insert into EmployeeSkillsRating values
-(null,25,1,5),(null,25,2,5),(null,25,3,5),(null,25,4,5),(null,25,5,5),(null,25,6,5),(null,25,7,5);
-insert into EmployeeSkillsRating values
-(null,26,1,1),(null,26,2,1),(null,26,3,1),(null,26,4,1),(null,26,5,1),(null,26,6,1),(null,26,7,1);
-insert into EmployeeSkillsRating values
-(null,27,1,2),(null,27,2,2),(null,27,3,2),(null,27,4,2),(null,27,5,2),(null,27,6,2),(null,27,7,2);
-insert into EmployeeSkillsRating values
-(null,28,1,4),(null,28,2,4),(null,28,3,4),(null,28,4,4),(null,28,5,4),(null,28,6,4),(null,28,7,4);
+w
 		
 
 
