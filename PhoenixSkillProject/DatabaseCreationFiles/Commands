@@ -178,27 +178,60 @@ create table EmployeeSkills (empSkillId tinyInt not null primary key auto_increm
 				            ratedDate date,
 				            createdDate date);
 insert into EmployeeSkills values 
-   (null,'A043410',1,'A043410','n',0,' ',20171201,20171201);
+	(null,'A043410',1,'A159842','n',0,'  ',20171201,20171202);
+insert into employeeskills values
+	(null,'A043410',1,'A043410','n',0,'  ',20171201,20171202);
 insert into EmployeeSkills values 
-   (null,'A043410',1,'A159842','n',0,' ',20171215,20171210);
+   (null,'A159842',1,'A159842','n',0,' ',20171201,20171201);
 insert into EmployeeSkills values 
-   (null,'A043410',4,'A043410','n',0,' ',20171201,20171201);
+   (null,'A159842',1,'A043410','n',0,' ',20171215,20171210);
 insert into EmployeeSkills values 
-   (null,'A043410',4,'A159842','n',0,' ',20171215,20171210);						      
+   (null,'A159842',4,'A043410','n',0,' ',20171201,20171201);
+insert into EmployeeSkills values 
+   (null,'A159842',4,'A159842','n',0,' ',20171215,20171210);						      
 
 create table EmployeeSkillsRating (empSkillRatingId tinyInt not null primary key auto_increment,
 				empSkillID tinyInt not null references EmployeeSkills(empSkillID),
 				capabilityId tinyInt not null,
 				rating tinyInt  not null);
 				
+insert into EmployeeSkills values 
+(null,'A043410',1,'A159842','n',0,'  ',20171201,20171202);
+insert into employeeskills values
+(null,'A043410',1,'A043410','n',0,'  ',20171201,20171202);
+insert into EmployeeSkills values 
+(null,'A043410',2,'A159842','n',0,'  ',20171201,20171202);
+insert into employeeskills values
+(null,'A043410',2,'A043410','n',0,'  ',20171201,20171202);
+
+insert into EmployeeSkills values 
+(null,'A159842',1,'A159842','n',0,'  ',20171201,20171202);
+insert into employeeskills values
+(null,'A159842',1,'A043410','n',0,'  ',20171201,20171202);
+insert into EmployeeSkills values 
+(null,'A159842',2,'A159842','n',0,'  ',20171201,20171202);
+insert into employeeskills values
+(null,'A159842',2,'A043410','n',0,'  ',20171201,20171202); 
+ 
+  
 insert into EmployeeSkillsRating values
-  (null,1,1,2),(null,1,2,2),(null,1,3,2),(null,1,4,2),(null,1,5,2),(null,1,6,2),(null,1,7,2);
+(null,12,1,1),(null,12,2,1),(null,12,3,1),(null,12,4,1),(null,12,5,1),(null,12,6,1),(null,12,7,1);
 insert into EmployeeSkillsRating values
-  (null,3,1,3),(null,3,2,3),(null,3,3,3),(null,3,4,3),(null,3,5,3),(null,3,6,3),(null,3,7,3);
-insert into EmployeeSkillsRating values						
-  (null,4,1,2),(null,4,2,2),(null,4,3,2),(null,4,4,2),(null,4,5,2),(null,4,6,2),(null,4,7,2);
+(null,13,1,1),(null,13,2,1),(null,13,3,1),(null,13,4,1),(null,13,5,1),(null,13,6,1),(null13,7,1);
 insert into EmployeeSkillsRating values
-  (null,5,1,3),(null,5,2,3),(null,5,3,3),(null,5,4,3),(null,5,5,3),(null,5,6,3),(null,5,7,3);	
+(null,14,1,1),(null,14,2,1),(null,14,3,1),(null,14,4,1),(null,14,5,1),(null,14,6,1),(null,14,7,1);
+insert into EmployeeSkillsRating values
+(null,15,1,1),(null,15,2,1),(null,15,3,1),(null,15,4,1),(null,15,5,1),(null,15,6,1),(null15,7,1);
+
+insert into EmployeeSkillsRating values
+(null,16,1,1),(null,16,2,1),(null,16,3,1),(null,16,4,1),(null,16,5,1),(null,16,6,1),(null,16,7,1);
+insert into EmployeeSkillsRating values
+(null,17,1,1),(null,17,2,1),(null,17,3,1),(null,17,4,1),(null,17,5,1),(null,17,6,1),(null,17,7,1);
+insert into EmployeeSkillsRating values
+(null,18,1,1),(null,18,2,1),(null,18,3,1),(null,18,4,1),(null,18,5,1),(null,18,6,1),(null,18,7,1);
+insert into EmployeeSkillsRating values
+(null,19,1,1),(null,19,2,1),(null,19,3,1),(null,19,4,1),(null,19,5,1),(null,19,6,1),(null,19,7,1);
+	
 
 
 create table EmployeeHobby (	id smallint not null auto_increment primary key,
