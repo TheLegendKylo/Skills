@@ -192,6 +192,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
 			capabilityRating[1] = ""+skillDesc; 
 			int ratingIdx = 2;
+			
 			for (int j = 0; j < averageRating.length; j++)
 			{
 				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
