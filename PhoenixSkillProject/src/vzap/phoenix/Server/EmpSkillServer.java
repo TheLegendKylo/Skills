@@ -321,7 +321,7 @@ public class EmpSkillServer
 			short hobbyID = 0;
 			String description = this.readObject();
 			hobbyID = empControl.addHobby(description);
-			System.out.println("Hobby Added: "+hobbyID);
+			System.out.println("Hobby Added: " + hobbyID);
 			try
 			{
 				oos.writeObject(new Short(hobbyID));

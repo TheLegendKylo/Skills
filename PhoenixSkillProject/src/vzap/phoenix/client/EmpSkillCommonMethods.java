@@ -97,6 +97,7 @@ public class EmpSkillCommonMethods
 	public DefaultTableModel getEmpSkillDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
+		System.out.println("******************Detail Model************************");
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
@@ -106,11 +107,10 @@ public class EmpSkillCommonMethods
 		// iterate through the static capability array to obtain the capabilityName
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
-			capabilityHeader[j+2] = capabilityList.get(j).getName();
+			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
 		Object[] capabilityRating = new Object[10];
 		int counter = 0;
-		
 		
 		String skillDesc = null;
 		double averageRating[] = new double[7];
@@ -124,6 +124,7 @@ public class EmpSkillCommonMethods
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
+			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
 			// Check whether a new SkillId has been read
 			if(((empIDCheck==null) ||
 					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID()))) ||
@@ -141,6 +142,7 @@ public class EmpSkillCommonMethods
 						int ratingIdx = 2;
 						for (int j = 0; j < averageRating.length; j++)
 						{
+							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 							capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount*100.0)/100.0;
 							averageRating[j]=0;
 							ratingIdx++;
@@ -176,6 +178,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
+					System.out.println("Write Lines: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 					averageRating [j]=+ Math.round(ratingList.get(j)*100.0)/100.0;
 				}
 				ratingCount++;
@@ -189,8 +192,10 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
 			capabilityRating[1] = ""+skillDesc; 
 			int ratingIdx = 2;
+			
 			for (int j = 0; j < averageRating.length; j++)
 			{
+				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 				capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount *100.0)/100.0;
 				averageRating[j]=0;
 				ratingIdx++;
