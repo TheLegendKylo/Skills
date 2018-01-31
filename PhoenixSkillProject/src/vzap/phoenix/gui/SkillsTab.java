@@ -42,7 +42,7 @@ public class SkillsTab extends JPanel implements ActionListener
 {
 	private JLabel lblSkillTab;
 	private JPanel panelTop;
-	private JButton btnAddSkill;
+	private JButton btnAddSkillToList;
 	private JButton btnEditSkill;
 	private JButton btnDeleteSkill;
 	
@@ -53,7 +53,7 @@ public class SkillsTab extends JPanel implements ActionListener
 	private JLabel lblDetails;
 	private JTable tableBottom;
 	private JScrollPane scrollPaneBottom;
-	private JButton btnSubmit;
+	private JButton btnUpdate;
 	private EmpSkillClient employeeSkillClient;
 	private String addSkill;
 	private ArrayList<EmployeeSkill> employeeSkillList;
@@ -62,8 +62,8 @@ public class SkillsTab extends JPanel implements ActionListener
 	private Employee loggedOnEmployee;
 	private ArrayList<Skill> skillList;
 	private ArrayList<Capability> capabilityList;
-	private JScrollPane scrollPaneAddSkill;
-	private JTable tableCaptureSkills; 
+	//private JScrollPane scrollPaneAddSkill;
+	//private JTable tableCaptureSkills; 
 	
 	private Vector<String> vectorSkills = null;
 	
@@ -74,6 +74,9 @@ public class SkillsTab extends JPanel implements ActionListener
 	private JComboBox comboBoxRating;
 	private String[] ratingValues;
 	Object[] HeaderForAddSkill;
+	private DefaultTableModel detailTableModel;
+	private JTable detailedTable;
+	private JScrollPane detailedScrollPane;
 	/**
 	 * Create the panel.
 	 */
@@ -86,7 +89,7 @@ public class SkillsTab extends JPanel implements ActionListener
 		setLayout(null);
 		
 		lblSkillTab = new JLabel("Skill Tab");
-		lblSkillTab.setBounds(421, 11, 46, 14);
+		lblSkillTab.setBounds(451, 11, 46, 14);
 		add(lblSkillTab);
 		
 		panelTop = new JPanel();
@@ -103,12 +106,12 @@ public class SkillsTab extends JPanel implements ActionListener
 		
 		
 		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 272, 928, 22);
+		lblSummaryOfSkills.setBounds(10, 203, 928, 22);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 		
 		scrollPaneSummarySkills = new JScrollPane();
-		scrollPaneSummarySkills.setBounds(10, 305, 928, 92);
+		scrollPaneSummarySkills.setBounds(10, 236, 928, 161);
 		add(scrollPaneSummarySkills);
 		
 		tableSummarySkills = new JTable();
@@ -119,16 +122,15 @@ public class SkillsTab extends JPanel implements ActionListener
 		add(lblDetails);
 		lblDetails.setHorizontalAlignment(JLabel.CENTER);
 		
-		scrollPaneBottom = new JScrollPane();
-		scrollPaneBottom.setBounds(10, 433, 928, 112);
-		add(scrollPaneBottom);
 		
 		
 		
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(429, 224, 89, 23);
-		add(btnSubmit);
-		btnSubmit.addActionListener(this);
+		
+		btnUpdate = new JButton("Update your skills");
+		btnUpdate.setToolTipText("Once a skill has been selected from the drop down you can add it to your profile");
+		btnUpdate.setBounds(387, 169, 173, 23);
+		add(btnUpdate);
+		btnUpdate.addActionListener(this);
 		
 		employeeSkillList = new ArrayList<>();
 		
@@ -146,9 +148,9 @@ public class SkillsTab extends JPanel implements ActionListener
 		
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		
-		scrollPaneAddSkill = new JScrollPane();
-		scrollPaneAddSkill.setBounds(193, 159, 745, 44);
-		add(scrollPaneAddSkill);
+//		scrollPaneAddSkill = new JScrollPane();
+//		scrollPaneAddSkill.setBounds(193, 159, 745, 44);
+//		add(scrollPaneAddSkill);
 		
 		HeaderForAddSkill = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
 				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
@@ -156,21 +158,22 @@ public class SkillsTab extends JPanel implements ActionListener
 		
 		modelInsert = new DefaultTableModel(ratingRow, HeaderForAddSkill);
 		
-		tableCaptureSkills = new JTable(modelInsert);
-		tableCaptureSkills.setAutoResizeMode(tableCaptureSkills.AUTO_RESIZE_OFF);
-		tableCaptureSkills.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
-		tableCaptureSkills.getRowSelectionAllowed();
+//		tableCaptureSkills = new JTable(modelInsert);
+//		tableCaptureSkills.setAutoResizeMode(tableCaptureSkills.AUTO_RESIZE_OFF);
+//		tableCaptureSkills.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
+//		tableCaptureSkills.getRowSelectionAllowed();
 		
 	
 		
-		scrollPaneAddSkill.setViewportView(tableCaptureSkills);
+	//	scrollPaneAddSkill.setViewportView(tableCaptureSkills);
 		
-		tableCaptureSkills.getRowSelectionAllowed();
-		tableCaptureSkills.getSelectionModel();
+//		tableCaptureSkills.getRowSelectionAllowed();
+//		tableCaptureSkills.getSelectionModel();
 		
-		lblSkill = new JLabel("Skill");
+		lblSkill = new JLabel("Select a skill to add to your profile");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSkill.setBounds(82, 155, 65, 20);
+		lblSkill.setHorizontalAlignment(JLabel.CENTER);
+		lblSkill.setBounds(143, 107, 661, 20);
 		add(lblSkill);
 		
 		
@@ -185,26 +188,30 @@ public class SkillsTab extends JPanel implements ActionListener
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
 		Collections.sort(vectorSkills);
 		comboBoxSkillList.setSelectedIndex(0);
-		comboBoxSkillList.setBounds(10, 183, 173, 20);
+		comboBoxSkillList.setBounds(387, 138, 173, 20);
 		add(comboBoxSkillList);
 		
-		btnAddSkill = new JButton("Add Skill");
-		btnAddSkill.setBounds(336, 224, 76, 23);
-		add(btnAddSkill);
-		btnAddSkill.addActionListener(this);
+		btnAddSkillToList = new JButton("Add New Skill To List");
+		btnAddSkillToList.setToolTipText("Select if your skill is not in the drop down menu");
+		btnAddSkillToList.setBounds(584, 137, 168, 23);
+		add(btnAddSkillToList);
+		btnAddSkillToList.addActionListener(this);
 		
 		
 		ratingValues = new String[] {"1", "2", "3", "4", "5"};
 		comboBoxRating = new JComboBox(ratingValues);
 		
-		for (int i = 0; i < HeaderForAddSkill.length; i++)
-		{
-			tableCaptureSkills.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor(comboBoxRating) );
-		}
+//		for (int i = 0; i < HeaderForAddSkill.length; i++)
+//		{
+//			tableCaptureSkills.getColumnModel().getColumn(i).setCellEditor(new DefaultCellEditor(comboBoxRating) );
+//		}
 		
 		
-		
-		
+		detailTableModel = clientControl.getEmpSkillDetail(employeeSkillList);
+		detailedTable = new JTable(detailTableModel);
+		scrollPaneBottom = new JScrollPane(detailedTable);
+		scrollPaneBottom.setBounds(10, 433, 928, 152);
+		add(scrollPaneBottom);
 		
 	}
 
@@ -213,7 +220,7 @@ public class SkillsTab extends JPanel implements ActionListener
 	{
 		Object source = e.getSource();
 		
-		if(source == btnAddSkill)
+		if(source == btnAddSkillToList)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
 			short skillID = clientControl.addSkill(description);
@@ -253,7 +260,7 @@ public class SkillsTab extends JPanel implements ActionListener
 		 * This submit button will be used to submit your final rating...
 		 */
 		
-		if(source == btnSubmit)
+		if(source == btnUpdate)
 		{
 			System.out.println("Submit button was pressed");
 			String employeeID = loggedOnEmployee.getEmployeeID();

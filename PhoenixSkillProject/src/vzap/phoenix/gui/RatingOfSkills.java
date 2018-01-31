@@ -47,7 +47,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private JPanel panelTop;
 	private JButton btnCannotRate;
 	private JPanel panelBottom;
-	private JLabel lblMessageIdentifier;
+	private JLabel lblExplianation;
 	private JButton btnSubmitRating;
 	private JTable tableTop;
 	private DefaultTableModel outstandingModel;
@@ -129,12 +129,12 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		add(panelBottom);
 		
 		
-		lblMessageIdentifier = new JLabel("Message Identifier");
-		lblMessageIdentifier.setBounds(166, 242, 382, 14);
-		lblMessageIdentifier.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMessageIdentifier.setHorizontalAlignment(JLabel.CENTER);
-		lblMessageIdentifier.setVerticalAlignment(JLabel.CENTER);
-		add(lblMessageIdentifier);
+		lblExplianation = new JLabel("Please provide the ratings you wish to submit for temployee");
+		lblExplianation.setBounds(166, 242, 382, 14);
+		lblExplianation.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblExplianation.setHorizontalAlignment(JLabel.CENTER);
+		lblExplianation.setVerticalAlignment(JLabel.CENTER);
+		add(lblExplianation);
 		
 		btnSubmitRating = new JButton("Submit Rating");
 		btnSubmitRating.setBounds(165, 523, 116, 23);

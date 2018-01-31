@@ -173,7 +173,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			
 			if(ratingList!=null)
 			{
-				System.out.println("ratingList.size: "+ratingList.size());
+				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
 					averageRating [j]=+ Math.round(ratingList.get(j)*100.0)/100.0;
