@@ -265,7 +265,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		PreparedStatement ps_select=null;
 		try
 		{
-			ps_select = dbCon.prepareStatement("select empSkillId from EmployeeSkills where employeeId=? and skillId=? and raterId=?");
+			ps_select = dbCon.prepareStatement("select empSkillId,status from EmployeeSkills where employeeId=? and skillId=? and raterId=?");
 			ps_select.setString(1, searchEmployeeSkill.getEmployeeID());
 			ps_select.setInt(2, searchEmployeeSkill.getSkillID());
 			ps_select.setString(3, searchEmployeeSkill.getRaterID());

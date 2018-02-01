@@ -138,28 +138,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		
-//		scrollPaneAddSkill = new JScrollPane();
-//		scrollPaneAddSkill.setBounds(193, 159, 745, 44);
-//		add(scrollPaneAddSkill);
-		
-		HeaderForAddSkill = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
-				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
-		Object[][] ratingRow = new Object[1][HeaderForAddSkill.length];
-		
-		modelInsert = new DefaultTableModel(ratingRow, HeaderForAddSkill);
-		
-//		tableCaptureSkills = new JTable(modelInsert);
-//		tableCaptureSkills.setAutoResizeMode(tableCaptureSkills.AUTO_RESIZE_OFF);
-//		tableCaptureSkills.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
-//		tableCaptureSkills.getRowSelectionAllowed();
-		
-	
-		
-	//	scrollPaneAddSkill.setViewportView(tableCaptureSkills);
-		
-//		tableCaptureSkills.getRowSelectionAllowed();
-//		tableCaptureSkills.getSelectionModel();
-		
+
 		lblSkill = new JLabel("Select a skill to add to your profile");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSkill.setHorizontalAlignment(JLabel.CENTER);
@@ -219,6 +198,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
+		
+				
 		if (source == btnEditSkillRating)
 		{
 			System.out.println("Edit Skill Rating pressed");
@@ -341,6 +322,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			}
 		}
 		
+		//get the object of employee skill
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
 
@@ -349,10 +331,15 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				&& (employeeSkillList.get(i).getSkillID()==skillID))
 			{
 				selectedEmpSkill = employeeSkillList.get(i);
+				break;
 			}
 		
 		}
-		
+		ArrayList<EmployeeSkill> empRatingList = clientControl.searchEmployeeSkill(skillID);
+		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
+		detailedTable.setModel(clientControl.getEmpCapabilityDetail(empRatingList));
+		detailedTable.updateUI();
+		this.repaint();
 		
 	}
 
