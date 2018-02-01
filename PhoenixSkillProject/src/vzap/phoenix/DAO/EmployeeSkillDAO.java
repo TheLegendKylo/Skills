@@ -9,11 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import vzap.phoenix.Server.Employee.EmployeeSkill;
-import vzap.phoenix.Server.Employee.EmployeeSkillRating;
 
 public class EmployeeSkillDAO
 {
-	private MyDBCon myDBCon;
 	private Connection dbCon;
 	private ArrayList<EmployeeSkill> empSkillList = null;
 
@@ -53,20 +51,12 @@ public class EmployeeSkillDAO
 			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? order by capabilityId");
 			ps.setShort(1, empSkillID);
 			ResultSet rs = ps.executeQuery();
-			int resultCount = 0;
-			if (rs.last()) 
-			{
-				resultCount = rs.getRow();
-				  rs.beforeFirst(); 
-			}
 			ArrayList<Short> capabilityIDList = new ArrayList<Short>();
 			ArrayList<Short> ratingList = new ArrayList<Short>();
 			while(rs.next())
 			{
-				int j=0;
 				capabilityIDList.add(rs.getShort("capabilityId"));
 				ratingList.add(rs.getShort("rating"));
-				j++;
 			}
 			empSkillList.get(idx).setCapabilityList(capabilityIDList);
 			empSkillList.get(idx).setRatingList(ratingList);
@@ -84,7 +74,7 @@ public class EmployeeSkillDAO
 	public short rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
 System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeID()+" "+rateEmployeeSkill.getEmpSkillID());
-		int updateCount=0, ratingsCount=0;
+		int ratingsCount=0;
 		if(rateEmployeeSkill.getCapabilityList()==null)
 		{
 			System.out.println("Get capabilityList = null");
@@ -102,7 +92,7 @@ System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeI
 			ps.setDate(1,  ratedDate);
 			ps.setShort(2, (short)1);
 			ps.setShort(3, rateEmployeeSkill.getEmpSkillID());
-			updateCount = ps.executeUpdate();
+			ps.executeUpdate();
 			System.out.println("calling this.addEmployeeSkillRating");
 			ratingsCount = this.addEmployeeSkillRating(rateEmployeeSkill);
 		} catch (SQLException e)
@@ -163,7 +153,7 @@ System.out.println("Rolling Back");
 	{
 		// first check whether a duplicate record already exists
 		this.errorCode = 0;
-		int insertCount = 0, ratingsCount=0;
+		int ratingsCount=0;
 		short empSkillID = this.searchEmployeeSkill(addEmployeeSkill);
 		if(empSkillID!=0)
 		{
@@ -187,7 +177,7 @@ System.out.println("Rolling Back");
 			ps.setDate(8,  (java.sql.Date)addEmployeeSkill.getRatedDate());
 			java.sql.Date createdDate = new java.sql.Date(addEmployeeSkill.getCreatedDate().getTime());
 			ps.setDate(9,  createdDate );
-			insertCount = ps.executeUpdate();
+			ps.executeUpdate();
 
 			empSkillID = this.searchEmployeeSkill(addEmployeeSkill);
 			addEmployeeSkill.setEmpSkillID(empSkillID);
@@ -210,7 +200,7 @@ System.out.println("Rolling Back");
 	{
 		// first check whether a duplicate record already exists
 		this.errorCode = 0;
-		int updateCount = 0, ratingsCount=0;
+		int ratingsCount=0;
 System.out.println(updEmployeeSkill.getEmployeeID());
 		short empSkillID = this.searchEmployeeSkill(updEmployeeSkill);
 		if(empSkillID==0)
@@ -229,7 +219,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			ps.setString(2, updEmployeeSkill.getCoachingAvailability());
 			ps.setString(3, updEmployeeSkill.getComment());
 			ps.setShort(4, updEmployeeSkill.getEmpSkillID());
-			updateCount = ps.executeUpdate();
+			ps.executeUpdate();
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
@@ -266,15 +256,20 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		empSkillList = new ArrayList<EmployeeSkill>();
-		short empSkillID = 0;
 		PreparedStatement ps_select=null;
 		try
 		{
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
-					+ "and status=1 or status=2 order by skillId, raterId");
+			if(raterID==null || raterID=="")
+			{
+				ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
+						+ "and skillId=? order by skillId, raterId");
+			} else {
+				ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
+						+ "and skillId=? and raterId = ? order by skillId, raterId");
+				ps_select.setString(3, raterID);
+			}
 			ps_select.setString(1, employeeID);
 			ps_select.setInt(2, skillID);
-			ps_select.setString(3, raterID);
 			ResultSet rs = ps_select.executeQuery();
 			empSkillList = this.populateEmpSkillList(rs);
 		} catch (SQLException e)
@@ -294,6 +289,10 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			String raterID = rs.getString("raterID");
 			String coachingAvailability = rs.getString("coachingAvailability");
 			short status = rs.getShort("status");
+			if(status==9)
+			{
+				continue;
+			}
 			String comment = rs.getString("comment");
 			Date ratedDate = rs.getDate("ratedDate");
 			Date createDate = rs.getDate("createdDate");
@@ -311,7 +310,6 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkillByID(int skillID)
 	{
-		String employeeID;
 		PreparedStatement ps_select;
 		
 		try
@@ -353,14 +351,13 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 	public short deleteEmployeeSkill(EmployeeSkill deleteEmployeeSkill)
 	{
 		this.errorCode = 0;
-		int deleteCount=0;
 		PreparedStatement ps = null;
 		try
 		{
 			ps = dbCon.prepareStatement
 					("delete from EmployeeSkills where empSkillID = ?");
 			ps.setShort(1, deleteEmployeeSkill.getEmpSkillID());
-			deleteCount = ps.executeUpdate();
+			ps.executeUpdate();
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block

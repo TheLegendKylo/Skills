@@ -103,7 +103,7 @@ insert into Level values (1,
 		'Is considered to be the go to person in South Africa regarding a specific technical domain' );
 
 create table CapabilityRating(capabilityId tinyInt not null,
-		rating tinyint not null,
+		rating smallint not null,
 		description varchar(500));
 
 insert into CapabilityRating values 
@@ -166,7 +166,7 @@ insert into Capability values
 
 
 		
-create table EmployeeSkills (empSkillId tinyInt not null primary key auto_increment,
+create table EmployeeSkills (empSkillId smallint not null primary key auto_increment,
                              employeeId varchar(8) not null references employee(employeeId),
                              skillId int(10) not null references skills(skillId),
                              raterId varchar(10) not null,
@@ -221,9 +221,9 @@ insert into employeeskills values
   
   
 create table EmployeeSkillsRating (empSkillRatingId tinyInt not null primary key auto_increment,
-				empSkillID tinyInt not null references EmployeeSkills(empSkillID),
-				capabilityId tinyInt not null,
-				rating tinyInt  not null);
+				empSkillID smallint not null references EmployeeSkills(empSkillID),
+				capabilityId smallint not null,
+				rating smallint  not null);
   
 insert into EmployeeSkillsRating values
 (null,12,1,1),(null,12,2,1),(null,12,3,1),(null,12,4,1),(null,12,5,1),(null,12,6,1),(null,12,7,1);

@@ -69,12 +69,6 @@ public class EmployeeDAO
 			ps = dbCon.prepareStatement("select * from employeeHobby where employeeId=?");
 			ps.setString(1, employeeID);
 			ResultSet rs = ps.executeQuery();
-			int resultCount = 0;
-			if (rs.last()) 
-			{
-				resultCount = rs.getRow();
-				  rs.beforeFirst(); 
-			}
 			ArrayList<Short> empHobbyList= new ArrayList<Short>();
 			// setup list to check for deletions
 			compareHobbyList = empHobbyList; 

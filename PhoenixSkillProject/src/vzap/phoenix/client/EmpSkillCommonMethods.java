@@ -326,7 +326,6 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 		}
 		
 		return empSkillModel;
-		
 	}
 	
 }
