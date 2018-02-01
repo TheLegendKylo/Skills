@@ -93,6 +93,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillTable = new JTable(modelInsert);
 		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 		skillTable.setAutoCreateRowSorter(true); 
+		skillTable.setAutoCreateRowSorter(isEnabled());
 		skillTable.getRowSelectionAllowed();
 		skillTable.getSelectionModel();
 
@@ -130,7 +131,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 				String filePath = chooser.getSelectedFile().getPath();
 				if(chooser.getSelectedFile().getName().contains("."))
 				{
-					JOptionPane.showMessageDialog(this,"Error : " + "Please dont add the extension to your file name","Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this,"Error: " + "Please dont add the extension to your file name: ","Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
@@ -194,17 +195,13 @@ public class SearchBySkill extends JPanel implements ActionListener
 		if(source == skillComboBox)
 		{
 			empSkillList = new ArrayList<>();
-			System.out.println("searchbyskill - skillcombobox - index " + skillComboBox.getSelectedIndex() );
 		
 //          store the index and skillId of the cell the user has chosen from the combobox 			
 			int x = skillComboBox.getSelectedIndex();
 			int y = skillList.get(x).getSkillId();
-			System.out.println("searchbyskill - skill search "+skillList.get(x).getSkillDescription()+" "+skillList.get(x).getSkillId() );
 
 //          now go and search the EmployeeSkill table for all employees that have that skill			
 			empSkillList = clientControl.searchEmployeeSkill(y);
-			System.out.println("searchbymenu - number of employees with this skill - " + empSkillList.size());
-
 
 //          check if there are any matches for users search criteria 
 			if(empSkillList.size() == 0)
@@ -212,32 +209,31 @@ public class SearchBySkill extends JPanel implements ActionListener
 				JOptionPane.showMessageDialog(this,"No employees found with your search criteria");
 				return;				
 			}
-			
 		
 //          move the employeeID from returned array into a vector so that it can be sorted  			
 			Vector vect = new Vector<String>();
 			for (int i=0; i < empSkillList.size(); i++)
 	        {
-				System.out.println("searchbyskill - creating vector "  +empSkillList.get(i).getEmpSkillID()+" "+empSkillList.get(i).getEmployeeID() );
 				vect.addElement(empSkillList.get(i).getEmployeeID()); 
 	        }
 			Collections.sort(vect);    		
-			System.out.println("searchbyskill - after sort vect size: "+vect.size());	
 		
 
 //          now go thru the vector that contains the employeeID and fetch the employee details one at a time and populate
 //          the table - do not print duplicate employees
-			System.out.println("searchbyskill - before for - " + empSkillList.size() );
 			
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
-//			skillTable.setAutoCreateRowSorter(true);
-			skillTable.setAutoCreateRowSorter(isEnabled());
 			skillScrollPane.remove(skillTable);
 			skillTable = new JTable(modelInsert);
+			skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 			skillScrollPane.setViewportView(skillTable);
+			skillTable.setAutoCreateRowSorter(true);
+			skillTable.setAutoCreateRowSorter(isEnabled());
+			skillTable.getRowSelectionAllowed();
 			modelInsert.fireTableDataChanged();
+			skillTable.getSelectionModel();
 			this.repaint();
-		
+			
 			exportBut.setEnabled(true);
 		}
 	}
