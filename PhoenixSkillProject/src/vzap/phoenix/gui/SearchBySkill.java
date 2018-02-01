@@ -119,8 +119,6 @@ public class SearchBySkill extends JPanel implements ActionListener
 		
 		if(source == exportBut)
 		{
-			
-
 			File file;
 			JFileChooser chooser = new JFileChooser("c:\\Users"); 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Comma Delimited File","csv");
