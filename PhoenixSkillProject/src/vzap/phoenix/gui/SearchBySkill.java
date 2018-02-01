@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -49,6 +50,8 @@ public class SearchBySkill extends JPanel implements ActionListener
 	private DefaultTableModel modelInsert;
 	private JButton clearBut;
 	private JButton exportBut;
+	
+	String displaySaveMsg = " "; 
   	
 
 
@@ -117,8 +120,17 @@ public class SearchBySkill extends JPanel implements ActionListener
 		if(source == exportBut)
 		{
 			
+			
+
 			File file;
-			file =  new File("C:\\Users\\a208563\\java\\excellTest.csv");
+
+
+			JFileChooser chooser = new JFileChooser("c:\\Users"); 
+			
+			int choice1 = chooser.showSaveDialog(this);
+			String filePath = chooser.getSelectedFile().getPath(); 
+			file =  new File(filePath);
+			System.out.println("filePath = " + filePath);
 			FileWriter fw = null; // opens connection
 			PrintWriter pw = null;//wraps in FileWriter
 			String row = null;
@@ -146,6 +158,9 @@ public class SearchBySkill extends JPanel implements ActionListener
 				}
 				//pw.println(message1);
 				//pw.println(message2);
+				
+				String displaySaveMsg = "Your extract file has been saved to : " + filePath;
+				JOptionPane.showMessageDialog(this,displaySaveMsg);
 				System.out.println("Data saved to file");
 				fw.close();
 				pw.close();

@@ -14,7 +14,7 @@ public class EmpSkillCommonMethods
 	
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
-		Object[] skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
+		Object[] skillsHeader = new String[]{"Skill","Employee Self Rating","Nominated Average",
 		"Number of \nNominee ratings"};
 		int counter = 0;	
 		
