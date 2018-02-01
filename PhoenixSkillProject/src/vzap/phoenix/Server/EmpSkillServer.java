@@ -443,7 +443,9 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 				{
 					hobbyIDList.add((Short)ois.readObject());
 				}
+System.out.println("Server: No of hobbies: "+hobbyCount);
 				updateEmployee.setEmpHobbies(hobbyIDList);
+
 			} catch (ClassNotFoundException e)
 			{
 				// TODO Auto-generated catch block

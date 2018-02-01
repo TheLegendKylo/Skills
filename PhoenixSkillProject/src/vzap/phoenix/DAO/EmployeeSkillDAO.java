@@ -75,6 +75,14 @@ public class EmployeeSkillDAO
 	{
 System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeID()+" "+rateEmployeeSkill.getEmpSkillID());
 		int ratingsCount=0;
+		int existingRatings = checkEmpSkillRatingDuplicates(rateEmployeeSkill.getEmpSkillID());
+		if(existingRatings>0)
+		{
+			System.out.println("Get capabilityList = null");
+			this.errorCode = 2; //Rating already exists data provided
+			this.errorMsg = "Rate Employee: Rating already exists for: "+rateEmployeeSkill.getEmpSkillID();
+			return this.errorCode;
+		}
 		if(rateEmployeeSkill.getCapabilityList()==null)
 		{
 			System.out.println("Get capabilityList = null");
@@ -148,6 +156,27 @@ System.out.println("Rolling Back");
 				return errorCode;
 		}
 		return this.errorCode;
+	}
+	public int checkEmpSkillRatingDuplicates(short empSkillID)
+	{
+		int counter = 0;
+		PreparedStatement ps = null;
+		try
+		{
+			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? order by capabilityId");
+			ps.setShort(1, empSkillID);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				counter++;
+			}
+		} catch (SQLException e)
+		{
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		this.errorMsg = "Employee Skill: Select statement failed for EmpSkillID: "+empSkillID;
+		}
+		return counter;
 	}
 	public int insertEmployeeSkill(EmployeeSkill addEmployeeSkill)
 	{
@@ -243,6 +272,11 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			ResultSet rs = ps_select.executeQuery();
 			while(rs.next())
 			{
+				short status = rs.getShort("status");
+				if(status==9)
+				{
+					continue;
+				}
 				empSkillID = rs.getShort("empSkillId");
 			}
 			

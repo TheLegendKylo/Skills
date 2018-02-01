@@ -137,7 +137,6 @@ public class EmployeeDAO
 			ArrayList<Short> empHobbyList = employee.getEmpHobbies();
 			if(!(empHobbyList==null))
 			{
-System.out.println("addEmpHobby");
 				updSuccess = this.checkForNewHobbies(employee, empHobbyList);
 				updSuccess = this.checkForDeletedHobbies(employee, empHobbyList);
 			}
@@ -158,14 +157,6 @@ System.out.println("addEmpHobby");
 			if(hobbyExists)
 			{
 				continue;
-			}
-			hobbyList = HobbyDAO.getHobbyList();
-			for (int j = 0; j < hobbyList.size(); j++)
-			{
-				if(hobbyList.get(j).getHobbyID()==empHobbyList.get(i))
-				{
-					break;
-				}
 			}
 			newHobbyAdded = addEmpHobby(employee.getEmployeeID(), empHobbyList.get(i));
 		}
@@ -213,7 +204,7 @@ System.out.println("addEmpHobby");
 			boolean deleteHobby = true;
 			for (int j = 0; j < empHobbyList.size(); j++)
 			{
-				if(empHobbyList.get(j)==compareHobbyList.get(i))
+				if(empHobbyList.get(j).equals(compareHobbyList.get(i)))
 				{
 					deleteHobby = false;
 					break;
