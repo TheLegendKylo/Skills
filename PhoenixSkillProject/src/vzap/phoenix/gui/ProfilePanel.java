@@ -303,6 +303,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 				vectHobby.addElement(addHobbyValue);
 			}
 			hobbyChange = false;
+			tfAddHobby.setText("");
 						
 		}
 		if(source == btnDeleteHobby)
