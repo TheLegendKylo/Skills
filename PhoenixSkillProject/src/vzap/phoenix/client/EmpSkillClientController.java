@@ -193,6 +193,7 @@ public class EmpSkillClientController
 		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
 		return empSkillMethod.getEmpSkillAverage(this, employeeSkillList);
 	}
+	
 	public DefaultTableModel getEmpSkillList(ArrayList<EmployeeSkill> employeeSkillList, Employee employee)
 	{
 		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
