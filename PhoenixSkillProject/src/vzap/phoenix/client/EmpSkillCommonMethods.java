@@ -98,10 +98,11 @@ public class EmpSkillCommonMethods
 			ArrayList<Capability> capabilityList)
 	{
 		System.out.println("******************Summary Detail Model************************");
-		Object[] capabilityHeader = new String[10];
+		Object[] capabilityHeader = new String[11];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
-		capabilityHeader[9] = "No of Ratings";
+		capabilityHeader[9] = "Overall Rating";
+		capabilityHeader[10] = "No of Ratings";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 
 		// iterate through the static capability array to obtain the capabilityName
@@ -109,11 +110,12 @@ public class EmpSkillCommonMethods
 		{
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
-		Object[] capabilityRating = new Object[10];
+		Object[] capabilityRating = new Object[11];
 		int counter = 0;
 		
 		String skillDesc = null;
 		double averageRating[] = new double[7];
+		double overAllRating = 0;
 		double ratingCount = 0;
 		String empIDCheck = null;
 		short skillIDCheck = 0;
@@ -144,11 +146,13 @@ public class EmpSkillCommonMethods
 						{
 							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 							capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount*100.0)/100.0;
+							overAllRating += (double)capabilityRating[ratingIdx];
 							averageRating[j]=0;
 							ratingIdx++;
 						}
 System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
-						capabilityRating[9] = ratingCount;
+						capabilityRating[9] = overAllRating/7.0;
+						capabilityRating[10] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
 					}
@@ -198,10 +202,12 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			{
 				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 				capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount *100.0)/100.0;
+				overAllRating += (double)capabilityRating[ratingIdx];
 				averageRating[j]=0;
 				ratingIdx++;
 			}
-			capabilityRating[9] = ratingCount;
+			capabilityRating[9] = overAllRating/7.0;
+			capabilityRating[10] = ratingCount;
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}
@@ -211,9 +217,10 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			ArrayList<Capability> capabilityList)
 	{
 		System.out.println("******************Capability Detail Model************************");
-		Object[] capabilityHeader = new String[9];
+		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
+		capabilityHeader[9] = "Overall Rating";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 
 		// iterate through the static capability array to obtain the capabilityName
@@ -221,11 +228,12 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		{
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
-		Object[] capabilityRating = new Object[9];
+		Object[] capabilityRating = new Object[10];
 		int counter = 0;
 		
 		String skillDesc = null;
 		double averageRating[] = new double[7];
+		double overAllRating = 0;
 		double ratingCount = 0;
 		String empIDCheck = null;
 		short skillIDCheck = 0;
@@ -271,8 +279,10 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 				{
 					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
+					overAllRating += (double)capabilityRating[ratingIdx];
 				}
 				ratingCount++;
+				capabilityRating[9] = overAllRating/7.0;
 			}		
 System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
 			empCapModel.addRow(capabilityRating);;

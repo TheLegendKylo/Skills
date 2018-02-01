@@ -41,6 +41,8 @@ public class EmployeeController implements Runnable
 		{
 			hobbyDAO = new HobbyDAO();
 			hobbyList = HobbyDAO.getHobbyList();
+			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+			empSkillList = empSkillDAO.getEmpSkillList();
 			thread = new Thread(this);
 			thread.start();
 
@@ -207,8 +209,6 @@ public class EmployeeController implements Runnable
 		capabilityList = CapabilityDAO.getCapabilityList();
 		new CapabilityLevelDAO();
 		capabilityRatingList = CapabilityLevelDAO.getCapabilityLevelList();
-		empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-		empSkillList = empSkillDAO.getEmpSkillList();
 	}
 
 }
