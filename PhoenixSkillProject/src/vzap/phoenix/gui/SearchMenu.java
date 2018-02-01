@@ -49,7 +49,6 @@ import javax.swing.JList;
 
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
 {
-
 	String [] capability; 
 	Object source; 
 
