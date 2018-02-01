@@ -138,7 +138,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			
 		nominateTable = new JTable(nominateModel);
 		TableColumn nominateColumn = nominateTable.getColumnModel().getColumn(2);
-		this.setUpSkillColumn(nominateTable, nominateTable.getColumn("Skill"));
+		
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -187,6 +187,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		outstandingModel.setRowCount(0);
 		empOutSkillList.clear();
+		
+		this.setUpSkillColumn(nominateTable, nominateTable.getColumn("Skill"));
 		
 		for (int i = 0; i < empSkillList.size(); i++)
 		{
