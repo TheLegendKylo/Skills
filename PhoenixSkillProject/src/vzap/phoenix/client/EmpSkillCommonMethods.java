@@ -318,7 +318,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 				employee = empList.get(0);
 //				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
 				skillsRow[0] = employee.getEmployeeID();
-				skillsRow[1] = employee.getSurname()+", "+employee.getFirstName();
+				skillsRow[1] = employee.getFirstName()+" "+employee.getSurname();
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
 			}
 			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
