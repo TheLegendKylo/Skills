@@ -99,7 +99,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	
 	private JTextField inputJTF;
 	
-	Object[] HeaderForSkillsDetails;
+//	Object[] HeaderForSkillsDetails;
 	private JLabel skillsDetailsLab;
 	
 	public SearchMenu(EmpSkillClientController clientControl, Employee emp)

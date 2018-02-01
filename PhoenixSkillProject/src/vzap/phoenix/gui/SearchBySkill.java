@@ -91,7 +91,6 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillScrollPane.setBounds(20, 97, 1380, 527);
 		add(skillScrollPane);
 		skillTable = new JTable(modelInsert);
-//		skillTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 		skillTable.setAutoCreateRowSorter(true); 
 		skillTable.getRowSelectionAllowed();
@@ -120,6 +119,8 @@ public class SearchBySkill extends JPanel implements ActionListener
 		
 		if(source == exportBut)
 		{
+			
+
 			File file;
 			JFileChooser chooser = new JFileChooser("c:\\Users"); 
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Comma Delimited File","csv");
@@ -129,7 +130,13 @@ public class SearchBySkill extends JPanel implements ActionListener
 			if(choice1 == JFileChooser.APPROVE_OPTION)
 			{
 				String filePath = chooser.getSelectedFile().getPath();
-				if(filePath.substring(filePath.length()-4).equalsIgnoreCase(".csv"))
+				if(chooser.getSelectedFile().getName().contains("."))
+				{
+					JOptionPane.showMessageDialog(this,"Error : " + "Please dont add the extension to your file name","Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				if(filePath.endsWith(".csv"))
 				{
 					file =  new File(filePath);
 				}
@@ -140,32 +147,28 @@ public class SearchBySkill extends JPanel implements ActionListener
 				
 				FileWriter fw = null; // opens connection
 				PrintWriter pw = null;//wraps in FileWriter
-				String row = null;
+				String row = "";
 				try
 				{
 					fw = new FileWriter(file);
 					pw = new PrintWriter(fw);
-//					String message1 = "Hello IO World... ";
-//					String message2 = "Java is not for kidz!!\n!!";
+					
+					for(int i = 0 ; i < modelInsert.getColumnCount() ;i++)
+					{
+						row = row + (modelInsert.getColumnName(i) + ",");
+					}
+					pw.println(row);
+					
+					
 					for(int i = 0 ; i < modelInsert.getRowCount();i++)
 					{
-						row = 
-						modelInsert.getValueAt(i, 0) + "," +
-						modelInsert.getValueAt(i, 1) + "," +
-						modelInsert.getValueAt(i, 2) + "," +
-						modelInsert.getValueAt(i, 3) + "," +
-						modelInsert.getValueAt(i, 4) + "," +
-						modelInsert.getValueAt(i, 5) + "," +
-						modelInsert.getValueAt(i, 6) + "," +
-						modelInsert.getValueAt(i, 7) + "," +
-						modelInsert.getValueAt(i, 8) + "," +
-						modelInsert.getValueAt(i, 9);// + "," +
-						//modelInsert.getValueAt(i, 10);
+						row = "";
+						for(int c = 0 ; c < modelInsert.getColumnCount() ;c++)
+						{
+							row = row +	(modelInsert.getValueAt(i, c) + ","); 
+						}
 						pw.println(row);
 					}
-					//pw.println(message1);
-					//pw.println(message2);
-					
 					String displaySaveMsg = "Your extract file has been saved to : " + filePath;
 					JOptionPane.showMessageDialog(this,displaySaveMsg);
 					System.out.println("Data saved to file");
@@ -176,8 +179,8 @@ public class SearchBySkill extends JPanel implements ActionListener
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(this,"Error : " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 
 			}		
@@ -227,21 +230,6 @@ public class SearchBySkill extends JPanel implements ActionListener
 //          now go thru the vector that contains the employeeID and fetch the employee details one at a time and populate
 //          the table - do not print duplicate employees
 			System.out.println("searchbyskill - before for - " + empSkillList.size() );
-//
-//			Object[] tabCols = new Object[5];
-//			employeeList = clientControl.searchEmployee((String)vect.elementAt(0));
-//			for (int i=0; i < vect.size(); i++)
-//	        {
-//				if (i>0 && (vect.elementAt(i).equals(vect.elementAt(i-1))))
-//				{
-//					continue;
-//				}
-//				employeeList = clientControl.searchEmployee((String)vect.elementAt(i));	    	   	
-//	    	   	tabCols[0] = employeeList.get(0).getEmployeeID();
-//	    	   	tabCols[1] = employeeList.get(0).getFirstName();
-//	    	   	tabCols[2] = employeeList.get(0).getSurname();
-//	 //     	   	model.addRow(tabCols);
-//	        }
 			
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
 //			skillTable.setAutoCreateRowSorter(true);
