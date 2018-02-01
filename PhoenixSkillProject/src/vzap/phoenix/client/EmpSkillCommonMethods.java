@@ -323,8 +323,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			}
 			skillsRow[3] = employeeSkillList.get(i).getCreatedDate();
 			empSkillModel.addRow(skillsRow);
-		}
-		
+		}		
 		return empSkillModel;
 	}
 	
