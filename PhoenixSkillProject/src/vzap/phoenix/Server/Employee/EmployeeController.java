@@ -125,7 +125,7 @@ public class EmployeeController implements Runnable
 		}
 		return true;
 	}
-	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		return empSkillDAO.searchEmployeeSkill(employeeID, skillID, raterID);
 	}

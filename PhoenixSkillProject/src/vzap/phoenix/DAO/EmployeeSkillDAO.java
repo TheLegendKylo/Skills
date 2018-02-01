@@ -253,7 +253,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		}
 		return empSkillID;
 	}
-	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		empSkillList = new ArrayList<EmployeeSkill>();
 		PreparedStatement ps_select=null;
@@ -277,7 +277,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return empSkillList.get(0);
+		return empSkillList;
 	}
 	public ArrayList<EmployeeSkill> populateEmpSkillList (ResultSet rs) throws SQLException
 	{
