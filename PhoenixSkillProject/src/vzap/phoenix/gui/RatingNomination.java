@@ -1,8 +1,5 @@
 package vzap.phoenix.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +14,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 import java.util.*;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
 
 public class RatingNomination extends JPanel implements ActionListener, MouseListener
 {
@@ -95,7 +90,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		selectRaterlbl.setBounds(268, 11, 142, 32);
 		add(selectRaterlbl);
 		
-		nomineelbl = new JLabel("Rater/Nominee");
+		nomineelbl = new JLabel("Add Rater");
 		nomineelbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		nomineelbl.setBounds(10, 234, 201, 22);
 		add(nomineelbl);
@@ -340,17 +335,24 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	        //selectModel.setColumnIdentifiers(empHeader);
 			empList = clientControl.searchEmployee(empSearchJTF.getText());
 	        empRow = new Object[4];
-	        for(int i = 0 ; i < empList.size() ; i++)
-	        {
-	                    System.out.println("RatingNomination - skillList for -  " + i + " desc " + empList.get(i).getEmployeeID());
-                        empRow[0] = empList.get(i).getEmployeeID();
-                        empRow[1] = empList.get(i).getFirstName();
-                        empRow[2] = empList.get(i).getSurname();
-                        empRow[3] = empList.get(i).getAlias();
-                        selectModel.addRow(empRow);
-                        
-	        }
 	        
+	        if(!(empSearchJTF.getText().isEmpty()))
+	        {
+		        for(int i = 0 ; i < empList.size() ; i++)
+		        {
+                    System.out.println("RatingNomination - skillList for -  " + i + " desc " + empList.get(i).getEmployeeID());
+                    empRow[0] = empList.get(i).getEmployeeID();
+                    empRow[1] = empList.get(i).getFirstName();
+                    empRow[2] = empList.get(i).getSurname();
+                    empRow[3] = empList.get(i).getAlias();
+                    selectModel.addRow(empRow);
+                    
+		        }	
+	        }
+			else
+			{
+				JOptionPane.showMessageDialog(this,  "Please enter search criteria");
+			}
 		}
 		updateUI();
 		
