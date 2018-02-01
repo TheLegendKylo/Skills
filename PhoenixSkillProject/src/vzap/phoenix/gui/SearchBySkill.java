@@ -49,7 +49,6 @@ public class SearchBySkill extends JPanel implements ActionListener
 	private ArrayList<Skill> skillList;
 	private Object[] HeaderForSkillsDetails;
 	private DefaultTableModel modelInsert;
-	private JButton clearBut;
 	private JButton exportBut;
 	
 	String displaySaveMsg = " "; 
@@ -86,9 +85,9 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillComboBox.setBounds(677, 54, 243, 20);
 		add(skillComboBox);
 		
-		skillScrollPane = new JScrollPane();
+		skillScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		modelInsert = new DefaultTableModel();
-		skillScrollPane.setBounds(20, 97, 1380, 527);
+		skillScrollPane.setBounds(0, 97, 1453, 527);
 		add(skillScrollPane);
 		skillTable = new JTable(modelInsert);
 		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
@@ -98,11 +97,6 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillTable.getSelectionModel();
 
 		skillScrollPane.setViewportView(skillTable);
-		
-		clearBut = new JButton("CLEAR");
-		clearBut.addActionListener(this);
-		clearBut.setBounds(1290, 29, 99, 23);
-		add(clearBut);
 		
 		exportBut = new JButton("Export to excel");
 		exportBut.addActionListener(this);
@@ -185,12 +179,12 @@ public class SearchBySkill extends JPanel implements ActionListener
 			}		
 		}
 		
-		if(source == clearBut)
-		{
-			skillTable = new JTable();
-			skillScrollPane.setViewportView(skillTable);
-		}
-
+//		if(source == clearBut)
+//		{
+//			skillTable = new JTable();
+//			skillScrollPane.setViewportView(skillTable);
+//		}
+//
 
 		if(source == skillComboBox)
 		{

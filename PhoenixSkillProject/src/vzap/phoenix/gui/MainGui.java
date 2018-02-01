@@ -41,7 +41,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
-		tabbedPane.setBounds(49, 13, 1420, 700);
+		tabbedPane.setBounds(49, 13, 1460, 700);
 		add(tabbedPane);
 	
 		// adding tabs
