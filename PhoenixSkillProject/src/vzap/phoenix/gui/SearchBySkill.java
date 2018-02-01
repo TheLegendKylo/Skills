@@ -21,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import javafx.stage.FileChooser;
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
