@@ -151,7 +151,7 @@ public class EmpSkillCommonMethods
 							ratingIdx++;
 						}
 System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
-						capabilityRating[9] = overAllRating/7.0;
+						capabilityRating[9] = Math.round(overAllRating*100/700.0);
 						capabilityRating[10] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
@@ -206,7 +206,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 				averageRating[j]=0;
 				ratingIdx++;
 			}
-			capabilityRating[9] = overAllRating/7.0;
+			capabilityRating[9] = Math.round(overAllRating*100/700.0);
 			capabilityRating[10] = ratingCount;
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
@@ -283,7 +283,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 					overAllRating += (double)capabilityRating[ratingIdx];
 				}
 				ratingCount++;
-				capabilityRating[9] = overAllRating/7.0;
+				capabilityRating[9] = Math.round(overAllRating*100/700.0);
 			}		
 System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
 			empCapModel.addRow(capabilityRating);;
