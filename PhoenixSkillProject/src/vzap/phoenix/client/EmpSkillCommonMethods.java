@@ -211,6 +211,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}
+		
 		return empCapModel;
 	}
 	public DefaultTableModel getEmpCapabilityDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
