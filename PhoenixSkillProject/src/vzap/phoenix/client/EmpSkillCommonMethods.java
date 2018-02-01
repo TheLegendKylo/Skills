@@ -139,7 +139,7 @@ public class EmpSkillCommonMethods
 					if(ratingCount >0)
 					{
 						Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
-						capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
+						capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 						capabilityRating[1] = ""+skillDesc; 
 						int ratingIdx = 2;
 						for (int j = 0; j < averageRating.length; j++)
@@ -194,7 +194,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		{
 			Employee employee = new Employee();
 			employee = clientControl.searchEmployee(empIDCheck).get(0);
-			capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
+			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 			capabilityRating[1] = ""+skillDesc; 
 			int ratingIdx = 2;
 			
@@ -254,7 +254,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 				// if this is not the first record found
 				// update the previous totals to the relevant variables
 				Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
-				capabilityRating[0] = ""+employee.getSurname()+", "+employee.getFirstName(); 
+				capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 			}
 			if(!(skillIDCheck==(short)employeeSkillList.get(i).getSkillID()))
 			{
