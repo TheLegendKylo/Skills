@@ -400,7 +400,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			System.out.println("Submit button was pressed");
 			int submit = 0;
 			System.out.println("Printing Clear int value before " + submit);
-			submit = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear?");
+			submit = JOptionPane.showConfirmDialog(this, "Are you sure you want to Submit?");
 			/*
 			 *  0 = Yes
 			 *  1 = No

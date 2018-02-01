@@ -235,7 +235,6 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		String skillDesc = null;
 		double averageRating[] = new double[7];
 		double overAllRating = 0;
-		double ratingCount = 0;
 		String empIDCheck = null;
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
@@ -266,16 +265,15 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			int ratingIdx = 2;
 			for (int j = 0; j < ratingList.size(); j++)
 			{
-				System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+				System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j));
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
-				}
-				ratingCount++;
-				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
+					ratingIdx++;
 			}		
+			capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
+		}
 System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
 		empCapModel.addRow(capabilityRating);;
-		ratingCount = 0;
 		counter++;
 		return empCapModel;
 	}
