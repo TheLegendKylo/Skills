@@ -3,6 +3,7 @@ package vzap.phoenix.gui;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -10,19 +11,12 @@ import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClientController;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Vector;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
@@ -58,6 +52,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private JScrollPane outstandingRatesScrollP;
 	private JTable outstandingRatesTable;
 	private EmpSkillClientController clientControl;
+	private Color colour;
 
 
 	/**
@@ -86,6 +81,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         }
 	
 		selectModel = new DefaultTableModel();
+		colour = new Color(255,255,255);
         
         empHeader = new String[]{"UserId","First Name","Surname","Alias"};
         selectModel.setColumnIdentifiers(empHeader);
@@ -100,21 +96,23 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		add(selectRaterlbl);
 		
 		nomineelbl = new JLabel("Rater/Nominee");
-		nomineelbl.setFont(new Font("Arial", Font.PLAIN, 14));
-		nomineelbl.setBounds(160, 233, 125, 16);
+		nomineelbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		nomineelbl.setBounds(10, 234, 201, 22);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
-		scrollPane.setBounds(10, 110, 535, 112);
+		scrollPane.setBounds(10, 110, 623, 112);
 		add(scrollPane);
 		
 		btnSubmit = new JButton("SUBMIT RATERS");
-		btnSubmit.setBounds(10, 417, 153, 22);
+		btnSubmit.setBounds(10, 423, 153, 22);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 261, 85, 22);
+		raterIDJTF.setBounds(109, 267, 85, 22);
+		raterIDJTF.setEditable(false);
+		raterIDJTF.setBackground(colour);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
@@ -129,7 +127,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empSearchJTF.setColumns(10);
 		
 		btnAdd = new JButton("ADD");
-		btnAdd.setBounds(10, 260, 89, 23);
+		btnAdd.setBounds(10, 266, 89, 23);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
@@ -149,7 +147,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		nominateScrollPane.setBounds(10, 294, 535, 112);
+		nominateScrollPane.setBounds(10, 300, 623, 112);
 		add(nominateScrollPane);
 
 		
@@ -157,11 +155,13 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		raterName = new JTextField();
 		raterName.setColumns(10);
-		raterName.setBounds(204, 261, 146, 22);
+		raterName.setEditable(false);
+		raterName.setBackground(colour);
+		raterName.setBounds(204, 267, 146, 22);
 		add(raterName);
 		
-		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill"};
-		outStandingRow = new Object [3];
+		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill","Date Requested"};
+		outStandingRow = new Object [4];
 		outstandingModel = new DefaultTableModel();
 		outstandingModel.setColumnIdentifiers(outStandingHeader);
 		
@@ -170,7 +170,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 
 		outstandingRatesScrollP = new JScrollPane(outstandingRatesTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		outstandingRatesScrollP.setBounds(10, 506, 535, 112);
+		outstandingRatesScrollP.setBounds(10, 506, 623, 112);
 		add(outstandingRatesScrollP);
 		outstandingRatesScrollP.setViewportView(outstandingRatesTable);
 		
@@ -182,44 +182,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empOutSkillList = new ArrayList<EmployeeSkill>();
 		
 		setup();
-		
-		
-//		for (int i = 0; i < empSkillList.size(); i++)
-//		{
-//			if(empSkillList.get(i).getStatus()==0)
-//			{
-//				empOutSkillList.add(empSkillList.get(i));
-//			}
-//		}
-//
-//		outStandingRow = new Object[3];
-//
-//        for(int i = 0 ; i < empOutSkillList.size() ; i++)
-//        {
-//        	empList = clientControl.searchEmployee((String) empOutSkillList.get(i).getRaterID());
-//        	
-//        	System.out.println("empOutSkillList.get(i).getRaterID() = " + empOutSkillList.get(i).getRaterID());
-//        	for(int j = 0; j < empList.size(); j++)        
-//            {
-//        		
-//           
-//        		if(empList.get(j).getEmployeeID().equalsIgnoreCase(empOutSkillList.get(i).getRaterID()))
-//            	{
-//                    outStandingRow[0] = empOutSkillList.get(i).getRaterID();
-//                    outStandingRow[1] = empList.get(j).getSurname() + ", " + empList.get(j).getFirstName();
-//                    
-//                    for(int k = 0; k < skillList.size(); k++)
-//                    {
-//                    	
-//                    	if(skillList.get(k).getSkillId() == (empOutSkillList.get(i).getSkillID()))
-//                    	{
-//                    		outStandingRow[2] = skillList.get(k).getSkillDescription();            		
-//                    	}
-//                    }
-//            	}
-//        		outstandingModel.addRow(outStandingRow);  
-//            }
-//        }
 	}
 
 	public void setup()
@@ -233,7 +195,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		for (int i = 0; i < empSkillList.size(); i++)
 		{
-			if(empSkillList.get(i).getStatus()==0)
+			if((empSkillList.get(i).getStatus()==0) && (!(empSkillList.get(i).getEmployeeID().equals(emp.getEmployeeID()))))
 			{
 				empOutSkillList.add(empSkillList.get(i));
 				
@@ -249,6 +211,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
             	{
                     outStandingRow[0] = empOutSkillList.get(i).getRaterID();
                     outStandingRow[1] = empList.get(j).getSurname() + ", " + empList.get(j).getFirstName();
+                    outStandingRow[3] = empOutSkillList.get(i).getCreatedDate();
 
                     //to get the description of the skill based on ID.
                     for(int k = 0; k < skillList.size(); k++)
@@ -283,8 +246,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	                        JOptionPane.showMessageDialog(this,"Please select a Skill from the Nomination table");
 	                        return;
 	            }
-	            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 0));
-
 				
 				//change to new employee skill as opposed to a set method
 				String employeeID = emp.getEmployeeID();
@@ -329,12 +290,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                         JOptionPane.showMessageDialog(this,"Please select a row from the Oustanding Ratings table");
                         return;
             }
-            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 0));
-            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 1));
-            System.out.println("value = " + outstandingRatesTable.getValueAt(row, 2));
-            
             String raterID = (String) outstandingRatesTable.getValueAt(row, 0);
-            System.out.println("String Value is = " + (String) outstandingRatesTable.getValueAt(row, 0));
             
             	int skillID = 0;
                 for(int j = 0; j < skillList.size(); j++)
@@ -343,9 +299,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                 	if(skillList.get(j).getSkillDescription().equals(outstandingRatesTable.getValueAt(row, 2)))
                 	{
                 		skillID = skillList.get(j).getSkillId();  
-                		System.out.println("Value skillid = " + skillID);
-                		System.out.println("Descr1 = " + skillList.get(j).getSkillDescription() +"= "+ outstandingRatesTable.getValueAt(row, 2));
-                	
                 	}
                 }
                 //getting the object that needs to change
@@ -411,7 +364,9 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	    	{
 	            for(int j = 0; j < skillList.size(); j++)
 	            {
-	            	if(skillList.get(j).getSkillId() == empSkillList.get(i).getSkillID())
+	            	if((skillList.get(j).getSkillId() == empSkillList.get(i).getSkillID()) 
+	            			&& (empSkillList.get(i).getEmployeeID().equals(empSkillList.get(i).getRaterID()))
+	            			&& (empSkillList.get(i).getStatus() == 1))
 	            	{
 	            		skillBox.addItem(skillList.get(j).getSkillDescription());  
 	            	}
@@ -425,16 +380,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		renderer.setToolTipText("Click for combo box");
 		skill.setCellRenderer(renderer);
     }
-
-//	public static void main(String[] args)
-//	{
-//		JFrame frame = new JFrame("Admin GUI");
-//		frame.setSize(700, 450);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		RatingNomination panel = new RatingNomination();
-//		frame.getContentPane().add(panel);
-//		frame.setVisible(true);
-//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) 
@@ -452,26 +397,18 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) 
+	{}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) 
+	{}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) 
+	{}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) 
+	{}
 }

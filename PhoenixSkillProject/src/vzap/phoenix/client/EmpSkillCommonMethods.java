@@ -147,7 +147,7 @@ public class EmpSkillCommonMethods
 							averageRating[j]=0;
 							ratingIdx++;
 						}
-System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
+System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
 						capabilityRating[9] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
@@ -175,11 +175,12 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 			
 			if(ratingList!=null)
 			{
-				System.out.println("ratingList.size: "+ratingList.size());
+				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
-					averageRating [j]+= Math.round(ratingList.get(j)*100.0)/100.0;
+					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+					averageRating [j] += Math.round(ratingList.get(j)*100.0)/100.0;
+					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 				}
 				ratingCount++;
 			}		

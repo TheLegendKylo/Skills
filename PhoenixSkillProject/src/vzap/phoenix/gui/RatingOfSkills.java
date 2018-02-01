@@ -47,7 +47,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private JPanel panelTop;
 	private JButton btnCannotRate;
 	private JPanel panelBottom;
-	private JLabel lblMessageIdentifier;
+	private JLabel lblExplianation;
 	private JButton btnSubmitRating;
 	private JTable tableTop;
 	private DefaultTableModel outstandingModel;
@@ -129,12 +129,12 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		add(panelBottom);
 		
 		
-		lblMessageIdentifier = new JLabel("Message Identifier");
-		lblMessageIdentifier.setBounds(166, 242, 382, 14);
-		lblMessageIdentifier.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblMessageIdentifier.setHorizontalAlignment(JLabel.CENTER);
-		lblMessageIdentifier.setVerticalAlignment(JLabel.CENTER);
-		add(lblMessageIdentifier);
+		lblExplianation = new JLabel("Please provide the ratings you wish to submit for temployee");
+		lblExplianation.setBounds(166, 242, 382, 14);
+		lblExplianation.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblExplianation.setHorizontalAlignment(JLabel.CENTER);
+		lblExplianation.setVerticalAlignment(JLabel.CENTER);
+		add(lblExplianation);
 		
 		btnSubmitRating = new JButton("Submit Rating");
 		btnSubmitRating.setBounds(165, 523, 116, 23);
@@ -397,6 +397,37 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		if (source == btnSubmitRating)
 		{
+			System.out.println("Submit button was pressed");
+			int submit = 0;
+			System.out.println("Printing Clear int value before " + submit);
+			submit = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear?");
+			/*
+			 *  0 = Yes
+			 *  1 = No
+			 *  2 = Cancel			
+			 */
+			switch(submit)
+			{
+			case 0 : System.out.println("YES was selected");
+			
+					for (int i = 0; i < tableRow.length; i++)
+					{
+						tableRow[i][1]="Select rating";
+
+						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+						
+					}	
+					
+					ratingModel.fireTableDataChanged();
+					ratingTable.repaint();
+					break;
+					
+			case 1 : System.out.println("NO was selected");
+					break;
+			case 2 : System.out.println("CANCEL was selected");
+					break;
+			}
+			
 			capListArray = new ArrayList<Short>();
 			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
 			for (int i = 0; i < capList.size(); i++)
