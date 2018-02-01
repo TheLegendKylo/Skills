@@ -498,7 +498,7 @@ System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());
 		System.out.println("EmpSkillClient printing ratingSuccessful..." + ratingSuccessfull);
 		return ratingSuccessfull;
 	}
-	public EmployeeSkill searchEmployeeSkill(String employeeID, int skillID, String raterID)
+	public ArrayList<EmployeeSkill> searchEmployeeSkill(String employeeID, int skillID, String raterID)
 	{
 		this.writeOutMessage("searchEmployeeSkill");
 		this.writeOutMessage(employeeID);
@@ -512,16 +512,16 @@ System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		EmployeeSkill empSkill = new EmployeeSkill();
+		ArrayList<EmployeeSkill> empSkillList = new ArrayList<EmployeeSkill>();
 		try
 		{
-			empSkill = (EmployeeSkill)ois.readObject();
+			empSkillList = (ArrayList<EmployeeSkill>)ois.readObject();
 		} catch (IOException | ClassNotFoundException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return empSkill;
+		return empSkillList;
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(int skillID)
 	{

@@ -178,7 +178,7 @@ public class TestingPhoenix
 	}
 	public void searchEmployeeSkill()
 	{
-		empSkill = loginSession.searchEmployeeSkill("a159842", 2, "a159842");
+		empSkillList = loginSession.searchEmployeeSkill("a159842", 2, "a159842");
 		System.out.println("searchEmp"+empSkill.getEmployeeID()+" "+empSkill.getRaterID()+" "+empSkill.getEmpSkillID()+" "+loginSession.getErrorMsg());
 	}
 	public void searchEmployeeSkillBySkillID()
