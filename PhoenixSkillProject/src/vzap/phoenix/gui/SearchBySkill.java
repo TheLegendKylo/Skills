@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -119,59 +120,67 @@ public class SearchBySkill extends JPanel implements ActionListener
 		
 		if(source == exportBut)
 		{
-			
-			
-
 			File file;
-
-
 			JFileChooser chooser = new JFileChooser("c:\\Users"); 
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Comma Delimited File","csv");
+			chooser.setFileFilter(filter);
 			
 			int choice1 = chooser.showSaveDialog(this);
-			String filePath = chooser.getSelectedFile().getPath(); 
-			file =  new File(filePath);
-			System.out.println("filePath = " + filePath);
-			FileWriter fw = null; // opens connection
-			PrintWriter pw = null;//wraps in FileWriter
-			String row = null;
-			try
+			if(choice1 == JFileChooser.APPROVE_OPTION)
 			{
-				fw = new FileWriter(file);
-				pw = new PrintWriter(fw);
-//				String message1 = "Hello IO World... ";
-//				String message2 = "Java is not for kidz!!\n!!";
-				for(int i = 0 ; i < modelInsert.getRowCount();i++)
+				String filePath = chooser.getSelectedFile().getPath();
+				if(filePath.substring(filePath.length()-4).equalsIgnoreCase(".csv"))
 				{
-					row = 
-					modelInsert.getValueAt(i, 0) + "," +
-					modelInsert.getValueAt(i, 1) + "," +
-					modelInsert.getValueAt(i, 2) + "," +
-					modelInsert.getValueAt(i, 3) + "," +
-					modelInsert.getValueAt(i, 4) + "," +
-					modelInsert.getValueAt(i, 5) + "," +
-					modelInsert.getValueAt(i, 6) + "," +
-					modelInsert.getValueAt(i, 7) + "," +
-					modelInsert.getValueAt(i, 8) + "," +
-					modelInsert.getValueAt(i, 9);// + "," +
-					//modelInsert.getValueAt(i, 10);
-					pw.println(row);
+					file =  new File(filePath);
 				}
-				//pw.println(message1);
-				//pw.println(message2);
+				else
+				{
+					file =  new File(filePath + ".csv");
+				}
 				
-				String displaySaveMsg = "Your extract file has been saved to : " + filePath;
-				JOptionPane.showMessageDialog(this,displaySaveMsg);
-				System.out.println("Data saved to file");
-				fw.close();
-				pw.close();
-				System.out.println("All Io connections closed");
-				
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				FileWriter fw = null; // opens connection
+				PrintWriter pw = null;//wraps in FileWriter
+				String row = null;
+				try
+				{
+					fw = new FileWriter(file);
+					pw = new PrintWriter(fw);
+//					String message1 = "Hello IO World... ";
+//					String message2 = "Java is not for kidz!!\n!!";
+					for(int i = 0 ; i < modelInsert.getRowCount();i++)
+					{
+						row = 
+						modelInsert.getValueAt(i, 0) + "," +
+						modelInsert.getValueAt(i, 1) + "," +
+						modelInsert.getValueAt(i, 2) + "," +
+						modelInsert.getValueAt(i, 3) + "," +
+						modelInsert.getValueAt(i, 4) + "," +
+						modelInsert.getValueAt(i, 5) + "," +
+						modelInsert.getValueAt(i, 6) + "," +
+						modelInsert.getValueAt(i, 7) + "," +
+						modelInsert.getValueAt(i, 8) + "," +
+						modelInsert.getValueAt(i, 9);// + "," +
+						//modelInsert.getValueAt(i, 10);
+						pw.println(row);
+					}
+					//pw.println(message1);
+					//pw.println(message2);
+					
+					String displaySaveMsg = "Your extract file has been saved to : " + filePath;
+					JOptionPane.showMessageDialog(this,displaySaveMsg);
+					System.out.println("Data saved to file");
+					fw.close();
+					pw.close();
+					System.out.println("All Io connections closed");
+					
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}		
 		}
 		
 		if(source == clearBut)
