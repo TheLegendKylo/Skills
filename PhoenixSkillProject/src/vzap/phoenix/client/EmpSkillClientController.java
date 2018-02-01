@@ -207,5 +207,14 @@ public class EmpSkillClientController
 		}
 		return empSkillMethod.getEmpSkillDetail(this, employeeSkillList, this.capabilityList);
 	}
+	public DefaultTableModel getEmpCapabilityDetail(ArrayList<EmployeeSkill> employeeSkillList)
+	{
+		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
+		if(capabilityList==null)
+		{
+			capabilityList = this.getCapabilityList();
+		}
+		return empSkillMethod.getEmpCapabilityDetail(this, employeeSkillList, this.capabilityList);
+	}
 
 }
