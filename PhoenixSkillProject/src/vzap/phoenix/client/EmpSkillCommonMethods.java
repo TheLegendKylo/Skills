@@ -312,6 +312,7 @@ System.out.println("commonmethoeds - capability Rating = " + capabilityRating.le
 				// if this is not the first record found
 				// update the previous totals to the relevant variables
 				// iterate through the static skill array to obtain the skilldescription
+				//
 				for (int j = 0; j < skillList.size(); j++)
 				{
 					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
