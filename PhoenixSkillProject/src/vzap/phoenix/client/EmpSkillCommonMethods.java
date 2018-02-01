@@ -38,7 +38,7 @@ public class EmpSkillCommonMethods
 				{
 					if(ratingCount >0)
 					{
-						nominateeAveRating[counter]= ( (nominateeAveRating[counter]/ratingCount *100.0)/100.0);
+						nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount *100.0)/100.0;
 						numberOfRatings[counter] = ratingCount;
 						ratingCount = 0;
 					}

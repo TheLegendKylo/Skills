@@ -50,12 +50,6 @@ import javax.swing.JList;
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
 {
 
-	String [] empHeader;
-	String [] [] tabCols;
-	String [] skillHeader;
-	String [] [] skillRows;
-	String [] hobbyHeader;
-	String [] [] hobbyRows;
 	String [] capability; 
 	Object source; 
 
@@ -112,7 +106,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	{
 //		
 		this.clientControl = clientControl;
-		// incase you want to do anything with the logged on employee
+//		 incase you want to do anything with the logged on employee
 		this.emp = emp;
 		setLayout(null);
 	
@@ -162,16 +156,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollHobby = new JScrollPane();
 		scrollHobby.setBounds(932, 326, 84, 158);
 		add(scrollHobby);
-
 		individualSkillsModel = new DefaultTableModel();
-		Object[] modelHeader = new String[]{"Skill","Your Ave Rating","Nominated Average","Number of ratings"};
-		individualSkillsModel.setColumnIdentifiers(modelHeader);
 		
 		individualSkillsTable = new JTable(individualSkillsModel);
 				
 
 		hobbyJlist = new JList(vectHobby);
-//		hobbyJlist.setBackground(UIManager.getColor("Button.background"));
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
 		scrollHobby.setViewportView(hobbyJlist);
@@ -224,19 +214,13 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(scrollIndividualSkills);
 		scrollIndividualSkills.setViewportView(individualSkillsTable);
 
-//		HeaderForSkillsDetails = new String[]{"Knowledge","Standard of Work", "Autonomy", "Coping with Complexity"
-//				,"Perception of Context", "Growth Capability", "Purposful Collaboration"};
-//		Object[][] ratingRow = new Object[10][HeaderForSkillsDetails.length];
-//		modelInsert = new DefaultTableModel(ratingRow, HeaderForSkillsDetails);
 		modelInsert = new DefaultTableModel();
 		tableSkillsDetails = new JTable(modelInsert);
-//		tableSkillsDetails.setAutoResizeMode(tableSkillsDetails.AUTO_RESIZE_OFF);
   		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		scrollSkillsDetails.setViewportView(tableSkillsDetails);
 		tableSkillsDetails.getTableHeader().setPreferredSize(new Dimension(tableSkillsDetails.getColumnModel().getTotalColumnWidth(),32));
 		tableSkillsDetails.getRowSelectionAllowed();
 		tableSkillsDetails.getSelectionModel();
-//		tableSkillsDetails.addMouseListener(this);
 		
 		setup();
 	

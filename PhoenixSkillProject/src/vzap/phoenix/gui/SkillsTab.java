@@ -41,9 +41,8 @@ import java.awt.event.MouseListener;
 public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
 	private JLabel lblSkillTab;
-	private JPanel panelTop;
 	private JButton btnAddSkillToList;
-	private JButton btnEditSkill;
+	private JButton btnEditSkillRating;
 	private JButton btnDeleteSkill;
 	
 
@@ -77,6 +76,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private DefaultTableModel detailTableModel;
 	private JTable detailedTable;
 	private JScrollPane detailedScrollPane;
+	private EmployeeSkill selectedEmpSkill;
 	
 	private int rowSelected = -1;
 	
@@ -93,24 +93,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		setLayout(null);
 		
 		lblSkillTab = new JLabel("Skill Tab");
-		lblSkillTab.setBounds(451, 11, 46, 14);
+		lblSkillTab.setBounds(451, 11, 129, 14);
 		add(lblSkillTab);
-		
-		panelTop = new JPanel();
-		panelTop.setBounds(10, 35, 928, 33);
-		add(panelTop);
-		
-		btnEditSkill = new JButton("Edit Skill");
-		panelTop.add(btnEditSkill);
-		btnEditSkill.addActionListener(this);
-		
-		btnDeleteSkill = new JButton("Delete Skill");
-		panelTop.add(btnDeleteSkill);
-		btnDeleteSkill.addActionListener(this);
 		
 		
 		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 203, 928, 22);
+		lblSummaryOfSkills.setBounds(10, 158, 928, 22);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 		
@@ -129,7 +117,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		btnUpdate = new JButton("Update your skills");
 		btnUpdate.setToolTipText("Once a skill has been selected from the drop down you can add it to your profile");
-		btnUpdate.setBounds(387, 169, 173, 23);
+		btnUpdate.setBounds(390, 99, 173, 23);
 		add(btnUpdate);
 		btnUpdate.addActionListener(this);
 		
@@ -142,8 +130,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		
 		employeeSkillList = clientControl.getEmployeeSkillList();
-	model = clientControl.getEmpSkillAverage(employeeSkillList);
-	skillList = clientControl.getSkillList();
+		model = clientControl.getEmpSkillAverage(employeeSkillList);
+		skillList = clientControl.getSkillList();
 
 		tableSummarySkills = new JTable(model);
 		tableSummarySkills.addMouseListener(this);
@@ -175,7 +163,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		lblSkill = new JLabel("Select a skill to add to your profile");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblSkill.setHorizontalAlignment(JLabel.CENTER);
-		lblSkill.setBounds(143, 107, 661, 20);
+		lblSkill.setBounds(147, 36, 661, 20);
 		add(lblSkill);
 		
 		
@@ -190,12 +178,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
 		Collections.sort(vectorSkills);
 		comboBoxSkillList.setSelectedIndex(0);
-		comboBoxSkillList.setBounds(387, 138, 173, 20);
+		comboBoxSkillList.setBounds(390, 68, 173, 20);
 		add(comboBoxSkillList);
 		
 		btnAddSkillToList = new JButton("Add New Skill To List");
 		btnAddSkillToList.setToolTipText("Select if your skill is not in the drop down menu");
-		btnAddSkillToList.setBounds(584, 137, 168, 23);
+		btnAddSkillToList.setBounds(587, 67, 168, 23);
 		add(btnAddSkillToList);
 		btnAddSkillToList.addActionListener(this);
 		
@@ -215,13 +203,55 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		scrollPaneBottom.setBounds(10, 433, 928, 152);
 		add(scrollPaneBottom);
 		
+		btnEditSkillRating = new JButton("Edit Skill Rating");
+		btnEditSkillRating.setBounds(339, 191, 148, 23);
+		add(btnEditSkillRating);
+		btnEditSkillRating.addActionListener(this);
+		
+		btnDeleteSkill = new JButton("Delete Skill");
+		btnDeleteSkill.setBounds(497, 191, 98, 23);
+		add(btnDeleteSkill);
+		btnDeleteSkill.addActionListener(this);
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
-		
+		if (source == btnEditSkillRating)
+		{
+			System.out.println("Edit Skill Rating pressed");
+		}
+		if(source == btnDeleteSkill)
+		{
+			System.out.println("Delete button pressed");
+			 int warning = JOptionPane.showConfirmDialog(this, "Warning msg");
+			selectedEmpSkill.setStatus((short)9);
+			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
+			selectedEmpSkill.setComment(comment);
+			model.removeRow(rowSelected);
+			String raterID = null;
+			ArrayList<EmployeeSkill> removeRatings = clientControl.searchEmployeeSkill
+					(loggedOnEmployee.getEmployeeID(), (short)selectedEmpSkill.getSkillID(), raterID);
+			boolean success = false;
+			if(removeRatings != null)
+			{
+				for (int i = 0; i < removeRatings.size(); i++)
+				{
+					removeRatings.get(i).setStatus((short)9);
+					removeRatings.get(i).setComment(comment);
+					success = clientControl.updateEmployeeSkill(removeRatings.get(i));
+					
+					
+
+				}
+			}
+			
+			model.fireTableDataChanged();
+			
+			
+		}
 		if(source == btnAddSkillToList)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
@@ -297,9 +327,31 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	{
 //		Getting ready to delete and delete skills
 		
-		System.out.println("****Mouse Clicked****");
+		System.out.println("*****Mouse Clicked*****");
 		rowSelected = tableSummarySkills.getSelectedRow();
-		System.out.println("Printing the rowSelected value: " + rowSelected);
+		String skillName = (String)tableSummarySkills.getModel().getValueAt(rowSelected, 0);
+		
+		short skillID = 0;
+		
+		for (int i = 0; i < skillList.size(); i++)
+		{
+			if(skillName.equals(skillList.get(i).getSkillDescription()))
+			{
+				skillID = (short)skillList.get(i).getSkillId();
+			}
+		}
+		
+		for (int i = 0; i < employeeSkillList.size(); i++)
+		{
+
+			
+			if((employeeSkillList.get(i).getEmployeeID().equalsIgnoreCase(loggedOnEmployee.getEmployeeID()))
+				&& (employeeSkillList.get(i).getSkillID()==skillID))
+			{
+				selectedEmpSkill = employeeSkillList.get(i);
+			}
+		
+		}
 		
 		
 	}
