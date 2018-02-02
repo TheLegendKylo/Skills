@@ -305,6 +305,7 @@ public class EmpSkillClient
 		//System.out.println("Client: updateEmployee - No of Hobbies: "+updateEmployee.getEmpHobbies().size());
 		try
 		{
+			oos.reset();
 			oos.writeObject(updateEmployee);
 			oos.writeObject(updateEmployee.getEmpHobbies().size());
 			for (int i = 0; i < updateEmployee.getEmpHobbies().size(); i++)

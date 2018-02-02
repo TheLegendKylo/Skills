@@ -189,6 +189,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		rdbtnAvailableAsA = new JRadioButton("Available as a coach");
 		rdbtnAvailableAsA.setBounds(155, 205, 160, 23);
 		add(rdbtnAvailableAsA);
+		rdbtnAvailableAsA.setEnabled(false);
 	}
 	
 	private void disableRating()
@@ -344,10 +345,29 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
 		System.out.println("Logged on employee = " + loggedOnEmployee.getEmployeeID());
 		System.out.println("empID = " + empID);
-		if(empID.equals(loggedOnEmployee.getEmployeeID()))
+		
+		if(empID.equalsIgnoreCase(loggedOnEmployee.getEmployeeID()))
 		{
-			System.out.println("you are were you need to be");
-			JOptionPane.showMessageDialog(this, "Please select if you are able to act as a coach for your selected skill");
+			boolean availableForCoaching = false;
+			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach"
+					+ " for the selected skill?", "Coaching", 1);
+			if(valueReturnCoaching == 0)
+			{
+				rdbtnAvailableAsA.setEnabled(true);
+				rdbtnAvailableAsA.setSelected(true);
+				System.out.println("you are were you need to be");
+			}
+			else
+			{
+				rdbtnAvailableAsA.setSelected(false);
+				rdbtnAvailableAsA.setEnabled(true);
+			}
+				
+		}
+		else
+		{
+			rdbtnAvailableAsA.setSelected(false);
+			rdbtnAvailableAsA.setEnabled(false);
 		}
 		
 		String empName = (String)tableTop.getModel().getValueAt(rowSelected, 1);
@@ -356,7 +376,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		skillList = clientControl.getSkillList();
 		for (int i = 0; i < skillList.size(); i++)
 		{
-			if(skillName.equals(skillList.get(i).getSkillDescription()))
+			if(skillName.equalsIgnoreCase(skillList.get(i).getSkillDescription()))
 			{
 				skillID = (short)skillList.get(i).getSkillId();
 			}
@@ -427,11 +447,13 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 					for (int i = 0; i < tableRow.length; i++)
 					{
 						tableRow[i][1]="Select rating";
+						tableRow[i][2]="";
 
 						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
 						
 					}	
-					
+					rdbtnAvailableAsA.setSelected(false);
+					rdbtnAvailableAsA.setEnabled(false);
 					ratingModel.fireTableDataChanged();
 					ratingTable.repaint();
 					break;
