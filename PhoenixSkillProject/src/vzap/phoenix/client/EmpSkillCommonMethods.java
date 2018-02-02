@@ -183,7 +183,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
 			
-			if(ratingList!=null || ratingList.size()==0)
+			if(ratingList!=null && ratingList.size()!=0)
 			{
 				
 				for (int j = 0; j < ratingList.size(); j++)
@@ -268,7 +268,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			}
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
-			if(ratingList!=null || ratingList.size()==0)
+			if(ratingList!=null && ratingList.size()!=0)
 			{
 				System.out.println("ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
