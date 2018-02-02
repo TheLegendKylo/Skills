@@ -72,7 +72,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		{
 			comboSkill.add(skillList.get(i).getSkillDescription());	
 		}
-		
+		Collections.sort(comboSkill);    
 		setLayout(null);
 		
 		searchBySkillLab = new JLabel("Choose SKILL from dropdown list");

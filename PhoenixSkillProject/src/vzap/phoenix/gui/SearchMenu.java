@@ -68,9 +68,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private Vector<String> vectSkill; 
 	private Vector<String> vectTabSkill;   
 	
-	private DefaultTableModel model;
-	private DefaultTableModel modelInsert;
-	private DefaultTableModel individualSkillsModel;
+	private DefaultTableModel model=null;
+	private DefaultTableModel modelInsert=null;
+	private DefaultTableModel individualSkillsModel=null;
 	
 	private JComboBox hobbyComboBox;
 	 	
@@ -214,13 +214,6 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollEmployee.setBounds(24, 160, 769, 138);
 		add(scrollEmployee);
 
-//		individualSkillsModel = new DefaultTableModel(){
-//
-//		    @Override
-//		    public boolean isCellEditable(int row, int column) {
-//		       return false;
-//		    }
-//		};
 		individualSkillsTable_1 = new JTable(individualSkillsModel);
 		individualSkillsTable_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		individualSkillsTable_1.getRowSelectionAllowed();
@@ -232,13 +225,6 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(scrollIndividualSkills);
 		scrollIndividualSkills.setViewportView(individualSkillsTable_1);
 
-//		modelInsert = new DefaultTableModel(){
-//
-//		    @Override
-//		    public boolean isCellEditable(int row, int column) {
-//		       return false;
-//		    }
-//		};
 		tableSkillsDetails = new JTable(modelInsert);
 		tableSkillsDetails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
@@ -262,8 +248,17 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);
-	//	modelInsert.setRowCount(0);
-//		individualSkillsModel.setRowCount(0);
+		
+		if(modelInsert != null)
+		{
+			modelInsert.setRowCount(0);
+		}
+		if(individualSkillsModel != null)
+		{
+			individualSkillsModel.setRowCount(0);
+		}
+		//modelInsert.setRowCount(0);
+		
 		contentsOfTable.setText(" ");			
 		inputJTF.setText("");
 		
@@ -292,11 +287,17 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			
 		if (source == empBut)
 		{	
-			vectHobby.clear(); //test
+			vectHobby.clear(); 
 //			check if user has entered search criteria for the employee search 
 			model.setRowCount(0);
-		//	modelInsert.setRowCount(0);
-		//	individualSkillsModel.setRowCount(0);
+			if(modelInsert != null)
+			{
+				modelInsert.setRowCount(0);
+			}
+			if(individualSkillsModel != null)
+			{
+				individualSkillsModel.setRowCount(0);
+			}
 			
 			if(!inputJTF.getText().isEmpty() ) 
 			{
@@ -343,8 +344,14 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		if(source == hobbyComboBox)
 		{
 			model.setRowCount(0);
-			modelInsert.setRowCount(0);
-			individualSkillsModel.setRowCount(0);
+			if(modelInsert != null)
+			{
+				modelInsert.setRowCount(0);
+			}
+			if(individualSkillsModel != null)
+			{
+				individualSkillsModel.setRowCount(0);
+			}
 //		Hobby combobox was setup at the beginning of class - AutoCompletion was enabled at beginning.
 //		when you come into this IF statement it means user has selected a hobby to search
 			
