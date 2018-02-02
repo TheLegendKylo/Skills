@@ -38,7 +38,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	private DefaultTableModel selectModel, nominateModel, outstandingModel;
 	private String[] nominateHeader, outStandingHeader;
 	private Object[] nominateRow, outStandingRow;
-	private JButton btnSearch;
+	private JButton btnSearch, btnClearSelection;
 	private int row;
 	private EmployeeSkill employeeSkill;
 	private Employee emp;
@@ -174,6 +174,11 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		lblOutStandingNomination.setBounds(10, 472, 236, 23);
 		add(lblOutStandingNomination);
 		
+		btnClearSelection = new JButton("CLEAR SELECTION");
+		btnClearSelection.setBounds(173, 423, 161, 23);
+		btnClearSelection.addActionListener(this);
+		add(btnClearSelection);
+		
 		empOutSkillList = new ArrayList<EmployeeSkill>();
 		
 		setup();
@@ -238,33 +243,51 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 			{
 				System.out.println("Into the Submit buitton loop = " + nominateModel.getValueAt(i, 0));
 				System.out.println("Print logged on employee = " + emp.getEmployeeID());
-	            if (nominateTable.getValueAt(i, 2) == null)
+	            for (int k = 0; k < outstandingModel.getRowCount(); k++) 
 	            {
-	                        JOptionPane.showMessageDialog(this,"Please select a Skill from the Nomination table");
-	                        return;
+	            	if ((outstandingRatesTable.getValueAt(k, 0).equals(nominateTable.getValueAt(i, 0))) 
+	            			&& outstandingRatesTable.getValueAt(k, 2).equals(nominateTable.getValueAt(i, 2)))
+	            	{
+	            		JOptionPane.showMessageDialog(this,"Rater already nominated for this skill");
+	            		nominateModel.setRowCount(0);
+	            		System.out.println("After clearing table");
+	            		return;
+	            	}
 	            }
 				
-				//change to new employee skill as opposed to a set method
-				String employeeID = emp.getEmployeeID();
-				int skillId = 0;
-				for (int j = 0; j < skillList.size(); j++)
-				{
-					if(skillList.get(j).getSkillDescription()==(String)nominateModel.getValueAt(i, 2))
+				if (nominateTable.getValueAt(i, 2) == null)
+	            {
+                    JOptionPane.showMessageDialog(this,"Please select a Skill from the Nomination table");
+                    return;
+	            }
+	            else
+	            {
+					//change to new employee skill as opposed to a set method
+					String employeeID = emp.getEmployeeID();
+					int skillId = 0;
+					for (int j = 0; j < skillList.size(); j++)
 					{
-						skillId = skillList.get(j).getSkillId() ;	
-						break;
+						if(skillList.get(j).getSkillDescription()==(String)nominateModel.getValueAt(i, 2))
+						{
+							skillId = skillList.get(j).getSkillId() ;	
+							break;
+						}
 					}
-				}
-				String raterID = (String)nominateModel.getValueAt(i, 0);
-				Date createdDate = new Date();
-				employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
-				boolean success = clientControl.nominateRater(employeeSkill);
-				//clear input fields
-				raterIDJTF.setText("");
-				raterName.setText("");	
+					String raterID = (String)nominateModel.getValueAt(i, 0);
+					Date createdDate = new Date();
+					employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
+					boolean success = clientControl.nominateRater(employeeSkill);
+					//clear input fields
+					raterIDJTF.setText("");
+					raterName.setText("");	
+	            }
 			}
 			nominateModel.setRowCount(0);
 					
+		}
+		if(source == btnClearSelection)
+		{
+			nominateModel.setRowCount(0);
 		}
 		if(source == btnAdd)
         {
