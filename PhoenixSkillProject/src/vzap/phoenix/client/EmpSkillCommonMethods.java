@@ -172,10 +172,10 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 					for (int j = 0; j < skillList.size(); j++)
 					{
 						if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
-							{
-								skillDesc = skillList.get(j).getSkillDescription();
-								break;
-							}
+						{
+							skillDesc = skillList.get(j).getSkillDescription();
+							break;
+						}
 					}
 				}
 			}

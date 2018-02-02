@@ -36,17 +36,11 @@ public class EmployeeController implements Runnable
 		this.logonEmployee = employeeDAO.loginEmployee(employeeID, password);
 		this.errorCode = employeeDAO.getErrorCode();
 		this.errorMsg = employeeDAO.getErrorMsg();
-		System.out.println("getDAO Error Code: "+this.errorCode);
-		if(this.errorCode==0)
-		{
-			hobbyDAO = new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
-			empSkillList = empSkillDAO.getEmpSkillList();
-			thread = new Thread(this);
-			thread.start();
-
-		}
+		System.out.println("EmployeeController: getDAO Error Code: "+this.errorCode);
+		hobbyDAO = new HobbyDAO();
+		hobbyList = HobbyDAO.getHobbyList();
+		thread = new Thread(this);
+		thread.start();
 	}
 	public boolean registerEmployee(Employee newEmployee)
 	{
@@ -210,6 +204,11 @@ public class EmployeeController implements Runnable
 	{
 		skillDAO = new SkillDAO();
 		skillList = SkillDAO.getSkillList();
+		if(this.errorCode==0)
+		{
+			empSkillDAO = new EmployeeSkillDAO(logonEmployee.getEmployeeID());
+			empSkillList = empSkillDAO.getEmpSkillList();
+		}
 		new LevelDAO();
 		levelList = LevelDAO.getLevelList();
 		new CapabilityDAO();
