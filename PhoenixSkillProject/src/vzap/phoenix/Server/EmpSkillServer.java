@@ -305,7 +305,7 @@ public class EmpSkillServer
 		public void getHobbyList()
 		{
 			hobbyList = EmployeeController.getHobbyList();
-			System.out.println("Number of Hobbies: "+hobbyList.size());
+			//System.out.println("Number of Hobbies: "+hobbyList.size());
 			try
 			{
 				oos.writeObject(hobbyList);
