@@ -38,7 +38,7 @@ insert into Employee values ('A150301','Petra','Anderson','Petra','petra.anderso
 insert into Employee values ('A63150','Elizabeth','Maiden','Libby','elizabeth.maiden@standardbank.co.za',default,'1234');
 insert into Employee values ('A162617','Yonus','kaka','Yonus','yonus.kaka@standardbank.co.za',default,'1234');
 insert into Employee values ('A110641','Brenda','May','Brenda','brenda.may@standardbank.co.za',default,'1234');
-insert into Employee values ('A207532','Nicolette','Goyns','Nicolette','nicolette.goyns@standardbank.co.za',default,'1234');
+
 
 
 
@@ -85,12 +85,13 @@ insert into skills values (1,'Prince 2 practitioner'),
 		(29,'Websphere'),
 		(30,'Kanban'),
 		(31,'Fileaid');
+		
 
 
 
 create table Level (levelId smallint not null primary key,
 		levelName varchar(50) not null,
-		levelShortDescription(50) not null,
+		levelShortDescription varchar(50) not null,
 		levelDescription varchar(500) not null );
 
 insert into Level values (1,
@@ -113,6 +114,9 @@ insert into Level values (1,
 		'Industry expert.  As rated by the industry',
 		'Expert',
 		'Is considered to be the go to person in South Africa regarding a specific technical domain' );
+		
+		
+		
 
 create table CapabilityRating(capabilityId smallInt not null,
 		rating smallint not null,
@@ -172,12 +176,10 @@ insert into Capability values
 		(5,'Perception of context','Degree to which organisational context is applied in delivery of work'),
 		(6,'Growing capability','Effort applied to expand the capability within the organisation'),
 		(7,'Purposeful collaboration','Ability to work with others in producing a successful outcome');
-
-
-******************************************************************************************************************************
-
-
 		
+		
+
+
 create table EmployeeSkills (empSkillId int not null primary key auto_increment,
                              employeeId varchar(8) not null references employee(employeeId),
                              skillId int(10) not null references skills(skillId),
@@ -187,6 +189,25 @@ create table EmployeeSkills (empSkillId int not null primary key auto_increment,
 				            comment varchar(30),
 				            ratedDate date,
 				            createdDate date);
+				            
+				            
+				            
+create table EmployeeSkillsRating (empSkillRatingId int not null primary key auto_increment,
+				empSkillID int not null references EmployeeSkills(empSkillID),
+				capabilityId smallint not null,
+				rating smallint  not null);	
+				
+				
+				
+create table EmployeeHobby (	id smallint not null auto_increment primary key,
+				employeeId varchar(8) not null references employee(employeeId),
+                                hobbyId smallint not null references hobby(hobbyId));						            
+
+******************************************************************************************************************************
+
+
+		
+
 				            
 				            
 insert into EmployeeSkills values 
@@ -234,10 +255,7 @@ insert into employeeskills values
  
   
   
-create table EmployeeSkillsRating (empSkillRatingId int not null primary key auto_increment,
-				empSkillID int not null references EmployeeSkills(empSkillID),
-				capabilityId smallint not null,
-				rating smallint  not null);
+
   
 insert into EmployeeSkillsRating values
 (null,12,1,1),(null,12,2,1),(null,12,3,1),(null,12,4,1),(null,12,5,1),(null,12,6,1),(null,12,7,1);
@@ -257,13 +275,11 @@ insert into EmployeeSkillsRating values
 insert into EmployeeSkillsRating values
 (null,19,1,1),(null,19,2,1),(null,19,3,1),(null,19,4,1),(null,19,5,1),(null,19,6,1),(null,19,7,1);
 
-w
+
 		
 
 
-create table EmployeeHobby (	id smallint not null auto_increment primary key,
-				employeeId varchar(8) not null references employee(employeeId),
-                                hobbyId smallint not null references hobby(hobbyId));
+
 
 
 

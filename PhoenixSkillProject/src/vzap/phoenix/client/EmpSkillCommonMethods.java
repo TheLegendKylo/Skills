@@ -104,7 +104,13 @@ public class EmpSkillCommonMethods
 			skillsRow[i][3] = nominateeAveRating[i];
 			skillsRow[i][4] = numberOfRatings[i];
 		}
-		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader);
+		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		return empSkillModel;
 	}
 
@@ -136,7 +142,13 @@ public class EmpSkillCommonMethods
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel();
+		DefaultTableModel empCapModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -254,7 +266,13 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel();
+		DefaultTableModel empCapModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -306,7 +324,13 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 	{
 		Object[] skillsHeader = new String[]{"EmployeeID","Name","Skill","Date of Request"};
 		Object[] skillsRow = new Object[4];
-		DefaultTableModel empSkillModel = new DefaultTableModel();
+		DefaultTableModel empSkillModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empSkillModel.setColumnIdentifiers(skillsHeader);
 		String [] skillDesc = new String[99];
 		int skillIDCheck = 0;

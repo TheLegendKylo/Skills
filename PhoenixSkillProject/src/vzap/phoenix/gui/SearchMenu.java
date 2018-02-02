@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.Popup;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
 import vzap.phoenix.Server.Employee.Capability;
 import vzap.phoenix.Server.Employee.Employee;
@@ -67,9 +68,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private Vector<String> vectSkill; 
 	private Vector<String> vectTabSkill;   
 	
-	private DefaultTableModel model;
-	private DefaultTableModel modelInsert;
-	private DefaultTableModel individualSkillsModel;
+	private DefaultTableModel model=null;
+	private DefaultTableModel modelInsert=null;
+	private DefaultTableModel individualSkillsModel=null;
 	
 	private JComboBox hobbyComboBox;
 	 	
@@ -95,6 +96,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	private JTable tableEmployee;
 	private JTable tableSkillsDetails;
 	private JTable individualSkillsTable;
+	private JTable individualSkillsTable_1;
 	
 	private JTextField inputJTF;
 	
@@ -148,7 +150,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		contentsOfTable = new JLabel("");
 		contentsOfTable.setBorder(null);
-		contentsOfTable.setBounds(250, 115, 451, 14);
+		contentsOfTable.setBounds(212, 135, 451, 14);
 		add(contentsOfTable);
 		
 
@@ -187,33 +189,44 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		skillsDetailsLab.setBounds(298, 496, 235, 14);
 		add(skillsDetailsLab);
 		
-		model = new DefaultTableModel();
+
+		model = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		
 		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
 		model.setColumnIdentifiers(tabHeader);
-		
 		tableEmployee = new JTable(model);
 		tableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableEmployee.addMouseListener(this);
+		tableEmployee.setRowSorter(new TableRowSorter(model));
+
+		
+		tableEmployee.setAutoCreateRowSorter(true); 
+		tableEmployee.setAutoCreateRowSorter(isEnabled());
 		scrollEmployee = new JScrollPane(tableEmployee);
 		scrollEmployee.setToolTipText("This will be populated once you have chosen one of the above options  ");
 		scrollEmployee.setEnabled(false);
 		scrollEmployee.setBounds(24, 160, 769, 138);
 		add(scrollEmployee);
-		
-		individualSkillsModel = new DefaultTableModel();
-		individualSkillsTable = new JTable(individualSkillsModel);
-		individualSkillsTable.getRowSelectionAllowed();
-		individualSkillsTable.getSelectionModel();
-		individualSkillsTable.addMouseListener(this);
-		scrollIndividualSkills = new JScrollPane(individualSkillsTable);
+
+		individualSkillsTable_1 = new JTable(individualSkillsModel);
+		individualSkillsTable_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		individualSkillsTable_1.getRowSelectionAllowed();
+		individualSkillsTable_1.addMouseListener(this);
+		scrollIndividualSkills = new JScrollPane(individualSkillsTable_1);
 		scrollIndividualSkills.setToolTipText("This will only be populated with chosen Employee's skills once you have entered \"EMPLOYEE search criteria\" option");
 		scrollIndividualSkills.setEnabled(false);
 		scrollIndividualSkills.setBounds(24, 327, 769, 158);
 		add(scrollIndividualSkills);
-		scrollIndividualSkills.setViewportView(individualSkillsTable);
+		scrollIndividualSkills.setViewportView(individualSkillsTable_1);
 
-		modelInsert = new DefaultTableModel();
 		tableSkillsDetails = new JTable(modelInsert);
+		tableSkillsDetails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		scrollSkillsDetails.setViewportView(tableSkillsDetails);
 		tableSkillsDetails.getTableHeader().setPreferredSize(new Dimension(tableSkillsDetails.getColumnModel().getTotalColumnWidth(),32));
@@ -235,8 +248,17 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);
-		modelInsert.setRowCount(0);
-		individualSkillsModel.setRowCount(0);
+		
+		if(modelInsert != null)
+		{
+			modelInsert.setRowCount(0);
+		}
+		if(individualSkillsModel != null)
+		{
+			individualSkillsModel.setRowCount(0);
+		}
+		//modelInsert.setRowCount(0);
+		
 		contentsOfTable.setText(" ");			
 		inputJTF.setText("");
 		
@@ -265,10 +287,17 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			
 		if (source == empBut)
 		{	
+			vectHobby.clear(); 
 //			check if user has entered search criteria for the employee search 
 			model.setRowCount(0);
-			modelInsert.setRowCount(0);
-			individualSkillsModel.setRowCount(0);
+			if(modelInsert != null)
+			{
+				modelInsert.setRowCount(0);
+			}
+			if(individualSkillsModel != null)
+			{
+				individualSkillsModel.setRowCount(0);
+			}
 			
 			if(!inputJTF.getText().isEmpty() ) 
 			{
@@ -315,8 +344,14 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		if(source == hobbyComboBox)
 		{
 			model.setRowCount(0);
-			modelInsert.setRowCount(0);
-			individualSkillsModel.setRowCount(0);
+			if(modelInsert != null)
+			{
+				modelInsert.setRowCount(0);
+			}
+			if(individualSkillsModel != null)
+			{
+				individualSkillsModel.setRowCount(0);
+			}
 //		Hobby combobox was setup at the beginning of class - AutoCompletion was enabled at beginning.
 //		when you come into this IF statement it means user has selected a hobby to search
 			
@@ -351,8 +386,6 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	    	   	model.addRow(tabCols);
 	        }
 		}
-
-
 	}//end of action performed
 
 
@@ -398,9 +431,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
 			
-			scrollIndividualSkills.remove(individualSkillsTable);
-			individualSkillsTable = new JTable(individualSkillsModel);
-			scrollIndividualSkills.setViewportView(individualSkillsTable);			
+			scrollIndividualSkills.remove(individualSkillsTable_1);
+			individualSkillsTable_1 = new JTable(individualSkillsModel);
+			scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
 			individualSkillsModel.fireTableDataChanged(); 
 			this.repaint();
 			
@@ -420,9 +453,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		}
 		
 		individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
-		scrollIndividualSkills.remove(individualSkillsTable);
-		individualSkillsTable = new JTable(individualSkillsModel);
-		scrollIndividualSkills.setViewportView(individualSkillsTable);			
+		scrollIndividualSkills.remove(individualSkillsTable_1);
+		individualSkillsTable_1 = new JTable(individualSkillsModel);
+		scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
 		individualSkillsModel.fireTableDataChanged(); 
 		this.repaint();		
 	}
