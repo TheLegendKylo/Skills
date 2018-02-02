@@ -128,7 +128,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client-: Number of Skills: "+skillList.size());
+		//System.out.println("Client-: Number of Skills: "+skillList.size());
 		return skillList;
 	}
 	/*
@@ -148,7 +148,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Skill Created: "+skillID);
+	//	System.out.println("Client: Skill Created: "+skillID);
 		return skillID;
 	}
 	/*
@@ -167,7 +167,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Skills: "+hobbyList.size());
+	//	System.out.println("Client: Number of Skills: "+hobbyList.size());
 		return hobbyList;
 	}
 	/*
@@ -188,7 +188,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Hobby Created: "+hobbyID);
+		//System.out.println("Client: Hobby Created: "+hobbyID);
 		return hobbyID;
 	}
 	/*
@@ -206,7 +206,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Skill Levels: "+levelList.size());
+	//	System.out.println("Client: Number of Skill Levels: "+levelList.size());
 		return levelList;
 	}
 	/*
@@ -225,7 +225,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
+	//	System.out.println("Client: Number of EmployeeSkills: "+empSkillList.size());
 		return empSkillList;
 	}
 	/*
@@ -244,7 +244,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Capabilities: "+capabilityList.size());
+		//System.out.println("Client: Number of Capabilities: "+capabilityList.size());
 		return capabilityList;
 	}
 	/*
@@ -263,7 +263,7 @@ public class EmpSkillClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of capabilityRatings: "+capabilityRatingList.size());
+		//System.out.println("Client: Number of capabilityRatings: "+capabilityRatingList.size());
 		return capabilityRatingList;
 	}
 	/*
@@ -302,7 +302,7 @@ public class EmpSkillClient
 	public boolean updateEmployee(Employee updateEmployee)
 	{
 		this.writeOutMessage("updateEmployee");
-		System.out.println("Client: updateEmployee - No of Hobbies: "+updateEmployee.getEmpHobbies().size());
+		//System.out.println("Client: updateEmployee - No of Hobbies: "+updateEmployee.getEmpHobbies().size());
 		try
 		{
 			oos.writeObject(updateEmployee);
@@ -355,7 +355,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Employees: "+employeeList.size());
+		//System.out.println("Client: Number of Employees: "+employeeList.size());
 		return employeeList;
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(String searchCriteria)
@@ -376,7 +376,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
+		//System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
 		return employeeSkillList;
 	}	
 	public ArrayList<EmployeeSkill> searchEmployeeSkillByRaterID(String raterID)
@@ -397,7 +397,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
+		//System.out.println("Client: Number of Employee Skills: "+employeeSkillList.size());
 		return employeeSkillList;
 	}	
 
@@ -485,7 +485,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
+//System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
 		boolean ratingSuccessfull = false;
 		try
 		{
@@ -614,7 +614,7 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Client: Number of Employees: "+employeeList.size());
+		//System.out.println("Client: Number of Employees: "+employeeList.size());
 		return employeeList;
 	}
 	public short getErrorCode()

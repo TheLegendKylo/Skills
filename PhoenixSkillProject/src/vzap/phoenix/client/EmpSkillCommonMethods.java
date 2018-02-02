@@ -27,50 +27,54 @@ public class EmpSkillCommonMethods
 		double averageRating = 0;
 		int skillIDCheck = 0;
 		
-		for (int i = 0; i < employeeSkillList.size(); i++)
+		if(employeeSkillList!=null)
 		{
-			// Check whether a new SkillId has been read
-			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
-			{
-				// if this is not the first record found
-				// update the previous totals to the relevant variables
-				if(i>0)
+				for (int i = 0; i < employeeSkillList.size(); i++)
 				{
-					if(ratingCount >0)
+					// Check whether a new SkillId has been read
+					if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 					{
-						nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount *100.0)/100.0;
-						numberOfRatings[counter] = ratingCount;
-						ratingCount = 0;
-					}
-					counter++;
-				}
-				// iterate through the static skill array to obtain the skilldescription
-				for (int j = 0; j < skillList.size(); j++)
-				{
-					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
+						// if this is not the first record found
+						// update the previous totals to the relevant variables
+						if(i>0)
 						{
-						skillIDCheck = skillList.get(j).getSkillId();
-						skillDesc[counter] = skillList.get(j).getSkillDescription();
-						break;
-						}//comment
-				}
-			}
-			// check whether this record is of the employee rating him/herself
-			// only one such record should exist
-			if(employeeSkillList.get(i).getEmployeeID().equals(
-					employeeSkillList.get(i).getRaterID()))
-			{
-				yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
-			}
-			else
-				// this record if of a nominee rating
-			{
-				averageRating = employeeSkillList.get(i).getOverAllAverageRating();
-				// only include in the average ratings if it is not 0;
-				if(averageRating > 0)
+							if(ratingCount >0)
+							{
+								nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount *100.0)/100.0;
+								numberOfRatings[counter] = ratingCount;
+								ratingCount = 0;
+							}
+							counter++;
+						}
+						// iterate through the static skill array to obtain the skilldescription
+						for (int j = 0; j < skillList.size(); j++)
+						{
+							if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
+								{
+								skillIDCheck = skillList.get(j).getSkillId();
+								skillDesc[counter] = skillList.get(j).getSkillDescription();
+								break;
+								}//comment
+						}
+					}
+				
+				// check whether this record is of the employee rating him/herself
+				// only one such record should exist
+				if(employeeSkillList.get(i).getEmployeeID().equals(
+						employeeSkillList.get(i).getRaterID()))
 				{
-					nominateeAveRating[counter] += averageRating;
-					ratingCount++;
+					yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
+				}
+				else
+					// this record if of a nominee rating
+				{
+					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
+					// only include in the average ratings if it is not 0;
+					if(averageRating > 0)
+					{
+						nominateeAveRating[counter] += averageRating;
+						ratingCount++;
+					}
 				}
 			}
 		}
