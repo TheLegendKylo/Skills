@@ -318,6 +318,7 @@ public class EmpSkillClient
 			e.printStackTrace();
 		}
 		
+		System.out.println("cell Number: " +updateEmployee.getContactNo());		
 		boolean updateSuccessfull = false;
 System.out.println("Client: waiting for server");
 		try
@@ -461,7 +462,6 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		boolean updateSuccessfull = false;
 		try
 		{
