@@ -11,7 +11,6 @@ import vzap.phoenix.Server.Employee.Skill;
 
 public class EmpSkillCommonMethods
 {
-	
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
 		Object[] skillsHeader = new String[]{"Skill","Employee Self Rating","Nominated Average",
@@ -48,11 +47,12 @@ public class EmpSkillCommonMethods
 				for (int j = 0; j < skillList.size(); j++)
 				{
 					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
-						{
+					{
 						skillIDCheck = skillList.get(j).getSkillId();
 						skillDesc[counter] = skillList.get(j).getSkillDescription();
+System.out.println("Skill: "+skillDesc[counter]);
 						break;
-						}//comment
+					}//comment
 				}
 			}
 			// check whether this record is of the employee rating him/herself
@@ -65,18 +65,20 @@ public class EmpSkillCommonMethods
 			else
 				// this record if of a nominee rating
 			{
+				ratingCount++;
+System.out.println("Nominee Rating: "+ratingCount);
 				averageRating = employeeSkillList.get(i).getOverAllAverageRating();
 				// only include in the average ratings if it is not 0;
 				if(averageRating > 0)
 				{
 					nominateeAveRating[counter] += averageRating;
-					ratingCount++;
 				}
 			}
 		}
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
+			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
 			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
 			numberOfRatings[counter] = ratingCount;
 			ratingCount = 0;
@@ -178,7 +180,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
 			
-			if(ratingList!=null)
+			if(ratingList!=null || ratingList.size()==0)
 			{
 				
 				for (int j = 0; j < ratingList.size(); j++)
@@ -263,8 +265,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			}
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
-			
-			if(ratingList!=null)
+			if(ratingList!=null || ratingList.size()==0)
 			{
 				System.out.println("ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
