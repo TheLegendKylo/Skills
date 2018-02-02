@@ -21,12 +21,12 @@ public class LevelDAO
 		try
 		{
 			Statement stat=dbCon.createStatement();
-			ResultSet rs = stat.executeQuery("select * from level order by levelNumber");
+			ResultSet rs = stat.executeQuery("select * from level order by levelId");
 			while(rs.next())
 			{
-				short rate = rs.getShort("levelNumber");
-				String name = rs.getString("DreyfusTitle");
-				String description = rs.getString("detailedDescription");
+				short rate = rs.getShort("levelId");
+				String name = rs.getString("LevelName");
+				String description = rs.getString("levelShortDescription");
 				levelList.add(new Level(rate, name, description));					
 			}
 		} catch (SQLException e)

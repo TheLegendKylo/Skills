@@ -37,6 +37,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.JScrollPane;
 import java.awt.ComponentOrientation;
+import javax.swing.JRadioButton;
 
 
 public class RatingOfSkills extends JPanel implements MouseListener, ActionListener
@@ -67,6 +68,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private short[] ratingArray;
 	private JButton btnClearRatings;
 	private int rowSelected = -1;
+	private JRadioButton rdbtnAvailableAsA;
 
 	/**
 	 * Create the panel.
@@ -119,7 +121,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		
 		btnCannotRate = new JButton("Cannot Rate");
-		btnCannotRate.setBounds(299, 205, 116, 23);
+		btnCannotRate.setBounds(388, 205, 116, 23);
 		btnCannotRate.setToolTipText("Select if you are unable to offer a rating for an employee request");
 		add(btnCannotRate);
 		btnCannotRate.addActionListener(this);
@@ -183,6 +185,10 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnClearRatings.setBounds(419, 523, 129, 23);
 		add(btnClearRatings);
 		btnClearRatings.addActionListener(this);
+		
+		rdbtnAvailableAsA = new JRadioButton("Available as a coach");
+		rdbtnAvailableAsA.setBounds(155, 205, 160, 23);
+		add(rdbtnAvailableAsA);
 	}
 	
 	private void disableRating()
@@ -336,6 +342,14 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		System.out.println("*****Mouse Clicked*****");
 		rowSelected = tableTop.getSelectedRow();
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
+		System.out.println("Logged on employee = " + loggedOnEmployee.getEmployeeID());
+		System.out.println("empID = " + empID);
+		if(empID.equals(loggedOnEmployee.getEmployeeID()))
+		{
+			System.out.println("you are were you need to be");
+			JOptionPane.showMessageDialog(this, "Please select if you are able to act as a coach for your selected skill");
+		}
+		
 		String empName = (String)tableTop.getModel().getValueAt(rowSelected, 1);
 		String skillName = (String)tableTop.getModel().getValueAt(rowSelected, 2);
 		short skillID = 0;
