@@ -219,7 +219,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 	{
 		System.out.println("******************Capability Detail Model************************");
 		Object[] capabilityHeader = new String[10];
-		capabilityHeader[0] = "Employee";
+		capabilityHeader[0] = "Rater";
 		capabilityHeader[1] = "Skill";
 		capabilityHeader[9] = "Overall Rating";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
@@ -234,7 +234,6 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		
 		String skillDesc = null;
 		double averageRating[] = new double[7];
-		double overAllRating = 0;
 		String empIDCheck = null;
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
@@ -244,8 +243,8 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
-			empIDCheck = employeeSkillList.get(i).getEmployeeID();
+			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
+			empIDCheck = employeeSkillList.get(i).getRaterID();
 			Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 			if(!(skillIDCheck == (short)employeeSkillList.get(i).getSkillID()))
@@ -268,11 +267,13 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			{
 				System.out.println("ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
+				double overAllRating = 0;
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: ");
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
+					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+
+					"overAllRating: "+j+" "+overAllRating);
 					ratingIdx++;
 				}	
 				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
