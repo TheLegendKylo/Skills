@@ -89,12 +89,15 @@ public class EmployeeController implements Runnable
 		this.errorCode = 0;
 		this.errorMsg = null;
 		int responseCode = empSkillDAO.insertEmployeeSkill(addEmployeeSkill);
-		if(responseCode==0)// employeeSkill record not added successfully
+		System.out.println("*******Printing responseCode = " + responseCode);
+		if(responseCode!=0)// employeeSkill record not added successfully
 		{
 			this.errorCode = empSkillDAO.getErrorCode();
 			this.errorMsg = empSkillDAO.getErrorMsg();
+			System.out.println("****Returing false");
 			return false;
 		}
+		System.out.println("****Returing true");
 		return true;
 	}
 	public boolean addNominee(EmployeeSkill addEmployeeSkill)
