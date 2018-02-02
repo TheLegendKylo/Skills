@@ -274,7 +274,7 @@ public class EmpSkillServer
 		public void getSkillList()
 		{
 			skillList = EmployeeController.getSkillList();
-			System.out.println("Number of Skills: "+skillList.size());
+		//	System.out.println("Number of Skills: "+skillList.size());
 			try
 			{
 				oos.writeObject(skillList);
@@ -290,7 +290,7 @@ public class EmpSkillServer
 			short skillID = 0;
 			String description = this.readObject();
 			skillID = empControl.addSkill(description);
-			System.out.println("Server Skill Added: "+skillID);
+		//	System.out.println("Server Skill Added: "+skillID);
 			try
 			{
 				oos.writeObject(new Short(skillID));
@@ -305,7 +305,7 @@ public class EmpSkillServer
 		public void getHobbyList()
 		{
 			hobbyList = EmployeeController.getHobbyList();
-			System.out.println("Number of Hobbies: "+hobbyList.size());
+			//System.out.println("Number of Hobbies: "+hobbyList.size());
 			try
 			{
 				oos.writeObject(hobbyList);
@@ -321,7 +321,7 @@ public class EmpSkillServer
 			short hobbyID = 0;
 			String description = this.readObject();
 			hobbyID = empControl.addHobby(description);
-			System.out.println("Hobby Added: " + hobbyID);
+		//	System.out.println("Hobby Added: " + hobbyID);
 			try
 			{
 				oos.writeObject(new Short(hobbyID));
@@ -336,7 +336,7 @@ public class EmpSkillServer
 		public void getLevelList()
 		{
 			levelList = EmployeeController.getLevelList();
-System.out.println("Number of Levels: "+levelList.size());
+//System.out.println("Number of Levels: "+levelList.size());
 			try
 			{
 				oos.writeObject(levelList);
@@ -350,7 +350,7 @@ System.out.println("Number of Levels: "+levelList.size());
 		public void getEmpSkillList()
 		{
 			empSkillList = empControl.getEmpSkillList();
-System.out.println("Number of Employee SkillS: "+empSkillList.size());
+//System.out.println("Number of Employee SkillS: "+empSkillList.size());
 			try
 			{
 				oos.writeObject(empSkillList);
@@ -365,7 +365,7 @@ System.out.println("Number of Employee SkillS: "+empSkillList.size());
 		{
 			this.readObject();
 			empSkillList = empControl.getEmpSkillByEmpID(inMessage);
-System.out.println("Number of Employee SkillS: "+empSkillList.size());
+//System.out.println("Number of Employee SkillS: "+empSkillList.size());
 			try
 			{
 				oos.writeObject(empSkillList);
@@ -379,7 +379,7 @@ System.out.println("Number of Employee SkillS: "+empSkillList.size());
 		public void getCapabilityList()
 		{
 			capabilityList = EmployeeController.getCapabilityList();
-System.out.println("Number of Capabilities: "+capabilityList.size());
+//System.out.println("Number of Capabilities: "+capabilityList.size());
 			try
 			{
 				oos.writeObject(capabilityList);
@@ -393,7 +393,7 @@ System.out.println("Number of Capabilities: "+capabilityList.size());
 		public void getCapabilityRatingList()
 		{
 			capabilityRatingList = EmployeeController.getCapabilityRatingList();
-System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
+//System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 			try
 			{
 				oos.writeObject(capabilityRatingList);
@@ -443,7 +443,7 @@ System.out.println("Number of Capability Levels: "+capabilityRatingList.size());
 				{
 					hobbyIDList.add((Short)ois.readObject());
 				}
-System.out.println("Server: No of hobbies: "+hobbyCount);
+//System.out.println("Server: No of hobbies: "+hobbyCount);
 				updateEmployee.setEmpHobbies(hobbyIDList);
 
 			} catch (ClassNotFoundException e)
@@ -473,7 +473,7 @@ System.out.println("Server: No of hobbies: "+hobbyCount);
 			ArrayList <Employee> employeeSearchResults = empControl.searchEmployee(searchCriteria);
 			try
 			{
-System.out.println("Number of employee records returned: "+employeeSearchResults.size());
+//System.out.println("Number of employee records returned: "+employeeSearchResults.size());
 				oos.writeObject(employeeSearchResults);
 			} catch (IOException e)
 			{
@@ -550,7 +550,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
+		//	System.out.println("rateArray: "+rateEmployeeSkill.getCapabilityList().size());		
 			boolean success = empControl.rateEmployeeSkill(rateEmployeeSkill);
 			try
 			{
@@ -602,7 +602,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Server: read searchEmployeeSkills: "+employeeID+" "+raterID+" "+skillID);
+	//		System.out.println("Server: read searchEmployeeSkills: "+employeeID+" "+raterID+" "+skillID);
 			try
 			{
 				oos.writeObject(empControl.searchEmployeeSkill(employeeID, skillID, raterID));
@@ -624,7 +624,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Server: read searchEmployeeSkills: "+skillID);
+		//	System.out.println("Server: read searchEmployeeSkills: "+skillID);
 			try
 			{
 				oos.writeObject(empControl.searchEmployeeSkill(skillID));
@@ -640,7 +640,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 			String raterID = null;
 			this.readObject();
 			raterID = inMessage;
-			System.out.println("Server: read searchEmployeeSkills: "+raterID);
+		//	System.out.println("Server: read searchEmployeeSkills: "+raterID);
 			try
 			{
 				oos.writeObject(empControl.searchEmployeeSkillByRaterID(raterID));
@@ -662,7 +662,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Server: read searchEmployeeHobby: "+hobbyID);
+			//System.out.println("Server: read searchEmployeeHobby: "+hobbyID);
 			try
 			{
 				oos.writeObject(empControl.searchEmployeeHobby(hobbyID));
@@ -699,7 +699,7 @@ System.out.println("Number of employee records returned: "+employeeSearchResults
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("Server: after read-inMessage- "+inMessage);
+		//	System.out.println("Server: after read-inMessage- "+inMessage);
 			return inMessage;
 		}
 		public void writeOutMessage(String outMessage)

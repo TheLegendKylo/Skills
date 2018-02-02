@@ -275,16 +275,37 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		if(source == btnUpdate)
 		{
-			System.out.println("Submit button was pressed");
+			System.out.println("Update button was pressed");
 			String employeeID = loggedOnEmployee.getEmployeeID();
 			String raterID = employeeID;
 			Date createdDate = new Date();
 			
-			String selectedCombo = comboBoxSkillList.getSelectedItem().toString();
-			short skillID = clientControl.addHobby(selectedCombo);
+			 String selectedCombo = comboBoxSkillList.getSelectedItem().toString();
+			 System.out.println("Selected combo item = " + selectedCombo);
+			 
+			 short skillID = -1;
+			for (int i = 0; i < skillList.size(); i++)
+			{
+				if(selectedCombo.equals(skillList.get(i).getSkillDescription()) )
+				{
+					skillID = (short)skillList.get(i).getSkillId();
+				}
+						
+			}
 			
 			EmployeeSkill employeeSkill = new EmployeeSkill(employeeID,skillID,raterID, createdDate);
 			boolean success = clientControl.addEmployeeSkill(employeeSkill);
+			System.out.println("Printing boolean = " + success);
+			
+			if(success == true)
+			{
+				JOptionPane.showConfirmDialog(this, "Successfully added Skill");
+			}
+			else
+			{
+				JOptionPane.showConfirmDialog(this, "Something went wrong adding a skill");
+			}
+			
 			employeeSkillList = clientControl.getEmployeeSkillList();
 			Object[] newRow = new Object[]{selectedCombo, 0, 0, 0};
 			model.addRow(newRow);
@@ -293,7 +314,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			vectorSkills.addElement(selectedCombo);
 			Collections.sort(vectorSkills);
 			clientControl.getSkillList();
-			JOptionPane.showMessageDialog(this, "Successfully added " + selectedCombo +" skill");
+			
 			comboBoxSkillList.removeAll();
 			DefaultComboBoxModel dcbm = new DefaultComboBoxModel(vectorSkills);
 			comboBoxSkillList.setModel(dcbm);

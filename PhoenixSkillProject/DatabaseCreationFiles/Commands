@@ -18,15 +18,27 @@ create table Employee (employeeId varchar(8)  not null primary key,
                        alias varchar(30) not null,
                        email varchar(40) not null,
                        contact varchar(13) not null default 0,
-		 	password varchar (10)not null);
+					   password varchar (10)not null);
 
-insert into Employee values 
-
-('A159842','Gerald','Hammond','Gerald','Gerald.Hammond@standardbank.co.za','0824540835','1234');
+insert into Employee values ('A159842','Gerald','Hammond','Gerald','Gerald.Hammond@standardbank.co.za','0824540835','1234');
 insert into Employee values ('A043410','Patricia','de Kock','patsy','patsy.dekock@standardbank.co.za','834557322','1234');
 insert into Employee values ('A208563','Kyle','Bukes','Kyle','kyle.bukes@standardbank.co.za',default,'1234');
 insert into Employee values ('A119685','Jacob','Makgato','Nico','nico.makgato@standardbank.co.za','0834085683','1234');
 insert into Employee values ('A207532','Ryan','Richards','Ryan','ryan.richards@standardbank.co.za',default,'1234');
+insert into Employee values ('A124788','Justin','Fielding','Justin','justin.fielding@standardbank.co.za',default,'1234');
+insert into Employee values ('A205128','Warren','Neiwoudt','Warren','warren.neiwoudt@standardbank.co.za',default,'1234');
+insert into Employee values ('A126317','Michael','Findlay','Michael','michael.findlay@standardbank.co.za',default,'1234');
+insert into Employee values ('A142273','Mark','Erasmus','Mark','mark.erasmus@standardbank.co.za',default,'1234');
+insert into Employee values ('A149936','Mohammed','Oldey','Mo','mohammed.oldey@standardbank.co.za',default,'1234');
+insert into Employee values ('A149651','Philip','Louw','Philip','philip.louw@standardbank.co.za',default,'1234');
+insert into Employee values ('A152534','Bradbury','Moonsamy','Brad','bradbury.moonsamy@standardbank.co.za',default,'1234');
+insert into Employee values ('A044339','Karen','Rance','Karen','karen.rance@standardbank.co.za',default,'1234');
+insert into Employee values ('A095312','Anthony','Den','Tony','tony.den@standardbank.co.za',default,'1234');
+insert into Employee values ('A150301','Petra','Anderson','Petra','petra.anderson@standardbank.co.za',default,'1234');
+insert into Employee values ('A63150','Elizabeth','Maiden','Libby','elizabeth.maiden@standardbank.co.za',default,'1234');
+insert into Employee values ('A162617','Yonus','kaka','Yonus','yonus.kaka@standardbank.co.za',default,'1234');
+insert into Employee values ('A110641','Brenda','May','Brenda','brenda.may@standardbank.co.za',default,'1234');
+insert into Employee values ('A207532','Nicolette','Goyns','Nicolette','nicolette.goyns@standardbank.co.za',default,'1234');
 
 
 
@@ -102,7 +114,7 @@ insert into Level values (1,
 		'Expert',
 		'Is considered to be the go to person in South Africa regarding a specific technical domain' );
 
-create table CapabilityRating(capabilityId tinyInt not null,
+create table CapabilityRating(capabilityId smallInt not null,
 		rating smallint not null,
 		description varchar(500));
 
@@ -147,7 +159,7 @@ insert into CapabilityRating values
 
 
 
-create table Capability (capabilityId tinyInt not null primary key,		
+create table Capability (capabilityId smallInt not null primary key,		
 		capabilityName varchar (50) not null,
 		capabilityDescription varchar (200) not null);
 						 
@@ -166,7 +178,7 @@ insert into Capability values
 
 
 		
-create table EmployeeSkills (empSkillId smallint not null primary key auto_increment,
+create table EmployeeSkills (empSkillId int not null primary key auto_increment,
                              employeeId varchar(8) not null references employee(employeeId),
                              skillId int(10) not null references skills(skillId),
                              raterId varchar(10) not null,
@@ -175,6 +187,8 @@ create table EmployeeSkills (empSkillId smallint not null primary key auto_incre
 				            comment varchar(30),
 				            ratedDate date,
 				            createdDate date);
+				            
+				            
 insert into EmployeeSkills values 
 	(null,'A043410',1,'A159842','n',0,'  ',20171201,20171202);
 insert into employeeskills values
@@ -220,8 +234,8 @@ insert into employeeskills values
  
   
   
-create table EmployeeSkillsRating (empSkillRatingId tinyInt not null primary key auto_increment,
-				empSkillID smallint not null references EmployeeSkills(empSkillID),
+create table EmployeeSkillsRating (empSkillRatingId int not null primary key auto_increment,
+				empSkillID int not null references EmployeeSkills(empSkillID),
 				capabilityId smallint not null,
 				rating smallint  not null);
   
