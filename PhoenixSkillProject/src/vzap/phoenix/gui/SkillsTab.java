@@ -207,29 +207,34 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if(source == btnDeleteSkill)
 		{
 			System.out.println("Delete button pressed");
-			 int warning = JOptionPane.showConfirmDialog(this, "Warning msg");
-			selectedEmpSkill.setStatus((short)9);
-			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
-			selectedEmpSkill.setComment(comment);
-			model.removeRow(rowSelected);
-			String raterID = null;
-			ArrayList<EmployeeSkill> removeRatings = clientControl.searchEmployeeSkill
-					(loggedOnEmployee.getEmployeeID(), (short)selectedEmpSkill.getSkillID(), raterID);
-			boolean success = false;
-			if(removeRatings != null)
-			{
-				for (int i = 0; i < removeRatings.size(); i++)
-				{
-					removeRatings.get(i).setStatus((short)9);
-					removeRatings.get(i).setComment(comment);
-					success = clientControl.updateEmployeeSkill(removeRatings.get(i));
+			 int warning = JOptionPane.showConfirmDialog(this, "Deleting this skill will remove "
+			 		+ "all previous rating of this skill from the record. Do you wish to delete?");
+			 System.out.println("Printing warning = " + warning);
+			 System.out.println("Selected employeeSkill");
+			 if(warning == 0)
+			 {
+				 selectedEmpSkill.setStatus((short)9);
+					model.removeRow(rowSelected);
+					String raterID = null;
+					ArrayList<EmployeeSkill> removeRatings = clientControl.searchEmployeeSkill
+							(loggedOnEmployee.getEmployeeID(), (short)selectedEmpSkill.getSkillID(), raterID);
+					boolean success = false;
+					if(removeRatings != null)
+					{
+						for (int i = 0; i < removeRatings.size(); i++)
+						{
+							removeRatings.get(i).setStatus((short)9);
+							success = clientControl.updateEmployeeSkill(removeRatings.get(i));
+							
+						}
+					}
 					
-					
-
-				}
-			}
-			
-			model.fireTableDataChanged();
+					model.fireTableDataChanged();
+			 }
+			 else
+			 {
+				 System.out.println("Nothing was done");
+			 }
 			
 			
 		}

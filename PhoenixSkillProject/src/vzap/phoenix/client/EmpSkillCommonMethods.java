@@ -266,14 +266,15 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			
 			if(ratingList!=null)
 			{
-				System.out.println("ratingList.size: "+ratingList.size());
+				
+				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
 				double overAllRating = 0;
 				for (int j = 0; j < ratingList.size(); j++)
 				{
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
-					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+
+					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
 					"overAllRating: "+j+" "+overAllRating);
 					ratingIdx++;
 				}	
