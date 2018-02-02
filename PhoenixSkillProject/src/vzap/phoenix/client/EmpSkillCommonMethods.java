@@ -13,11 +13,12 @@ public class EmpSkillCommonMethods
 {
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
-		Object[] skillsHeader = new String[]{"Skill","Employee Self Rating","Nominated Average",
+		Object[] skillsHeader = new String[]{"Skill","Coaching Role","Employee Self Rating","Nominated Average",
 		"Number of \nNominee ratings"};
 		int counter = 0;	
 		
 		String [] skillDesc = new String[99];
+		String [] coachingInd = new String[99];
 		ArrayList<Skill> skillList = clientControl.getSkillList();
 		double yourAveRating[] = new double[99];
 		double nominateeAveRating[] = new double[99];
@@ -25,11 +26,13 @@ public class EmpSkillCommonMethods
 		int ratingCount = 0;
 		double averageRating = 0;
 		int skillIDCheck = 0;
+		boolean recordFound = false;
 		
 		if(employeeSkillList!=null)
 		{
 			for (int i = 0; i < employeeSkillList.size(); i++)
 			{
+				recordFound = true;
 			// Check whether a new SkillId has been read
 				if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 				{
@@ -62,18 +65,19 @@ public class EmpSkillCommonMethods
 				if(employeeSkillList.get(i).getEmployeeID().equals(
 						employeeSkillList.get(i).getRaterID()))
 				{
+					coachingInd[counter] = employeeSkillList.get(i).getCoachingAvailability();
 					yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
 				}
 				else
 					// this record if of a nominee rating
 				{
-					ratingCount++;
 	System.out.println("Nominee Rating: "+ratingCount);
 					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
 					// only include in the average ratings if it is not 0;
 					if(averageRating > 0)
 					{
 						nominateeAveRating[counter] += averageRating;
+						ratingCount++;
 					}
 				}
 			}
@@ -87,13 +91,18 @@ public class EmpSkillCommonMethods
 			ratingCount = 0;
 		}
 		
-		Object[][] skillsRow = new Object[counter+1][5];
-		for (int i = 0; i < (counter+1); i++)
+		Object[][] skillsRow = new Object[counter+1][6];
+		if(recordFound)
+		{
+			counter++;
+		}
+		for (int i = 0; i < (counter); i++)
 		{
 			skillsRow[i][0] = skillDesc[i];
-			skillsRow[i][1] = yourAveRating[i];
-			skillsRow[i][2] = nominateeAveRating[i];
-			skillsRow[i][3] = numberOfRatings[i];
+			skillsRow[i][1] = coachingInd[i];
+			skillsRow[i][2] = yourAveRating[i];
+			skillsRow[i][3] = nominateeAveRating[i];
+			skillsRow[i][4] = numberOfRatings[i];
 		}
 		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader);
 		return empSkillModel;
