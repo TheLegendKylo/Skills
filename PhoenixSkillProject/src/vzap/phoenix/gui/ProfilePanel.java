@@ -155,10 +155,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 	}
 	public void setup()
 	{
-		System.out.println("We in setup");
-		//get logged in user
 		loggedInUser = emp.getEmployeeID();
-		
 		allHobby = clientControl.getHobbyList();
 		vectHobby = new Vector<String>();
 		
@@ -194,7 +191,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 			
 			if(tfName.getText().equals("") || tfName.getText() == null )
 			{
-				JOptionPane.showMessageDialog(this, "Please capture Your Hobby ?");
+				JOptionPane.showMessageDialog(this, "Please capture Your Name ?");
 				tfName.grabFocus();
 				return;
 			}
