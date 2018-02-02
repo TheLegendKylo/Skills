@@ -155,11 +155,10 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollHobby = new JScrollPane();
 		scrollHobby.setBounds(932, 326, 84, 158);
 		add(scrollHobby);
-		individualSkillsModel = new DefaultTableModel();
 		
+		individualSkillsModel = new DefaultTableModel();
 		individualSkillsTable = new JTable(individualSkillsModel);
 				
-
 		hobbyJlist = new JList(vectHobby);
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
@@ -233,6 +232,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		vectTabSkill.clear();
 		comboHobby.clear();
 		comboSkill.clear();
+		
+		
 		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);

@@ -11,7 +11,6 @@ import vzap.phoenix.Server.Employee.Skill;
 
 public class EmpSkillCommonMethods
 {
-	
 	public DefaultTableModel getEmpSkillAverage(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList)
 	{
 		Object[] skillsHeader = new String[]{"Skill","Employee Self Rating","Nominated Average",
@@ -27,56 +26,62 @@ public class EmpSkillCommonMethods
 		double averageRating = 0;
 		int skillIDCheck = 0;
 		
-		for (int i = 0; i < employeeSkillList.size(); i++)
+		if(employeeSkillList!=null)
 		{
-			// Check whether a new SkillId has been read
-			if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
+			for (int i = 0; i < employeeSkillList.size(); i++)
 			{
+			// Check whether a new SkillId has been read
+				if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
+				{
 				// if this is not the first record found
 				// update the previous totals to the relevant variables
-				if(i>0)
-				{
-					if(ratingCount >0)
+					if(i>0)
 					{
-						nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount *100.0)/100.0;
-						numberOfRatings[counter] = ratingCount;
-						ratingCount = 0;
-					}
-					counter++;
-				}
-				// iterate through the static skill array to obtain the skilldescription
-				for (int j = 0; j < skillList.size(); j++)
-				{
-					if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
+						if(ratingCount >0)
 						{
-						skillIDCheck = skillList.get(j).getSkillId();
-						skillDesc[counter] = skillList.get(j).getSkillDescription();
-						break;
+							nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount *100.0)/100.0;
+							numberOfRatings[counter] = ratingCount;
+							ratingCount = 0;
+						}
+						counter++;
+					}
+					// iterate through the static skill array to obtain the skilldescription
+					for (int j = 0; j < skillList.size(); j++)
+					{
+						if(skillList.get(j).getSkillId() == employeeSkillList.get(i).getSkillID())
+						{
+							skillIDCheck = skillList.get(j).getSkillId();
+							skillDesc[counter] = skillList.get(j).getSkillDescription();
+	System.out.println("Skill: "+skillDesc[counter]);
+							break;
 						}//comment
+					}
 				}
-			}
-			// check whether this record is of the employee rating him/herself
-			// only one such record should exist
-			if(employeeSkillList.get(i).getEmployeeID().equals(
-					employeeSkillList.get(i).getRaterID()))
-			{
-				yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
-			}
-			else
-				// this record if of a nominee rating
-			{
-				averageRating = employeeSkillList.get(i).getOverAllAverageRating();
-				// only include in the average ratings if it is not 0;
-				if(averageRating > 0)
+				// check whether this record is of the employee rating him/herself
+				// only one such record should exist
+				if(employeeSkillList.get(i).getEmployeeID().equals(
+						employeeSkillList.get(i).getRaterID()))
 				{
-					nominateeAveRating[counter] += averageRating;
+					yourAveRating[counter] = Math.round(employeeSkillList.get(i).getOverAllAverageRating()*100.0)/100.0;
+				}
+				else
+					// this record if of a nominee rating
+				{
 					ratingCount++;
+	System.out.println("Nominee Rating: "+ratingCount);
+					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
+					// only include in the average ratings if it is not 0;
+					if(averageRating > 0)
+					{
+						nominateeAveRating[counter] += averageRating;
+					}
 				}
 			}
 		}
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
+			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
 			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
 			numberOfRatings[counter] = ratingCount;
 			ratingCount = 0;
@@ -178,7 +183,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
 			
-			if(ratingList!=null)
+			if(ratingList!=null && ratingList.size()!=0)
 			{
 				
 				for (int j = 0; j < ratingList.size(); j++)
@@ -263,8 +268,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			}
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
-			
-			if(ratingList!=null)
+			if(ratingList!=null && ratingList.size()!=0)
 			{
 				
 				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());

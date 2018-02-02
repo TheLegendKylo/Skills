@@ -163,17 +163,19 @@ public class ProfilePanel extends JPanel implements ActionListener
 		vectHobby = new Vector<String>();
 		
 		empHobby = emp.getEmpHobbies();
-		for(int i = 0 ; i < empHobby.size() ; i ++)
+		if(empHobby!=null)
 		{
-			for(int j = 0;j < allHobby.size();j++)
+			for(int i = 0 ; i < empHobby.size() ; i ++)
 			{
-				if (empHobby.get(i) == allHobby.get(j).getHobbyID())
+				for(int j = 0;j < allHobby.size();j++)
 				{
-					vectHobby.add(allHobby.get(j).getHobbyDescription());
+					if (empHobby.get(i) == allHobby.get(j).getHobbyID())
+					{
+						vectHobby.add(allHobby.get(j).getHobbyDescription());
+					}
 				}
 			}
 		}
-		
 		tfAlias.setText(emp.getAlias());
 		tfName.setText(emp.getFirstName());
 		tfSurname.setText(emp.getSurname());
