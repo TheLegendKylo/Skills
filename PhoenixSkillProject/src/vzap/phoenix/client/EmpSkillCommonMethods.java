@@ -273,8 +273,9 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 					System.out.println("Write Lines: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: ");
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
-					capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
+					ratingIdx++;
 				}	
+				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 			}
 	System.out.println("commonmethoeds - capability Rating = " + capabilityRating.length);
 			empCapModel.addRow(capabilityRating);;
