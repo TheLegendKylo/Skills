@@ -38,7 +38,7 @@ insert into Employee values ('A150301','Petra','Anderson','Petra','petra.anderso
 insert into Employee values ('A63150','Elizabeth','Maiden','Libby','elizabeth.maiden@standardbank.co.za',default,'1234');
 insert into Employee values ('A162617','Yonus','kaka','Yonus','yonus.kaka@standardbank.co.za',default,'1234');
 insert into Employee values ('A110641','Brenda','May','Brenda','brenda.may@standardbank.co.za',default,'1234');
-insert into Employee values ('A207532','Nicolette','Goyns','Nicolette','nicolette.goyns@standardbank.co.za',default,'1234');
+
 
 
 
@@ -90,7 +90,7 @@ insert into skills values (1,'Prince 2 practitioner'),
 
 create table Level (levelId smallint not null primary key,
 		levelName varchar(50) not null,
-		levelShortDescription(50) not null,
+		levelShortDescription varchar(50) not null,
 		levelDescription varchar(500) not null );
 
 insert into Level values (1,
