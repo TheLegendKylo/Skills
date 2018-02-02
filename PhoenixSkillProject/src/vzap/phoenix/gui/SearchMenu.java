@@ -190,9 +190,9 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		model = new DefaultTableModel();
 		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
 		model.setColumnIdentifiers(tabHeader);
+		
 		tableEmployee = new JTable(model);
-		tableEmployee.getRowSelectionAllowed();
-		tableEmployee.getSelectionModel();
+		tableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableEmployee.addMouseListener(this);
 		scrollEmployee = new JScrollPane(tableEmployee);
 		scrollEmployee.setToolTipText("This will be populated once you have chosen one of the above options  ");
@@ -233,8 +233,6 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		comboHobby.clear();
 		comboSkill.clear();
 		
-		
-		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);
 		modelInsert.setRowCount(0);
@@ -243,6 +241,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		inputJTF.setText("");
 		
 		hobbyList = clientControl.getHobbyList();
+		
 		System.out.println("hobby size: " + hobbyList.size());
 		
 		for(int i = 0 ; i < hobbyList.size();i++)
@@ -362,20 +361,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	{
 		if(source == empBut)
 		{
-			System.out.println("searchmenu - mouseclicked - empBut - 1");
-
+			vectHobby.clear();
 			int row = tableEmployee.getSelectedRow();
 			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
 			individualEmp = clientControl.searchEmployee(individualEmpID);
-			System.out.println("kyle emp hobby id : " + individualEmpID);
 			
 			individualEmpHobbyList = individualEmp.get(0).getEmpHobbies();
-			
-			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
-			{
-				System.out.println(" my hobbies: " + individualEmpHobbyList.get(i));
-			}
-			
 			
 			for(int i = 0 ; i < individualEmpHobbyList.size() ; i++)
 			{
