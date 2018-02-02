@@ -67,13 +67,14 @@ public class EmpSkillCommonMethods
 				else
 					// this record if of a nominee rating
 				{
-					ratingCount++;
+					
 	System.out.println("Nominee Rating: "+ratingCount);
 					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
 					// only include in the average ratings if it is not 0;
 					if(averageRating > 0)
 					{
 						nominateeAveRating[counter] += averageRating;
+						ratingCount++;
 					}
 				}
 			}
@@ -88,14 +89,24 @@ public class EmpSkillCommonMethods
 		}
 		
 		Object[][] skillsRow = new Object[counter+1][5];
-		for (int i = 0; i < (counter+1); i++)
+		if (counter > 0)
+		{
+			counter ++;
+		}
+		for (int i = 0; i < (counter); i++)
 		{
 			skillsRow[i][0] = skillDesc[i];
 			skillsRow[i][1] = yourAveRating[i];
 			skillsRow[i][2] = nominateeAveRating[i];
 			skillsRow[i][3] = numberOfRatings[i];
 		}
-		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader);
+		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		return empSkillModel;
 	}
 
@@ -127,7 +138,13 @@ public class EmpSkillCommonMethods
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel();
+		DefaultTableModel empCapModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -245,7 +262,13 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel();
+		DefaultTableModel empCapModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -297,7 +320,13 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 	{
 		Object[] skillsHeader = new String[]{"EmployeeID","Name","Skill","Date of Request"};
 		Object[] skillsRow = new Object[4];
-		DefaultTableModel empSkillModel = new DefaultTableModel();
+		DefaultTableModel empSkillModel = new DefaultTableModel(){
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		empSkillModel.setColumnIdentifiers(skillsHeader);
 		String [] skillDesc = new String[99];
 		int skillIDCheck = 0;
