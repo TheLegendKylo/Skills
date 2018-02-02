@@ -282,7 +282,8 @@ public class LoginPanel extends JPanel implements ActionListener
 			newEmp = new Employee();
 			newEmp.setEmployeeID(loggedInUser);
 			newEmp.setPassword(password);
-		
+			
+			
 			//once successful
 			newUser=true;
 			mainGui = new MainGui(basePanel,newUser,newEmp,clientControl);
