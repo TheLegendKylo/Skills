@@ -67,12 +67,12 @@ insert into skills values (1,'Prince 2 practitioner'),
 		(11,'Human resource Planning'), 
 		(12,'Leadership'),
 		(13,'Project governance'),
-		(14,'motivated self-starter'),
-		(15,'system analysis'),
-		(16,'requirments gathering'),
-		(17,'retail banking'), 
+		(14,'Motivated self-starter'),
+		(15,'System analysis'),
+		(16,'Requirments gathering'),
+		(17,'Retail banking'), 
 		(18,'ATM networks'),
-		(19,'internet banking'), 
+		(19,'Internet banking'), 
 		(20,'SQL'),
 		(21,'DB2'),
 		(22,'Scrum master'),
@@ -81,10 +81,10 @@ insert into skills values (1,'Prince 2 practitioner'),
 		(25,'UML'),
 		(26,'Sharepoint'),
 		(27,'COBOL'),
-		(28,'mainframe'),
-		(29,'websphere'),
-		(30,'kanban'),
-		(31,'fileaid');
+		(28,'Mainframe'),
+		(29,'Websphere'),
+		(30,'Kanban'),
+		(31,'Fileaid');
 
 
 
@@ -174,7 +174,7 @@ insert into Capability values
 		(7,'Purposeful collaboration','Ability to work with others in producing a successful outcome');
 
 
-
+******************************************************************************************************************************
 
 
 		
