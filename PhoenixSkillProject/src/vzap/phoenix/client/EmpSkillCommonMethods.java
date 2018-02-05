@@ -131,7 +131,6 @@ public class EmpSkillCommonMethods
 		       return false;
 		    }
 		};
-		empCapModel.setColumnIdentifiers(capabilityHeader);
 
 		if(capabilityList==null)
 		{
@@ -144,6 +143,7 @@ System.out.println("Common size:  "+capabilityList.size());
 System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName());
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
+		empCapModel.setColumnIdentifiers(capabilityHeader);
 		int counter = 0;
 		
 		String skillDesc = null;
@@ -263,7 +263,6 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		       return false;
 		    }
 		};
-		empCapModel.setColumnIdentifiers(capabilityHeader);
 
 		// exit if no ratings exist for this employee
 		if(capabilityList==null)
@@ -272,10 +271,13 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		}
 		
 		// iterate through the static capability array to obtain the capabilityName
+		System.out.println("Common size:  "+capabilityList.size());
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
+System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName());
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
+		empCapModel.setColumnIdentifiers(capabilityHeader);
 		Object[] capabilityRating = new Object[10];
 		int counter = 0;
 		

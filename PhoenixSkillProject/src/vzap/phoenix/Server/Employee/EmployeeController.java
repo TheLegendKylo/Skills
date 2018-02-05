@@ -51,11 +51,6 @@ public class EmployeeController implements Runnable
 		this.employeeDAO = new EmployeeDAO();
 		if(employeeDAO.registerEmployee(newEmployee))
 		{
-			this.logonEmployee = newEmployee;
-			hobbyDAO = new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			thread = new Thread(this);
-			thread.start();
 			return true;
 		}
 		this.errorCode = employeeDAO.getErrorCode();

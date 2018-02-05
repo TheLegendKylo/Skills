@@ -138,6 +138,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 			btnUpdateEmployee.setText("Register Employee");
 			btnAddHobby.setEnabled(false);
 			btnDeleteHobby.setEnabled(false);
+			tfAddHobby.setEnabled(false);
 		}
 		btnUpdateEmployee.setBounds(286, 373, 157, 25);
 		btnUpdateEmployee.addActionListener(this);
@@ -243,6 +244,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 						newUser = false;
 						btnUpdateEmployee.setText("Update Employee");
 						mainGui.addTabs();
+						tfAddHobby.setEnabled(true);
 					}
 					
 				}
