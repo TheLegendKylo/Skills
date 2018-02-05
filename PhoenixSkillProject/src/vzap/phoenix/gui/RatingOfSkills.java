@@ -69,6 +69,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private JButton btnClearRatings;
 	private int rowSelected = -1;
 	private JRadioButton rdbtnAvailableAsA;
+	private String coaching = "N";
+
 
 	/**
 	 * Create the panel.
@@ -348,7 +350,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		if(empID.equalsIgnoreCase(loggedOnEmployee.getEmployeeID()))
 		{
-			boolean availableForCoaching = false;
+
 			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach"
 					+ " for the selected skill?", "Coaching", 1);
 			if(valueReturnCoaching == 0)
@@ -443,7 +445,21 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			switch(submit)
 			{
 			case 0 : System.out.println("YES was selected");
-			
+					
+					if(rdbtnAvailableAsA.isSelected())
+					{
+						System.out.println("RadioButton set to true for coaching");
+						coaching = "Y";
+						selectedEmpSkill.setCoachingAvailability(coaching);
+						System.out.println("The selectedEmpSkill was ... " + selectedEmpSkill);
+					}
+					else
+					{
+						System.out.println("RadioButton set to False for coaching");
+						coaching = "N";
+						selectedEmpSkill.setCoachingAvailability(coaching);
+					}
+					
 					for (int i = 0; i < tableRow.length; i++)
 					{
 						tableRow[i][1]="Select rating";
