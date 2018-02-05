@@ -51,24 +51,12 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		add(tabbedPane);
 	
 		// adding tabs
-		pp = new ProfilePanel(newUser,emp, clientControl);
+		pp = new ProfilePanel(this, newUser,emp, clientControl);
 		tabbedPane.addTab("PROFILE", null, pp, null);
+		
 		if(!newUser)
 		{
-			sk = new SkillsTab(clientControl);
-			tabbedPane.addTab("SKILLS", null, sk, null);
- 
-			ratingNom = new RatingNomination(clientControl, emp);
-			tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
-			
-			ratingSkillsTab = new RatingOfSkills(clientControl);
-			tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
-			
-			searchMenu = new SearchMenu(clientControl,emp);
-			tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
-			
-			searchBySkill = new SearchBySkill(clientControl);
-			tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
+			this.addTabs();
 		}
 
 		btnMainExit = new JButton("Exit");
@@ -145,5 +133,24 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 //		{
 //			searchBySkill.setup();
 //		}
+	}
+	public void addTabs()
+	{
+System.out.println("<<<<Adding tabs>>>>>");
+		sk = new SkillsTab(clientControl);
+		tabbedPane.addTab("SKILLS", null, sk, null);
+
+		ratingNom = new RatingNomination(clientControl, emp);
+		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
+		
+		ratingSkillsTab = new RatingOfSkills(clientControl);
+		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
+		
+		searchMenu = new SearchMenu(clientControl,emp);
+		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
+		
+		searchBySkill = new SearchBySkill(clientControl);
+		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
+
 	}
 }

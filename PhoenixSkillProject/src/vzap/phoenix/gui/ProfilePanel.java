@@ -53,11 +53,13 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private ArrayList<Short> empHobby;
 	private boolean hobbyChange = false;
 	private boolean newUser = false;
+	private MainGui mainGui;
 	
-	public ProfilePanel(Boolean newUser, Employee emp,EmpSkillClientController clientControl)
+	public ProfilePanel(MainGui mainGui, Boolean newUser, Employee emp,EmpSkillClientController clientControl)
 	{
 		setBorder(null);
 		
+		this.mainGui = mainGui;
 		this.newUser = newUser;
 		this.emp = emp;
 		this.clientControl = clientControl;
@@ -239,6 +241,8 @@ public class ProfilePanel extends JPanel implements ActionListener
 						btnAddHobby.setEnabled(true);
 						btnDeleteHobby.setEnabled(true);
 						newUser = false;
+						btnUpdateEmployee.setText("Update Employee");
+						mainGui.addTabs();
 					}
 					
 				}

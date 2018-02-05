@@ -197,6 +197,7 @@ public class EmployeeController implements Runnable
 	}
 	public static ArrayList<Capability> getCapabilityList()
 	{
+		System.out.println("Server Controller - return CapList: "+capabilityList.size());
 		return capabilityList;
 	}
 	public static ArrayList<CapabilityRating> getCapabilityRatingList()

@@ -124,13 +124,26 @@ public class EmpSkillCommonMethods
 		capabilityHeader[9] = "Overall Rating";
 		capabilityHeader[10] = "No of Ratings";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
+		Object[] capabilityRating = new Object[11];
+		DefaultTableModel empCapModel = new DefaultTableModel(){
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		empCapModel.setColumnIdentifiers(capabilityHeader);
 
+		if(capabilityList==null)
+		{
+			return empCapModel;
+		}
 		// iterate through the static capability array to obtain the capabilityName
+System.out.println("Common size:  "+capabilityList.size());
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
+System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName());
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
-		Object[] capabilityRating = new Object[11];
 		int counter = 0;
 		
 		String skillDesc = null;
@@ -142,14 +155,7 @@ public class EmpSkillCommonMethods
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel(){
 
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
-		};
-		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
 //			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
@@ -250,7 +256,21 @@ public class EmpSkillCommonMethods
 		capabilityHeader[1] = "Skill";
 		capabilityHeader[9] = "Overall Rating";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
+		DefaultTableModel empCapModel = new DefaultTableModel(){
 
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		empCapModel.setColumnIdentifiers(capabilityHeader);
+
+		// exit if no ratings exist for this employee
+		if(capabilityList==null)
+		{
+			return empCapModel;
+		}
+		
 		// iterate through the static capability array to obtain the capabilityName
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
@@ -266,14 +286,6 @@ public class EmpSkillCommonMethods
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
 		
-		DefaultTableModel empCapModel = new DefaultTableModel(){
-
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
-		};
-		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
 //			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());

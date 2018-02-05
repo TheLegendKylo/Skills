@@ -379,7 +379,7 @@ public class EmpSkillServer
 		public void getCapabilityList()
 		{
 			capabilityList = EmployeeController.getCapabilityList();
-//System.out.println("Number of Capabilities: "+capabilityList.size());
+System.out.println("Server Capabilities size: "+capabilityList.size());
 			try
 			{
 				oos.writeObject(capabilityList);

@@ -36,9 +36,11 @@ public class CapabilityDAO
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+System.out.println("Capability DAO- Build: "+capabilityList.size());
 	}
 	public static ArrayList<Capability> getCapabilityList()
 	{
+		System.out.println("Capability DAO- Return: "+capabilityList.size());
 		return capabilityList;
 	}
 }
