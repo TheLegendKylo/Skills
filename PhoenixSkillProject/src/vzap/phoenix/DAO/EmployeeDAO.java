@@ -41,7 +41,7 @@ public class EmployeeDAO
 				String rsPassword = rs.getString("password");
 				if(password.equals(rsPassword))
 				{
-					System.out.println("Validation passed, create OBJECT");
+//					System.out.println("Validation passed, create OBJECT");
 					employee = this.getEmployee(employeeID);
 				} else {
 					errorCode = 2; // Invalid password 
@@ -336,7 +336,7 @@ public class EmployeeDAO
 				employee.setContactNo(contactNo);
 				employee.setEmail(email);
 				employee.setAlias(alias);
-				System.out.println("in result set emp object = " + employee.toString());
+//				System.out.println("in result set emp object = " + employee.toString());
 			}
      		this.getEmpHobby(employeeID);
 			this.errorCode = 0; //Employee found and password matched

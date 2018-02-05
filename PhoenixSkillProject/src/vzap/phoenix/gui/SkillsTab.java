@@ -6,6 +6,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import vzap.phoenix.DAO.EmployeeSkillDAO;
 import vzap.phoenix.DAO.SkillDAO;
@@ -132,7 +133,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		employeeSkillList = clientControl.getEmployeeSkillList();
 		model = clientControl.getEmpSkillAverage(employeeSkillList);
 		skillList = clientControl.getSkillList();
-
+		
 		tableSummarySkills = new JTable(model);
 		tableSummarySkills.addMouseListener(this);
 		
@@ -178,6 +179,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		detailTableModel = clientControl.getEmpSkillDetail(employeeSkillList);
 		detailedTable = new JTable(detailTableModel);
+		TableColumn col = detailedTable.getColumnModel().getColumn(0);
+		tableSummarySkills.removeColumn(col);
 		scrollPaneBottom = new JScrollPane(detailedTable);
 		scrollPaneBottom.setBounds(10, 433, 928, 152);
 		add(scrollPaneBottom);
@@ -359,11 +362,15 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				selectedEmpSkill = employeeSkillList.get(i);
 				break;
 			}
-		
 		}
 		ArrayList<EmployeeSkill> empRatingList = clientControl.searchEmployeeSkill(skillID);
 		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
+
 		detailedTable.setModel(clientControl.getEmpCapabilityDetail(empRatingList));
+
+		TableColumn col = detailedTable.getColumnModel().getColumn(0);
+		tableSummarySkills.removeColumn(col);
+		
 		detailedTable.updateUI();
 		this.repaint();
 		

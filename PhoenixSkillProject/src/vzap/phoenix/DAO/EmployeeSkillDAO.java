@@ -94,12 +94,13 @@ System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeI
 		try
 		{
 			dbCon.setAutoCommit(false);
-			ps = dbCon.prepareStatement("update employeeSkills set ratedDate=?,status=? "
+			ps = dbCon.prepareStatement("update employeeSkills set ratedDate=?,status=?,coachingAvailability=? "
 					+"where empSkillID=?");
 			java.sql.Date ratedDate = new java.sql.Date(rateEmployeeSkill.getRatedDate().getTime());
 			ps.setDate(1,  ratedDate);
 			ps.setShort(2, (short)1);
-			ps.setShort(3, rateEmployeeSkill.getEmpSkillID());
+			ps.setString(3, rateEmployeeSkill.getCoachingAvailability());
+			ps.setShort(4, rateEmployeeSkill.getEmpSkillID());
 			ps.executeUpdate();
 			System.out.println("calling this.addEmployeeSkillRating");
 			ratingsCount = this.addEmployeeSkillRating(rateEmployeeSkill);
