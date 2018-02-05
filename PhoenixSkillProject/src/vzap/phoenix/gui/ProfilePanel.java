@@ -52,11 +52,16 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private JComboBox comboBox;
 	private ArrayList<Short> empHobby;
 	private boolean hobbyChange = false;
+	private boolean newUser = false;
+	private MainGui mainGui;
 	
-	public ProfilePanel(EmpSkillClientController clientControl,Employee emp)
+
+	public ProfilePanel(MainGui mainGui, Boolean newUser, Employee emp,EmpSkillClientController clientControl)
 	{
 		setBorder(null);
 		
+		this.mainGui = mainGui;
+		this.newUser = newUser;
 		this.emp = emp;
 		this.clientControl = clientControl;
 		
@@ -129,6 +134,13 @@ public class ProfilePanel extends JPanel implements ActionListener
 		add(btnDeleteHobby);
 		
 		btnUpdateEmployee = new JButton("Update Employee");
+		if(newUser)
+		{
+			btnUpdateEmployee.setText("Register Employee");
+			btnAddHobby.setEnabled(false);
+			btnDeleteHobby.setEnabled(false);
+			tfAddHobby.setEnabled(false);
+		}
 		btnUpdateEmployee.setBounds(286, 373, 157, 25);
 		btnUpdateEmployee.addActionListener(this);
 		add(btnUpdateEmployee);
@@ -219,22 +231,42 @@ public class ProfilePanel extends JPanel implements ActionListener
 			emp.setSurname(tfSurname.getText());
 			emp.setContactNo(tfContact.getText());
 			emp.setEmail(tfEmail.getText());
-			
-			if(clientControl.updateEmployee(emp))
+
+			if(newUser)
 			{
-				if(!hobbyChange)
+				if(clientControl.registerEmployee(emp));
 				{
-					JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+					int errorCode = clientControl.loginEmployee(emp.getEmployeeID(), emp.getPassword());
+					if(errorCode==0)
+					{
+						emp=clientControl.getLogonEmployee();
+						btnAddHobby.setEnabled(true);
+						btnDeleteHobby.setEnabled(true);
+						newUser = false;
+						btnUpdateEmployee.setText("Update Employee");
+						mainGui.addTabs();
+						tfAddHobby.setEnabled(true);
+					}
+					
 				}
-				tfAlias.setText(emp.getAlias());
-				tfName.setText(emp.getFirstName());
-				tfSurname.setText(emp.getSurname());
-				tfContact.setText(emp.getContactNo());
-				tfEmail.setText(emp.getEmail());
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(this, "Error Updating Employee?");
+			} else {
+			
+				if(clientControl.updateEmployee(emp))
+				{
+					if(!hobbyChange)
+					{
+						JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+					}
+					tfAlias.setText(emp.getAlias());
+					tfName.setText(emp.getFirstName());
+					tfSurname.setText(emp.getSurname());
+					tfContact.setText(emp.getContactNo());
+					tfEmail.setText(emp.getEmail());
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this, "Error Updating Employee?");
+				}
 			}
 			
 		}
@@ -269,16 +301,11 @@ public class ProfilePanel extends JPanel implements ActionListener
 					
 					existingHobby = true;
 					vectHobby.add(addHobbyValue);
-					empHobby.add(allHobby.get(j).getHobbyID());
-					
-					//added loop for testing purposes
-					for(int i=0;i< empHobby.size();i++)
+					if(empHobby==null)
 					{
-						System.out.println(" existing employee hoobbbbyyyy : " + empHobby.get(i));
+						empHobby = new ArrayList<Short>();
 					}
-					emp.setEmpHobbies(empHobby);
-				
-					//clientControl.updateEmployee(emp);	
+					empHobby.add(allHobby.get(j).getHobbyID());	
 					btnUpdateEmployee.doClick();
 					tfAddHobby.grabFocus();
 					tfAddHobby.setText("");
@@ -289,6 +316,10 @@ public class ProfilePanel extends JPanel implements ActionListener
 			{
 				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
 				//adding a hobby that does'nt exist in the current users profile.
+				if(empHobby==null)
+				{
+					empHobby = new ArrayList<Short>();
+				}
 				empHobby.add(hobbyiddddd);
 				emp.setEmpHobbies(empHobby);
 				
@@ -331,12 +362,9 @@ public class ProfilePanel extends JPanel implements ActionListener
 			}
 			//use the ID to match to the employee short array of hobby IDs
 			for(int i=0;i< empHobby.size();i++)
-			{
-				System.out.println("we in the emp loop : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
-				
+			{	
 				if(empHobby.get(i) == delhobbyID)
 				{
-					System.out.println("we in the delete : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
 					//remove the element where the match occurred
 					empHobby.remove(i);
 					//set the employees hobbies

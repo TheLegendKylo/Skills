@@ -30,6 +30,10 @@ public class EmployeeController implements Runnable
 	
 	private Thread thread;
 
+	public EmployeeController()
+	{
+		
+	}
 	public EmployeeController(String employeeID, String password)
 	{
 		this.employeeDAO = new EmployeeDAO();
@@ -47,11 +51,6 @@ public class EmployeeController implements Runnable
 		this.employeeDAO = new EmployeeDAO();
 		if(employeeDAO.registerEmployee(newEmployee))
 		{
-			this.logonEmployee = newEmployee;
-			hobbyDAO = new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			thread = new Thread(this);
-			thread.start();
 			return true;
 		}
 		this.errorCode = employeeDAO.getErrorCode();
@@ -195,6 +194,7 @@ public class EmployeeController implements Runnable
 	}
 	public static ArrayList<Capability> getCapabilityList()
 	{
+		System.out.println("Server Controller - return CapList: "+capabilityList.size());
 		return capabilityList;
 	}
 	public static ArrayList<CapabilityRating> getCapabilityRatingList()

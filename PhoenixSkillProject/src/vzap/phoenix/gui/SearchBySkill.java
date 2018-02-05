@@ -95,7 +95,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillTable.setAutoCreateRowSorter(isEnabled());
 		skillTable.getRowSelectionAllowed();
 		skillTable.getSelectionModel();
-
+		
 		skillScrollPane.setViewportView(skillTable);
 		
 		exportBut = new JButton("Export to excel");
@@ -125,7 +125,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 				String filePath = chooser.getSelectedFile().getPath();
 				if(chooser.getSelectedFile().getName().contains("."))
 				{
-					JOptionPane.showMessageDialog(this,"Error: " + "Please dont add the extension to your file name: ","Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this,"ERROR: " + "Please dont add the extension to your file name: ","ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
@@ -178,24 +178,34 @@ public class SearchBySkill extends JPanel implements ActionListener
 
 			}		
 		}
-		
-//		if(source == clearBut)
-//		{
-//			skillTable = new JTable();
-//			skillScrollPane.setViewportView(skillTable);
-//		}
-//
+
 
 		if(source == skillComboBox)
 		{
 			empSkillList = new ArrayList<>();
 		
 //          store the index and skillId of the cell the user has chosen from the combobox 			
-			int x = skillComboBox.getSelectedIndex();
-			int y = skillList.get(x).getSkillId();
+			int comboSkill_pointer = skillComboBox.getSelectedIndex();
+			int skillList_pointer = 0;
+			System.out.println("searchbyskill - get skilldesc " + skillComboBox.getSelectedItem());
+			
+			
+//			System.out.println("searchby skill - value x " + x + " y " + y);
+			
+			for(int i = 0 ; i < skillList.size() ; i++)
+			{
+				System.out.println("searchbyskill - in for - skillist " + skillList.get(i).getSkillDescription());
+				System.out.println("searchbyskill - in for - skillComboBox " +skillComboBox.getSelectedItem() );
+				if(skillList.get(i).getSkillDescription() == skillComboBox.getSelectedItem())
+				{
+					skillList_pointer = i;
+					System.out.println("searchbyskill - skill found - " + skillList_pointer);
+					break;
+				}
+			}
 
 //          now go and search the EmployeeSkill table for all employees that have that skill			
-			empSkillList = clientControl.searchEmployeeSkill(y);
+			empSkillList = clientControl.searchEmployeeSkill(skillList_pointer+1);
 
 //          check if there are any matches for users search criteria 
 			if(empSkillList.size() == 0)
