@@ -35,7 +35,6 @@ public class LoginPanel extends JPanel implements ActionListener
 	private JButton btnLogin;
 	private JButton btnExit;
 	private JPanel basePanel;
-	private JLabel lblSkills;
 	private JLabel label;
 	private JLabel lblRepeatPassword;
 	private JPasswordField passwordFieldRepeat;
@@ -90,16 +89,10 @@ public class LoginPanel extends JPanel implements ActionListener
 		btnExit.setBounds(440, 518, 128, 33);
 		btnExit.addActionListener(this);
 		//btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		 
-		lblSkills = new JLabel("Skillz ");
-		lblSkills.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblSkills.setBounds(440, 142, 353, 86);
 		
-		lblSkills.setHorizontalAlignment(SwingConstants.CENTER);
 		setLayout(null);
 		add(btnLogin);
 		add(btnExit);
-		add(lblSkills);
 		add(lblUserId);
 		add(lblPassword);
 		add(passwordField);

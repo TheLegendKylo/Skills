@@ -16,7 +16,7 @@ public class GuiControl extends JFrame
 	private JPanel basePanel = null,panelNorth = null,panelSouth=null;
 	private EmpSkillClientController clientControl =null;
 	private JLabel lblHeading=null,lblSouthImg=null;
-	
+	private HeadingPanel hp = null;
 	public GuiControl()
 	{
 		clientControl = new EmpSkillClientController();
@@ -45,24 +45,18 @@ public class GuiControl extends JFrame
 		});	
 		
 		basePanel = new JPanel();
-		panelNorth = new JPanel();
 		panelSouth = new JPanel();
 		
-		lblHeading = new JLabel(" Skills  Matrix ");
-		lblHeading.setFont(new Font("Arial", Font.BOLD, 60));
-		lblHeading.setForeground(Color.BLUE);
-		
-		//lblNewLabel.setBounds(286, 103, 56, 16);
-		panelNorth.add(lblHeading);
+		hp = new HeadingPanel();
 		lblSouthImg = new JLabel();
 		lblSouthImg.setIcon(new ImageIcon("resources/SB.png"));
 		panelSouth.add(lblSouthImg);
 		
 		basePanel.setBackground(new Color(220,220,220));
-		//basePanel.setBorder(new EmptyBorder(15,15,15,15));
+		
 		basePanel.setLayout(new GridLayout(1, 1));
 		this.add(basePanel, BorderLayout.CENTER); // adding the panel to the frame
-		this.add(panelNorth, BorderLayout.NORTH);
+		this.add(hp, BorderLayout.NORTH);
 		this.add(panelSouth, BorderLayout.SOUTH);
 		logP = new LoginPanel(basePanel,clientControl);
 		basePanel.add(logP);
