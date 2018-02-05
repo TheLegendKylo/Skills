@@ -6,10 +6,6 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.text.*;
 
-/* This work is hereby released into the Public Domain.
- * To view a copy of the public domain dedication, visit
- * http://creativecommons.org/licenses/publicdomain/
- */
 public class AutoCompletion extends PlainDocument {
 JComboBox comboBox;
 ComboBoxModel model;
@@ -54,7 +50,7 @@ public AutoCompletion(final JComboBox comboBox) {
             }
         }
     };
-    // Bug 5100422 on Java 1.5: Editable JComboBox won't hide popup when tabbing out
+
     hidePopupOnFocusLoss=System.getProperty("java.version").startsWith("1.5");
     // Highlight whole text when gaining focus
     editorFocusListener = new FocusAdapter() {
@@ -179,24 +175,4 @@ private boolean startsWithIgnoreCase(String str1, String str2) {
     return str1.toUpperCase().startsWith(str2.toUpperCase());
 }
 
-//private static void createAndShowGUI() {
-//    // the combo box (add/modify items if you like to)
-//    final JComboBox comboBox = new JComboBox(new Object[] {"Ester", "Jordi", "Jordina", "Jorge", "Sergi"});
-//    enable(comboBox);
-//
-//    // create and show a window containing the combo box
-//    final JFrame frame = new JFrame();
-//    frame.setDefaultCloseOperation(3);
-//    frame.getContentPane().add(comboBox);
-//    frame.pack(); frame.setVisible(true);
-//}
-//
-//
-//public static void main(String[] args) {
-//    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//        public void run() {
-//            createAndShowGUI();
-//        }
-//    });
-//}
 }

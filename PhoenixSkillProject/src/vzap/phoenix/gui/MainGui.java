@@ -2,6 +2,8 @@ package vzap.phoenix.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -43,36 +45,39 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
-		tabbedPane.setBounds(49, 13, 1460, 700);
+		tabbedPane.setBounds(42, 104, 1645, 700);
 		tabbedPane.addChangeListener(this);
+		tabbedPane.setFont(new Font("Arial",Font.BOLD,20));
 		add(tabbedPane);
 	
 		// adding tabs
 		pp = new ProfilePanel(newUser,emp, clientControl);
 		tabbedPane.addTab("PROFILE", null, pp, null);
-		
-//		sk = new SkillsTab(clientControl);
-//		tabbedPane.addTab("SKILLS", null, sk, null);
-// 
-//		ratingNom = new RatingNomination(clientControl, emp);
-//		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
-//		
-//		ratingSkillsTab = new RatingOfSkills(clientControl);
-//		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
-//		
-//		searchMenu = new SearchMenu(clientControl,emp);
-//		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
-//		
-//		searchBySkill = new SearchBySkill(clientControl);
-//		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
-//			
+		if(!newUser)
+		{
+			sk = new SkillsTab(clientControl);
+			tabbedPane.addTab("SKILLS", null, sk, null);
+ 
+			ratingNom = new RatingNomination(clientControl, emp);
+			tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
+			
+			ratingSkillsTab = new RatingOfSkills(clientControl);
+			tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
+			
+			searchMenu = new SearchMenu(clientControl,emp);
+			tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
+			
+			searchBySkill = new SearchBySkill(clientControl);
+			tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
+		}
+
 		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(332, 717, 209, 25);
+		btnMainExit.setBounds(332, 808, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 		
 		btnLogoff = new JButton("Log Off");
-		btnLogoff.setBounds(908, 717, 209, 25);
+		btnLogoff.setBounds(908, 808, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
 	}
@@ -98,6 +103,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 			 if(JOptionPane.OK_OPTION == choice)
 			 {
 				clientControl.closeConnections();
+		
 				this.clientControl = new EmpSkillClientController();
 				
 				LoginPanel logP = new LoginPanel(basePanel,clientControl);
@@ -115,14 +121,29 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	public void stateChanged(ChangeEvent e)
 	{
 		
-		System.out.println("Hey Nico changed a tab : " + tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()));
-		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("RATING NOMINATIONS"))
+		
+		
+//		" MY SKILLS " 
+//		" MY SKILLS RATINGS "		
+//		" RATING NOMINATIONS "
+//		
+//		" SEARCH BY EMPLOYEE "
+//		" SEARCH BY SKILL "
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" RATING NOMINATIONS "))
 		{
 			ratingNom.setup();
 		}
-		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("SEARCH by EMPLOYEE"))
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" SEARCH BY EMPLOYEE "))
 		{
 			searchMenu.setup();
 		}
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" MY SKILLS "))
+		{
+			sk.setup();
+		}
+//		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" SEARCH BY SKILL "))
+//		{
+//			searchBySkill.setup();
+//		}
 	}
 }

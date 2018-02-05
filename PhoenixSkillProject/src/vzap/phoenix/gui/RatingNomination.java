@@ -194,6 +194,8 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		outstandingModel.setRowCount(0);
 		empOutSkillList.clear();
 		
+		//set up outstanding skill list 
+		
 		this.setUpSkillColumn(nominateTable, nominateTable.getColumn("Skill"));
 		
 		for (int i = 0; i < empSkillList.size(); i++)
@@ -397,7 +399,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	            			&& (empSkillList.get(i).getStatus() == 1))
 	            	{
 	            		skillBox.addItem(skillList.get(j).getSkillDescription());  
-	            	}
+	              	}
 	            }
 	    	}
 		skill.setCellEditor(new DefaultCellEditor(skillBox));

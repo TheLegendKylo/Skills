@@ -64,7 +64,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private ArrayList<Capability> capabilityList;
 	//private JScrollPane scrollPaneAddSkill;
 	//private JTable tableCaptureSkills; 
-	
+	private Object[] skillsHeader=null;
 	private Vector<String> vectorSkills = null;
 	
 	private int getSelectedRow;
@@ -93,10 +93,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		
 		setLayout(null);
 		
-		lblSkillTab = new JLabel("Skill Tab");
-		lblSkillTab.setBounds(451, 11, 129, 14);
-		add(lblSkillTab);
-		
 		
 		lblSummaryOfSkills = new JLabel("Summary of your Skills");
 		lblSummaryOfSkills.setBounds(10, 158, 928, 22);
@@ -112,16 +108,15 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		add(lblDetails);
 		lblDetails.setHorizontalAlignment(JLabel.CENTER);
 		
-		
-		
-		
-		
 		btnUpdate = new JButton("Update your skills");
 		btnUpdate.setToolTipText("Once a skill has been selected from the drop down you can add it to your profile");
 		btnUpdate.setBounds(390, 99, 173, 23);
 		add(btnUpdate);
 		btnUpdate.addActionListener(this);
 		
+
+		this.setup();
+
 		employeeSkillList = new ArrayList<>();
 		
 		
@@ -134,11 +129,11 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		model = clientControl.getEmpSkillAverage(employeeSkillList);
 		skillList = clientControl.getSkillList();
 		
+
 		tableSummarySkills = new JTable(model);
 		tableSummarySkills.addMouseListener(this);
 		
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
-		
 
 		lblSkill = new JLabel("Select a skill to add to your profile");
 		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -146,13 +141,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		lblSkill.setBounds(147, 36, 661, 20);
 		add(lblSkill);
 		
-		
-		vectorSkills = new Vector<>();
-		
-		for (int i = 0; i < skillList.size(); i++)
-		{
-			vectorSkills.addElement(skillList.get(i).getSkillDescription());
-		}
 		
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
@@ -177,7 +165,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 //		}
 		
 		
-		detailTableModel = clientControl.getEmpSkillDetail(employeeSkillList);
 		detailedTable = new JTable(detailTableModel);
 		TableColumn col = detailedTable.getColumnModel().getColumn(0);
 		tableSummarySkills.removeColumn(col);
@@ -196,7 +183,29 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		btnDeleteSkill.addActionListener(this);
 		
 	}
-
+	
+	
+	public void setup()
+	{
+		employeeSkillList = new ArrayList<>();	
+		
+		skillsHeader = new String[]{"Skill","Your Ave Rating","Nominated Average",
+				"Number of ratings"};
+		employeeSkillList = clientControl.getEmployeeSkillList();
+		model = clientControl.getEmpSkillAverage(employeeSkillList);
+		skillList = clientControl.getSkillList();
+		
+		vectorSkills = new Vector<>();
+		
+		for (int i = 0; i < skillList.size(); i++)
+		{
+			vectorSkills.addElement(skillList.get(i).getSkillDescription());
+		}
+		
+		detailTableModel = clientControl.getEmpSkillDetail(employeeSkillList);
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
