@@ -300,6 +300,10 @@ public class ProfilePanel extends JPanel implements ActionListener
 					
 					existingHobby = true;
 					vectHobby.add(addHobbyValue);
+					if(empHobby==null)
+					{
+						empHobby = new ArrayList<Short>();
+					}
 					empHobby.add(allHobby.get(j).getHobbyID());
 					
 					//added loop for testing purposes

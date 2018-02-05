@@ -245,6 +245,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		vectTabSkill.clear();
 		comboHobby.clear();
 		comboSkill.clear();
+		hobbyJlist.removeAll();
+		
 		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);
