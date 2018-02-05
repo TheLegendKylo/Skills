@@ -183,7 +183,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollSkillsDetails.setBounds(10, 521, 1390, 143);
 		add(scrollSkillsDetails);
 		
-		skillsDetailsLab = new JLabel("Chosen Employee's skills ratings");
+		skillsDetailsLab = new JLabel("Chosen Employee skill's RATING");
 		skillsDetailsLab.setFont(new Font("Tahoma", Font.BOLD, 11));
 		skillsDetailsLab.setToolTipText("This will give capability ratings for chosen Employee's skill");
 		skillsDetailsLab.setBounds(298, 496, 235, 14);
@@ -327,7 +327,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		    	   	tabCols[4] = employeeList.get(i).getContactNo();
 		    	   	model.addRow(tabCols);
 		        }
-				JOptionPane.showMessageDialog(this,"Please select a row from the table");
+				JOptionPane.showMessageDialog(this,"Please select a row from the listed Employees");
 			}
 			else
 			{
@@ -385,6 +385,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	    	   	tabCols[4] = employeeList.get(i).getContactNo();
 	    	   	model.addRow(tabCols);
 	        }
+			JOptionPane.showMessageDialog(this,"Please select a row from the listed Employees ");
 		}
 	}//end of action performed
 
@@ -392,8 +393,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 	@Override
 	public void mouseClicked(MouseEvent t)
 	{
-		if(source == empBut)
-		{
+//		if(source == empBut)
+//		{
 			vectHobby.clear();
 			int row = tableEmployee.getSelectedRow();
 			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
@@ -425,7 +426,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 
 			if(individualEmpSkillList.size()<1)
 			{
-				JOptionPane.showMessageDialog(this,"Employee has no skills No employees have this hobby");
+				JOptionPane.showMessageDialog(this,"Employee has no skills ");
 				return;			
 			}
 
@@ -443,7 +444,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			scrollSkillsDetails.setViewportView(tableSkillsDetails);
 			modelInsert.fireTableDataChanged();
 			this.repaint();
-		} //  end of empBut
+//		} //  end of empBut
 
 		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
 		if(individualEmpSkillList.size()<1)

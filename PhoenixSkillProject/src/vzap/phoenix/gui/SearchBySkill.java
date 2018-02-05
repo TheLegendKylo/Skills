@@ -95,7 +95,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		skillTable.setAutoCreateRowSorter(isEnabled());
 		skillTable.getRowSelectionAllowed();
 		skillTable.getSelectionModel();
-
+		
 		skillScrollPane.setViewportView(skillTable);
 		
 		exportBut = new JButton("Export to excel");
@@ -125,7 +125,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 				String filePath = chooser.getSelectedFile().getPath();
 				if(chooser.getSelectedFile().getName().contains("."))
 				{
-					JOptionPane.showMessageDialog(this,"Error: " + "Please dont add the extension to your file name: ","Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this,"ERROR: " + "Please dont add the extension to your file name: ","ERROR", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				

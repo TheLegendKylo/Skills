@@ -10,6 +10,7 @@ drop table Capability;
 drop table CapabilityRating;
 drop table EmployeeHobby;
 drop table EmployeeSkills;
+drop table Employeeskillsrating;
 
 
 create table Employee (employeeId varchar(8)  not null primary key,
