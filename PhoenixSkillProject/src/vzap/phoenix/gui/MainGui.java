@@ -51,10 +51,10 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		add(tabbedPane);
 	
 		// adding tabs
-		pp = new ProfilePanel(emp, clientControl);
+		pp = new ProfilePanel(clientControl,emp);
 		tabbedPane.addTab(" MY PROFILE ", null, pp, null);
 		
-		sk = new SkillsTab(clientControl);
+		sk = new SkillsTab(clientControl, emp);
 		tabbedPane.addTab(" MY SKILLS ", null, sk, null);
  
 		ratingSkillsTab = new RatingOfSkills(clientControl);
@@ -119,12 +119,9 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	public void stateChanged(ChangeEvent e)
 	{
 		
-		
-		
 //		" MY SKILLS " 
 //		" MY SKILLS RATINGS "		
-//		" RATING NOMINATIONS "
-//		
+//		" RATING NOMINATIONS "	
 //		" SEARCH BY EMPLOYEE "
 //		" SEARCH BY SKILL "
 		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" RATING NOMINATIONS "))

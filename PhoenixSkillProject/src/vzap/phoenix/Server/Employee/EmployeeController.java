@@ -96,6 +96,7 @@ public class EmployeeController implements Runnable
 			return false;
 		}
 		System.out.println("****Returing true");
+		empSkillList = empSkillDAO.getEmployeeSkill(logonEmployee.getEmployeeID());
 		return true;
 	}
 	public boolean addNominee(EmployeeSkill addEmployeeSkill)
@@ -126,6 +127,7 @@ public class EmployeeController implements Runnable
 			this.errorMsg = empSkillDAO.getErrorMsg();
 			return false;
 		}
+		empSkillList = empSkillDAO.getEmployeeSkill(logonEmployee.getEmployeeID());
 		return true;
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(String employeeID, int skillID, String raterID)

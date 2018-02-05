@@ -53,7 +53,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private ArrayList<Short> empHobby;
 	private boolean hobbyChange = false;
 	
-	public ProfilePanel(Employee emp,EmpSkillClientController clientControl)
+	public ProfilePanel(EmpSkillClientController clientControl,Employee emp)
 	{
 		setBorder(null);
 		

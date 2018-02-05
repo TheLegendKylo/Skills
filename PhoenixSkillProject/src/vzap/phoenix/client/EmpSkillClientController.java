@@ -136,10 +136,10 @@ public class EmpSkillClientController
 	}
 	public ArrayList<EmployeeSkill> getEmployeeSkillList()
 	{
-		if(empSkillList==null)
-		{
+		//if(empSkillList==null)
+		//{
 			empSkillList = client.getEmpSkillList();
-		}
+	//	}
 		return empSkillList;
 	}
 	
