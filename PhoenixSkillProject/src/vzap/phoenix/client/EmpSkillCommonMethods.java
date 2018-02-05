@@ -55,7 +55,7 @@ public class EmpSkillCommonMethods
 						{
 							skillIDCheck = skillList.get(j).getSkillId();
 							skillDesc[counter] = skillList.get(j).getSkillDescription();
-	System.out.println("Skill: "+skillDesc[counter]);
+//	System.out.println("Skill: "+skillDesc[counter]);
 							break;
 						}//comment
 					}
@@ -71,7 +71,7 @@ public class EmpSkillCommonMethods
 				else
 					// this record if of a nominee rating
 				{
-	System.out.println("Nominee Rating: "+ratingCount);
+//	System.out.println("Nominee Rating: "+ratingCount);
 					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
 					// only include in the average ratings if it is not 0;
 					if(averageRating > 0)
@@ -85,7 +85,7 @@ public class EmpSkillCommonMethods
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
-			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
+//			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
 			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
 			numberOfRatings[counter] = ratingCount;
 			ratingCount = 0;
@@ -96,7 +96,7 @@ public class EmpSkillCommonMethods
 		{
 			counter++;
 		}
-		for (int i = 0; i < (counter); i++)
+		for (int i = 0; i < counter; i++)
 		{
 			skillsRow[i][0] = skillDesc[i];
 			skillsRow[i][1] = coachingInd[i];
@@ -117,7 +117,7 @@ public class EmpSkillCommonMethods
 	public DefaultTableModel getEmpSkillDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
-		System.out.println("******************Summary Detail Model************************");
+//		System.out.println("******************Summary Detail Model************************");
 		Object[] capabilityHeader = new String[11];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
@@ -152,7 +152,7 @@ public class EmpSkillCommonMethods
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
+//			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
 			// Check whether a new SkillId has been read
 			if(((empIDCheck==null) ||
 					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID()))) ||
@@ -170,13 +170,13 @@ public class EmpSkillCommonMethods
 						int ratingIdx = 2;
 						for (int j = 0; j < averageRating.length; j++)
 						{
-							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
+//							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 							capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount*100.0)/100.0;
 							overAllRating += (double)capabilityRating[ratingIdx];
 							averageRating[j]=0;
 							ratingIdx++;
 						}
-System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
+//System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
 						capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 						capabilityRating[10] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
@@ -209,9 +209,9 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 				
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+//					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 					averageRating [j] += Math.round(ratingList.get(j)*100.0)/100.0;
-					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+//					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 				}
 				ratingCount++;
 			}		
@@ -227,7 +227,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			
 			for (int j = 0; j < averageRating.length; j++)
 			{
-				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
+//				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 				capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount *100.0)/100.0;
 				overAllRating += (double)capabilityRating[ratingIdx];
 				averageRating[j]=0;
@@ -244,7 +244,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 	public DefaultTableModel getEmpCapabilityDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
-		System.out.println("******************Capability Detail Model************************");
+//		System.out.println("******************Capability Detail Model************************");
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Rater";
 		capabilityHeader[1] = "Skill";
@@ -276,7 +276,7 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
+//			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
 			empIDCheck = employeeSkillList.get(i).getRaterID();
 			Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
@@ -298,20 +298,20 @@ System.out.println("commonmethods - capability Rating = " + capabilityRating.len
 			if(ratingList!=null && ratingList.size()!=0)
 			{
 				
-				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());
+//				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
 				double overAllRating = 0;
 				for (int j = 0; j < ratingList.size(); j++)
 				{
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
-					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
-					"overAllRating: "+j+" "+overAllRating);
+//					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
+//					"overAllRating: "+j+" "+overAllRating);
 					ratingIdx++;
 				}	
 				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 				empCapModel.addRow(capabilityRating);;
-				System.out.println("commonMethods - capability Rating = " + capabilityRating.length);
+//				System.out.println("commonMethods - capability Rating = " + capabilityRating.length);
 				counter++;
 			}
 		}

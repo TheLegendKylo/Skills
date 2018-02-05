@@ -33,7 +33,10 @@ public class EmpSkillClientController
 		//0 success
 		//1 emp not found/invalid userName
 		//2 password
+		this.logonEmployee = null;
+		this.empSkillList = null;
 		return client.loginEmployee(employeeID, password);	
+		
 	}
 	public Employee getLogonEmployee()
 	{

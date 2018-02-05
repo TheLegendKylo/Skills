@@ -42,8 +42,9 @@ public class EmpSkillClient
 	 */
 	public EmpSkillClient()
 	{
-		if(socket==null) //ensure that only one instance of socket is created
+		if(socket==null || socket.isClosed()) //ensure that only one instance of socket is created
 		{
+System.out.println("Try opening new connection");
 			try
 			{
 				socket = new Socket("localhost", 10002);
@@ -305,6 +306,7 @@ public class EmpSkillClient
 		//System.out.println("Client: updateEmployee - No of Hobbies: "+updateEmployee.getEmpHobbies().size());
 		try
 		{
+			oos.reset();
 			oos.writeObject(updateEmployee);
 			oos.writeObject(updateEmployee.getEmpHobbies().size());
 			for (int i = 0; i < updateEmployee.getEmpHobbies().size(); i++)
@@ -641,9 +643,9 @@ System.out.println("Client: after read from server: "+updateSuccessfull);
 	}
 	public void writeOutMessage(String outMessage)
 	{
-System.out.println("XXXXClient: sending message:"+outMessage);
 		try
 		{
+			oos.reset();
 			oos.writeObject(outMessage);
 			oos.flush();
 		} catch (IOException e1)

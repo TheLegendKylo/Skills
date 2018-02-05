@@ -438,7 +438,6 @@ public class EmpSkillServer
 			try
 			{
 				updateEmployee = (Employee)ois.readObject();
-System.out.println("cell Number: " +updateEmployee.getContactNo());
 				int hobbyCount = (Integer)ois.readObject();
 				for (int i = 0; i < hobbyCount; i++)
 				{
@@ -717,6 +716,7 @@ System.out.println("cell Number: " +updateEmployee.getContactNo());
 		}
 		public void closeConnections()
 		{
+System.out.println("Closing Connections");
 			try
 			{
 				clientSocket.close();

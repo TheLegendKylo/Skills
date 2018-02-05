@@ -26,6 +26,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	private SearchMenu searchMenu =null;
 	private SearchBySkill searchBySkill =null;
 	private RatingNomination ratingNom = null;
+	private JButton btnLogGerald;
 	/**
 	 * ...
 	 * Create the panel.
@@ -75,6 +76,12 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 			btnLogoff.setBounds(908, 717, 209, 25);
 			btnLogoff.addActionListener(this);
 			add(btnLogoff);
+			
+			//must be removed later
+			btnLogGerald = new JButton("New button");
+			btnLogGerald.setBounds(-10, 82, 49, 23);
+			btnLogGerald.addActionListener(this);
+			add(btnLogGerald);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -97,6 +104,9 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 					 				"Log Off ",JOptionPane.OK_CANCEL_OPTION);
 			 if(JOptionPane.OK_OPTION == choice)
 			 {
+				clientControl.closeConnections();
+				this.clientControl = new EmpSkillClientController();
+				
 				LoginPanel logP = new LoginPanel(basePanel,clientControl);
 				this.basePanel.removeAll();
 				this.basePanel.validate();
@@ -106,6 +116,10 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 				this.basePanel.repaint();
 				this.basePanel.setVisible(true);
 			 }
+		}
+		if(source == btnLogGerald)
+		{
+			 btnLogoff.doClick();
 		}
 	}
 	@Override

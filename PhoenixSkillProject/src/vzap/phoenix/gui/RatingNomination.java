@@ -64,6 +64,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empSkillList = clientControl.getEmpSkillList();
 		skillList = clientControl.getSkillList();
         comboSkill = new Vector<>();
+        
         for(int i = 0 ; i < empSkillList.size() ; i++)
         {
             for(int j = 0; j < skillList.size(); j++)
@@ -197,7 +198,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		for (int i = 0; i < empSkillList.size(); i++)
 		{
-			if((empSkillList.get(i).getStatus()==0) && (!(empSkillList.get(i).getEmployeeID().equals(emp.getEmployeeID()))))
+			if((empSkillList.get(i).getStatus()==0) && (!(empSkillList.get(i).getRaterID().equals(emp.getEmployeeID()))))
 			{
 				empOutSkillList.add(empSkillList.get(i));
 				
