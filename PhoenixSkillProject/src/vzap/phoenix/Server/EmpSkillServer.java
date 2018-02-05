@@ -418,7 +418,7 @@ public class EmpSkillServer
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			empControl = new EmployeeController();
 			boolean registerSuccess = empControl.registerEmployee(employee);
 			try
 			{
@@ -699,7 +699,7 @@ public class EmpSkillServer
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		//	System.out.println("Server: after read-inMessage- "+inMessage);
+			System.out.println("Server: after read-inMessage- "+inMessage);
 			return inMessage;
 		}
 		public void writeOutMessage(String outMessage)

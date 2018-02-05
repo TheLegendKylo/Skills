@@ -30,6 +30,10 @@ public class EmployeeController implements Runnable
 	
 	private Thread thread;
 
+	public EmployeeController()
+	{
+		
+	}
 	public EmployeeController(String employeeID, String password)
 	{
 		this.employeeDAO = new EmployeeDAO();

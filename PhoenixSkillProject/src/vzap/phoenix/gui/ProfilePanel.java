@@ -52,11 +52,13 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private JComboBox comboBox;
 	private ArrayList<Short> empHobby;
 	private boolean hobbyChange = false;
+	private boolean newUser = false;
 	
-	public ProfilePanel(Employee emp,EmpSkillClientController clientControl)
+	public ProfilePanel(Boolean newUser, Employee emp,EmpSkillClientController clientControl)
 	{
 		setBorder(null);
 		
+		this.newUser = newUser;
 		this.emp = emp;
 		this.clientControl = clientControl;
 		
@@ -129,6 +131,12 @@ public class ProfilePanel extends JPanel implements ActionListener
 		add(btnDeleteHobby);
 		
 		btnUpdateEmployee = new JButton("Update Employee");
+		if(newUser)
+		{
+			btnUpdateEmployee.setText("Register Employee");
+			btnAddHobby.setEnabled(false);
+			btnDeleteHobby.setEnabled(false);
+		}
 		btnUpdateEmployee.setBounds(286, 373, 157, 25);
 		btnUpdateEmployee.addActionListener(this);
 		add(btnUpdateEmployee);
@@ -219,22 +227,39 @@ public class ProfilePanel extends JPanel implements ActionListener
 			emp.setSurname(tfSurname.getText());
 			emp.setContactNo(tfContact.getText());
 			emp.setEmail(tfEmail.getText());
-			
-			if(clientControl.updateEmployee(emp))
+
+			if(newUser)
 			{
-				if(!hobbyChange)
+				if(clientControl.registerEmployee(emp));
 				{
-					JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+					int errorCode = clientControl.loginEmployee(emp.getEmployeeID(), emp.getPassword());
+					if(errorCode==0)
+					{
+						emp=clientControl.getLogonEmployee();
+						btnAddHobby.setEnabled(true);
+						btnDeleteHobby.setEnabled(true);
+						newUser = false;
+					}
+					
 				}
-				tfAlias.setText(emp.getAlias());
-				tfName.setText(emp.getFirstName());
-				tfSurname.setText(emp.getSurname());
-				tfContact.setText(emp.getContactNo());
-				tfEmail.setText(emp.getEmail());
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(this, "Error Updating Employee?");
+			} else {
+			
+				if(clientControl.updateEmployee(emp))
+				{
+					if(!hobbyChange)
+					{
+						JOptionPane.showMessageDialog(this, "Successfully Updated employee details");
+					}
+					tfAlias.setText(emp.getAlias());
+					tfName.setText(emp.getFirstName());
+					tfSurname.setText(emp.getSurname());
+					tfContact.setText(emp.getContactNo());
+					tfEmail.setText(emp.getEmail());
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(this, "Error Updating Employee?");
+				}
 			}
 			
 		}

@@ -48,24 +48,24 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		add(tabbedPane);
 	
 		// adding tabs
-		pp = new ProfilePanel(emp, clientControl);
+		pp = new ProfilePanel(newUser,emp, clientControl);
 		tabbedPane.addTab("PROFILE", null, pp, null);
 		
-		sk = new SkillsTab(clientControl);
-		tabbedPane.addTab("SKILLS", null, sk, null);
- 
-		ratingNom = new RatingNomination(clientControl, emp);
-		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
-		
-		ratingSkillsTab = new RatingOfSkills(clientControl);
-		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
-		
-		searchMenu = new SearchMenu(clientControl,emp);
-		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
-		
-		searchBySkill = new SearchBySkill(clientControl);
-		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
-			
+//		sk = new SkillsTab(clientControl);
+//		tabbedPane.addTab("SKILLS", null, sk, null);
+// 
+//		ratingNom = new RatingNomination(clientControl, emp);
+//		tabbedPane.addTab("RATING NOMINATIONS", null, ratingNom, null);
+//		
+//		ratingSkillsTab = new RatingOfSkills(clientControl);
+//		tabbedPane.addTab("RATING SKILLS", null, ratingSkillsTab, null);
+//		
+//		searchMenu = new SearchMenu(clientControl,emp);
+//		tabbedPane.addTab("SEARCH by EMPLOYEE", null, searchMenu, null);
+//		
+//		searchBySkill = new SearchBySkill(clientControl);
+//		tabbedPane.addTab("SEARCH by SKILL", null, searchBySkill, null);
+//			
 		btnMainExit = new JButton("Exit");
 		btnMainExit.setBounds(332, 717, 209, 25);
 		btnMainExit.addActionListener(this);
