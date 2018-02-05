@@ -119,14 +119,29 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	public void stateChanged(ChangeEvent e)
 	{
 		
-		System.out.println("Hey Nico changed a tab : " + tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()));
-		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("RATING NOMINATIONS"))
+		
+		
+//		" MY SKILLS " 
+//		" MY SKILLS RATINGS "		
+//		" RATING NOMINATIONS "
+//		
+//		" SEARCH BY EMPLOYEE "
+//		" SEARCH BY SKILL "
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" RATING NOMINATIONS "))
 		{
 			ratingNom.setup();
 		}
-		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals("SEARCH by EMPLOYEE"))
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" SEARCH BY EMPLOYEE "))
 		{
 			searchMenu.setup();
 		}
+		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" MY SKILLS "))
+		{
+			sk.setup();
+		}
+//		if( tabbedPane.getTitleAt(tabbedPane.getSelectedIndex()).equals(" SEARCH BY SKILL "))
+//		{
+//			searchBySkill.setup();
+//		}
 	}
 }
