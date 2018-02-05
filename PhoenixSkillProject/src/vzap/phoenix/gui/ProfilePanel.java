@@ -320,6 +320,10 @@ public class ProfilePanel extends JPanel implements ActionListener
 			{
 				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
 				//adding a hobby that does'nt exist in the current users profile.
+				if(empHobby==null)
+				{
+					empHobby = new ArrayList<Short>();
+				}
 				empHobby.add(hobbyiddddd);
 				emp.setEmpHobbies(empHobby);
 				

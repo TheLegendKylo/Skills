@@ -154,7 +154,11 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
-		
+
+		if(employeeSkillList==null)
+		{
+			return empCapModel;
+		}
 
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
@@ -278,6 +282,11 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 			capabilityHeader[j+2] =  capabilityList.get(j).getName();
 		}
 		empCapModel.setColumnIdentifiers(capabilityHeader);
+		if(employeeSkillList==null)
+		{
+			return empCapModel;
+		}
+
 		Object[] capabilityRating = new Object[10];
 		int counter = 0;
 		
@@ -287,7 +296,7 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
-		
+
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
 //			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
@@ -346,6 +355,11 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		    }
 		};
 		empSkillModel.setColumnIdentifiers(skillsHeader);
+		if(employeeSkillList==null)
+		{
+			return empSkillModel;
+		}
+		
 		String [] skillDesc = new String[99];
 		int skillIDCheck = 0;
 		String empIDCheck = null;
