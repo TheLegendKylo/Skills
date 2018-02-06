@@ -125,7 +125,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	}
 	public void addTabs()
 	{
-		System.out.println("<<<<Adding tabs>>>>>");
+		
 		sk = new SkillsTab(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS ", null, sk, null);
 

@@ -20,7 +20,7 @@ import javax.swing.JComboBox;
 
 public class ProfilePanel extends JPanel implements ActionListener
 {
-	
+	//
 	private JPanel basePanel;
 	private JLabel lblNewLabel;
 	private JLabel lblFirstName;
