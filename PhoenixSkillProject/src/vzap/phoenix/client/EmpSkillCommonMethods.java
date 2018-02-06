@@ -422,19 +422,20 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		ArrayList<CapabilityRating> capRateList = clientControl.getCapabilityRatingList();
 		for (int i = 0; i < levelList.size(); i++)
 		{
-			tableRow[i] = "<html/>" +Short.toString(levelList.get(i).getRate())+"/html>";
-			tableRow[i] = levelList.get(i).getName();
-			tableRow[i] = levelList.get(i).getDescription();
+			tableRow[0] = "<html/>" +Short.toString(levelList.get(i).getRate())+"</html>";
+			tableRow[1] = levelList.get(i).getDescription();
 			col = 2;
-			for (int j = 0; j < capRateList.size(); i++)
+			for (int j = 0; j < capRateList.size(); j++)
 			{
 				if(capRateList.get(j).getRating()==levelList.get(i).getRate())
 				{
-					tableRow[col] = "<html/>" +capList.get(i).getDescription()+"/html>";
+					tableRow[col] = "<html/>" +capRateList.get(j).getDescription()+"</html>";
+					col++;
 				}
 			}
+			dreyfusModel.addRow(tableRow);
 		}
-		dreyfusModel.addRow(tableRow);
+
 		
 		return dreyfusModel;
 	}

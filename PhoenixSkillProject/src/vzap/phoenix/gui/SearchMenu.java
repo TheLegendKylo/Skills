@@ -346,6 +346,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		if(source == hobbyComboBox)
 		{
 			model.setRowCount(0);
+			vectHobby.clear();
+			hobbyJlist.removeAll();
 			if(modelInsert != null)
 			{
 				modelInsert.setRowCount(0);
@@ -398,6 +400,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 //		if(source == empBut)
 //		{
 			vectHobby.clear();
+			hobbyJlist.removeAll();
 			int row = tableEmployee.getSelectedRow();
 			String individualEmpID = (String)tableEmployee.getValueAt(row, 0);
 			individualEmp = clientControl.searchEmployee(individualEmpID);
@@ -447,7 +450,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			modelInsert.fireTableDataChanged();
 			this.repaint();
 //		} //  end of empBut
-
+//
 //		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
 //		if(individualEmpSkillList.size()<1)
 //		{
