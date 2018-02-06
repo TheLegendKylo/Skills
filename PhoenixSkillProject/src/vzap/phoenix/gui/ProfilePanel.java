@@ -17,6 +17,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
+import java.awt.Font;
+import javax.swing.ScrollPaneConstants;
 
 public class ProfilePanel extends JPanel implements ActionListener
 {
@@ -54,6 +56,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private boolean hobbyChange = false;
 	private boolean newUser = false;
 	private MainGui mainGui;
+	private JLabel lblListOfYour;
 	
 
 	public ProfilePanel(MainGui mainGui, Boolean newUser, Employee emp,EmpSkillClientController clientControl)
@@ -68,72 +71,87 @@ public class ProfilePanel extends JPanel implements ActionListener
 		setLayout(null);
 		
 		lblNewLabel = new JLabel("User ID");
-		lblNewLabel.setBounds(286, 103, 56, 16);
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 15));
+		lblNewLabel.setBounds(387, 103, 76, 28);
 		add(lblNewLabel);
 		
 		lblFirstName = new JLabel("First Name");
-		lblFirstName.setBounds(286, 166, 76, 16);
+		lblFirstName.setFont(new Font("Arial", Font.BOLD, 15));
+		lblFirstName.setBounds(387, 192, 76, 28);
 		add(lblFirstName);
 		
 		lblSurname = new JLabel("Surname");
-		lblSurname.setBounds(286, 195, 76, 16);
+		lblSurname.setFont(new Font("Arial", Font.BOLD, 15));
+		lblSurname.setBounds(387, 233, 76, 28);
 		add(lblSurname);
 		
 		lblContact = new JLabel("Contact");
-		lblContact.setBounds(286, 230, 76, 16);
+		lblContact.setFont(new Font("Arial", Font.BOLD, 15));
+		lblContact.setBounds(387, 274, 76, 28);
 		add(lblContact);
 		
 		lblEmail = new JLabel("Email");
-		lblEmail.setBounds(286, 270, 76, 16);
+		lblEmail.setFont(new Font("Arial", Font.BOLD, 15));
+		lblEmail.setBounds(387, 315, 76, 28);
 		add(lblEmail);
 		
 		tfUserID = new JTextField();
+		tfUserID.setFont(new Font("Arial", Font.BOLD, 15));
 		tfUserID.setEditable(false);
-		tfUserID.setBounds(385, 100, 116, 22);
+		tfUserID.setBounds(493, 103, 395, 28);
 		add(tfUserID);
 		tfUserID.setColumns(10);
 		
 		tfName = new JTextField();
+		tfName.setFont(new Font("Arial", Font.BOLD, 15));
 		tfName.setColumns(10);
-		tfName.setBounds(385, 163, 116, 22);
+		tfName.setBounds(493, 192, 395, 28);
 		add(tfName);
 		
 		tfSurname = new JTextField();
+		tfSurname.setFont(new Font("Arial", Font.BOLD, 15));
 		tfSurname.setColumns(10);
-		tfSurname.setBounds(385, 189, 116, 22);
+		tfSurname.setBounds(493, 233, 395, 28);
 		add(tfSurname);
 		
 		tfContact = new JTextField();
+		tfContact.setFont(new Font("Arial", Font.BOLD, 15));
 		tfContact.setColumns(10);
-		tfContact.setBounds(385, 224, 116, 22);
+		tfContact.setBounds(493, 274, 395, 28);
 		add(tfContact);
 		
 		tfEmail = new JTextField();
+		tfEmail.setFont(new Font("Arial", Font.BOLD, 15));
 		tfEmail.setColumns(15);
-		tfEmail.setBounds(385, 259, 116, 22);
+		tfEmail.setBounds(493, 315, 395, 28);
 		add(tfEmail);
 		
-		lblHobbies = new JLabel("Hobbies");
-		lblHobbies.setBounds(286, 303, 76, 16);
+		lblHobbies = new JLabel("Hobby Text:");
+		lblHobbies.setFont(new Font("Arial", Font.BOLD, 15));
+		lblHobbies.setBounds(387, 356, 101, 28);
 		add(lblHobbies);
 		
 		tfAddHobby = new JTextField();
+		tfAddHobby.setFont(new Font("Arial", Font.BOLD, 15));
 		tfAddHobby.setColumns(10);
-		tfAddHobby.setBounds(385, 300, 116, 22);
+		tfAddHobby.setBounds(493, 356, 232, 28);
 		add(tfAddHobby);
 		
 		btnAddHobby = new JButton("Add Hobby");
-		btnAddHobby.setBounds(519, 299, 97, 25);
+		btnAddHobby.setFont(new Font("Arial", Font.BOLD, 15));
+		btnAddHobby.setBounds(755, 356, 133, 28);
 		btnAddHobby.addActionListener(this);
 		add(btnAddHobby);
 		
 		btnDeleteHobby = new JButton("Delete Hobby");
+		btnDeleteHobby.setFont(new Font("Arial", Font.BOLD, 15));
 		btnDeleteHobby.setToolTipText("Select a Hobby from the list above before clicking");
-		btnDeleteHobby.setBounds(745, 265, 116, 25);
+		btnDeleteHobby.setBounds(1247, 359, 148, 25);
 		btnDeleteHobby.addActionListener(this);
 		add(btnDeleteHobby);
 		
-		btnUpdateEmployee = new JButton("Update Employee");
+		btnUpdateEmployee = new JButton("Update Profile Deatils");
+		btnUpdateEmployee.setFont(new Font("Arial", Font.BOLD, 15));
 		if(newUser)
 		{
 			btnUpdateEmployee.setText("Register Employee");
@@ -141,27 +159,35 @@ public class ProfilePanel extends JPanel implements ActionListener
 			btnDeleteHobby.setEnabled(false);
 			tfAddHobby.setEnabled(false);
 		}
-		btnUpdateEmployee.setBounds(286, 373, 157, 25);
+		btnUpdateEmployee.setBounds(387, 417, 501, 28);
 		btnUpdateEmployee.addActionListener(this);
 		add(btnUpdateEmployee);
 		
 		lblAlias = new JLabel("Alias");
-		lblAlias.setBounds(286, 137, 76, 16);
+		lblAlias.setFont(new Font("Arial", Font.BOLD, 15));
+		lblAlias.setBounds(387, 151, 76, 28);
 		add(lblAlias);
 		
 		tfAlias = new JTextField();
+		tfAlias.setFont(new Font("Arial", Font.BOLD, 15));
 		tfAlias.setColumns(10);
-		tfAlias.setBounds(385, 134, 116, 22);
+		tfAlias.setBounds(493, 151, 395, 28);
 		add(tfAlias);
 		
 		setup();
 		list = new JList(vectHobby);
+		list.setFont(new Font("Arial", Font.BOLD, 15));
 		list.setVisibleRowCount(5);
     	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-    	scrollPane = new JScrollPane(list,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(745, 100, 135, 149);
+    	scrollPane = new JScrollPane(list,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(1094, 161, 300, 185);
 		add(scrollPane);
+		
+		lblListOfYour = new JLabel("List of Your Hobbies");
+		lblListOfYour.setFont(new Font("Arial", Font.BOLD, 15));
+		lblListOfYour.setBounds(1093, 120, 162, 28);
+		add(lblListOfYour);
 		
 
 	}

@@ -41,8 +41,6 @@ import java.awt.event.MouseListener;
 
 public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
-	//real1
-	private JLabel lblSkillTab;
 	private JButton btnAddSkillToList;
 	private JButton btnEditSkillRating;
 	private JButton btnDeleteSkill;
@@ -52,7 +50,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private JTable tableSummarySkills;
 	private JScrollPane scrollPaneSummarySkills;
 	private JLabel lblDetails;
-	private JTable tableBottom;
 	private JScrollPane scrollPaneBottom;
 	private JButton btnUpdate;
 	private EmpSkillClient employeeSkillClient;
@@ -98,27 +95,26 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		setLayout(null);
 
-		lblSkillTab = new JLabel("Skill Tab");
-		lblSkillTab.setBounds(451, 11, 129, 14);
-		add(lblSkillTab);
 
-
-		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 158, 928, 22);
+		lblSummaryOfSkills = new JLabel("Summary of your Skills Table");
+		lblSummaryOfSkills.setFont(new Font("Arial", Font.BOLD, 20));
+		lblSummaryOfSkills.setBounds(648, 148, 334, 35);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 
 
-		lblDetails = new JLabel("Details");
-		lblDetails.setBounds(10, 408, 928, 22);
+		lblDetails = new JLabel("Detail Table");
+		lblDetails.setFont(new Font("Arial", Font.BOLD, 20));
+		lblDetails.setBounds(717, 402, 205, 36);
 		add(lblDetails);
 		lblDetails.setHorizontalAlignment(JLabel.CENTER);
 
 
 
 		btnUpdate = new JButton("Update your skills");
+		btnUpdate.setFont(new Font("Arial", Font.BOLD, 15));
 		btnUpdate.setToolTipText("Once a skill has been selected from the drop down you can add it to your profile");
-		btnUpdate.setBounds(390, 99, 173, 23);
+		btnUpdate.setBounds(833, 75, 213, 36);
 		add(btnUpdate);
 		btnUpdate.addActionListener(this);
 
@@ -126,38 +122,38 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		vectorSkills = new Vector<>();
 
 		tableSummarySkills = new JTable();            
+		tableSummarySkills.setFont(new Font("Arial", Font.PLAIN, 15));
 
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
+		comboBoxSkillList.setFont(new Font("Arial", Font.BOLD, 15));
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
-		comboBoxSkillList.setBounds(390, 68, 173, 20);
+		comboBoxSkillList.setBounds(833, 26, 213, 36);
 		add(comboBoxSkillList);
 
 		detailedTable = new JTable(detailTableModel);
+		detailedTable.setFont(new Font("Arial", Font.PLAIN, 15));
 		scrollPaneBottom = new JScrollPane(detailedTable);
-		scrollPaneBottom.setBounds(10, 433, 928, 152);
+		scrollPaneBottom.setBounds(38, 438, 1701, 201);
 		add(scrollPaneBottom);
 
 		scrollPaneSummarySkills = new JScrollPane(tableSummarySkills);
-		scrollPaneSummarySkills.setBounds(10, 236, 928, 161);
+		scrollPaneSummarySkills.setBounds(38, 186, 1701, 169);
 		tableSummarySkills.addMouseListener(this);
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		add(scrollPaneSummarySkills);
 
 		setup();
-
-
-		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
-
-
-		lblSkill = new JLabel("Select a skill to add to your profile");
-		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		lblSkill = new JLabel("Select a skill to add to your profile :");
+		lblSkill.setFont(new Font("Arial", Font.BOLD, 15));
 		lblSkill.setHorizontalAlignment(JLabel.CENTER);
-		lblSkill.setBounds(147, 36, 661, 20);
+		lblSkill.setBounds(556, 28, 265, 30);
 		add(lblSkill);
 
 		btnAddSkillToList = new JButton("Add New Skill To List");
+		btnAddSkillToList.setFont(new Font("Arial", Font.BOLD, 15));
 		btnAddSkillToList.setToolTipText("Select if your skill is not in the drop down menu");
-		btnAddSkillToList.setBounds(587, 67, 168, 23);
+		btnAddSkillToList.setBounds(566, 75, 213, 36);
 		add(btnAddSkillToList);
 		btnAddSkillToList.addActionListener(this);
 
@@ -166,14 +162,19 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		comboBoxRating = new JComboBox(ratingValues);
 
 		btnEditSkillRating = new JButton("Edit Skill Rating");
-		btnEditSkillRating.setBounds(339, 191, 148, 23);
+		btnEditSkillRating.setFont(new Font("Arial", Font.BOLD, 15));
+		btnEditSkillRating.setBounds(38, 368, 162, 37);
 		add(btnEditSkillRating);
 		btnEditSkillRating.addActionListener(this);
 
 		btnDeleteSkill = new JButton("Delete Skill");
-		btnDeleteSkill.setBounds(497, 191, 98, 23);
+		btnDeleteSkill.setFont(new Font("Arial", Font.BOLD, 15));
+		btnDeleteSkill.setBounds(223, 368, 130, 37);
 		add(btnDeleteSkill);
 		btnDeleteSkill.addActionListener(this);
+		detailedTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		tableSummarySkills.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		
 
 	}
 	public void setup()

@@ -13,6 +13,7 @@ import vzap.phoenix.Server.Employee.Employee;
 import vzap.phoenix.client.EmpSkillClientController;
 
 import javax.swing.*;
+import java.awt.Color;
 
 public class MainGui extends JPanel implements ActionListener,ChangeListener
 {
@@ -46,7 +47,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBorder(null);
-		tabbedPane.setBounds(42, 104, 1645, 700);
+		tabbedPane.setBounds(42, 104, 1812, 711);
 		tabbedPane.addChangeListener(this);
 		tabbedPane.setFont(new Font("Arial",Font.BOLD,20));
 		add(tabbedPane);
@@ -60,12 +61,16 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		}
 
 		btnMainExit = new JButton("Exit");
-		btnMainExit.setBounds(332, 808, 209, 25);
+		btnMainExit.setBackground(Color.WHITE);
+		btnMainExit.setFont(new Font("Arial", Font.BOLD, 17));
+		btnMainExit.setBounds(386, 827, 209, 25);
 		btnMainExit.addActionListener(this);
 		add(btnMainExit);
 		
 		btnLogoff = new JButton("Log Off");
-		btnLogoff.setBounds(908, 808, 209, 25);
+		btnLogoff.setBackground(Color.WHITE);
+		btnLogoff.setFont(new Font("Arial", Font.BOLD, 17));
+		btnLogoff.setBounds(1054, 828, 209, 25);
 		btnLogoff.addActionListener(this);
 		add(btnLogoff);
 	}

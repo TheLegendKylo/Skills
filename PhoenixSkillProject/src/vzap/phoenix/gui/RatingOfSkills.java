@@ -45,9 +45,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private Employee emp;
 	private EmpSkillClientController clientControl;
 	private JLabel lblRatingOfSkills;
-	private JPanel panelTop;
 	private JButton btnCannotRate;
-	private JPanel panelBottom;
 	private JLabel lblExplianation;
 	private JButton btnSubmitRating;
 	private JTable tableTop;
@@ -85,54 +83,48 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		setLayout(null);
 		employeeList = new ArrayList<Employee>();
 		
-		
 		lblRatingOfSkills = new JLabel("Rate Skills");
-		lblRatingOfSkills.setBounds(43, 10, 627, 14);
+		lblRatingOfSkills.setFont(new Font("Arial", Font.BOLD, 20));
+		lblRatingOfSkills.setBounds(555, 13, 627, 14);
 		add(lblRatingOfSkills);
 		lblRatingOfSkills.setHorizontalAlignment(JLabel.CENTER);
-		
-		panelTop = new JPanel();
-		panelTop.setBounds(10, 35, 694, 159);
-		add(panelTop);
 		
 	    ratingList = new ArrayList<EmployeeSkill>();
 		outstandingRatersList = new ArrayList<EmployeeSkill>();
 		
-		panelTop.setLayout(null);
 		tableTop = new JTable(outstandingModel);
+		tableTop.setFont(new Font("Arial", Font.PLAIN, 15));
 		scrollPaneTop = new JScrollPane(tableTop);
-		scrollPaneTop.setBounds(10, 5, 621, 154);
-		panelTop.add(scrollPaneTop);
+		scrollPaneTop.setBounds(58, 42, 1689, 154);
+		add(scrollPaneTop);
 		tableTop.addMouseListener(this);
 		
 		this.setup();
 		
 		btnCannotRate = new JButton("Cannot Rate");
-		btnCannotRate.setBounds(388, 205, 116, 23);
+		btnCannotRate.setFont(new Font("Arial", Font.BOLD, 15));
+		btnCannotRate.setBounds(947, 212, 150, 33);
 		btnCannotRate.setToolTipText("Select if you are unable to offer a rating for an employee request");
 		add(btnCannotRate);
 		btnCannotRate.addActionListener(this);
 		
-		panelBottom = new JPanel();
-		panelBottom.setBounds(-24, 267, 763, 234);
-		add(panelBottom);
-		
-		
-		lblExplianation = new JLabel("Please provide the ratings you wish to submit for temployee");
-		lblExplianation.setBounds(166, 242, 382, 14);
-		lblExplianation.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblExplianation = new JLabel("Please Provide Ratings for Selected Employee below");
+		lblExplianation.setBounds(657, 244, 482, 24);
+		lblExplianation.setFont(new Font("Arial", Font.BOLD, 15));
 		lblExplianation.setHorizontalAlignment(JLabel.CENTER);
 		lblExplianation.setVerticalAlignment(JLabel.CENTER);
 		add(lblExplianation);
 		
 		btnSubmitRating = new JButton("Submit Rating");
-		btnSubmitRating.setBounds(165, 523, 116, 23);
+		btnSubmitRating.setFont(new Font("Arial", Font.BOLD, 15));
+		btnSubmitRating.setBounds(714, 523, 155, 33);
 		add(btnSubmitRating);
 		btnSubmitRating.addActionListener(this);
 
 		this.createRatingTable();
 		this.disableRating();
-		
+		tableTop.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		ratingTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 
 	}
 	
@@ -167,28 +159,30 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
        }
 	    ratingModel = new DefaultTableModel(tableRow,tableHeader);
 	    ratingTable = new JTable(new MyTableModel());
+	    ratingTable.setFont(new Font("Arial", Font.PLAIN, 15));
 	    ratingArray = new short[7];
 	    TableColumn ratingColumn = ratingTable.getColumnModel().getColumn(1);
 		this.initColumnSizes(ratingTable);
 		this.setUpRatingColumn(ratingTable, ratingColumn);
-		panelBottom.setLayout(null);
        	
 		JScrollPane scrollPaneBottom = new JScrollPane(ratingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPaneBottom.setBounds(46, 5, 620, 229);
+		scrollPaneBottom.setBounds(58, 281, 1689, 229);
 		scrollPaneBottom.setMaximumSize(new Dimension(32767, 10000));
 		
 		scrollPaneBottom.setViewportView(ratingTable);
 
-		panelBottom.add(scrollPaneBottom);
+		add(scrollPaneBottom);
 		
 		btnClearRatings = new JButton("Clear Ratings");
-		btnClearRatings.setBounds(419, 523, 129, 23);
+		btnClearRatings.setFont(new Font("Arial", Font.BOLD, 15));
+		btnClearRatings.setBounds(968, 523, 129, 33);
 		add(btnClearRatings);
 		btnClearRatings.addActionListener(this);
 		
 		rdbtnAvailableAsA = new JRadioButton("Available as a coach");
-		rdbtnAvailableAsA.setBounds(155, 205, 160, 23);
+		rdbtnAvailableAsA.setFont(new Font("Arial", Font.BOLD, 15));
+		rdbtnAvailableAsA.setBounds(714, 212, 182, 33);
 		add(rdbtnAvailableAsA);
 		
 		rdbtnAvailableAsA.setEnabled(false);

@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class HelpScreen extends JPanel
 {
@@ -39,10 +40,14 @@ public class HelpScreen extends JPanel
 		        return myRenderer;
 		    }
 		};
+
+		
 		dreyfusScroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		dreyfusScroll.setViewportView(dreyfusTable);
-		dreyfusScroll.setBounds(0, 97, 1453, 527);
+		dreyfusScroll.setBounds(34, 37, 1734, 561);
 		add(dreyfusScroll);
+		dreyfusTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		dreyfusTable.setFont(new Font("Arial", Font.BOLD, 15)); // not working must check 
 	}
 	public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
 

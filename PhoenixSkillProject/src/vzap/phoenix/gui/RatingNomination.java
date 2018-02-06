@@ -58,9 +58,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		setLayout(null);
 		this.clientControl = clientControl;
 		this.emp=emp;
-		
-//		employeeSkill = new EmployeeSkill();
-        
+
 		empSkillList = clientControl.getEmpSkillList();
 		skillList = clientControl.getSkillList();
         comboSkill = new Vector<>();
@@ -82,53 +80,60 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         empHeader = new String[]{"UserId","First Name","Surname","Alias"};
         selectModel.setColumnIdentifiers(empHeader);
         selectTable = new JTable(selectModel);
+        selectTable.setFont(new Font("Arial", Font.PLAIN, 15));
 		
 		selectTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		selectTable.addMouseListener(this);
 		
-		selectRaterlbl = new JLabel("Select Raters");
-		selectRaterlbl.setFont(new Font("Arial", Font.PLAIN, 20));
-		selectRaterlbl.setBounds(268, 11, 142, 32);
+		selectRaterlbl = new JLabel("Search Rater (Employee)");
+		selectRaterlbl.setFont(new Font("Arial", Font.BOLD, 20));
+		selectRaterlbl.setBounds(130, 44, 308, 32);
 		add(selectRaterlbl);
 		
-		nomineelbl = new JLabel("Add Rater");
-		nomineelbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		nomineelbl.setBounds(10, 234, 201, 22);
+		nomineelbl = new JLabel("Table of Added Raters");
+		nomineelbl.setFont(new Font("Arial", Font.BOLD, 20));
+		nomineelbl.setBounds(802, 44, 281, 32);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
-		scrollPane.setBounds(10, 110, 623, 112);
+		scrollPane.setBounds(130, 122, 628, 334);
 		add(scrollPane);
 		
-		btnSubmit = new JButton("SUBMIT RATERS");
-		btnSubmit.setBounds(10, 423, 153, 22);
+		btnSubmit = new JButton("Submit Rater");
+		btnSubmit.setFont(new Font("Arial", Font.BOLD, 15));
+		btnSubmit.setBounds(802, 424, 170, 32);
 		add(btnSubmit);
 		btnSubmit.addActionListener(this);
 		
 		raterIDJTF = new JTextField();
-		raterIDJTF.setBounds(109, 267, 85, 22);
+		raterIDJTF.setVisible(false);
+		raterIDJTF.setBounds(981, 77, 85, 22);
 		raterIDJTF.setEditable(false);
 		raterIDJTF.setBackground(colour);
 		add(raterIDJTF);
 		raterIDJTF.setColumns(10);
 		
-		btnDeleteNomination = new JButton("DELETE NOMINATION");
-		btnDeleteNomination.setBounds(10, 629, 153, 22);
+		btnDeleteNomination = new JButton("Delete Nomination");
+		btnDeleteNomination.setFont(new Font("Arial", Font.BOLD, 15));
+		btnDeleteNomination.setBounds(660, 634, 249, 32);
 		add(btnDeleteNomination);
 		btnDeleteNomination.addActionListener(this);
 		
 		empSearchJTF = new JTextField();
-		empSearchJTF.setBounds(109, 67, 211, 22);
+		empSearchJTF.setToolTipText("Enter Employee Name / Surname / Alias / number to search");
+		empSearchJTF.setBounds(130, 77, 211, 34);
 		add(empSearchJTF);
 		empSearchJTF.setColumns(10);
 		
-		btnAdd = new JButton("ADD");
-		btnAdd.setBounds(10, 266, 89, 23);
+		btnAdd = new JButton("Add Rater");
+		btnAdd.setFont(new Font("Arial", Font.BOLD, 15));
+		btnAdd.setBounds(802, 77, 125, 34);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
-		btnSearch = new JButton("SEARCH");
-		btnSearch.setBounds(10, 66, 89, 23);
+		btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Arial", Font.BOLD, 15));
+		btnSearch.setBounds(349, 77, 105, 34);
 		btnSearch.addActionListener(this);
 		add(btnSearch);
 		
@@ -138,22 +143,25 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		nominateModel.setColumnIdentifiers(nominateHeader);
 			
 		nominateTable = new JTable(nominateModel);
+		nominateTable.setFont(new Font("Arial", Font.PLAIN, 15));
 		TableColumn nominateColumn = nominateTable.getColumnModel().getColumn(2);
 		
 		
 		nominateScrollPane = new JScrollPane(nominateTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		nominateScrollPane.setBounds(10, 300, 623, 112);
+		nominateScrollPane.setFont(new Font("Arial", Font.PLAIN, 15));
+		nominateScrollPane.setBounds(802, 122, 719, 299);
 		add(nominateScrollPane);
 
 		
 		nominateScrollPane.setViewportView(nominateTable);
 		
 		raterName = new JTextField();
+		raterName.setVisible(false);
 		raterName.setColumns(10);
 		raterName.setEditable(false);
 		raterName.setBackground(colour);
-		raterName.setBounds(204, 267, 146, 22);
+		raterName.setBounds(1076, 77, 146, 22);
 		add(raterName);
 		
 		outStandingHeader = new String[]{"Rater ID", "Rater Name", "Skill","Date Requested"};
@@ -162,29 +170,35 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		outstandingModel.setColumnIdentifiers(outStandingHeader);
 		
 		outstandingRatesTable = new JTable(outstandingModel);
+		outstandingRatesTable.setFont(new Font("Arial", Font.PLAIN, 15));
 
 
 		outstandingRatesScrollP = new JScrollPane(outstandingRatesTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		outstandingRatesScrollP.setBounds(10, 506, 623, 112);
+		outstandingRatesScrollP.setBounds(130, 518, 1391, 112);
 		add(outstandingRatesScrollP);
 		outstandingRatesScrollP.setViewportView(outstandingRatesTable);
 		
-		JLabel lblOutStandingNomination = new JLabel("Outstanding Norminations");
-		lblOutStandingNomination.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblOutStandingNomination.setBounds(10, 472, 236, 23);
+		JLabel lblOutStandingNomination = new JLabel("Outstanding Nominations");
+		lblOutStandingNomination.setFont(new Font("Arial", Font.BOLD, 20));
+		lblOutStandingNomination.setBounds(660, 482, 249, 32);
 		add(lblOutStandingNomination);
 		
-		btnClearSelection = new JButton("CLEAR SELECTION");
-		btnClearSelection.setBounds(173, 423, 161, 23);
+		btnClearSelection = new JButton("Clear Table Selection");
+		btnClearSelection.setFont(new Font("Arial", Font.BOLD, 15));
+		btnClearSelection.setBounds(984, 424, 211, 32);
 		btnClearSelection.addActionListener(this);
 		add(btnClearSelection);
 		
 		empOutSkillList = new ArrayList<EmployeeSkill>();
 		
 		setup();
+		outstandingRatesTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		selectTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		nominateTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		
+		
 	}
-
 	public void setup()
 	{
 		
