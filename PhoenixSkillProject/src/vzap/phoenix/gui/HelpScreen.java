@@ -31,15 +31,18 @@ public class HelpScreen extends JPanel
 
 		dreyfusScroll = new JScrollPane();
 		dreyfusScroll.setBounds(10, 11, 430, 278);
-		dreyfusTable = new JTable(modelInsert);
 		LineWrapCellRenderer myRenderer = new LineWrapCellRenderer();
-		myRenderer.getTableCellRendererComponent(dreyfusTable, 0, false,false,4,4);
+		dreyfusTable = new JTable(modelInsert){
+
+		    @Override
+		    public TableCellRenderer getCellRenderer(int row, int column){
+		        return myRenderer;
+		    }
+		};
 		dreyfusScroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		dreyfusScroll.setViewportView(dreyfusTable);
 		dreyfusScroll.setBounds(0, 97, 1453, 527);
 		add(dreyfusScroll);
-
-
 	}
 	public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
 
@@ -50,16 +53,29 @@ public class HelpScreen extends JPanel
 	    this.setWrapStyleWord(true);
 	    this.setLineWrap(true);
 
-	    int fontHeight = this.getFontMetrics(this.getFont()).getHeight();
-	    int textLength = this.getText().length();
-	    int lines = textLength / this.getColumnWidth();
-	    if (lines == 0) {
-	        lines = 1;
+//	    int fontHeight = this.getFontMetrics(this.getFont()).getHeight();
+//	    int textLength = this.getText().length();
+//	    int lines = textLength / this.getColumnWidth();
+//	    if (lines == 0) {
+//	        lines = 1;
+//	    }
+//	    int height = fontHeight * lines;
+//	    System.out.println("setRowHeight: row-"+row+" height-"+height);
+//	    table.setRowHeight(row, height);
+
+	    if (isSelected) {
+	        setForeground(table.getSelectionForeground());
+	        setBackground(table.getSelectionBackground());
+	    } else {
+	        setForeground(table.getForeground());
+	        setBackground(table.getBackground());
 	    }
-
-	    int height = fontHeight * lines;
-	    table.setRowHeight(row, height);
-
+	    setSize(table.getColumnModel().getColumn(column).getWidth(),
+	        getPreferredSize().height);
+	    if (table.getRowHeight(row) < getPreferredSize().height) {
+	        table.setRowHeight(row, getPreferredSize().height);
+	    }
+	    
 	    return this;
 	 }
 

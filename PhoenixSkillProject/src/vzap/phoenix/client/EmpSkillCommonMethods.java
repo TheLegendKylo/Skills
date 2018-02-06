@@ -407,7 +407,7 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		String [] tableColumn = new String[9];
 		tableColumn[0] = "Level";
 		tableColumn[1] = "Proficiency";
-		Object [] tableRow = new Object[9]; 
+		String [] tableRow = new String[9]; 
 
 		ArrayList<Capability> capList = clientControl.getCapabilityList();
 		int col = 2;
@@ -423,14 +423,14 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		ArrayList<CapabilityRating> capRateList = clientControl.getCapabilityRatingList();
 		for (int i = 0; i < levelList.size(); i++)
 		{
-			tableRow[0] = new JTextArea(""+Short.toString(levelList.get(i).getRate()));
-			tableRow[1]= new JTextArea(levelList.get(i).getDescription());
+			tableRow[0] = ""+Short.toString(levelList.get(i).getRate());
+			tableRow[1]= levelList.get(i).getDescription();
 			col = 2;
 			for (int j = 0; j < capRateList.size(); j++)
 			{
 				if(capRateList.get(j).getRating()==levelList.get(i).getRate())
 				{
-					tableRow[col]= new JTextArea(capList.get(i).getDescription());
+					tableRow[col]= capRateList.get(j).getDescription();
 					col++;
 				}
 			}

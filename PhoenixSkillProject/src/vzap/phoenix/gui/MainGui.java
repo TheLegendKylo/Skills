@@ -130,9 +130,6 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		System.out.println("<<<<Adding tabs>>>>>");
 		sk = new SkillsTab(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS ", null, sk, null);
-		
-//		helpScreen = new HelpScreen(clientControl);
-//		tabbedPane.addTab(" HELP ", null, helpScreen, null);
 
 		ratingSkillsTab = new RatingOfSkills(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS RATINGS ", null, ratingSkillsTab, null);
@@ -146,7 +143,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		searchBySkill = new SearchBySkill(clientControl);
 		tabbedPane.addTab(" SEARCH BY SKILL ", null, searchBySkill, null);
 		
-//		helpScreen = new HelpScreen(clientControl);
-//		tabbedPane.addTab(" HELP ", null, helpScreen, null);
+		helpScreen = new HelpScreen(clientControl);
+		tabbedPane.addTab(" HELP ", null, helpScreen, null);
 	}
 }
