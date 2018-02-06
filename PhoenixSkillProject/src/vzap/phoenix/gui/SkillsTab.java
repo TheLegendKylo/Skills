@@ -306,11 +306,11 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				tableSummarySkills.setModel(clientControl.getEmpSkillAverage(employeeSkillList));
 				comboBoxSkillList.updateUI();
 				tableSummarySkills.updateUI();	
-				JOptionPane.showConfirmDialog(this, "Successfully added Skill");
+				JOptionPane.showMessageDialog(this, "Successfully added Skill");
 			}
 			else
 			{
-				JOptionPane.showConfirmDialog(this, "Something went wrong adding a skill");
+				JOptionPane.showMessageDialog(this, "Something went wrong adding a skill");
 			}
 			
 
