@@ -16,6 +16,7 @@ import javax.swing.*;
 
 public class MainGui extends JPanel implements ActionListener,ChangeListener
 {
+	//real
 	private JTabbedPane tabbedPane;
 	private JPanel basePanel;
 	private JButton btnMainExit;

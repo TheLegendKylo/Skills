@@ -41,7 +41,7 @@ import java.awt.event.MouseListener;
 
 public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
-	//real
+	//real1
 	private JLabel lblSkillTab;
 	private JButton btnAddSkillToList;
 	private JButton btnEditSkillRating;
