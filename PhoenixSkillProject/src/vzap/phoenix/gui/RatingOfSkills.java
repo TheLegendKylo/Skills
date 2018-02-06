@@ -353,8 +353,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		{
 
 			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach?"
-					+ " for the selected skill?", "Coaching", 1);
-			if(valueReturnCoaching == 0)
+					+ " for the selected skill?", "Coaching", JOptionPane.YES_NO_OPTION);
+			if(valueReturnCoaching == JOptionPane.YES_OPTION)
 			{
 				rdbtnAvailableAsA.setEnabled(true);
 				rdbtnAvailableAsA.setSelected(true);
@@ -416,7 +416,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		{
 			
 			
-			int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Submit?","Confirm Submit",JOptionPane.YES_NO_OPTION);
+			int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Submit?",
+					"Confirm Submit",JOptionPane.YES_NO_OPTION);
 			if(choice == JOptionPane.YES_OPTION)
 			{
 				if(rdbtnAvailableAsA.isSelected())
@@ -446,7 +447,12 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 				selectedEmpSkill.setCapabilityList(capListArray);
 				selectedEmpSkill.setRatingList(ratingArrayList);
 				selectedEmpSkill.setRatedDate(new Date());
-				clientControl.rateEmployeeSkill(selectedEmpSkill);
+				boolean success = clientControl.rateEmployeeSkill(selectedEmpSkill);
+				
+				if(!success)
+				{
+					JOptionPane.showMessageDialog(this, clientControl.getErrorMsg());
+				}
 				
 			}
 			for (int i = 0; i < tableRow.length; i++)
@@ -469,27 +475,33 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
 			selectedEmpSkill.setComment(comment);
 			boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
+			if(!success)
+			{
+				JOptionPane.showMessageDialog(this, clientControl.getErrorMsg());
+			}
+			for (int i = 0; i < tableRow.length; i++)
+			{
+				tableRow[i][1]= "Select rating";
+				tableRow[i][2]="";
+
+				System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+				
+			}
+			ratingModel.fireTableDataChanged();
+			ratingTable.repaint();
+			this.disableRating();
 			setup();
+			
 			this.disableRating();			
 		}
 		
 		if (source == btnClearRatings)
 		{
-			System.out.println("Clear Rating button was pressed");
-			int clear = 0;
-			System.out.println("Printing Clear int value before " + clear);
-			clear = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear?");
-			/*
-			 *  0 = Yes
-			 *  1 = No
-			 *  2 = Cancel			
-			 */
-			System.out.println("Printing Clear int value after" + clear);
-			switch(clear)
-			{
-			case 0 : System.out.println("YES was selected");
 			
-					for (int i = 0; i < tableRow.length; i++)
+			int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Clear?","Clear Ratings",JOptionPane.YES_NO_OPTION);
+			if(choice == JOptionPane.YES_OPTION)
+			{
+				for (int i = 0; i < tableRow.length; i++)
 					{
 						tableRow[i][1]="Select rating";
 						tableRow[i][2]="";
@@ -499,13 +511,32 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 					
 					ratingModel.fireTableDataChanged();
 					ratingTable.repaint();
-					break;
 					
-			case 1 : System.out.println("NO was selected");
-					break;
-			case 2 : System.out.println("CANCEL was selected");
-					break;
 			}
+//			int clear = 0;
+//		
+//			
+//			switch(clear)
+//			{
+//			case 0 : System.out.println("YES was selected");
+//			
+//					for (int i = 0; i < tableRow.length; i++)
+//					{
+//						tableRow[i][1]="Select rating";
+//						tableRow[i][2]="";
+//						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+//						
+//					}	
+//					
+//					ratingModel.fireTableDataChanged();
+//					ratingTable.repaint();
+//					break;
+//					
+//			case 1 : System.out.println("NO was selected");
+//					break;
+//			case 2 : System.out.println("CANCEL was selected");
+//					break;
+//			}
 		}
 		
 	}

@@ -81,6 +81,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private EmployeeSkill selectedEmpSkill;
 
 	private int rowSelected = -1;
+	private ArrayList<EmployeeSkill> empRatingList;
+	private short selectedSkillID = 0;
 
 
 	/**
@@ -124,26 +126,26 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		vectorSkills = new Vector<>();
 
 		tableSummarySkills = new JTable();            
-		
+
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
 		comboBoxSkillList.setBounds(390, 68, 173, 20);
 		add(comboBoxSkillList);
-		
+
 		detailedTable = new JTable(detailTableModel);
 		scrollPaneBottom = new JScrollPane(detailedTable);
 		scrollPaneBottom.setBounds(10, 433, 928, 152);
 		add(scrollPaneBottom);
-		
+
 		scrollPaneSummarySkills = new JScrollPane(tableSummarySkills);
 		scrollPaneSummarySkills.setBounds(10, 236, 928, 161);
 		tableSummarySkills.addMouseListener(this);
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		add(scrollPaneSummarySkills);
-		
+
 		setup();
 
-		
+
 		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
 
 
@@ -208,13 +210,55 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if (source == btnEditSkillRating)
 		{
 			System.out.println("Edit Skill Rating pressed");
+			JOptionPane.showMessageDialog(this, "This function isn't working yet", "Warning",JOptionPane.WARNING_MESSAGE);
+			if(rowSelected <0)
+			{
+				System.out.println("At this point in time there shouldnt be anything selected in "
+						+ "the skill table ");
+				JOptionPane.showMessageDialog(this, "Please chose a skill you wish to edit before pressing"
+						+ " this button");
+			}
+			else
+			{
+				System.out.println("Printing rowSelected to make sure it is the right value " + rowSelected);
+
+				for (int i = 0; i < employeeSkillList.size(); i++)
+				{
+					if(employeeSkillList.get(i).getSkillID() == selectedSkillID 
+							&& employeeSkillList.get(i).getEmployeeID().equals(emp.getEmployeeID()))
+					{
+						System.out.println("Inside the IF... selectedSkillID = " +selectedSkillID);
+						System.out.println("emp = " + employeeSkillList.get(i).getEmployeeID());
+						selectedEmpSkill = employeeSkillList.get(i);
+						selectedEmpSkill.setStatus((short)9);
+						boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
+						if(success)
+						{
+							JOptionPane.showMessageDialog(this, "Please go to the"
+									+ " MY SKILLS RATING tab to update your skill rating");
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(this, "Something went wrong. "
+									+ "Your skill has not changed", "Warning", JOptionPane.WARNING_MESSAGE);
+						}
+						
+						success=this.addNewEmployeeSkill();
+					}
+				}
+
+
+			}
+
 		}
+
+
 		if(source == btnDeleteSkill)
 		{
 			System.out.println("Delete button pressed");
 			int choice = JOptionPane.showConfirmDialog(this, "Deleting this skill will remove "
 					+ "all previous rating of this skill from the record. Do you wish to delete?","Delete Skill",JOptionPane.YES_NO_OPTION);
-			
+
 			if(choice == JOptionPane.YES_OPTION)
 			{
 				selectedEmpSkill.setStatus((short)9);
@@ -230,7 +274,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			}
 
 		}
-		
+
 		if(source == btnAddSkillToList)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
@@ -239,14 +283,10 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				JOptionPane.showInputDialog(this, "Please capture your new skill");
 				return;
 			}
-			short skillID = clientControl.addSkill(description);
-			if(! (skillID ==0))
+			selectedSkillID = clientControl.addSkill(description);
+			if(! (selectedSkillID ==0))
 			{
-				//brand new skill that must be rated by employee 
-				Date createdDate = new Date();
-
-				EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),skillID,emp.getEmployeeID(), createdDate);
-				boolean success = clientControl.addEmployeeSkill(employeeSkill);
+				boolean success = this.addNewEmployeeSkill();
 				if(success)
 				{
 					employeeSkillList = clientControl.getEmployeeSkillList();
@@ -255,16 +295,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 					//call the database for the new DATA
 					tableSummarySkills.setModel(clientControl.getEmpSkillAverage(employeeSkillList));
 
-							vectorSkills.addElement(description);
-							Collections.sort(vectorSkills);
-							JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
-							comboBoxSkillList.updateUI();
-							tableSummarySkills.updateUI();
+					vectorSkills.addElement(description);
+					Collections.sort(vectorSkills);
+					JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
+					comboBoxSkillList.updateUI();
+					tableSummarySkills.updateUI();
 
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(this, "Problem adding Skills");
 				}
 			}
 			else
@@ -281,7 +317,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if(source == btnUpdate)
 		{
 			System.out.println("Update button was pressed");
-			
+
 			Date createdDate = new Date();
 
 			String selectedCombo = comboBoxSkillList.getSelectedItem().toString();
@@ -298,7 +334,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 			EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),skillID,emp.getEmployeeID(), createdDate);
 			boolean success = clientControl.addEmployeeSkill(employeeSkill);
-			
+
 
 			if(success)
 			{
@@ -312,7 +348,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			{
 				JOptionPane.showMessageDialog(this, "Something went wrong adding a skill");
 			}
-			
+
 
 		}
 
@@ -327,42 +363,41 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		rowSelected = tableSummarySkills.getSelectedRow();
 		String skillName = (String)tableSummarySkills.getModel().getValueAt(rowSelected, 0);
 
-		short skillID = 0;
 
 		for (int i = 0; i < skillList.size(); i++)
 		{
 			if(skillName.equalsIgnoreCase(skillList.get(i).getSkillDescription()))
 			{
-				skillID = (short)skillList.get(i).getSkillId();
+				selectedSkillID = (short)skillList.get(i).getSkillId();
 				break;
 			}
 		}
-		ArrayList<EmployeeSkill> empRatingList = new ArrayList<EmployeeSkill>();
+		empRatingList = new ArrayList<EmployeeSkill>();
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			if(employeeSkillList.get(i).getSkillID() == skillID)
+			if(employeeSkillList.get(i).getSkillID() == selectedSkillID)
 			{
 				empRatingList.add(employeeSkillList.get(i));
 			}
 		}
-		
-//		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
+
+		//		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
 
 		detailedTable.setModel(clientControl.getEmpCapabilityDetail(empRatingList));
 		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
 		detailedTable.updateUI();
 
 		//get the object of employee skill for delete
-				for (int i = 0; i < employeeSkillList.size(); i++)
-				{
+		for (int i = 0; i < employeeSkillList.size(); i++)
+		{
 
-					if((employeeSkillList.get(i).getEmployeeID().equalsIgnoreCase(emp.getEmployeeID()))
-							&& (employeeSkillList.get(i).getSkillID()==skillID))
-					{
-						selectedEmpSkill = employeeSkillList.get(i);
-						break;
-					}
-				}
+			if((employeeSkillList.get(i).getEmployeeID().equalsIgnoreCase(emp.getEmployeeID()))
+					&& (employeeSkillList.get(i).getSkillID()==selectedSkillID))
+			{
+				selectedEmpSkill = employeeSkillList.get(i);
+				break;
+			}
+		}
 		//end
 	}
 
@@ -393,6 +428,18 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		// TODO Auto-generated method stub
 
 	}
+	public boolean addNewEmployeeSkill()
+	{
+		//brand new skill that must be rated by employee 
+		Date createdDate = new Date();
 
+		EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),selectedSkillID,emp.getEmployeeID(), createdDate);
+		boolean success = clientControl.addEmployeeSkill(employeeSkill);
+		if(!success)
+		{
+			JOptionPane.showMessageDialog(this, "Problem adding Skills: "+clientControl.getErrorMsg());
+		}
+		return success;
+	}
 
 }
