@@ -219,5 +219,10 @@ public class EmpSkillClientController
 		}
 		return empSkillMethod.getEmpCapabilityDetail(this, employeeSkillList, this.capabilityList);
 	}
+	public DefaultTableModel getDreyfusModel(int position)
+	{
+		EmpSkillCommonMethods empSkillMethod = new EmpSkillCommonMethods();
+		return empSkillMethod.getDreyfusModel(this, position);
+	}
 
 }
