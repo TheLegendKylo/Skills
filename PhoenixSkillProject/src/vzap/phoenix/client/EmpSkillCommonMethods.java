@@ -415,7 +415,7 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 			tableColumn[col] = capList.get(i).getName();
 			col++;
 		}
-
+//
 		DefaultTableModel dreyfusModel = new DefaultTableModel();
 		dreyfusModel.setColumnIdentifiers(tableColumn);
 		ArrayList<Level> levelList = clientControl.getLevelList();
