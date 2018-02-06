@@ -29,7 +29,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	private SearchMenu searchMenu =null;
 	private SearchBySkill searchBySkill =null;
 	private RatingNomination ratingNom = null;
-	private HelpMenu helpMenu = null;
+	private HelpScreen helpScreen = null;
 	/**
 	 * ...
 	 * Create the panel.
@@ -130,6 +130,9 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		System.out.println("<<<<Adding tabs>>>>>");
 		sk = new SkillsTab(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS ", null, sk, null);
+		
+		helpScreen = new HelpScreen(clientControl);
+		tabbedPane.addTab(" HELP ", null, helpScreen, null);
 
 		ratingSkillsTab = new RatingOfSkills(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS RATINGS ", null, ratingSkillsTab, null);
@@ -142,9 +145,6 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		searchBySkill = new SearchBySkill(clientControl);
 		tabbedPane.addTab(" SEARCH BY SKILL ", null, searchBySkill, null);
-		
-//		helpMenu = new HelpMenu(clientControl);
-//		tabbedPane.addTab(" HELP ", null, helpMenu, null);
 
 	}
 }

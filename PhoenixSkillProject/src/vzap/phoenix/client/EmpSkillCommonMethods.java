@@ -403,10 +403,10 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 	}
 	public DefaultTableModel getDreyfusModel(EmpSkillClientController clientControl, int position)
 	{
-		String [] tableColumn = new String[10];
+		String [] tableColumn = new String[9];
 		tableColumn[0] = "Level";
 		tableColumn[1] = "Proficiency";
-		String [] tableRow = new String[10]; 
+		Object [] tableRow = new Object[9]; 
 
 		ArrayList<Capability> capList = clientControl.getCapabilityList();
 		int col = 2;
@@ -422,19 +422,19 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		ArrayList<CapabilityRating> capRateList = clientControl.getCapabilityRatingList();
 		for (int i = 0; i < levelList.size(); i++)
 		{
-			tableRow[i] = "<html/>" +Short.toString(levelList.get(i).getRate())+"/html>";
-			tableRow[i] = levelList.get(i).getName();
-			tableRow[i] = levelList.get(i).getDescription();
+			tableRow[0] = new JTextArea(""+Short.toString(levelList.get(i).getRate()));
+			tableRow[1]= new JTextArea(levelList.get(i).getDescription());
 			col = 2;
-			for (int j = 0; j < capRateList.size(); i++)
+			for (int j = 0; j < capRateList.size(); j++)
 			{
 				if(capRateList.get(j).getRating()==levelList.get(i).getRate())
 				{
-					tableRow[col] = "<html/>" +capList.get(i).getDescription()+"/html>";
+					tableRow[col]= new JTextArea(capList.get(i).getDescription());
+					col++;
 				}
 			}
+			dreyfusModel.addRow(tableRow);
 		}
-		dreyfusModel.addRow(tableRow);
 		
 		return dreyfusModel;
 	}
