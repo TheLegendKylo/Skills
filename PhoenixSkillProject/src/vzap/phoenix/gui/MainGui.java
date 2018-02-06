@@ -145,6 +145,8 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		searchBySkill = new SearchBySkill(clientControl);
 		tabbedPane.addTab(" SEARCH BY SKILL ", null, searchBySkill, null);
-
+		
+		helpScreen = new HelpScreen(clientControl);
+		tabbedPane.addTab(" HELP ", null, helpScreen, null);
 	}
 }
