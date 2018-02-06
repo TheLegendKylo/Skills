@@ -54,7 +54,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private DefaultTableModel outstandingModel;
 	private JScrollPane scrollPaneTop;
 	private Object source;
-	private ArrayList<EmployeeSkill> outstandingRatersList;
+	private ArrayList<EmployeeSkill> outstandingRatersList,ratingList;
 	private ArrayList<Capability> capList;
 	private ArrayList<CapabilityRating> capRatingList;
 	private Object[][] tableRow;
@@ -70,7 +70,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private int rowSelected = -1;
 	private JRadioButton rdbtnAvailableAsA;
 	private String coaching = "N";
-
+	 
 
 	/**
 	 * Create the panel.
@@ -79,7 +79,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	{
 		
 		setAutoscrolls(true);
-		//loggedOnEmployee = clientControl.getLogonEmployee();
+		
 		this.emp = emp;
 		this.clientControl=clientControl;
 		setLayout(null);
@@ -95,20 +95,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		panelTop.setBounds(10, 35, 694, 159);
 		add(panelTop);
 		
-		ArrayList<EmployeeSkill> ratingList = new ArrayList<EmployeeSkill>();
-		ratingList = clientControl.searchEmployeeSkillByRaterID(emp.getEmployeeID());
-		
-		
+	    ratingList = new ArrayList<EmployeeSkill>();
 		outstandingRatersList = new ArrayList<EmployeeSkill>();
-		
-		for (int i = 0; i < ratingList.size(); i++)
-		{
-			if( ratingList.get(i).getStatus() == 0 )
-			{
-				outstandingRatersList.add(ratingList.get(i));
-			}
-		}
-		outstandingModel = clientControl.getEmpSkillList(outstandingRatersList, emp);
 		
 		panelTop.setLayout(null);
 		tableTop = new JTable(outstandingModel);
@@ -116,12 +104,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		scrollPaneTop.setBounds(10, 5, 621, 154);
 		panelTop.add(scrollPaneTop);
 		tableTop.addMouseListener(this);
-	
-//		outstandingModel.addTableModelListener(this);
 		
-//		scrollPane.setViewportView(tableTop);
-
-		
+		this.setup();
 		
 		btnCannotRate = new JButton("Cannot Rate");
 		btnCannotRate.setBounds(388, 205, 116, 23);
@@ -145,18 +129,28 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		btnSubmitRating.setBounds(165, 523, 116, 23);
 		add(btnSubmitRating);
 		btnSubmitRating.addActionListener(this);
-			
-//x
-		
+
 		this.createRatingTable();
 		this.disableRating();
-	//	ratingPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 
 	}
 	
 	public void setup()
 	{
+		ratingList = new ArrayList<EmployeeSkill>();
+		outstandingRatersList = new ArrayList<EmployeeSkill>();
+		
+		ratingList = clientControl.searchEmployeeSkillByRaterID(emp.getEmployeeID());
+		for (int i = 0; i < ratingList.size(); i++)
+		{
+			if( ratingList.get(i).getStatus() == 0 )
+			{
+				outstandingRatersList.add(ratingList.get(i));
+			}
+		}
+		outstandingModel = clientControl.getEmpSkillList(outstandingRatersList, emp);
+		tableTop.setModel(outstandingModel);
 		
 	}
 	private void createRatingTable()
@@ -498,6 +492,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			selectedEmpSkill.setRatingList(ratingArrayList);
 			selectedEmpSkill.setRatedDate(new Date());
 			clientControl.rateEmployeeSkill(selectedEmpSkill);
+			//clientControl
+			
 			
 			outstandingModel.removeRow(rowSelected);
 			outstandingModel.fireTableDataChanged();
