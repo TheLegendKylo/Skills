@@ -190,6 +190,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		rdbtnAvailableAsA = new JRadioButton("Available as a coach");
 		rdbtnAvailableAsA.setBounds(155, 205, 160, 23);
 		add(rdbtnAvailableAsA);
+		
 		rdbtnAvailableAsA.setEnabled(false);
 	}
 	
@@ -197,7 +198,9 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	{
 		btnCannotRate.setEnabled(false);
 		btnSubmitRating.setEnabled(false);
+		
 		ratingTable.setEnabled(false);
+		System.out.println("After setting to false");
 		btnClearRatings.setEnabled(false);
 	}
 	
@@ -397,29 +400,13 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		}
 	}
 	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e){}
 	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e){}
 	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e){}
 	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e){}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -427,88 +414,54 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		
 		if (source == btnSubmitRating)
 		{
-			System.out.println("Submit button was pressed");
-			int submit = 0;
-			System.out.println("Printing Clear int value before " + submit);
-			submit = JOptionPane.showConfirmDialog(this, "Are you sure you want to Submit?");
-			/*
-			 *  0 = Yes
-			 *  1 = No
-			 *  2 = Cancel			
-			 */
-			switch(submit)
-			{
-			case 0 : System.out.println("YES was selected");
-					
-					if(rdbtnAvailableAsA.isSelected())
-					{
-						System.out.println("RadioButton set to true for coaching");
-						coaching = "Y";
-						selectedEmpSkill.setCoachingAvailability(coaching);
-						System.out.println("The selectedEmpSkill was ... " + selectedEmpSkill);
-					}
-					else
-					{
-						System.out.println("RadioButton set to False for coaching");
-						coaching = "N";
-						selectedEmpSkill.setCoachingAvailability(coaching);
-					}
-					
-					for (int i = 0; i < tableRow.length; i++)
-					{
-						tableRow[i][1]="Select rating";
-						tableRow[i][2]="";
-
-						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
-						
-					}	
-					rdbtnAvailableAsA.setSelected(false);
-					rdbtnAvailableAsA.setEnabled(false);
-					ratingModel.fireTableDataChanged();
-					ratingTable.repaint();
-					break;
-					
-			case 1 : System.out.println("NO was selected");
-					break;
-			case 2 : System.out.println("CANCEL was selected");
-					break;
-			}
 			
-			capListArray = new ArrayList<Short>();
-			ArrayList<Short>ratingArrayList = new ArrayList<Short>();
-			for (int i = 0; i < capList.size(); i++)
+			
+			int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to Submit?","Confirm Submit",JOptionPane.YES_NO_OPTION);
+			if(choice == JOptionPane.YES_OPTION)
 			{
-
-				capListArray.add(capList.get(i).getID());
+				if(rdbtnAvailableAsA.isSelected())
+				{
+					coaching = "Y";
+				}
+				else
+				{	
+					coaching = "N";
+				}
 				
-				ratingArrayList.add(ratingArray[i]);
+				selectedEmpSkill.setCoachingAvailability(coaching);
+				
+				rdbtnAvailableAsA.setSelected(false);
+				rdbtnAvailableAsA.setEnabled(false);
+				
+				capListArray = new ArrayList<Short>();
+				ArrayList<Short> ratingArrayList = new ArrayList<Short>();
+				for (int i = 0; i < capList.size(); i++)
+				{
+
+					capListArray.add(capList.get(i).getID());
+					
+					ratingArrayList.add(ratingArray[i]);
+					
+				}
+				selectedEmpSkill.setCapabilityList(capListArray);
+				selectedEmpSkill.setRatingList(ratingArrayList);
+				selectedEmpSkill.setRatedDate(new Date());
+				clientControl.rateEmployeeSkill(selectedEmpSkill);
 				
 			}
-			if(selectedEmpSkill==null)
+			for (int i = 0; i < tableRow.length; i++)
 			{
-				System.out.println("selectedEmpSkill is NULL>>>>>>>>>>>>>>>>>>>>>>>>>>");
+				tableRow[i][1]= "Select rating";
+				tableRow[i][2]="";
+
+				System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
+				
 			}
-			selectedEmpSkill.setCapabilityList(capListArray);
-			selectedEmpSkill.setRatingList(ratingArrayList);
-			selectedEmpSkill.setRatedDate(new Date());
-			clientControl.rateEmployeeSkill(selectedEmpSkill);
-			//clientControl
-			
-			
-			outstandingModel.removeRow(rowSelected);
-			outstandingModel.fireTableDataChanged();
-			
-			for (int i = 0; i < ratingModel.getRowCount(); i++)
-			{
-				ratingModel.setValueAt(0, i, 1);
-			}			
 			ratingModel.fireTableDataChanged();
-			
+			ratingTable.repaint();
 			this.disableRating();
-			
-			
+			setup();
 		}
-		
 		if (source == btnCannotRate)
 		{
 			System.out.println("Cannot Rate button was pressed");
@@ -516,11 +469,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			String comment = JOptionPane.showInputDialog(this, "Please supply a comment");
 			selectedEmpSkill.setComment(comment);
 			boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
-			outstandingModel.removeRow(rowSelected);
-			outstandingModel.fireTableDataChanged();
-			this.disableRating();
-			
-			
+			setup();
+			this.disableRating();			
 		}
 		
 		if (source == btnClearRatings)
@@ -542,7 +492,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 					for (int i = 0; i < tableRow.length; i++)
 					{
 						tableRow[i][1]="Select rating";
-
+						tableRow[i][2]="";
 						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
 						
 					}	

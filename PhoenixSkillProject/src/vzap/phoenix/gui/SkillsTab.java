@@ -234,13 +234,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if(source == btnAddSkillToList)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
-			short skillID = clientControl.addSkill(description);
-
 			if(description == null || description.equals(""))
 			{
 				JOptionPane.showInputDialog(this, "Please capture your new skill");
 				return;
 			}
+			short skillID = clientControl.addSkill(description);
 			if(! (skillID ==0))
 			{
 				//brand new skill that must be rated by employee 
