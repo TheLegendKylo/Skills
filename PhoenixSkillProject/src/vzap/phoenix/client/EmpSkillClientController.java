@@ -165,7 +165,9 @@ public class EmpSkillClientController
 	}
 	public boolean rateEmployeeSkill(EmployeeSkill rateEmployeeSkill)
 	{
-		return client.rateEmployeeSkill(rateEmployeeSkill);
+		boolean ans = client.rateEmployeeSkill(rateEmployeeSkill);
+		empSkillList = client.getEmpSkillList();
+		return ans; 
 	}
 	public short getErrorCode()
 	{
