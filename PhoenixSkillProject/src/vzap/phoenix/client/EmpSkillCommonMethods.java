@@ -16,7 +16,7 @@ public class EmpSkillCommonMethods
 		Object[] skillsHeader = new String[]{"Skill","Coaching Role","Employee Self Rating","Nominated Average",
 		"Number of \nNominee ratings"};
 		int counter = 0;	
-		
+
 		String [] skillDesc = new String[99];
 		String [] coachingInd = new String[99];
 		ArrayList<Skill> skillList = clientControl.getSkillList();
@@ -27,17 +27,17 @@ public class EmpSkillCommonMethods
 		double averageRating = 0;
 		int skillIDCheck = 0;
 		boolean recordFound = false;
-		
+
 		if(employeeSkillList!=null)
 		{
 			for (int i = 0; i < employeeSkillList.size(); i++)
 			{
 				recordFound = true;
-			// Check whether a new SkillId has been read
+				// Check whether a new SkillId has been read
 				if(!(skillIDCheck==employeeSkillList.get(i).getSkillID()))
 				{
-				// if this is not the first record found
-				// update the previous totals to the relevant variables
+					// if this is not the first record found
+					// update the previous totals to the relevant variables
 					if(i>0)
 					{
 						if(ratingCount >0)
@@ -55,7 +55,7 @@ public class EmpSkillCommonMethods
 						{
 							skillIDCheck = skillList.get(j).getSkillId();
 							skillDesc[counter] = skillList.get(j).getSkillDescription();
-//	System.out.println("Skill: "+skillDesc[counter]);
+							//	System.out.println("Skill: "+skillDesc[counter]);
 							break;
 						}//comment
 					}
@@ -71,7 +71,7 @@ public class EmpSkillCommonMethods
 				else
 					// this record if of a nominee rating
 				{
-//	System.out.println("Nominee Rating: "+ratingCount);
+					//	System.out.println("Nominee Rating: "+ratingCount);
 					averageRating = employeeSkillList.get(i).getOverAllAverageRating();
 					// only include in the average ratings if it is not 0;
 					if(averageRating > 0)
@@ -85,12 +85,12 @@ public class EmpSkillCommonMethods
 		// ensure that the final nominee ratings have been taken into account
 		if(ratingCount >0)
 		{
-//			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
+			//			System.out.println("Write Row: "+counter+ "No of raters: "+ratingCount);
 			nominateeAveRating[counter]= Math.round(nominateeAveRating[counter]/ratingCount*100.0)/100.0;
 			numberOfRatings[counter] = ratingCount;
 			ratingCount = 0;
 		}
-		
+
 		Object[][] skillsRow = new Object[counter+1][6];
 		if(recordFound)
 		{
@@ -106,10 +106,10 @@ public class EmpSkillCommonMethods
 		}
 		DefaultTableModel empSkillModel = new DefaultTableModel(skillsRow, skillsHeader){
 
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		return empSkillModel;
 	}
@@ -117,7 +117,7 @@ public class EmpSkillCommonMethods
 	public DefaultTableModel getEmpSkillDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
-//		System.out.println("******************Summary Detail Model************************");
+		//		System.out.println("******************Summary Detail Model************************");
 		Object[] capabilityHeader = new String[11];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
@@ -132,7 +132,7 @@ public class EmpSkillCommonMethods
 		}
 		Object[] capabilityRating = new Object[11];
 		int counter = 0;
-		
+
 		String skillDesc = null;
 		double averageRating[] = new double[7];
 		double ratingCount = 0;
@@ -141,18 +141,18 @@ public class EmpSkillCommonMethods
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
-		
+
 		DefaultTableModel empCapModel = new DefaultTableModel(){
 
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-//			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
+			//			System.out.println(employeeSkillList.get(i).getEmployeeID()+" "+employeeSkillList.get(i).getSkillID());
 			// Check whether a new SkillId has been read
 			if(((empIDCheck==null) ||
 					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID()))) ||
@@ -170,13 +170,13 @@ public class EmpSkillCommonMethods
 						int ratingIdx = 2;
 						for (int j = 0; j < averageRating.length; j++)
 						{
-//							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
+							//							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 							capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount*100.0)/100.0;
 							overAllRating += (double)capabilityRating[ratingIdx];
 							averageRating[j]=0;
 							ratingIdx++;
 						}
-//System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
+						//System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
 						capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 						capabilityRating[10] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
@@ -200,18 +200,18 @@ public class EmpSkillCommonMethods
 					}
 				}
 			}
-			
+
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
-			
+
 			if(ratingList!=null && ratingList.size()!=0)
 			{
-				
+
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-//					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+					//					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 					averageRating [j] += Math.round(ratingList.get(j)*100.0)/100.0;
-//					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+					//					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 				}
 				ratingCount++;
 			}		
@@ -224,10 +224,10 @@ public class EmpSkillCommonMethods
 			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 			capabilityRating[1] = ""+skillDesc; 
 			int ratingIdx = 2;
-			
+
 			for (int j = 0; j < averageRating.length; j++)
 			{
-//				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
+				//				System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
 				capabilityRating[ratingIdx] = Math.round(averageRating[j]/ratingCount *100.0)/100.0;
 				overAllRating += (double)capabilityRating[ratingIdx];
 				averageRating[j]=0;
@@ -238,13 +238,13 @@ public class EmpSkillCommonMethods
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}
-		
+
 		return empCapModel;
 	}
 	public DefaultTableModel getEmpCapabilityDetail(EmpSkillClientController clientControl, ArrayList<EmployeeSkill> employeeSkillList, 
 			ArrayList<Capability> capabilityList)
 	{
-//		System.out.println("******************Capability Detail Model************************");
+		//		System.out.println("******************Capability Detail Model************************");
 		Object[] capabilityHeader = new String[10];
 		capabilityHeader[0] = "Rater";
 		capabilityHeader[1] = "Skill";
@@ -258,25 +258,25 @@ public class EmpSkillCommonMethods
 		}
 		Object[] capabilityRating = new Object[10];
 		int counter = 0;
-		
+
 		String skillDesc = null;
 		double averageRating[] = new double[7];
 		String empIDCheck = null;
 		short skillIDCheck = 0;
 		ArrayList<Short> capList = null;
 		ArrayList<Short> ratingList = null;
-		
+
 		DefaultTableModel empCapModel = new DefaultTableModel(){
 
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-//			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
+			//			System.out.println(employeeSkillList.get(i).getRaterID()+" "+employeeSkillList.get(i).getSkillID());
 			empIDCheck = employeeSkillList.get(i).getRaterID();
 			Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
@@ -297,25 +297,25 @@ public class EmpSkillCommonMethods
 			ratingList = employeeSkillList.get(i).getRatingList();
 			if(ratingList!=null && ratingList.size()!=0)
 			{
-				
-//				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());
+
+				//				System.out.println("EmpSkillID = " +employeeSkillList.get(i).getEmpSkillID() +" ratingList.size: "+ratingList.size());
 				int ratingIdx = 2;
 				double overAllRating = 0;
 				for (int j = 0; j < ratingList.size(); j++)
 				{
 					capabilityRating[ratingIdx] = Math.round(ratingList.get(j)*100.0)/100.0;
 					overAllRating += (double)capabilityRating[ratingIdx];
-//					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
-//					"overAllRating: "+j+" "+overAllRating);
+					//					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
+					//					"overAllRating: "+j+" "+overAllRating);
 					ratingIdx++;
 				}	
 				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 				empCapModel.addRow(capabilityRating);;
-//				System.out.println("commonMethods - capability Rating = " + capabilityRating.length);
+				//				System.out.println("commonMethods - capability Rating = " + capabilityRating.length);
 				counter++;
 			}
 		}
-		
+
 		return empCapModel;
 	}
 
@@ -326,10 +326,10 @@ public class EmpSkillCommonMethods
 		Object[] skillsRow = new Object[4];
 		DefaultTableModel empSkillModel = new DefaultTableModel(){
 
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		empSkillModel.setColumnIdentifiers(skillsHeader);
 		String [] skillDesc = new String[99];
@@ -356,11 +356,11 @@ public class EmpSkillCommonMethods
 				skillIDCheck = employeeSkillList.get(i).getSkillID();
 			}
 			if((empIDCheck==null)||
-			!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
+					!(empIDCheck.equals(employeeSkillList.get(i).getEmployeeID())))
 			{
 				ArrayList<Employee>empList = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID());
 				employee = empList.get(0);
-//				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
+				//				employee = clientControl.searchEmployee(employeeSkillList.get(i).getEmployeeID()).get(i);
 				skillsRow[0] = employee.getEmployeeID();
 				skillsRow[1] = employee.getFirstName()+" "+employee.getSurname();
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
@@ -370,5 +370,5 @@ public class EmpSkillCommonMethods
 		}		
 		return empSkillModel;
 	}
-	
+
 }
