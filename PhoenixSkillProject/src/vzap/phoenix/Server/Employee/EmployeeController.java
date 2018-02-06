@@ -51,11 +51,6 @@ public class EmployeeController implements Runnable
 		this.employeeDAO = new EmployeeDAO();
 		if(employeeDAO.registerEmployee(newEmployee))
 		{
-			this.logonEmployee = newEmployee;
-			hobbyDAO = new HobbyDAO();
-			hobbyList = HobbyDAO.getHobbyList();
-			thread = new Thread(this);
-			thread.start();
 			return true;
 		}
 		this.errorCode = employeeDAO.getErrorCode();
@@ -100,6 +95,7 @@ public class EmployeeController implements Runnable
 			return false;
 		}
 		System.out.println("****Returing true");
+		empSkillList = empSkillDAO.getEmployeeSkill(logonEmployee.getEmployeeID());
 		return true;
 	}
 	public boolean addNominee(EmployeeSkill addEmployeeSkill)
@@ -130,6 +126,7 @@ public class EmployeeController implements Runnable
 			this.errorMsg = empSkillDAO.getErrorMsg();
 			return false;
 		}
+		empSkillList = empSkillDAO.getEmployeeSkill(logonEmployee.getEmployeeID());
 		return true;
 	}
 	public ArrayList<EmployeeSkill> searchEmployeeSkill(String employeeID, int skillID, String raterID)
@@ -197,6 +194,7 @@ public class EmployeeController implements Runnable
 	}
 	public static ArrayList<Capability> getCapabilityList()
 	{
+		System.out.println("Server Controller - return CapList: "+capabilityList.size());
 		return capabilityList;
 	}
 	public static ArrayList<CapabilityRating> getCapabilityRatingList()

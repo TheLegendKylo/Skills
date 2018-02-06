@@ -245,6 +245,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		vectTabSkill.clear();
 		comboHobby.clear();
 		comboSkill.clear();
+		hobbyJlist.removeAll();
+		
 		
 		capabilityList = clientControl.getCapabilityList();
 		model.setRowCount(0);
@@ -446,19 +448,19 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			this.repaint();
 //		} //  end of empBut
 
-		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
-		if(individualEmpSkillList.size()<1)
-		{
-//  display "no skills for selected employee"
-			return;
-		}
-		
-		individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
-		scrollIndividualSkills.remove(individualSkillsTable_1);
-		individualSkillsTable_1 = new JTable(individualSkillsModel);
-		scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
-		individualSkillsModel.fireTableDataChanged(); 
-		this.repaint();		
+//		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
+//		if(individualEmpSkillList.size()<1)
+//		{
+////  display "no skills for selected employee"
+//			return;
+//		}
+//		
+//		individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
+//		scrollIndividualSkills.remove(individualSkillsTable_1);
+//		individualSkillsTable_1 = new JTable(individualSkillsModel);
+//		scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
+//		individualSkillsModel.fireTableDataChanged(); 
+//		this.repaint();		
 	}
 
 	@Override

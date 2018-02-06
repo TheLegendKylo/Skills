@@ -42,7 +42,7 @@ import javax.swing.JRadioButton;
 
 public class RatingOfSkills extends JPanel implements MouseListener, ActionListener
 {
-	private Employee loggedOnEmployee;
+	private Employee emp;
 	private EmpSkillClientController clientControl;
 	private JLabel lblRatingOfSkills;
 	private JPanel panelTop;
@@ -75,11 +75,12 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	/**
 	 * Create the panel.
 	 */
-	public RatingOfSkills(EmpSkillClientController clientControl) 
+	public RatingOfSkills(EmpSkillClientController clientControl,Employee emp) 
 	{
 		
 		setAutoscrolls(true);
-		loggedOnEmployee = clientControl.getLogonEmployee();
+		//loggedOnEmployee = clientControl.getLogonEmployee();
+		this.emp = emp;
 		this.clientControl=clientControl;
 		setLayout(null);
 		employeeList = new ArrayList<Employee>();
@@ -95,7 +96,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		add(panelTop);
 		
 		ArrayList<EmployeeSkill> ratingList = new ArrayList<EmployeeSkill>();
-		ratingList = clientControl.searchEmployeeSkillByRaterID(loggedOnEmployee.getEmployeeID());
+		ratingList = clientControl.searchEmployeeSkillByRaterID(emp.getEmployeeID());
 		
 		
 		outstandingRatersList = new ArrayList<EmployeeSkill>();
@@ -107,7 +108,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 				outstandingRatersList.add(ratingList.get(i));
 			}
 		}
-		outstandingModel = clientControl.getEmpSkillList(outstandingRatersList, loggedOnEmployee);
+		outstandingModel = clientControl.getEmpSkillList(outstandingRatersList, emp);
 		
 		panelTop.setLayout(null);
 		tableTop = new JTable(outstandingModel);
@@ -154,6 +155,10 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 
 	}
 	
+	public void setup()
+	{
+		
+	}
 	private void createRatingTable()
 	{
 		capList = clientControl.getCapabilityList();
@@ -265,6 +270,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		renderer.setToolTipText("Click for combo box");
 		rating.setCellRenderer(renderer);
     }
+    
    class MyTableModel extends AbstractTableModel 
    {
 
@@ -345,10 +351,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		System.out.println("*****Mouse Clicked*****");
 		rowSelected = tableTop.getSelectedRow();
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
-		System.out.println("Logged on employee = " + loggedOnEmployee.getEmployeeID());
-		System.out.println("empID = " + empID);
 		
-		if(empID.equalsIgnoreCase(loggedOnEmployee.getEmployeeID()))
+		if(empID.equalsIgnoreCase(emp.getEmployeeID()))
 		{
 
 			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach"
@@ -397,10 +401,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 			}
 		
 		}
-		
-		
-		
-		
 	}
 	@Override
 	public void mousePressed(MouseEvent e)

@@ -53,11 +53,14 @@ public class ProfilePanel extends JPanel implements ActionListener
 	private ArrayList<Short> empHobby;
 	private boolean hobbyChange = false;
 	private boolean newUser = false;
+	private MainGui mainGui;
 	
-	public ProfilePanel(Boolean newUser, Employee emp,EmpSkillClientController clientControl)
+
+	public ProfilePanel(MainGui mainGui, Boolean newUser, Employee emp,EmpSkillClientController clientControl)
 	{
 		setBorder(null);
 		
+		this.mainGui = mainGui;
 		this.newUser = newUser;
 		this.emp = emp;
 		this.clientControl = clientControl;
@@ -136,6 +139,7 @@ public class ProfilePanel extends JPanel implements ActionListener
 			btnUpdateEmployee.setText("Register Employee");
 			btnAddHobby.setEnabled(false);
 			btnDeleteHobby.setEnabled(false);
+			tfAddHobby.setEnabled(false);
 		}
 		btnUpdateEmployee.setBounds(286, 373, 157, 25);
 		btnUpdateEmployee.addActionListener(this);
@@ -239,6 +243,9 @@ public class ProfilePanel extends JPanel implements ActionListener
 						btnAddHobby.setEnabled(true);
 						btnDeleteHobby.setEnabled(true);
 						newUser = false;
+						btnUpdateEmployee.setText("Update Employee");
+						mainGui.addTabs();
+						tfAddHobby.setEnabled(true);
 					}
 					
 				}
@@ -294,16 +301,11 @@ public class ProfilePanel extends JPanel implements ActionListener
 					
 					existingHobby = true;
 					vectHobby.add(addHobbyValue);
-					empHobby.add(allHobby.get(j).getHobbyID());
-					
-					//added loop for testing purposes
-					for(int i=0;i< empHobby.size();i++)
+					if(empHobby==null)
 					{
-						System.out.println(" existing employee hoobbbbyyyy : " + empHobby.get(i));
+						empHobby = new ArrayList<Short>();
 					}
-					emp.setEmpHobbies(empHobby);
-				
-					//clientControl.updateEmployee(emp);	
+					empHobby.add(allHobby.get(j).getHobbyID());	
 					btnUpdateEmployee.doClick();
 					tfAddHobby.grabFocus();
 					tfAddHobby.setText("");
@@ -314,6 +316,10 @@ public class ProfilePanel extends JPanel implements ActionListener
 			{
 				short hobbyiddddd = clientControl.addHobby(addHobbyValue);
 				//adding a hobby that does'nt exist in the current users profile.
+				if(empHobby==null)
+				{
+					empHobby = new ArrayList<Short>();
+				}
 				empHobby.add(hobbyiddddd);
 				emp.setEmpHobbies(empHobby);
 				
@@ -356,12 +362,9 @@ public class ProfilePanel extends JPanel implements ActionListener
 			}
 			//use the ID to match to the employee short array of hobby IDs
 			for(int i=0;i< empHobby.size();i++)
-			{
-				System.out.println("we in the emp loop : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
-				
+			{	
 				if(empHobby.get(i) == delhobbyID)
 				{
-					System.out.println("we in the delete : " + empHobby.get(i) + " del Hobby : " + delhobbyID );
 					//remove the element where the match occurred
 					empHobby.remove(i);
 					//set the employees hobbies
