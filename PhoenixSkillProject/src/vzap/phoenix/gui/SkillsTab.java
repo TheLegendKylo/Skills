@@ -306,11 +306,11 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				tableSummarySkills.setModel(clientControl.getEmpSkillAverage(employeeSkillList));
 				comboBoxSkillList.updateUI();
 				tableSummarySkills.updateUI();	
-				JOptionPane.showConfirmDialog(this, "Successfully added Skill");
+				JOptionPane.showMessageDialog(this, "Successfully added Skill");
 			}
 			else
 			{
-				JOptionPane.showConfirmDialog(this, "Something went wrong adding a skill");
+				JOptionPane.showMessageDialog(this, "Something went wrong adding a skill");
 			}
 			
 
@@ -337,8 +337,16 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				break;
 			}
 		}
-		ArrayList<EmployeeSkill> empRatingList = clientControl.searchEmployeeSkill(skillID);
-		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
+		ArrayList<EmployeeSkill> empRatingList = new ArrayList<EmployeeSkill>();
+		for (int i = 0; i < employeeSkillList.size(); i++)
+		{
+			if(employeeSkillList.get(i).getSkillID() == skillID)
+			{
+				empRatingList.add(employeeSkillList.get(i));
+			}
+		}
+		
+//		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
 
 		detailedTable.setModel(clientControl.getEmpCapabilityDetail(empRatingList));
 		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));

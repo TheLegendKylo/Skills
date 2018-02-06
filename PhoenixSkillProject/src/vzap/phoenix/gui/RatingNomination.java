@@ -277,6 +277,17 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 					Date createdDate = new Date();
 					employeeSkill = new EmployeeSkill(employeeID,skillId,raterID,createdDate);
 					boolean success = clientControl.nominateRater(employeeSkill);
+					
+					if(success)
+					{
+						setup();
+						JOptionPane.showMessageDialog(this, "Successfully added a new rater");
+					}
+					else
+					{
+						JOptionPane.showConfirmDialog(this, "Something went wrong adding a rater");
+					}
+					
 					//clear input fields
 					raterIDJTF.setText("");
 					raterName.setText("");	

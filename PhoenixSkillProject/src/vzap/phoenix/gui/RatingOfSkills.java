@@ -352,7 +352,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		if(empID.equalsIgnoreCase(emp.getEmployeeID()))
 		{
 
-			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach"
+			int valueReturnCoaching = JOptionPane.showConfirmDialog(this, "Are you able to act as a coach?"
 					+ " for the selected skill?", "Coaching", 1);
 			if(valueReturnCoaching == 0)
 			{
