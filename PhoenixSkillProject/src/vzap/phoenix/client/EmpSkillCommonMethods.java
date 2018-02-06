@@ -406,33 +406,36 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 		String [] tableColumn = new String[10];
 		tableColumn[0] = "Level";
 		tableColumn[1] = "Proficiency";
-//		Object [][] tableRow = new Object[9][5]; 
-		JTextArea [][] tableRow = new JTextArea[9][5]; 
-//		tableRow[][].setLineWrap(true);
-//		tableRow[][].setWrapStyleWord(true);
+		String [] tableRow = new String[10]; 
 
-		ArrayList<Level> levelList = clientControl.getLevelList();
-		for (int i = 0; i < levelList.size(); i++)
-		{
-			tableRow[0][i].setText(Short.toString(levelList.get(i).getRate()));
-			tableRow[1][i].setText(levelList.get(i).getName());
-			tableRow[2][i].setText(levelList.get(i).getDescription());
-		}
 		ArrayList<Capability> capList = clientControl.getCapabilityList();
-		int col = 3;
-		for (int i = 0; i < levelList.size(); i++)
+		int col = 2;
+		for (int i = 0; i < capList.size(); i++)
 		{
-			tableColumn[col] = capList.get(i).getDescription();
+			tableColumn[col] = capList.get(i).getName();
 			col++;
 		}
+//
+		DefaultTableModel dreyfusModel = new DefaultTableModel();
+		dreyfusModel.setColumnIdentifiers(tableColumn);
+		ArrayList<Level> levelList = clientControl.getLevelList();
 		ArrayList<CapabilityRating> capRateList = clientControl.getCapabilityRatingList();
-		col = 2;
-		for (int i = 0; i < capRateList.size(); i++)
+		for (int i = 0; i < levelList.size(); i++)
 		{
-			tableRow[col+capRateList.get(i).getRating()][capRateList.get(i).getCapabilityID()].setText(capList.get(i).getDescription());
+			tableRow[i] = "<html/>" +Short.toString(levelList.get(i).getRate())+"/html>";
+			tableRow[i] = levelList.get(i).getName();
+			tableRow[i] = levelList.get(i).getDescription();
+			col = 2;
+			for (int j = 0; j < capRateList.size(); i++)
+			{
+				if(capRateList.get(j).getRating()==levelList.get(i).getRate())
+				{
+					tableRow[col] = "<html/>" +capList.get(i).getDescription()+"/html>";
+				}
+			}
 		}
+		dreyfusModel.addRow(tableRow);
 		
-		DefaultTableModel dreyfusModel = new DefaultTableModel(tableRow, tableColumn);
 		return dreyfusModel;
 	}
 }

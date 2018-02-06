@@ -244,8 +244,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 
 			for(int i = 0; i < nominateModel.getRowCount();i++)
 			{
-				System.out.println("Into the Submit buitton loop = " + nominateModel.getValueAt(i, 0));
-				System.out.println("Print logged on employee = " + emp.getEmployeeID());
 	            for (int k = 0; k < outstandingModel.getRowCount(); k++) 
 	            {
 	            	if ((outstandingRatesTable.getValueAt(k, 0).equals(nominateTable.getValueAt(i, 0))) 
@@ -253,7 +251,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	            	{
 	            		JOptionPane.showMessageDialog(this,"Rater already nominated for this skill");
 	            		nominateModel.setRowCount(0);
-	            		System.out.println("After clearing table");
 	            		return;
 	            	}
 	            }
@@ -307,7 +304,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		if(source == btnDeleteNomination)
         {
             int row = outstandingRatesTable.getSelectedRow();
-            System.out.println("row = " + row);
+
             if (row < 0)
             {
                         JOptionPane.showMessageDialog(this,"Please select a row from the Oustanding Ratings table");
@@ -324,7 +321,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                 		skillID = skillList.get(j).getSkillId();  
                 	}
                 }
-                //getting the object that needs to change
+                
                 boolean success = false;
                 for (int z=0; z < empSkillList.size();z++)
                 {
@@ -336,16 +333,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
                 		break;
                 	}
                 }
-             
-            
-            
-            //get your userid / relevant info
-            //call database with info and do as you wish.
-            
-            //ensure the row value is initialised once you done.
-            
-            
-            //deleting something 
+
             if(success)
             {
             	outstandingModel.removeRow(row);
@@ -366,15 +354,19 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	        
 	        if(!(empSearchJTF.getText().isEmpty()))
 	        {
-		        for(int i = 0 ; i < empList.size() ; i++)
+				if(empList.size() == 0)
+				{
+					JOptionPane.showMessageDialog(this,"No employees found matching your search criteria");
+					return;				
+				}	
+					        	
+	        	for(int i = 0 ; i < empList.size() ; i++)
 		        {
-                    System.out.println("RatingNomination - skillList for -  " + i + " desc " + empList.get(i).getEmployeeID());
                     empRow[0] = empList.get(i).getEmployeeID();
                     empRow[1] = empList.get(i).getFirstName();
                     empRow[2] = empList.get(i).getSurname();
                     empRow[3] = empList.get(i).getAlias();
                     selectModel.addRow(empRow);
-                    
 		        }	
 	        }
 			else
@@ -398,16 +390,16 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	            			&& (empSkillList.get(i).getEmployeeID().equals(empSkillList.get(i).getRaterID()))
 	            			&& (empSkillList.get(i).getStatus() == 1))
 	            	{
-	            		skillBox.addItem(skillList.get(j).getSkillDescription());  
+	            		skillBox.addItem(skillList.get(j).getSkillDescription()); 
 	              	}
 	            }
 	    	}
 		skill.setCellEditor(new DefaultCellEditor(skillBox));
 		
-		//Set up tool tips for the sport cells.
+		//Set up tool tips for the skills list.
 		DefaultTableCellRenderer renderer =
 		new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for combo box");
+		renderer.setToolTipText("Click to select a skill");
 		skill.setCellRenderer(renderer);
     }
 
@@ -415,7 +407,6 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	public void mouseClicked(MouseEvent e) 
 	{
         row = selectTable.getSelectedRow();
-        System.out.println("row = " + row);
         if (row <0)
         {
                     JOptionPane.showMessageDialog(this,"Please select a row from the table");

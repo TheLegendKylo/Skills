@@ -124,9 +124,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		vectorSkills = new Vector<>();
 
 		tableSummarySkills = new JTable();            
-
-
-
+		
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
 		comboBoxSkillList.setBounds(390, 68, 173, 20);

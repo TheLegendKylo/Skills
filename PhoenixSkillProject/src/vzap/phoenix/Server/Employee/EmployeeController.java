@@ -113,6 +113,7 @@ public class EmployeeController implements Runnable
 			this.errorMsg = empSkillDAO.getErrorMsg();
 			return false;
 		}
+		empSkillList = empSkillDAO.getEmployeeSkill(logonEmployee.getEmployeeID());
 		return true;
 	}
 	public boolean updateEmployeeSkill(EmployeeSkill updEmployeeSkill)
