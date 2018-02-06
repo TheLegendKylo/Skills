@@ -16,6 +16,7 @@ import javax.swing.*;
 
 public class MainGui extends JPanel implements ActionListener,ChangeListener
 {
+	//real
 	private JTabbedPane tabbedPane;
 	private JPanel basePanel;
 	private JButton btnMainExit;
@@ -28,6 +29,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	private SearchMenu searchMenu =null;
 	private SearchBySkill searchBySkill =null;
 	private RatingNomination ratingNom = null;
+	private HelpMenu helpMenu = null;
 	/**
 	 * ...
 	 * Create the panel.
@@ -125,7 +127,7 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 	}
 	public void addTabs()
 	{
-		
+		System.out.println("<<<<Adding tabs>>>>>");
 		sk = new SkillsTab(clientControl,emp);
 		tabbedPane.addTab(" MY SKILLS ", null, sk, null);
 
@@ -140,6 +142,9 @@ public class MainGui extends JPanel implements ActionListener,ChangeListener
 		
 		searchBySkill = new SearchBySkill(clientControl);
 		tabbedPane.addTab(" SEARCH BY SKILL ", null, searchBySkill, null);
+		
+//		helpMenu = new HelpMenu(clientControl);
+//		tabbedPane.addTab(" HELP ", null, helpMenu, null);
 
 	}
 }
