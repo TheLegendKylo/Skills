@@ -146,11 +146,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		setup();
 
 		
-
-		
-		
-
-		
 		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
 
 
