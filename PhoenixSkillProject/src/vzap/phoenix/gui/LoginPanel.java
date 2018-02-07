@@ -57,22 +57,26 @@ public class LoginPanel extends JPanel implements ActionListener
 		this.basePanel = basePanel;
 		
 		lblUserId = new JLabel("User ID : ");
-		lblUserId.setBounds(440, 256, 96, 25);
+		lblUserId.setFont(new Font("Arial", Font.BOLD, 15));
+		lblUserId.setBounds(738, 261, 96, 31);
 		//lblUserId.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		lblPassword = new JLabel("Password :");
+		lblPassword.setFont(new Font("Arial", Font.BOLD, 15));
 		
-		lblPassword.setBounds(440, 321, 116, 25);
+		lblPassword.setBounds(738, 307, 116, 31);
 		//lblPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		tf_UserID = new JTextField();
-		tf_UserID.setBounds(569, 256, 224, 31);
+		tf_UserID.setFont(new Font("Arial", Font.BOLD, 15));
+		tf_UserID.setBounds(893, 261, 224, 31);
 		//tf_UserID.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tf_UserID.setColumns(10);
 		tf_UserID.grabFocus();
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(569, 315, 224, 31);
+		passwordField.setFont(new Font("Arial", Font.BOLD, 15));
+		passwordField.setBounds(893, 307, 224, 31);
 	//	passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		btnRyan = new JButton("Ryan Login");
@@ -81,12 +85,14 @@ public class LoginPanel extends JPanel implements ActionListener
 		add(btnRyan);
 		
 		btnLogin = new JButton("Login");
-		btnLogin.setBounds(440, 426, 128, 33);
+		btnLogin.setFont(new Font("Arial", Font.BOLD, 15));
+		btnLogin.setBounds(738, 397, 128, 33);
 		btnLogin.addActionListener(this);
 		//btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		btnExit = new JButton("Exit");
-		btnExit.setBounds(440, 518, 128, 33);
+		btnExit.setFont(new Font("Arial", Font.BOLD, 15));
+		btnExit.setBounds(738, 489, 379, 33);
 		btnExit.addActionListener(this);
 		//btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
@@ -99,23 +105,27 @@ public class LoginPanel extends JPanel implements ActionListener
 		add(tf_UserID);
 		
 		lblRepeatPassword = new JLabel("Confrim Password :");
-		lblRepeatPassword.setBounds(440, 359, 197, 54);
+		lblRepeatPassword.setFont(new Font("Arial", Font.BOLD, 15));
+		lblRepeatPassword.setBounds(738, 351, 144, 33);
 		add(lblRepeatPassword);
 			
 		passwordFieldRepeat = new JPasswordField();
-		passwordFieldRepeat.setBounds(649, 371, 144, 31);
+		passwordFieldRepeat.setFont(new Font("Arial", Font.BOLD, 15));
+		passwordFieldRepeat.setBounds(893, 351, 224, 31);
 		add(passwordFieldRepeat);
 		passwordFieldRepeat.setVisible(false);
 		lblRepeatPassword.setVisible(false);
 		
 		btnSignUp = new JButton("Sign Up");
-		btnSignUp.setBounds(649, 427, 144, 31);
+		btnSignUp.setFont(new Font("Arial", Font.BOLD, 15));
+		btnSignUp.setBounds(973, 398, 144, 31);
 		btnSignUp.addActionListener(this);
 		add(btnSignUp);
 		
 		btnConfirmRegistration = new JButton("Confirm Registration");
+		btnConfirmRegistration.setFont(new Font("Arial", Font.BOLD, 15));
 		
-		btnConfirmRegistration.setBounds(440, 472, 353, 33);
+		btnConfirmRegistration.setBounds(738, 443, 379, 33);
 		btnConfirmRegistration.addActionListener(this);
 		add(btnConfirmRegistration);
 		

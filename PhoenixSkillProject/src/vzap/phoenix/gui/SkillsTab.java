@@ -1,5 +1,5 @@
 package vzap.phoenix.gui;
-//
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -41,8 +41,6 @@ import java.awt.event.MouseListener;
 
 public class SkillsTab extends JPanel implements ActionListener, MouseListener
 {
-	//real1
-	private JLabel lblSkillTab;
 	private JButton btnAddSkillToList;
 	private JButton btnEditSkillRating;
 	private JButton btnDeleteSkill;
@@ -52,7 +50,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private JTable tableSummarySkills;
 	private JScrollPane scrollPaneSummarySkills;
 	private JLabel lblDetails;
-	private JTable tableBottom;
 	private JScrollPane scrollPaneBottom;
 	private JButton btnUpdate;
 	private EmpSkillClient employeeSkillClient;
@@ -81,6 +78,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private EmployeeSkill selectedEmpSkill;
 
 	private int rowSelected = -1;
+	private ArrayList<EmployeeSkill> empRatingList;
+	private short selectedSkillID = 0;
 
 
 	/**
@@ -96,27 +95,26 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		setLayout(null);
 
-		lblSkillTab = new JLabel("Skill Tab");
-		lblSkillTab.setBounds(451, 11, 129, 14);
-		add(lblSkillTab);
 
-
-		lblSummaryOfSkills = new JLabel("Summary of your Skills");
-		lblSummaryOfSkills.setBounds(10, 158, 928, 22);
+		lblSummaryOfSkills = new JLabel("Summary of your Skills Table");
+		lblSummaryOfSkills.setFont(new Font("Arial", Font.BOLD, 20));
+		lblSummaryOfSkills.setBounds(648, 148, 334, 35);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 
 
-		lblDetails = new JLabel("Details");
-		lblDetails.setBounds(10, 408, 928, 22);
+		lblDetails = new JLabel("Detail Table");
+		lblDetails.setFont(new Font("Arial", Font.BOLD, 20));
+		lblDetails.setBounds(717, 402, 205, 36);
 		add(lblDetails);
 		lblDetails.setHorizontalAlignment(JLabel.CENTER);
 
 
 
 		btnUpdate = new JButton("Update your skills");
+		btnUpdate.setFont(new Font("Arial", Font.BOLD, 15));
 		btnUpdate.setToolTipText("Once a skill has been selected from the drop down you can add it to your profile");
-		btnUpdate.setBounds(390, 99, 173, 23);
+		btnUpdate.setBounds(833, 75, 213, 36);
 		add(btnUpdate);
 		btnUpdate.addActionListener(this);
 
@@ -124,38 +122,38 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		vectorSkills = new Vector<>();
 
 		tableSummarySkills = new JTable();            
-		
+		tableSummarySkills.setFont(new Font("Arial", Font.PLAIN, 15));
+
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
+		comboBoxSkillList.setFont(new Font("Arial", Font.BOLD, 15));
 		comboBoxSkillList.setToolTipText("If your skill does not exist please press \"ADD SKILL\" button.");
-		comboBoxSkillList.setBounds(390, 68, 173, 20);
+		comboBoxSkillList.setBounds(833, 26, 213, 36);
 		add(comboBoxSkillList);
-		
+
 		detailedTable = new JTable(detailTableModel);
+		detailedTable.setFont(new Font("Arial", Font.PLAIN, 15));
 		scrollPaneBottom = new JScrollPane(detailedTable);
-		scrollPaneBottom.setBounds(10, 433, 928, 152);
+		scrollPaneBottom.setBounds(38, 438, 1701, 201);
 		add(scrollPaneBottom);
-		
+
 		scrollPaneSummarySkills = new JScrollPane(tableSummarySkills);
-		scrollPaneSummarySkills.setBounds(10, 236, 928, 161);
+		scrollPaneSummarySkills.setBounds(38, 186, 1701, 169);
 		tableSummarySkills.addMouseListener(this);
 		scrollPaneSummarySkills.setViewportView(tableSummarySkills);
 		add(scrollPaneSummarySkills);
-		
+
 		setup();
-
 		
-		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
-
-
-		lblSkill = new JLabel("Select a skill to add to your profile");
-		lblSkill.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblSkill = new JLabel("Select a skill to add to your profile :");
+		lblSkill.setFont(new Font("Arial", Font.BOLD, 15));
 		lblSkill.setHorizontalAlignment(JLabel.CENTER);
-		lblSkill.setBounds(147, 36, 661, 20);
+		lblSkill.setBounds(556, 28, 265, 30);
 		add(lblSkill);
 
 		btnAddSkillToList = new JButton("Add New Skill To List");
+		btnAddSkillToList.setFont(new Font("Arial", Font.BOLD, 15));
 		btnAddSkillToList.setToolTipText("Select if your skill is not in the drop down menu");
-		btnAddSkillToList.setBounds(587, 67, 168, 23);
+		btnAddSkillToList.setBounds(566, 75, 213, 36);
 		add(btnAddSkillToList);
 		btnAddSkillToList.addActionListener(this);
 
@@ -164,14 +162,19 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		comboBoxRating = new JComboBox(ratingValues);
 
 		btnEditSkillRating = new JButton("Edit Skill Rating");
-		btnEditSkillRating.setBounds(339, 191, 148, 23);
+		btnEditSkillRating.setFont(new Font("Arial", Font.BOLD, 15));
+		btnEditSkillRating.setBounds(38, 368, 162, 37);
 		add(btnEditSkillRating);
 		btnEditSkillRating.addActionListener(this);
 
 		btnDeleteSkill = new JButton("Delete Skill");
-		btnDeleteSkill.setBounds(497, 191, 98, 23);
+		btnDeleteSkill.setFont(new Font("Arial", Font.BOLD, 15));
+		btnDeleteSkill.setBounds(223, 368, 130, 37);
 		add(btnDeleteSkill);
 		btnDeleteSkill.addActionListener(this);
+		detailedTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		tableSummarySkills.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		
 
 	}
 	public void setup()
@@ -208,13 +211,55 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if (source == btnEditSkillRating)
 		{
 			System.out.println("Edit Skill Rating pressed");
+			JOptionPane.showMessageDialog(this, "This function isn't working yet", "Warning",JOptionPane.WARNING_MESSAGE);
+			if(rowSelected <0)
+			{
+				System.out.println("At this point in time there shouldnt be anything selected in "
+						+ "the skill table ");
+				JOptionPane.showMessageDialog(this, "Please chose a skill you wish to edit before pressing"
+						+ " this button");
+			}
+			else
+			{
+				System.out.println("Printing rowSelected to make sure it is the right value " + rowSelected);
+
+				for (int i = 0; i < employeeSkillList.size(); i++)
+				{
+					if(employeeSkillList.get(i).getSkillID() == selectedSkillID 
+							&& employeeSkillList.get(i).getEmployeeID().equals(emp.getEmployeeID()))
+					{
+						System.out.println("Inside the IF... selectedSkillID = " +selectedSkillID);
+						System.out.println("emp = " + employeeSkillList.get(i).getEmployeeID());
+						selectedEmpSkill = employeeSkillList.get(i);
+						selectedEmpSkill.setStatus((short)9);
+						boolean success = clientControl.updateEmployeeSkill(selectedEmpSkill);
+						if(success)
+						{
+							JOptionPane.showMessageDialog(this, "Please go to the"
+									+ " MY SKILLS RATING tab to update your skill rating");
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(this, "Something went wrong. "
+									+ "Your skill has not changed", "Warning", JOptionPane.WARNING_MESSAGE);
+						}
+						
+						success=this.addNewEmployeeSkill();
+					}
+				}
+
+
+			}
+
 		}
+
+
 		if(source == btnDeleteSkill)
 		{
 			System.out.println("Delete button pressed");
 			int choice = JOptionPane.showConfirmDialog(this, "Deleting this skill will remove "
 					+ "all previous rating of this skill from the record. Do you wish to delete?","Delete Skill",JOptionPane.YES_NO_OPTION);
-			
+
 			if(choice == JOptionPane.YES_OPTION)
 			{
 				selectedEmpSkill.setStatus((short)9);
@@ -230,7 +275,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			}
 
 		}
-		
+
 		if(source == btnAddSkillToList)
 		{
 			String description = JOptionPane.showInputDialog(this, "Please enter new Skill");
@@ -239,14 +284,10 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				JOptionPane.showInputDialog(this, "Please capture your new skill");
 				return;
 			}
-			short skillID = clientControl.addSkill(description);
-			if(! (skillID ==0))
+			selectedSkillID = clientControl.addSkill(description);
+			if(! (selectedSkillID ==0))
 			{
-				//brand new skill that must be rated by employee 
-				Date createdDate = new Date();
-
-				EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),skillID,emp.getEmployeeID(), createdDate);
-				boolean success = clientControl.addEmployeeSkill(employeeSkill);
+				boolean success = this.addNewEmployeeSkill();
 				if(success)
 				{
 					employeeSkillList = clientControl.getEmployeeSkillList();
@@ -255,16 +296,12 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 					//call the database for the new DATA
 					tableSummarySkills.setModel(clientControl.getEmpSkillAverage(employeeSkillList));
 
-							vectorSkills.addElement(description);
-							Collections.sort(vectorSkills);
-							JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
-							comboBoxSkillList.updateUI();
-							tableSummarySkills.updateUI();
+					vectorSkills.addElement(description);
+					Collections.sort(vectorSkills);
+					JOptionPane.showMessageDialog(this, "Successfully added " + description +" skill");
+					comboBoxSkillList.updateUI();
+					tableSummarySkills.updateUI();
 
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(this, "Problem adding Skills");
 				}
 			}
 			else
@@ -281,7 +318,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		if(source == btnUpdate)
 		{
 			System.out.println("Update button was pressed");
-			
+
 			Date createdDate = new Date();
 
 			String selectedCombo = comboBoxSkillList.getSelectedItem().toString();
@@ -298,7 +335,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 			EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),skillID,emp.getEmployeeID(), createdDate);
 			boolean success = clientControl.addEmployeeSkill(employeeSkill);
-			
+
 
 			if(success)
 			{
@@ -312,7 +349,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			{
 				JOptionPane.showMessageDialog(this, "Something went wrong adding a skill");
 			}
-			
+
 
 		}
 
@@ -327,42 +364,41 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		rowSelected = tableSummarySkills.getSelectedRow();
 		String skillName = (String)tableSummarySkills.getModel().getValueAt(rowSelected, 0);
 
-		short skillID = 0;
 
 		for (int i = 0; i < skillList.size(); i++)
 		{
 			if(skillName.equalsIgnoreCase(skillList.get(i).getSkillDescription()))
 			{
-				skillID = (short)skillList.get(i).getSkillId();
+				selectedSkillID = (short)skillList.get(i).getSkillId();
 				break;
 			}
 		}
-		ArrayList<EmployeeSkill> empRatingList = new ArrayList<EmployeeSkill>();
+		empRatingList = new ArrayList<EmployeeSkill>();
 		for (int i = 0; i < employeeSkillList.size(); i++)
 		{
-			if(employeeSkillList.get(i).getSkillID() == skillID)
+			if(employeeSkillList.get(i).getSkillID() == selectedSkillID)
 			{
 				empRatingList.add(employeeSkillList.get(i));
 			}
 		}
-		
-//		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
+
+		//		System.out.println("info retruned : " + clientControl.getEmpCapabilityDetail(empRatingList).getRowCount());
 
 		detailedTable.setModel(clientControl.getEmpCapabilityDetail(empRatingList));
 		//tableSummarySkills.removeColumn(detailedTable.getColumnModel().getColumn(0));
 		detailedTable.updateUI();
 
 		//get the object of employee skill for delete
-				for (int i = 0; i < employeeSkillList.size(); i++)
-				{
+		for (int i = 0; i < employeeSkillList.size(); i++)
+		{
 
-					if((employeeSkillList.get(i).getEmployeeID().equalsIgnoreCase(emp.getEmployeeID()))
-							&& (employeeSkillList.get(i).getSkillID()==skillID))
-					{
-						selectedEmpSkill = employeeSkillList.get(i);
-						break;
-					}
-				}
+			if((employeeSkillList.get(i).getEmployeeID().equalsIgnoreCase(emp.getEmployeeID()))
+					&& (employeeSkillList.get(i).getSkillID()==selectedSkillID))
+			{
+				selectedEmpSkill = employeeSkillList.get(i);
+				break;
+			}
+		}
 		//end
 	}
 
@@ -393,6 +429,18 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		// TODO Auto-generated method stub
 
 	}
+	public boolean addNewEmployeeSkill()
+	{
+		//brand new skill that must be rated by employee 
+		Date createdDate = new Date();
 
+		EmployeeSkill employeeSkill = new EmployeeSkill(emp.getEmployeeID(),selectedSkillID,emp.getEmployeeID(), createdDate);
+		boolean success = clientControl.addEmployeeSkill(employeeSkill);
+		if(!success)
+		{
+			JOptionPane.showMessageDialog(this, "Problem adding Skills: "+clientControl.getErrorMsg());
+		}
+		return success;
+	}
 
 }

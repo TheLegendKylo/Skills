@@ -223,10 +223,11 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 			
 			if(ratingList!=null && ratingList.size()!=0)
 			{
-				
+				System.out.println("EmpSkill...." + employeeSkillList.get(i).getEmpSkillID());
+				System.out.println("Rating list size = " + ratingList);
 				for (int j = 0; j < ratingList.size(); j++)
 				{
-//					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
+					System.out.println("Write Lines Before: "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 					averageRating [j] += Math.round(ratingList.get(j)*100.0)/100.0;
 //					System.out.println("Write Lines After : "+j+" "+averageRating[j]+" "+ratingList.get(j)+" Rating Count: "+ratingCount);
 				}
