@@ -121,13 +121,14 @@ public class EmpSkillCommonMethods
 			ArrayList<Capability> capabilityList)
 	{
 //		System.out.println("******************Summary Detail Model************************");
-		Object[] capabilityHeader = new String[11];
+		Object[] capabilityHeader = new String[12];
 		capabilityHeader[0] = "Employee";
 		capabilityHeader[1] = "Skill";
-		capabilityHeader[9] = "Overall Rating";
-		capabilityHeader[10] = "No of Ratings";
+		capabilityHeader[2] = "Coach Role";
+		capabilityHeader[10] = "Overall Rating";
+		capabilityHeader[11] = "No of Ratings";
 		ArrayList<Skill> skillList = clientControl.getSkillList();
-		Object[] capabilityRating = new Object[11];
+		Object[] capabilityRating = new Object[12];
 		DefaultTableModel empCapModel = new DefaultTableModel(){
 		    @Override
 		    public boolean isCellEditable(int row, int column) {
@@ -144,12 +145,13 @@ System.out.println("Common size:  "+capabilityList.size());
 		for (int j = 0; j < capabilityList.size(); j++)
 		{
 System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName());
-			capabilityHeader[j+2] =  capabilityList.get(j).getName();
+			capabilityHeader[j+3] =  capabilityList.get(j).getName();
 		}
 		empCapModel.setColumnIdentifiers(capabilityHeader);
 		int counter = 0;
 		
 		String skillDesc = null;
+		String coachingAvailability = null;
 		double averageRating[] = new double[7];
 		double ratingCount = 0;
 		double overAllRating = 0;
@@ -180,7 +182,8 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 						Employee employee = clientControl.searchEmployee(empIDCheck).get(0);
 						capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 						capabilityRating[1] = ""+skillDesc; 
-						int ratingIdx = 2;
+						capabilityRating[2] = coachingAvailability; 
+						int ratingIdx = 3;
 						for (int j = 0; j < averageRating.length; j++)
 						{
 //							System.out.println("Write Totals: "+j+" "+averageRating[j]+" Rating Count: "+ratingCount);
@@ -190,8 +193,8 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 							ratingIdx++;
 						}
 //System.out.println("commonmethods - capability Rating = " + capabilityRating.length);
-						capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
-						capabilityRating[10] = ratingCount;
+						capabilityRating[10] = Math.round(overAllRating*100.0/7)/100.0;
+						capabilityRating[11] = ratingCount;
 						empCapModel.addRow(capabilityRating);;
 						ratingCount = 0;
 						overAllRating = 0;
@@ -199,6 +202,7 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 					counter++;
 				}
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
+				coachingAvailability = employeeSkillList.get(i).getCoachingAvailability();
 				if(!(skillIDCheck==(short)employeeSkillList.get(i).getSkillID()))
 				{
 					skillIDCheck = (short)employeeSkillList.get(i).getSkillID();
@@ -236,7 +240,8 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 			employee = clientControl.searchEmployee(empIDCheck).get(0);
 			capabilityRating[0] = employee.getFirstName()+" "+employee.getSurname(); 
 			capabilityRating[1] = ""+skillDesc; 
-			int ratingIdx = 2;
+			capabilityRating[2] = coachingAvailability; 
+			int ratingIdx = 3;
 			
 			for (int j = 0; j < averageRating.length; j++)
 			{
@@ -246,8 +251,8 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 				averageRating[j]=0;
 				ratingIdx++;
 			}
-			capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
-			capabilityRating[10] = ratingCount;
+			capabilityRating[10] = Math.round(overAllRating*100.0/7)/100.0;
+			capabilityRating[11] = ratingCount;
 			empCapModel.addRow(capabilityRating);;
 			ratingCount = 0;
 		}

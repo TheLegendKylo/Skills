@@ -78,14 +78,14 @@ System.out.println("Into rateEmployeeSkill for: "+rateEmployeeSkill.getEmployeeI
 		int existingRatings = checkEmpSkillRatingDuplicates(rateEmployeeSkill.getEmpSkillID());
 		if(existingRatings>0)
 		{
-			System.out.println("Get capabilityList = null");
+			System.out.println("Rating already exists data provided");
 			this.errorCode = 2; //Rating already exists data provided
 			this.errorMsg = "Rate Employee: Rating already exists for: "+rateEmployeeSkill.getEmpSkillID();
 			return this.errorCode;
 		}
 		if(rateEmployeeSkill.getCapabilityList()==null)
 		{
-			System.out.println("Get capabilityList = null");
+			System.out.println("No rating data provided");
 			this.errorCode = 1; //No rating data provided
 			this.errorMsg = "Rate Employee: Rating information is required for: "+rateEmployeeSkill.getEmpSkillID();
 			return this.errorCode;
@@ -164,7 +164,7 @@ System.out.println("Rolling Back");
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? order by capabilityId");
+			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? and status <> 9 order by capabilityId");
 			ps.setShort(1, empSkillID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
@@ -266,7 +266,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		PreparedStatement ps_select=null;
 		try
 		{
-			ps_select = dbCon.prepareStatement("select empSkillId,status from EmployeeSkills where employeeId=? and skillId=? and raterId=?");
+			ps_select = dbCon.prepareStatement("select empSkillId,status from EmployeeSkills where employeeId=? and status<>9 and skillId=? and raterId=?");
 			ps_select.setString(1, searchEmployeeSkill.getEmployeeID());
 			ps_select.setInt(2, searchEmployeeSkill.getSkillID());
 			ps_select.setString(3, searchEmployeeSkill.getRaterID());
@@ -274,10 +274,6 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			while(rs.next())
 			{
 				short status = rs.getShort("status");
-				if(status==9)
-				{
-					continue;
-				}
 				empSkillID = rs.getShort("empSkillId");
 			}
 			
@@ -297,10 +293,10 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 			if(raterID==null || raterID=="")
 			{
 				ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
-						+ "and skillId=? order by skillId, raterId");
+						+ "and skillId=? and status<>9 order by skillId, raterId");
 			} else {
 				ps_select = dbCon.prepareStatement("select * from EmployeeSkills where employeeId=?"
-						+ "and skillId=? and raterId = ? order by skillId, raterId");
+						+ "and skillId=? and status<>9 and raterId = ? order by skillId, raterId");
 				ps_select.setString(3, raterID);
 			}
 			ps_select.setString(1, employeeID);
@@ -349,7 +345,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		
 		try
 		{
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId = ?");
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where skillId = ? and status<>9");
 			
 			ps_select.setInt(1, skillID);
 			
@@ -369,7 +365,7 @@ System.out.println(updEmployeeSkill.getEmployeeID());
 		
 		try
 		{
-			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where raterId = ?");
+			ps_select = dbCon.prepareStatement("select * from EmployeeSkills where raterId = ? and status<>9");
 			
 			ps_select.setString(1, raterID);
 			
