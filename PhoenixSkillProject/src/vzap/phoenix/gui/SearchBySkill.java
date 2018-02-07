@@ -28,6 +28,7 @@ import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClientController;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class SearchBySkill extends JPanel implements ActionListener
 {
@@ -76,33 +77,38 @@ public class SearchBySkill extends JPanel implements ActionListener
 		setLayout(null);
 		
 		searchBySkillLab = new JLabel("Choose SKILL from dropdown list");
-		searchBySkillLab.setBounds(413, 57, 197, 14);
+		searchBySkillLab.setFont(new Font("Arial", Font.BOLD, 15));
+		searchBySkillLab.setBounds(568, 36, 506, 38);
 		add(searchBySkillLab);
 		
 		skillComboBox = new JComboBox(comboSkill);
+		skillComboBox.setFont(new Font("Arial", Font.BOLD, 15));
 		AutoCompletion.enable(skillComboBox);
 		skillComboBox.addActionListener(this);
-		skillComboBox.setBounds(677, 54, 243, 20);
+		skillComboBox.setBounds(832, 36, 242, 38);
 		add(skillComboBox);
 		
 		skillScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		modelInsert = new DefaultTableModel();
-		skillScrollPane.setBounds(0, 97, 1453, 527);
+		skillScrollPane.setBounds(23, 97, 1741, 527);
 		add(skillScrollPane);
 		skillTable = new JTable(modelInsert);
+		
 		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 		skillTable.setAutoCreateRowSorter(true); 
 		skillTable.setAutoCreateRowSorter(isEnabled());
 		skillTable.getRowSelectionAllowed();
-		skillTable.getSelectionModel();
+		skillTable.getSelectionModel(); 
 		
 		skillScrollPane.setViewportView(skillTable);
 		
 		exportBut = new JButton("Export to excel");
+		exportBut.setFont(new Font("Arial", Font.BOLD, 15));
 		exportBut.addActionListener(this);
-		exportBut.setBounds(1290, 63, 105, 23);
+		exportBut.setBounds(1553, 36, 211, 38);
 		add(exportBut);
 		exportBut.setEnabled(false);
+		
 	}
 
 
@@ -229,6 +235,8 @@ public class SearchBySkill extends JPanel implements ActionListener
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
 			skillScrollPane.remove(skillTable);
 			skillTable = new JTable(modelInsert);
+			skillTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+			skillTable.setFont(new Font("Arial", Font.PLAIN, 15));
 			skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 			skillScrollPane.setViewportView(skillTable);
 			skillTable.setAutoCreateRowSorter(true);
