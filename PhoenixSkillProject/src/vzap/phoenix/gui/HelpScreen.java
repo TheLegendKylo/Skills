@@ -43,9 +43,9 @@ public class HelpScreen extends JPanel
 		
 		dreyfusScroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		dreyfusScroll.setViewportView(dreyfusTable);
-		dreyfusScroll.setBounds(34, 37, 1734, 561);
+		dreyfusScroll.setBounds(12, 37, 1793, 561);
 		add(dreyfusScroll);
-		dreyfusTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		dreyfusTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 18));
 		 
 	}
 	public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
