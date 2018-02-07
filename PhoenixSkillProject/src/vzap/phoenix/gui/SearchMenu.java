@@ -120,32 +120,33 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 									
 		inputJTF = new JTextField();
 		inputJTF.setToolTipText("Enter your employee search criteria ..... and then click on the \"search EMPLOYEE\" button");
-		inputJTF.setBounds(337, 23, 346, 20);
+		inputJTF.setBounds(641, 29, 346, 29);
 		inputJTF.setColumns(10);
 		add(inputJTF);
 
 		
 		empBut = new JButton("search EMPLOYEE ");
-		empBut.setFont(new Font("Tahoma", Font.BOLD, 11));
-		empBut.setBounds(693, 22, 159, 23);
+		empBut.setFont(new Font("Arial", Font.BOLD, 15));
+		empBut.setBounds(1007, 28, 199, 30);
 		empBut.addActionListener(this);
 		add(empBut);
 		 
 		hobbyComboBox = new JComboBox(comboHobby);
+		hobbyComboBox.setFont(new Font("Arial", Font.BOLD, 15));
 		hobbyComboBox.setBorder(null);
 		AutoCompletion.enable(hobbyComboBox);
 		hobbyComboBox.addActionListener(this);
-		hobbyComboBox.setBounds(337, 84, 346, 20);
+		hobbyComboBox.setBounds(641, 88, 346, 32);
 		add(hobbyComboBox);
 		
 		hobbyLab = new JLabel("Choose HOBBY from dropdown list");
-		hobbyLab.setFont(new Font("Tahoma", Font.BOLD, 11));
-		hobbyLab.setBounds(42, 87, 205, 14);
+		hobbyLab.setFont(new Font("Arial", Font.BOLD, 15));
+		hobbyLab.setBounds(346, 91, 267, 29);
 		add(hobbyLab);
 		
 		lblEnterEmployeeSearch = new JLabel("enter EMPLOYEE search criteria");
-		lblEnterEmployeeSearch.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblEnterEmployeeSearch.setBounds(42, 24, 219, 14);
+		lblEnterEmployeeSearch.setFont(new Font("Arial", Font.BOLD, 15));
+		lblEnterEmployeeSearch.setBounds(346, 28, 278, 27);
 		add(lblEnterEmployeeSearch);
 		
 		contentsOfTable = new JLabel("");
@@ -155,38 +156,39 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 
 		scrollHobby = new JScrollPane();
-		scrollHobby.setBounds(932, 326, 84, 158);
+		scrollHobby.setBounds(1425, 327, 309, 158);
 		add(scrollHobby);
 		
 		individualSkillsModel = new DefaultTableModel();
 		individualSkillsTable = new JTable(individualSkillsModel);
 				
 		hobbyJlist = new JList(vectHobby);
+		hobbyJlist.setFont(new Font("Arial", Font.BOLD, 15));
 		hobbyJlist.setToolTipText("This will only be populated with chosen Employee's hobbies once you have entered \"EMPLOYEE search criteria\" option");
 		hobbyJlist.setEnabled(false);
 		scrollHobby.setViewportView(hobbyJlist);
 		
 		individualSkillListLab = new JLabel("Chosen Employee's SKILL list ");
-		individualSkillListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		individualSkillListLab.setFont(new Font("Arial", Font.BOLD, 20));
 		individualSkillListLab.setToolTipText("This will lsit ALL skills for chosen Employee");
-		individualSkillListLab.setBounds(298, 302, 193, 14);
+		individualSkillListLab.setBounds(579, 295, 294, 30);
 		add(individualSkillListLab);
 		
 		individualHobbyListLab = new JLabel("Chosen Employee's HOBBY list");
 		individualHobbyListLab.setToolTipText("This will show all chosen Employee's hobbies");
-		individualHobbyListLab.setFont(new Font("Tahoma", Font.BOLD, 11));
-		individualHobbyListLab.setBounds(893, 302, 176, 14);
+		individualHobbyListLab.setFont(new Font("Arial", Font.BOLD, 20));
+		individualHobbyListLab.setBounds(1425, 302, 309, 23);
 		add(individualHobbyListLab);
 		
 		scrollSkillsDetails = new JScrollPane();
 		scrollSkillsDetails.setToolTipText("This will give capability ratings for chosen Employee's skill");
-		scrollSkillsDetails.setBounds(10, 521, 1390, 143);
+		scrollSkillsDetails.setBounds(10, 521, 1724, 143);
 		add(scrollSkillsDetails);
 		
 		skillsDetailsLab = new JLabel("Chosen Employee skill's RATING");
-		skillsDetailsLab.setFont(new Font("Tahoma", Font.BOLD, 11));
+		skillsDetailsLab.setFont(new Font("Arial", Font.BOLD, 20));
 		skillsDetailsLab.setToolTipText("This will give capability ratings for chosen Employee's skill");
-		skillsDetailsLab.setBounds(298, 496, 235, 14);
+		skillsDetailsLab.setBounds(574, 487, 346, 35);
 		add(skillsDetailsLab);
 		
 
@@ -201,6 +203,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
 		model.setColumnIdentifiers(tabHeader);
 		tableEmployee = new JTable(model);
+		tableEmployee.setFont(new Font("Arial", Font.PLAIN, 15));
 		tableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableEmployee.addMouseListener(this);
 		tableEmployee.setRowSorter(new TableRowSorter(model));
@@ -211,7 +214,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollEmployee = new JScrollPane(tableEmployee);
 		scrollEmployee.setToolTipText("This will be populated once you have chosen one of the above options  ");
 		scrollEmployee.setEnabled(false);
-		scrollEmployee.setBounds(24, 160, 769, 138);
+		scrollEmployee.setBounds(24, 160, 1710, 138);
 		add(scrollEmployee);
 
 		individualSkillsTable_1 = new JTable(individualSkillsModel);
@@ -221,7 +224,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollIndividualSkills = new JScrollPane(individualSkillsTable_1);
 		scrollIndividualSkills.setToolTipText("This will only be populated with chosen Employee's skills once you have entered \"EMPLOYEE search criteria\" option");
 		scrollIndividualSkills.setEnabled(false);
-		scrollIndividualSkills.setBounds(24, 327, 769, 158);
+		scrollIndividualSkills.setBounds(24, 327, 1386, 158);
 		add(scrollIndividualSkills);
 		scrollIndividualSkills.setViewportView(individualSkillsTable_1);
 
@@ -234,7 +237,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		tableSkillsDetails.getSelectionModel();
 		
 		setup();
-	
+		
+		tableEmployee.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 		
 	}
 	public void setup()
@@ -441,6 +445,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			individualSkillsTable_1 = new JTable(individualSkillsModel);
 			scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
 			individualSkillsModel.fireTableDataChanged(); 
+			individualSkillsTable_1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+			individualSkillsTable_1.setFont(new Font("Arial", Font.PLAIN, 15));
 			this.repaint();
 			
 			modelInsert = clientControl.getEmpSkillDetail(individualEmpSkillList);
@@ -448,6 +454,8 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			tableSkillsDetails = new JTable(modelInsert);
 			scrollSkillsDetails.setViewportView(tableSkillsDetails);
 			modelInsert.fireTableDataChanged();
+			tableSkillsDetails.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+			tableSkillsDetails.setFont(new Font("Arial", Font.PLAIN, 15));
 			this.repaint();
 //		} //  end of empBut
 //
