@@ -175,19 +175,28 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		detailedTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 		tableSummarySkills.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 		
-
 	}
 	public void setup()
 	{
-		System.out.println("we in setup Ryan ");
-
 		employeeSkillList = clientControl.getEmployeeSkillList();
 
 		tableSummarySkills.setModel(clientControl.getEmpSkillAverage(employeeSkillList));
 
 		skillList = clientControl.getSkillList();
 		detailedTable.setModel(clientControl.getEmpSkillDetail(employeeSkillList));
-
+//		for(int i = 0 ; i < detailedTable.getRowCount();i++)
+//		{
+//			
+//			for(int c = 3 ; c < detailedTable.getColumnCount() ;c++)
+//			{
+//				if(Integer.parseInt(detailedTable.getValueAt(i, c).toString()) < 2 );
+//				{
+//					detailedTable.getCellRenderer(i, c).getTableCellRendererComponent(detailedTable, value, isSelected, hasFocus, row, column)
+//				}
+//			}
+//			
+//		}
+		
 		//populating skill list for combobox
 		vectorSkills.clear();
 		for (int i = 0; i < skillList.size(); i++)
