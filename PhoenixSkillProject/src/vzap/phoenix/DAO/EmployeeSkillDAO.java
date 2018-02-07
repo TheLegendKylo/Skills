@@ -164,7 +164,7 @@ System.out.println("Rolling Back");
 		PreparedStatement ps = null;
 		try
 		{
-			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? and status <> 9 order by capabilityId");
+			ps = dbCon.prepareStatement("select * from employeeSkillsRating where empSkillID=? order by capabilityId");
 			ps.setShort(1, empSkillID);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next())
