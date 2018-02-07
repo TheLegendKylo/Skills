@@ -40,14 +40,13 @@ public class HelpScreen extends JPanel
 		        return myRenderer;
 		    }
 		};
-
 		
 		dreyfusScroll = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		dreyfusScroll.setViewportView(dreyfusTable);
 		dreyfusScroll.setBounds(34, 37, 1734, 561);
 		add(dreyfusScroll);
 		dreyfusTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
-		//dreyfusTable.setFont(new Font("Arial", Font.BOLD, 15)); // not working must check 
+		dreyfusTable.setFont(new Font("Arial", Font.BOLD, 15)); // not working must check 
 	}
 	public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
 
@@ -67,7 +66,7 @@ public class HelpScreen extends JPanel
 //	    int height = fontHeight * lines;
 //	    System.out.println("setRowHeight: row-"+row+" height-"+height);
 //	    table.setRowHeight(row, height);
-	    this.setFont(new Font("Arial", Font.BOLD, 15)); 
+	    
 	    if (isSelected) {
 	        setForeground(table.getSelectionForeground());
 	        setBackground(table.getSelectionBackground());

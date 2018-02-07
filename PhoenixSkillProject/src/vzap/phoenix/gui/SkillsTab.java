@@ -6,6 +6,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import vzap.phoenix.DAO.EmployeeSkillDAO;
@@ -16,6 +17,7 @@ import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClient;
 import vzap.phoenix.client.EmpSkillClientController;
+import vzap.phoenix.gui.HelpScreen.LineWrapCellRenderer;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +38,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -130,7 +135,52 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		comboBoxSkillList.setBounds(833, 26, 213, 36);
 		add(comboBoxSkillList);
 
-		detailedTable = new JTable(detailTableModel);
+		detailedTable = new JTable(detailTableModel){
+		    @Override
+		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>2 && col<11)
+		        {
+		        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+		        int value = (int)dValue;
+//		        if(value!=null)
+//		        {
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(Color.RED);
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(Color.ORANGE);
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(Color.YELLOW);
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(Color.GREEN);
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(Color.CYAN);
+				            break;
+				        }
+			        }
+//		        }
+			    }
+		        return comp;
+	        	
+	        }
+		};
 		detailedTable.setFont(new Font("Arial", Font.PLAIN, 15));
 		scrollPaneBottom = new JScrollPane(detailedTable);
 		scrollPaneBottom.setBounds(38, 438, 1701, 201);
@@ -451,5 +501,4 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		}
 		return success;
 	}
-
 }
