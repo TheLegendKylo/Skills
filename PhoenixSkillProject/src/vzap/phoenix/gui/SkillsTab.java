@@ -143,10 +143,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		    	if(col>2 && col<11)
 		        {
-		        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
-		        int value = (int)dValue;
-//		        if(value!=null)
-//		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
 			        switch (value)
 			        {
 				        case 1:
@@ -175,10 +173,8 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 				            break;
 				        }
 			        }
-//		        }
 			    }
 		        return comp;
-	        	
 	        }
 		};
 		detailedTable.setFont(new Font("Arial", Font.PLAIN, 15));
