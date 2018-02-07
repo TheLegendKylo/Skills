@@ -149,27 +149,27 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			        {
 				        case 1:
 				        {
-				            comp.setBackground(Color.RED);
+				            comp.setBackground(new Color(255,91,13));
 				            break;
 				        }
 				        case 2:
 				        {
-				            comp.setBackground(Color.ORANGE);
+				            comp.setBackground(new Color(255,172,117));
 				            break;
 				        }
 				        case 3:
 				        {
-				            comp.setBackground(Color.YELLOW);
+				            comp.setBackground(new Color(176,255,176));
 				            break;
 				        }
 				        case 4:
 				        {
-				            comp.setBackground(Color.GREEN);
+				            comp.setBackground(new Color(0,202,0));
 				            break;
 				        }
 				        case 5:
 				        {
-				            comp.setBackground(Color.CYAN);
+				            comp.setBackground(new Color(0,136,0));
 				            break;
 				        }
 			        }
