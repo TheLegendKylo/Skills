@@ -16,6 +16,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -125,6 +126,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		this.disableRating();
 		tableTop.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 		ratingTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
+		ratingTable.setBackground(this.getBackground());
 
 	}
 	
@@ -343,6 +345,8 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 		rowSelected = tableTop.getSelectedRow();
 		String empID = (String)tableTop.getModel().getValueAt(rowSelected, 0);
 		
+		ratingTable.setBackground(Color.WHITE);
+		
 		if(empID.equalsIgnoreCase(emp.getEmployeeID()))
 		{
 
@@ -507,30 +511,6 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 					ratingTable.repaint();
 					
 			}
-//			int clear = 0;
-//		
-//			
-//			switch(clear)
-//			{
-//			case 0 : System.out.println("YES was selected");
-//			
-//					for (int i = 0; i < tableRow.length; i++)
-//					{
-//						tableRow[i][1]="Select rating";
-//						tableRow[i][2]="";
-//						System.out.println("ValueAt... " +ratingModel.getValueAt(i, 1));
-//						
-//					}	
-//					
-//					ratingModel.fireTableDataChanged();
-//					ratingTable.repaint();
-//					break;
-//					
-//			case 1 : System.out.println("NO was selected");
-//					break;
-//			case 2 : System.out.println("CANCEL was selected");
-//					break;
-//			}
 		}
 		
 	}
