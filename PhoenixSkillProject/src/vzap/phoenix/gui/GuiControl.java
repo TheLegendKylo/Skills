@@ -60,7 +60,6 @@ public class GuiControl extends JFrame
 		this.add(panelSouth, BorderLayout.SOUTH);
 		logP = new LoginPanel(basePanel,clientControl);
 		basePanel.add(logP);
-		//this.setContentPane(basePanel);
 
 	}
 	public static void main(String[] args)
