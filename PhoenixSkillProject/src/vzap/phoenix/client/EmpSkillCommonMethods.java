@@ -340,7 +340,8 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 //					System.out.println("Write Lines: "+j+" "+ratingList.get(j)+
 //					"overAllRating: "+j+" "+overAllRating);
 					ratingIdx++;
-				}	
+				}
+				
 				capabilityRating[9] = Math.round(overAllRating*100.0/7)/100.0;
 				empCapModel.addRow(capabilityRating);;
 //				System.out.println("commonMethods - capability Rating = " + capabilityRating.length);
