@@ -46,7 +46,7 @@ public class HelpScreen extends JPanel
 		dreyfusScroll.setBounds(34, 37, 1734, 561);
 		add(dreyfusScroll);
 		dreyfusTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
-		dreyfusTable.setFont(new Font("Arial", Font.BOLD, 15)); // not working must check 
+		 
 	}
 	public class LineWrapCellRenderer extends JTextArea implements TableCellRenderer {
 
@@ -56,16 +56,7 @@ public class HelpScreen extends JPanel
 	    this.setText((String) value);
 	    this.setWrapStyleWord(true);
 	    this.setLineWrap(true);
-
-//	    int fontHeight = this.getFontMetrics(this.getFont()).getHeight();
-//	    int textLength = this.getText().length();
-//	    int lines = textLength / this.getColumnWidth();
-//	    if (lines == 0) {
-//	        lines = 1;
-//	    }
-//	    int height = fontHeight * lines;
-//	    System.out.println("setRowHeight: row-"+row+" height-"+height);
-//	    table.setRowHeight(row, height);
+	    this.setFont(new Font("Arial", Font.BOLD, 15)); // not working must check
 	    
 	    if (isSelected) {
 	        setForeground(table.getSelectionForeground());
