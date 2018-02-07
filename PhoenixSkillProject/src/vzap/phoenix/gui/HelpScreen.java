@@ -112,14 +112,6 @@ public class HelpScreen extends JPanel
 		    	} else {
 		    		this.setBackground(table.getTableHeader().getBackground());
 		    	}
-//			    if (isSelected) 
-//			    {
-//			        setForeground(table.getSelectionForeground());
-//			        setBackground(table.getSelectionBackground());
-//			    } else {
-//			        setForeground(table.getForeground());
-//			        setBackground(table.getBackground());
-//			    }
 			    setSize(table.getColumnModel().getColumn(column).getWidth(),
 			        getPreferredSize().height);
 			    if (table.getRowHeight(row) < getPreferredSize().height) 

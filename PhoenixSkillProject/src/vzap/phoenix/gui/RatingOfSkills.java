@@ -1,6 +1,7 @@
 package vzap.phoenix.gui;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -27,10 +28,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -70,7 +73,7 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
 	private JRadioButton rdbtnAvailableAsA;
 	private String coaching = "N";
 	 
-
+	private CapabilityRating capRating;
 	/**
 	 * Create the panel.
 	 */
@@ -252,18 +255,53 @@ public class RatingOfSkills extends JPanel implements MouseListener, ActionListe
             TableColumn rating) 
     {
 		//Set up the editor for the sport cells.
-		JComboBox<Integer> ratingBox = new JComboBox<Integer>();
-		for (int j = 1; j < 6; j++)
+		short ratingValue=1;
+    	JComboBox<Integer> ratingBox = new JComboBox<Integer>();
+    	
+    	for (int j = 1; j < 6; j++)
 		{
 			ratingBox.addItem(j);
 		}
+
+    	ratingBox.setRenderer(new ItemRenderer());
 		rating.setCellEditor(new DefaultCellEditor(ratingBox));
 		//Set up tool tips for the sport cells.
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setToolTipText("Click for combo box");
 		rating.setCellRenderer(renderer);
     }
-    
+    class ItemRenderer extends BasicComboBoxRenderer
+    {
+        public Component getListCellRendererComponent(
+            JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus)
+        {
+            super.getListCellRendererComponent(list, value, index,
+                isSelected, cellHasFocus);
+            if ((value != null) && (!((int)value==-1)))
+            {
+				int intValue = (int)value;
+                short shortValue = (short)intValue;
+                int rowSelected = ratingTable.getSelectedRow();
+				for (int i = 0; i < capRatingList.size(); i++)
+				{
+					if((capRatingList.get(i).getCapabilityID()==rowSelected+1)
+						&& (capRatingList.get(i).getRating()==shortValue))
+					{
+						setText(index+1+": "+capRatingList.get(i).getDescription());
+					}
+				}
+            }
+
+            if (index == -1)
+            {
+                setText( ""+value.toString() );
+            }
+
+
+            return this;
+        }
+    } 
    class MyTableModel extends AbstractTableModel 
    {
 
