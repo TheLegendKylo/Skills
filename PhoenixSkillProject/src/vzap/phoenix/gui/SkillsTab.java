@@ -126,7 +126,49 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		employeeSkillList = new ArrayList<>();
 		vectorSkills = new Vector<>();
 
-		tableSummarySkills = new JTable();            
+		tableSummarySkills = new JTable(){
+		    @Override
+		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>1 && col<4)
+		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
+			        System.out.println("value:" + dValue);
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(new Color(255,91,13));
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(new Color(255,172,117));
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(new Color(176,255,176));
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(new Color(0,202,0));
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(new Color(0,136,0));
+				            break;
+				        }
+			        }
+			    }
+		        return comp;
+	        }
+		};            
 		tableSummarySkills.setFont(new Font("Arial", Font.PLAIN, 15));
 
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
@@ -265,8 +307,6 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		if (source == btnEditSkillRating)
 		{
-			System.out.println("Edit Skill Rating pressed");
-			JOptionPane.showMessageDialog(this, "This function isn't working yet", "Warning",JOptionPane.WARNING_MESSAGE);
 			if(rowSelected <0)
 			{
 				System.out.println("At this point in time there shouldnt be anything selected in "

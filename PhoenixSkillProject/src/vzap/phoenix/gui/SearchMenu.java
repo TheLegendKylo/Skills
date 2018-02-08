@@ -223,7 +223,49 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollEmployee.setBounds(24, 160, 1710, 138);
 		add(scrollEmployee);
 
-		individualSkillsTable_1 = new JTable(individualSkillsModel);
+		individualSkillsTable_1 = new JTable(individualSkillsModel){
+		    @Override
+		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>1 && col<4)
+		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
+			        System.out.println("value:" + dValue);
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(new Color(255,91,13));
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(new Color(255,172,117));
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(new Color(176,255,176));
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(new Color(0,202,0));
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(new Color(0,136,0));
+				            break;
+				        }
+			        }
+			    }
+		        return comp;
+	        }
+		};            
 		individualSkillsTable_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		individualSkillsTable_1.getRowSelectionAllowed();
 		individualSkillsTable_1.addMouseListener(this);
@@ -494,7 +536,49 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
 			
 			scrollIndividualSkills.remove(individualSkillsTable_1);
-			individualSkillsTable_1 = new JTable(individualSkillsModel);
+			individualSkillsTable_1 = new JTable(individualSkillsModel){
+			    @Override
+			    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+			    	Component comp = super.prepareRenderer(renderer, row, col);
+		            comp.setBackground(Color.WHITE);
+
+			    	if(col>1 && col<4)
+			        {
+				        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+				        int value = (int)dValue;
+				        System.out.println("value:" + dValue);
+				        switch (value)
+				        {
+					        case 1:
+					        {
+					            comp.setBackground(new Color(255,91,13));
+					            break;
+					        }
+					        case 2:
+					        {
+					            comp.setBackground(new Color(255,172,117));
+					            break;
+					        }
+					        case 3:
+					        {
+					            comp.setBackground(new Color(176,255,176));
+					            break;
+					        }
+					        case 4:
+					        {
+					            comp.setBackground(new Color(0,202,0));
+					            break;
+					        }
+					        case 5:
+					        {
+					            comp.setBackground(new Color(0,136,0));
+					            break;
+					        }
+				        }
+				    }
+			        return comp;
+		        }
+			};            
 			scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
 			individualSkillsModel.fireTableDataChanged(); 
 			individualSkillsTable_1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));

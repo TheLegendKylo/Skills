@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import vzap.phoenix.Server.Employee.Capability;
@@ -28,6 +29,9 @@ import vzap.phoenix.Server.Employee.EmployeeSkill;
 import vzap.phoenix.Server.Employee.Skill;
 import vzap.phoenix.client.EmpSkillClientController;
 import javax.swing.JButton;
+
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 public class SearchBySkill extends JPanel implements ActionListener
@@ -92,7 +96,48 @@ public class SearchBySkill extends JPanel implements ActionListener
 		modelInsert = new DefaultTableModel();
 		skillScrollPane.setBounds(23, 97, 1741, 527);
 		add(skillScrollPane);
-		skillTable = new JTable(modelInsert);
+		skillTable = new JTable(modelInsert){
+		    @Override
+		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>2 && col<11)
+		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(new Color(255,91,13));
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(new Color(255,172,117));
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(new Color(176,255,176));
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(new Color(0,202,0));
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(new Color(0,136,0));
+				            break;
+				        }
+			        }
+			    }
+		        return comp;
+	        }
+		};
 		
 		skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 		skillTable.setAutoCreateRowSorter(true); 
@@ -234,7 +279,48 @@ public class SearchBySkill extends JPanel implements ActionListener
 			
 			modelInsert = clientControl.getEmpSkillDetail(empSkillList);
 			skillScrollPane.remove(skillTable);
-			skillTable = new JTable(modelInsert);
+			skillTable = new JTable(modelInsert){
+			    @Override
+			    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+			    	Component comp = super.prepareRenderer(renderer, row, col);
+		            comp.setBackground(Color.WHITE);
+
+			    	if(col>2 && col<11)
+			        {
+				        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+				        int value = (int)dValue;
+				        switch (value)
+				        {
+					        case 1:
+					        {
+					            comp.setBackground(new Color(255,91,13));
+					            break;
+					        }
+					        case 2:
+					        {
+					            comp.setBackground(new Color(255,172,117));
+					            break;
+					        }
+					        case 3:
+					        {
+					            comp.setBackground(new Color(176,255,176));
+					            break;
+					        }
+					        case 4:
+					        {
+					            comp.setBackground(new Color(0,202,0));
+					            break;
+					        }
+					        case 5:
+					        {
+					            comp.setBackground(new Color(0,136,0));
+					            break;
+					        }
+				        }
+				    }
+			        return comp;
+		        }
+			};
 			skillTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 			skillTable.setFont(new Font("Arial", Font.PLAIN, 15));
 			skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
