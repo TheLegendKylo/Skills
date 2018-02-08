@@ -98,9 +98,9 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		setLayout(null);
 
-		lblSummaryOfSkills = new JLabel("Summary of your Skills Table");
+		lblSummaryOfSkills = new JLabel("Summary of your Skills : " + emp.getFirstName() + " " + emp.getSurname() + " ");
 		lblSummaryOfSkills.setFont(new Font("Arial", Font.BOLD, 20));
-		lblSummaryOfSkills.setBounds(689, 145, 334, 35);
+		lblSummaryOfSkills.setBounds(555, 145, 611, 35);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 
@@ -179,7 +179,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
 		    	Component comp = super.prepareRenderer(renderer, row, col);
 	            comp.setBackground(Color.WHITE);
-
+	            
 		    	if(col>2 && col<11)
 		        {
 			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
@@ -439,7 +439,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(this, "Something went wrong adding a skill");
+				JOptionPane.showMessageDialog(this, "Seems you are trying to add a skill already on your list , please check ? ", "Warning", JOptionPane.WARNING_MESSAGE);
 			}
 
 

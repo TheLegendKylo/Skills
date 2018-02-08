@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import javax.swing.border.BevelBorder;
 
 public class LoginPanel extends JPanel implements ActionListener
 {
@@ -47,6 +48,8 @@ public class LoginPanel extends JPanel implements ActionListener
 	private EmpSkillClientController clientControl = null;
 	private Employee emp = null, newEmp = null;
 	private JButton btnRyan;
+	private JLabel lblTest;
+	private JLabel lblNewLabel;
 	/**
 	 * Create the panel.
 	 */
@@ -119,6 +122,16 @@ public class LoginPanel extends JPanel implements ActionListener
 		btnConfirmRegistration.setBounds(738, 443, 379, 33);
 		btnConfirmRegistration.addActionListener(this);
 		add(btnConfirmRegistration);
+		
+		lblTest = new JLabel("");
+		lblTest.setBorder(new BevelBorder(BevelBorder.RAISED, Color.BLACK, Color.BLACK, Color.WHITE, Color.WHITE));
+		lblTest.setBounds(651, 196, 553, 423);
+		add(lblTest);
+		
+		lblNewLabel = new JLabel("~~Login ~~");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 20));
+		lblNewLabel.setBounds(873, 155, 128, 28);
+		add(lblNewLabel);
 		
 		btnConfirmRegistration.setVisible(false);
 		passwordFieldRepeat.setVisible(false);

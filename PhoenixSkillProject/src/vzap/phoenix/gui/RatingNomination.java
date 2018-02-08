@@ -306,7 +306,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 					}
 					else
 					{
-						JOptionPane.showMessageDialog(this, employeeSkill.getRaterID() + " Has already Rated You ");
+						JOptionPane.showMessageDialog(this, "Oops... Already Rated by ID : " + employeeSkill.getRaterID());
 					}
 					
 					//clear input fields
