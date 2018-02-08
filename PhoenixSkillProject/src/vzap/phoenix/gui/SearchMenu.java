@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.Popup;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import vzap.phoenix.Server.Employee.Capability;
@@ -43,9 +44,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 // mport javax.swing.UIManager;
 
 public class SearchMenu extends JPanel implements ActionListener, MouseListener
@@ -122,6 +125,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		inputJTF.setToolTipText("Enter your employee search criteria ..... and then click on the \"search EMPLOYEE\" button");
 		inputJTF.setBounds(641, 29, 346, 29);
 		inputJTF.setColumns(10);
+		inputJTF.addActionListener(this);
 		add(inputJTF);
 
 		
@@ -150,8 +154,10 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		add(lblEnterEmployeeSearch);
 		
 		contentsOfTable = new JLabel("");
+		contentsOfTable.setHorizontalAlignment(SwingConstants.CENTER);
+		contentsOfTable.setFont(new Font("Arial", Font.BOLD, 15));
 		contentsOfTable.setBorder(null);
-		contentsOfTable.setBounds(212, 135, 451, 14);
+		contentsOfTable.setBounds(346, 128, 639, 29);
 		add(contentsOfTable);
 		
 
@@ -182,7 +188,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		scrollSkillsDetails = new JScrollPane();
 		scrollSkillsDetails.setToolTipText("This will give capability ratings for chosen Employee's skill");
-		scrollSkillsDetails.setBounds(10, 521, 1724, 143);
+		scrollSkillsDetails.setBounds(10, 521, 1724, 137);
 		add(scrollSkillsDetails);
 		
 		skillsDetailsLab = new JLabel("Chosen Employee skill's RATING");
@@ -224,11 +230,52 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		scrollIndividualSkills = new JScrollPane(individualSkillsTable_1);
 		scrollIndividualSkills.setToolTipText("This will only be populated with chosen Employee's skills once you have entered \"EMPLOYEE search criteria\" option");
 		scrollIndividualSkills.setEnabled(false);
-		scrollIndividualSkills.setBounds(24, 327, 1386, 158);
+		scrollIndividualSkills.setBounds(24, 327, 1386, 152);
 		add(scrollIndividualSkills);
 		scrollIndividualSkills.setViewportView(individualSkillsTable_1);
 
-		tableSkillsDetails = new JTable(modelInsert);
+		tableSkillsDetails = new JTable(modelInsert){
+				public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>2 && col<11)
+		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(new Color(255,91,13));
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(new Color(255,172,117));
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(new Color(176,255,176));
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(new Color(0,202,0));
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(new Color(0,136,0));
+				            break;
+				        }
+			        }
+			    }
+		        return comp;
+	        }
+		};
+
 		tableSkillsDetails.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   		tableSkillsDetails.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);;
 		scrollSkillsDetails.setViewportView(tableSkillsDetails);
@@ -346,7 +393,10 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 //--------------------------    HOBBY 	
 		
-		
+		if(source == inputJTF)
+		{
+			empBut.doClick();
+		}
 		if(source == hobbyComboBox)
 		{
 			model.setRowCount(0);
@@ -451,27 +501,52 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			
 			modelInsert = clientControl.getEmpSkillDetail(individualEmpSkillList);
 			scrollSkillsDetails.remove(tableSkillsDetails);
-			tableSkillsDetails = new JTable(modelInsert);
+			tableSkillsDetails = new JTable(modelInsert){
+				public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+	            comp.setBackground(Color.WHITE);
+
+		    	if(col>2 && col<11)
+		        {
+			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+			        int value = (int)dValue;
+			        switch (value)
+			        {
+				        case 1:
+				        {
+				            comp.setBackground(new Color(255,91,13));
+				            break;
+				        }
+				        case 2:
+				        {
+				            comp.setBackground(new Color(255,172,117));
+				            break;
+				        }
+				        case 3:
+				        {
+				            comp.setBackground(new Color(176,255,176));
+				            break;
+				        }
+				        case 4:
+				        {
+				            comp.setBackground(new Color(0,202,0));
+				            break;
+				        }
+				        case 5:
+				        {
+				            comp.setBackground(new Color(0,136,0));
+				            break;
+				        }
+			        }
+			    }
+		        return comp;
+	        }
+		};
 			scrollSkillsDetails.setViewportView(tableSkillsDetails);
 			modelInsert.fireTableDataChanged();
 			tableSkillsDetails.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
 			tableSkillsDetails.setFont(new Font("Arial", Font.PLAIN, 15));
 			this.repaint();
-//		} //  end of empBut
-//
-//		individualEmpSkillList = clientControl.getEmpSkillByEmpID(individualEmp.get(0).getEmployeeID());
-//		if(individualEmpSkillList.size()<1)
-//		{
-////  display "no skills for selected employee"
-//			return;
-//		}
-//		
-//		individualSkillsModel = clientControl.getEmpSkillAverage(individualEmpSkillList);
-//		scrollIndividualSkills.remove(individualSkillsTable_1);
-//		individualSkillsTable_1 = new JTable(individualSkillsModel);
-//		scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
-//		individualSkillsModel.fireTableDataChanged(); 
-//		this.repaint();		
 	}
 
 	@Override

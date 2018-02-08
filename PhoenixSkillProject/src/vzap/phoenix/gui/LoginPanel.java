@@ -59,42 +59,33 @@ public class LoginPanel extends JPanel implements ActionListener
 		lblUserId = new JLabel("User ID : ");
 		lblUserId.setFont(new Font("Arial", Font.BOLD, 15));
 		lblUserId.setBounds(738, 261, 96, 31);
-		//lblUserId.setFont(new Font("Tahoma", Font.BOLD, 20));
 		
 		lblPassword = new JLabel("Password :");
 		lblPassword.setFont(new Font("Arial", Font.BOLD, 15));
-		
 		lblPassword.setBounds(738, 307, 116, 31);
-		//lblPassword.setFont(new Font("Tahoma", Font.BOLD, 20));
+
 		
 		tf_UserID = new JTextField();
 		tf_UserID.setFont(new Font("Arial", Font.BOLD, 15));
 		tf_UserID.setBounds(893, 261, 224, 31);
-		//tf_UserID.setFont(new Font("Tahoma", Font.BOLD, 20));
 		tf_UserID.setColumns(10);
 		tf_UserID.grabFocus();
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Arial", Font.BOLD, 15));
 		passwordField.setBounds(893, 307, 224, 31);
-	//	passwordField.setFont(new Font("Tahoma", Font.BOLD, 20));
+		passwordField.addActionListener(this);
 		
-		btnRyan = new JButton("Ryan Login");
-		btnRyan.setBounds(426, 148, 76, 23);
-		btnRyan.addActionListener(this);
-		add(btnRyan);
 		
 		btnLogin = new JButton("Login");
 		btnLogin.setFont(new Font("Arial", Font.BOLD, 15));
 		btnLogin.setBounds(738, 397, 128, 33);
 		btnLogin.addActionListener(this);
-		//btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		btnExit = new JButton("Exit");
 		btnExit.setFont(new Font("Arial", Font.BOLD, 15));
 		btnExit.setBounds(738, 489, 379, 33);
 		btnExit.addActionListener(this);
-		//btnExit.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		setLayout(null);
 		add(btnLogin);
@@ -132,45 +123,12 @@ public class LoginPanel extends JPanel implements ActionListener
 		btnConfirmRegistration.setVisible(false);
 		passwordFieldRepeat.setVisible(false);
 		lblRepeatPassword.setVisible(false);
-		
-		//image code
-		label = new JLabel("");
-		label.setBounds(0,0, 1105, 970);
-		
-//		BufferedImage img = null;
-//		try 
-//		{
-//		    img = ImageIO.read(new File("resources/images/Birds.JPG"));
-//		}
-//		catch (IOException e) 
-//		{
-//		    e.printStackTrace();
-//		}
-//		
-//		Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),
-//		        Image.SCALE_SMOOTH);
-//		
-//		label.setIcon(new ImageIcon(dimg));
-//		
-//		add(label);
-
 	}
-
+		
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		Object source = e.getSource();
-//		password = new String(passwordField.getPassword());
-//		
-//		loggedInUser = tf_UserID.getText();
-		
-		if(source == btnRyan)
-		{
-			tf_UserID.setText("A207532");
-			passwordField.setText("1234");
-			btnLogin.doClick();
-		}
-		
+		Object source = e.getSource();		
 		if(source == btnLogin)
 		{	
 			System.out.println("login pressed");
@@ -248,7 +206,10 @@ public class LoginPanel extends JPanel implements ActionListener
 			lblRepeatPassword.setVisible(true);
 			
 		}
-		
+		if(source == passwordField)
+		{
+			btnLogin.doClick();
+		}
 		if(source == btnConfirmRegistration)
 		{
 			password = new String(passwordField.getPassword());
