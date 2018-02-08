@@ -151,7 +151,7 @@ insert into CapabilityRating values
 		(6,3,'Builds capability within team using various avenues'),
 		(6,4,'Deliberately grows and builds capability with a view of the future'),
 		(6,5,'Sought after to grow and build capability using networks, influence and innovative approaches'),
-		(7,1,'Is consultative in approach - engages stakholders according to a prescribed engagement model'),
+		(7,1,'Is consultative in approach - engages stakeholders according to a prescribed engagement model'),
 		(7,2,'Identifies functions to be engaged - Effectively connects stakeholders'),
 		(7,3,'Actively engages other functions driving new ideas, plans and ensuring alignment'),
 		(7,4,'Drives decisions, leads across structures and ensures cross functional alignment'),
