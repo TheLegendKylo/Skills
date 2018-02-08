@@ -92,7 +92,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		
 		nomineelbl = new JLabel("Table of Added Raters");
 		nomineelbl.setFont(new Font("Arial", Font.BOLD, 20));
-		nomineelbl.setBounds(802, 44, 281, 32);
+		nomineelbl.setBounds(802, 70, 281, 32);
 		add(nomineelbl);
 		
 		scrollPane = new JScrollPane(selectTable);
@@ -122,12 +122,13 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		empSearchJTF = new JTextField();
 		empSearchJTF.setToolTipText("Enter Employee Name / Surname / Alias / number to search");
 		empSearchJTF.setBounds(130, 77, 211, 34);
+		empSearchJTF.addActionListener(this);
 		add(empSearchJTF);
 		empSearchJTF.setColumns(10);
 		
 		btnAdd = new JButton("Add Rater");
 		btnAdd.setFont(new Font("Arial", Font.BOLD, 15));
-		btnAdd.setBounds(802, 77, 125, 34);
+		btnAdd.setBounds(130, 460, 125, 34);
 		btnAdd.addActionListener(this);
 		add(btnAdd);
 		
@@ -245,13 +246,16 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
         		outstandingModel.addRow(outStandingRow);  
             }
         }
-        //updateUI();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object source = e.getSource();
 		
+		if(source == empSearchJTF)
+		{
+			btnSearch.doClick();
+		}
 		
 		if(source == btnSubmit)
 		{
