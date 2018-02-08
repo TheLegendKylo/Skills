@@ -123,7 +123,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 									
 		inputJTF = new JTextField();
 		inputJTF.setToolTipText("Enter your employee search criteria ..... and then click on the \"search EMPLOYEE\" button");
-		inputJTF.setBounds(641, 29, 346, 29);
+		inputJTF.setBounds(641, 11, 346, 29);
 		inputJTF.setColumns(10);
 		inputJTF.addActionListener(this);
 		add(inputJTF);
@@ -131,7 +131,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		
 		empBut = new JButton("search EMPLOYEE ");
 		empBut.setFont(new Font("Arial", Font.BOLD, 15));
-		empBut.setBounds(1007, 28, 199, 30);
+		empBut.setBounds(1009, 9, 199, 30);
 		empBut.addActionListener(this);
 		add(empBut);
 		 
@@ -140,24 +140,24 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		hobbyComboBox.setBorder(null);
 		AutoCompletion.enable(hobbyComboBox);
 		hobbyComboBox.addActionListener(this);
-		hobbyComboBox.setBounds(641, 88, 346, 32);
+		hobbyComboBox.setBounds(641, 51, 346, 32);
 		add(hobbyComboBox);
 		
 		hobbyLab = new JLabel("Choose HOBBY from dropdown list");
 		hobbyLab.setFont(new Font("Arial", Font.BOLD, 15));
-		hobbyLab.setBounds(346, 91, 267, 29);
+		hobbyLab.setBounds(343, 54, 267, 29);
 		add(hobbyLab);
 		
-		lblEnterEmployeeSearch = new JLabel("enter EMPLOYEE search criteria");
+		lblEnterEmployeeSearch = new JLabel("Enter EMPLOYEE search criteria");
 		lblEnterEmployeeSearch.setFont(new Font("Arial", Font.BOLD, 15));
-		lblEnterEmployeeSearch.setBounds(346, 28, 278, 27);
+		lblEnterEmployeeSearch.setBounds(346, 11, 278, 27);
 		add(lblEnterEmployeeSearch);
 		
 		contentsOfTable = new JLabel("");
 		contentsOfTable.setHorizontalAlignment(SwingConstants.CENTER);
 		contentsOfTable.setFont(new Font("Arial", Font.BOLD, 15));
 		contentsOfTable.setBorder(null);
-		contentsOfTable.setBounds(346, 128, 639, 29);
+		contentsOfTable.setBounds(501, 112, 628, 37);
 		add(contentsOfTable);
 		
 
@@ -363,11 +363,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 					return;				
 				}	
 				
-                String heading1 = "List of employees that match your search criteria \"";
+                String heading1 = "List of EMPLOYEES that match your search criteria \"";
                 String heading2 = inputJTF.getText();
                 String heading3 = "\"";
                 String completeHeading = heading1 + heading2 + heading3;
 				contentsOfTable.setText(completeHeading);
+				contentsOfTable.setFont(new Font("Arial", Font.BOLD, 20));
 				
 				Object[] tabCols = new Object[5];
 				for (int i = 0; i < employeeList.size(); i++)
@@ -430,11 +431,12 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 //		go thru the employeeList array and move information into the table 			
 			for (int i = 0; i < employeeList.size(); i++)
 	        {	
-                String heading1 = "List of employees that have \"";
+                String heading1 = "List of EMPLOYEES that have \"";
                 String heading2 = hobbyList.get(x).getHobbyDescription();
                 String heading3 = "\" as a hobby";
                 String completeHeading = heading1 + heading2 + heading3;
 				contentsOfTable.setText(completeHeading);
+				contentsOfTable.setFont(new Font("Arial", Font.BOLD, 20));
 
 	    	   	tabCols[0] = employeeList.get(i).getEmployeeID();
 	    	   	tabCols[1] = employeeList.get(i).getFirstName();
