@@ -260,6 +260,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 		if(source == btnSubmit)
 		{
 
+			String raterIDk ="";
 			for(int i = 0; i < nominateModel.getRowCount();i++)
 			{
 	            for (int k = 0; k < outstandingModel.getRowCount(); k++) 
@@ -272,7 +273,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	            		return;
 	            	}
 	            }
-				
+	            
 				if (nominateTable.getValueAt(i, 2) == null)
 	            {
                     JOptionPane.showMessageDialog(this,"Please select a Skill from the Nomination table");
@@ -282,6 +283,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 	            {
 					//change to new employee skill as opposed to a set method
 					String employeeID = emp.getEmployeeID();
+					
 					int skillId = 0;
 					for (int j = 0; j < skillList.size(); j++)
 					{
@@ -299,11 +301,12 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 					if(success)
 					{
 						setup();
-						JOptionPane.showMessageDialog(this, "Successfully added a new rater");
+						raterIDk+=employeeSkill.getRaterID() + ", ";
+						
 					}
 					else
 					{
-						JOptionPane.showConfirmDialog(this, "Something went wrong adding a rater");
+						JOptionPane.showMessageDialog(this, employeeSkill.getRaterID() + " Has already Rated You ");
 					}
 					
 					//clear input fields
@@ -311,6 +314,7 @@ public class RatingNomination extends JPanel implements ActionListener, MouseLis
 					raterName.setText("");	
 	            }
 			}
+			JOptionPane.showMessageDialog(this, "Successfully added a new rater/s " + raterIDk);
 			nominateModel.setRowCount(0);
 					
 		}

@@ -202,7 +202,6 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 					counter++;
 				}
 				empIDCheck = employeeSkillList.get(i).getEmployeeID();
-				coachingAvailability = employeeSkillList.get(i).getCoachingAvailability();
 				if(!(skillIDCheck==(short)employeeSkillList.get(i).getSkillID()))
 				{
 					skillIDCheck = (short)employeeSkillList.get(i).getSkillID();
@@ -217,7 +216,10 @@ System.out.println("Common j: "+j+" is assigned "+capabilityList.get(j).getName(
 					}
 				}
 			}
-			
+			if(employeeSkillList.get(i).getEmployeeID().equals(employeeSkillList.get(i).getRaterID()))
+			{
+				coachingAvailability = employeeSkillList.get(i).getCoachingAvailability();
+			}
 			// get the Capability Ratings for each EmpSkillRating done
 			ratingList = employeeSkillList.get(i).getRatingList();
 			

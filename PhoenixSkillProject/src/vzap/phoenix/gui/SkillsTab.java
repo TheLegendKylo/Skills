@@ -60,13 +60,11 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 	private EmpSkillClient employeeSkillClient;
 	private String addSkill;
 	private ArrayList<EmployeeSkill> employeeSkillList;
-	//private DefaultTableModel model;
+	
 	private DefaultTableModel modelInsert;
 	private Employee emp;
 	private ArrayList<Skill> skillList;
 	private ArrayList<Capability> capabilityList;
-	//private JScrollPane scrollPaneAddSkill;
-	//private JTable tableCaptureSkills; 
 
 	private Vector<String> vectorSkills = null;
 
@@ -100,21 +98,17 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 
 		setLayout(null);
 
-
 		lblSummaryOfSkills = new JLabel("Summary of your Skills Table");
 		lblSummaryOfSkills.setFont(new Font("Arial", Font.BOLD, 20));
 		lblSummaryOfSkills.setBounds(689, 145, 334, 35);
 		add(lblSummaryOfSkills);
 		lblSummaryOfSkills.setHorizontalAlignment(JLabel.CENTER);
 
-
 		lblDetails = new JLabel("Detail Table");
 		lblDetails.setFont(new Font("Arial", Font.BOLD, 20));
 		lblDetails.setBounds(746, 400, 205, 36);
 		add(lblDetails);
 		lblDetails.setHorizontalAlignment(JLabel.CENTER);
-
-
 
 		btnUpdate = new JButton("Update your skills");
 		btnUpdate.setFont(new Font("Arial", Font.BOLD, 15));
@@ -131,45 +125,48 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		    public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
 		    	Component comp = super.prepareRenderer(renderer, row, col);
 	            comp.setBackground(Color.WHITE);
-
-		    	if(col>1 && col<4)
-		        {
-			        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
-			        int value = (int)dValue;
-			        System.out.println("value:" + dValue);
-			        switch (value)
+	            
+	            if(getModel().getValueAt(row, col) != null)
+	            {
+	            	if(col>1 && col<4)
 			        {
-				        case 1:
+				        double dValue = (Double.parseDouble(getModel().getValueAt(row, col).toString()));
+				        int value = (int)dValue;
+				        
+				        switch(value)
 				        {
-				            comp.setBackground(new Color(255,91,13));
-				            break;
+					        case 1:
+					        {
+					            comp.setBackground(new Color(255,91,13));
+					            break;
+					        }
+					        case 2:
+					        {
+					            comp.setBackground(new Color(255,172,117));
+					            break;
+					        }
+					        case 3:
+					        {
+					            comp.setBackground(new Color(176,255,176));
+					            break;
+					        }
+					        case 4:
+					        {
+					            comp.setBackground(new Color(0,202,0));
+					            break;
+					        }
+					        case 5:
+					        {
+					            comp.setBackground(new Color(0,136,0));
+					            break;
+					        }
 				        }
-				        case 2:
-				        {
-				            comp.setBackground(new Color(255,172,117));
-				            break;
-				        }
-				        case 3:
-				        {
-				            comp.setBackground(new Color(176,255,176));
-				            break;
-				        }
-				        case 4:
-				        {
-				            comp.setBackground(new Color(0,202,0));
-				            break;
-				        }
-				        case 5:
-				        {
-				            comp.setBackground(new Color(0,136,0));
-				            break;
-				        }
-			        }
-			    }
+				    }
+	            }       
 		        return comp;
 	        }
 		};            
-		tableSummarySkills.setFont(new Font("Arial", Font.PLAIN, 15));
+		tableSummarySkills.setFont(new Font("Arial", Font.BOLD, 15));
 
 		comboBoxSkillList = new JComboBox<>(vectorSkills);
 		comboBoxSkillList.setFont(new Font("Arial", Font.BOLD, 15));
@@ -219,7 +216,7 @@ public class SkillsTab extends JPanel implements ActionListener, MouseListener
 		        return comp;
 	        }
 		};
-		detailedTable.setFont(new Font("Arial", Font.PLAIN, 15));
+		detailedTable.setFont(new Font("Arial", Font.BOLD, 15));
 		scrollPaneBottom = new JScrollPane(detailedTable);
 		scrollPaneBottom.setBounds(38, 438, 1740, 201);
 		add(scrollPaneBottom);

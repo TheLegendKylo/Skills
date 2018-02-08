@@ -322,7 +322,7 @@ public class SearchBySkill extends JPanel implements ActionListener
 		        }
 			};
 			skillTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
-			skillTable.setFont(new Font("Arial", Font.PLAIN, 15));
+			skillTable.setFont(new Font("Arial", Font.BOLD, 15));
 			skillTable.setRowSorter(new TableRowSorter(modelInsert)); 
 			skillScrollPane.setViewportView(skillTable);
 			skillTable.setAutoCreateRowSorter(true);

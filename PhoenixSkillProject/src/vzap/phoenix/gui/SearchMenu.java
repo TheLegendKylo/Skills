@@ -209,7 +209,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 		Object[] tabHeader = new String[]{"UserId","First Name","Surname","Alias","Contact"};
 		model.setColumnIdentifiers(tabHeader);
 		tableEmployee = new JTable(model);
-		tableEmployee.setFont(new Font("Arial", Font.PLAIN, 15));
+		tableEmployee.setFont(new Font("Arial", Font.BOLD, 15));
 		tableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableEmployee.addMouseListener(this);
 		tableEmployee.setRowSorter(new TableRowSorter(model));
@@ -582,7 +582,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			scrollIndividualSkills.setViewportView(individualSkillsTable_1);			
 			individualSkillsModel.fireTableDataChanged(); 
 			individualSkillsTable_1.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
-			individualSkillsTable_1.setFont(new Font("Arial", Font.PLAIN, 15));
+			individualSkillsTable_1.setFont(new Font("Arial", Font.BOLD, 15));
 			this.repaint();
 			
 			modelInsert = clientControl.getEmpSkillDetail(individualEmpSkillList);
@@ -631,7 +631,7 @@ public class SearchMenu extends JPanel implements ActionListener, MouseListener
 			scrollSkillsDetails.setViewportView(tableSkillsDetails);
 			modelInsert.fireTableDataChanged();
 			tableSkillsDetails.getTableHeader().setFont(new Font("Arial", Font.BOLD, 15));
-			tableSkillsDetails.setFont(new Font("Arial", Font.PLAIN, 15));
+			tableSkillsDetails.setFont(new Font("Arial", Font.BOLD, 15));
 			this.repaint();
 	}
 
